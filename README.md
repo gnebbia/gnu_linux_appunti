@@ -23075,6 +23075,39 @@ TO ADD
   fortune un echo “ciao”, anche figlet funziona bene, tipo 'echo “
   ciao” | figlet'
 ```
+#### Video Terminals
+
+```
+echo $TERM # ci mostra il terminale con cui stiamo lavorando
+```
+
+```
+infocmp | less # ci mostra le feature che possiede il nostro terminale 
+```
+ad esempio i video terminali vt100 non supportano i colori mentre gli 
+xterm-256 li supportano.
+
+```sh
+tput colors # questo comando ci dice se il nostro terminale supporta i colori
+# se l'output e' -1 vuol dire che non li supporta, altrimenti ci mostra
+# il numero di colori supportati, e.g., 256
+```
+
+```sh
+tput cups
+# questo comand ci dice se il nostro terminale supporta lo spostamento del cursore
+```
+
+uno dei video terminali con meno features e' il dumb.
+Possiamo cambiare terminale eseguendo:
+
+```sh
+export TERM=dumb
+```
+
+Per utilizzare i colori utilizzano escape sequences.
+
+
   Licenza
 
 Il testo completo della licenza può essere trovato qui, [https:#www.gnu.org/licenses/fdl.html||Licenza GFDL]
