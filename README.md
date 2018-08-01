@@ -748,12 +748,12 @@ esempi di applicazione comprendono:
  # differenze tra i tipi di file:
 ```
 
-  -- il simbolo '/' dietro al nome del file denota una directory
+* il simbolo '/' dietro al nome del file denota una directory
 
-  -- il simbolo '@' dietro al nome del file denota un collegamento 
+* il simbolo '@' dietro al nome del file denota un collegamento 
     (link)
 
-  -- nessun simbolo davanti al nome del file denota un file 
+* nessun simbolo davanti al nome del file denota un file 
     semplice
 
 ```sh
@@ -981,7 +981,7 @@ Il comando "time" ci fornirà tre risultati:
  # spiegati sotto, si tiene conto solo del tempo in esecuzione
 ```
 
-  -- The elapsed (real) time between invocation of utility and its 
+* The elapsed (real) time between invocation of utility and its 
     termination.
 
 ```sh
@@ -989,7 +989,7 @@ Il comando "time" ci fornirà tre risultati:
  # tempo passato in user-space speso in esecuzione
 ```
 
-  -- The User CPU time, equivalent to the sum of the tms_utime and 
+* The User CPU time, equivalent to the sum of the tms_utime and 
     tms_cutime fields returned by the times() function defined in 
     the System Interfaces volume of POSIX.1-2008 for the process 
     in which utility is executed.
@@ -999,7 +999,7 @@ Il comando "time" ci fornirà tre risultati:
  # tempo passato in kernel space speso in esecuzione
 ```
 
-  -- The System CPU time, equivalent to the sum of the tms_stime 
+* The System CPU time, equivalent to the sum of the tms_stime 
     and tms_cstime fields returned by the times() function for 
     the process in which utility is executed.
 
@@ -1556,21 +1556,21 @@ esempi:
 ```sh
  # touch -al 
 ```
-  -- non creerà il file chiamato -al ma darà errore
+* non creerà il file chiamato -al ma darà errore
 
 invece 
 
 ```sh
  # touch -- -al 
 ```
-  -- creerà il file chiamato -al
+* creerà il file chiamato -al
 
 oppure 
 
 ```sh
  # ls -al 
 ```
-  -- mostrerà ls con le opzioni "-a" e "-l"
+* mostrerà ls con le opzioni "-a" e "-l"
 
 mentre 
 
@@ -1612,7 +1612,7 @@ scopo delle principali directory:
  # /boot 
 ```
 
-  -- Contiene informazioni e file per fare il boot della macchina, 
+* Contiene informazioni e file per fare il boot della macchina, 
     solitamente questa directory risiede su una partizione a 
     parte, ed è importante non avere una partizione troppo 
     piccola di boot, in quanto, quando viene compilato un nuovo 
@@ -1622,13 +1622,13 @@ scopo delle principali directory:
  # /bin 
 ```
 
-  -- E' la directory in cui sono contenuti gli eseguibili
+* E' la directory in cui sono contenuti gli eseguibili
 
 ```sh
  # /sbin 
 ```
 
-  -- E' la directory in cui sono contenuti i "system binaries" la 
+* E' la directory in cui sono contenuti i "system binaries" la 
     maggior parte di questi programmi sono eseguibili solo 
     dall'amministratore di sistema (root), in quanto riguardo il "
     system management"
@@ -1637,14 +1637,14 @@ scopo delle principali directory:
  # /lib 
 ```
 
-  -- E' dove sono collocate le librerie shared, mentre in /usr/lib 
+* E' dove sono collocate le librerie shared, mentre in /usr/lib 
     sono contenute sia quelle static che quelle shared
 
 ```sh
  # /opt 
 ```
 
-  -- E' la directory dove vengono installati i programmi che non 
+* E' la directory dove vengono installati i programmi che non 
     sono inclusi nei repository, o cosiddetti "third-party 
     software"
 
@@ -1652,7 +1652,7 @@ scopo delle principali directory:
  # /media
 ```
 
-  -- E' dove vengono montati automaticamente dispositivi "media" 
+* E' dove vengono montati automaticamente dispositivi "media" 
     rimovibili, come floppy disk, CD-ROM, DVD, USB Disk Drives, 
     etc...
 
@@ -1660,7 +1660,7 @@ scopo delle principali directory:
  # /usr 
 ```
 
-  -- E' dove risiedono la maggior parte dei programmi appartenenti 
+* E' dove risiedono la maggior parte dei programmi appartenenti 
     all userland, tutto quello che installiamo dai repository 
     della nostra distro va qui, eccetto probabili casi 
     particolari, contiene una struttura simile a quella di /, 
@@ -1671,33 +1671,33 @@ scopo delle principali directory:
  # /usr/local
 ```
 
-  -- E' dove risiedono i programmi compilati manualmente sulla 
+* E' dove risiedono i programmi compilati manualmente sulla 
     macchina
 
 ```sh
  # /usr/share/man
 ```
 
-  -- E' dove risiedono le pagine di man e la documentazione
+* E' dove risiedono le pagine di man e la documentazione
 
 ```sh
  # /usr/share/info
 ```
 
-  -- Simile alla precedente
+* Simile alla precedente
 
 ```sh
  # /usr/include
 ```
 
-  -- E' dove risiedono gli header file utilizzati dal compilatore 
+* E' dove risiedono gli header file utilizzati dal compilatore 
     C
 
 ```sh
  # /usr/lib 
 ```
 
-  -- E' dove sono contenuti i moduli (o driver) che possono essere 
+* E' dove sono contenuti i moduli (o driver) che possono essere 
     caricati (o che vengono caricati) dal kernel, i cosiddetti "
     loadable kernel modules"
 
@@ -1705,20 +1705,20 @@ scopo delle principali directory:
  # /mnt
 ```
 
-  -- E' dove vengono effettuate le mount manuali, di filesystem di 
+* E' dove vengono effettuate le mount manuali, di filesystem di 
     rete, o partizioni fisse sul nostro sistema
 
 ```sh
  # /root 
 ```
 
-  -- E' la home directory per l'utente root
+* E' la home directory per l'utente root
 
 ```sh
  # /var 
 ```
 
-  -- E' una directory adibita a:
+* E' una directory adibita a:
 
 
     ∗ file di log 
@@ -1737,7 +1737,7 @@ scopo delle principali directory:
  # /tmp 
 ```
 
-  -- E' una directory temporanea ed è utilizzata dai programmi per 
+* E' una directory temporanea ed è utilizzata dai programmi per 
     scrivere ed elaborare dati temporaneamente, di default 
     solitamente viene automaticamente svuotata tra i vari reboot 
     di sistema
@@ -1746,20 +1746,20 @@ scopo delle principali directory:
  # /var/tmp
 ```
 
-  -- E' simile a "/tmp" solo che non viene ripulita tra i reboot 
+* E' simile a "/tmp" solo che non viene ripulita tra i reboot 
     di sistema
 
 ```sh
  # /mnt 
 ```
 
-  -- E' è una directory adibita a quando si montano le partizioni
+* E' è una directory adibita a quando si montano le partizioni
 
 ```sh
  # /dev 
 ```
 
-  -- E' un filesystem dinamico che risiede in RAM, le sue entrate 
+* E' un filesystem dinamico che risiede in RAM, le sue entrate 
     sono create e rimosse dal kernel e da udev; in questa 
     directory sono presenti tutti i file che rappresentano 
     dispositivi hardware, in linux ogni componente hardware viene 
@@ -1770,7 +1770,7 @@ scopo delle principali directory:
     ∗ cat /dev/random > somefile.txt #scriverà delle cose 
       casuali all'interno del file somefile.txt
 
-  -- N.B.: E' da notare che nonostante sia /dev che /sys operano 
+* N.B.: E' da notare che nonostante sia /dev che /sys operano 
     col kernel, in realtà /sys è ad un livello d'astrazione più 
     basso e generalmente quello che vediamo in /dev è fornito da 
     un'elaborazione di quello che c'è in /sys
@@ -1779,7 +1779,7 @@ scopo delle principali directory:
  # /sys
 ```
 
-  -- E' un filesystem virtuale che risiede in RAM, fornisce 
+* E' un filesystem virtuale che risiede in RAM, fornisce 
     strutture dati dal kernel e loro attributi e i collegamenti 
     che hanno allo userspace, per poter effetuare un tuning 
     dell'hardware con maggiore flessibilità
@@ -1788,7 +1788,7 @@ scopo delle principali directory:
  # /proc 
 ```
 
-  -- E' un filesystem virtuale che risiede in RAM, praticamente 
+* E' un filesystem virtuale che risiede in RAM, praticamente 
     effettua delle richieste di informazioni al kernel, ed è 
     adibito a contenere informazioni sul sistema linux, la 
     distribuzione e l'hardware, questo filesystem viene creato da 
@@ -1821,7 +1821,7 @@ scopo delle principali directory:
 
       ∙ environ -- variabili d'ambiente lette dal processo
 
-  -- Possiamo usarlo anche per vedere che file ha aperto un 
+* Possiamo usarlo anche per vedere che file ha aperto un 
     processo, infatti in ogni cartella relativa ai processi 
     esiste una directory chiamata "fd", questa contiene i file 
     aperti, possiamo quindi capire quali file apre un processo, o 
@@ -1831,13 +1831,13 @@ scopo delle principali directory:
  # /var/log 
 ```
 
-  -- E' dove vengono salvati i log
+* E' dove vengono salvati i log
 
 ```sh
  # /etc/init.d 
 ```
 
-  -- E' la directory dove vengono inseriti programmi o servizi che 
+* E' la directory dove vengono inseriti programmi o servizi che 
     possono essere riavviati, avviati o bloccati, inoltri sono 
     contenuti i processi che vengono avviati subito dopo 
     l'inizializzazione del kernel. Nello specifico i file 
@@ -1926,7 +1926,7 @@ Esistono un paio di file nella directory /etc di interesse:
  # /etc/passwd
 ```
 
-  -- contiene la lista degli utenti, con informazioni relative ad 
+* contiene la lista degli utenti, con informazioni relative ad 
     essi come l'id dell'utente, l'id del gruppo, se la password è 
     "shadowed", la posizione della home directory (che è la 
     directory in cui veniamo reindirizzati quando effettuiamo il 
@@ -1940,7 +1940,7 @@ Esistono un paio di file nella directory /etc di interesse:
  # /etc/shadow
 ```
 
-  -- il file shadow, contiene le password criptate degli utenti, 
+* il file shadow, contiene le password criptate degli utenti, 
     in realtà ogni riga è composta da 9 campi separati dal 
     simbolo ":" che contengono:
 
@@ -2010,7 +2010,7 @@ Esistono un paio di file nella directory /etc di interesse:
  # alcune distro non permettono questa operazione
 ```
 
-  -- per rimuovere correttamente un utente loggato, basta uccidere 
+* per rimuovere correttamente un utente loggato, basta uccidere 
     il processo indicato quando si prova a rimuoverlo con userdel 
     nomeUtente, una volta ucciso il processo possiamo procedere 
     con una rimozione normale
@@ -2025,7 +2025,7 @@ Esistono un paio di file nella directory /etc di interesse:
  # adatto per rimuovere del tutto un utente da un sistema
 ```
 
-  -- quello che viene fatto quando viene avviato questo comando è 
+* quello che viene fatto quando viene avviato questo comando è 
     cancellare le voci relastive all'utente nei fil "/etc/passwd" 
     e "/etc/shadow"
 
@@ -2309,25 +2309,25 @@ semplice, infatti:
  # Per i file semplici:
 ```
 
-  -- lettura 'r': significa poter leggere il file
+* lettura 'r': significa poter leggere il file
 
-  -- scrittura 'w': significa poter modificare il file o poterlo 
+* scrittura 'w': significa poter modificare il file o poterlo 
     generalmente sovrascrivere
 
-  -- esecuzione 'x': significa poterlo eseguire
+* esecuzione 'x': significa poterlo eseguire
 
 ```sh
  # Per le directory:
 ```
 
-  -- lettura 'r': significa poter leggere il contenuto di una 
+* lettura 'r': significa poter leggere il contenuto di una 
     directory, quindi eseguire comandi come "ls" ad esempio
 
-  -- scrittura 'w': significa poter creare, cancellare o 
+* scrittura 'w': significa poter creare, cancellare o 
     modificare i file (anche sotto-directory) all'interno della 
     directory
 
-  -- esecuzione 'x': significa poter attraversare una directory, 
+* esecuzione 'x': significa poter attraversare una directory, 
     ad esempio col comando "cd"
 
 N.B.: Se un utente possiede i permessi di sola esecuzione per una 
@@ -2607,7 +2607,7 @@ simbolica che in modalità numerica dei special permission bits:
  # proprietario a lanciarlo
 ```
 
-  -- un esempio presente di default sui sistemi GNU/Linux è il 
+* un esempio presente di default sui sistemi GNU/Linux è il 
     comando "passwd" che deve operare col file /etc/passwd
 
 ```sh
@@ -2691,7 +2691,7 @@ e otteniamo:
  # umask - valoriDiDefaultPerFile = 0666-0022=0644
 ```
 
-  -- cioè per ogni file creato verranno utilizzati i permessi 
+* cioè per ogni file creato verranno utilizzati i permessi 
     0644, cioè nessun special permission bits settato, permessi 
     di lettura+scrittura per il proprietario e per il gruppo 
     proprietario e permessi di sola lettura per il resto degli 
@@ -2701,7 +2701,7 @@ e otteniamo:
  # umask - valoriDiDefaultPerDirectory = 0777-0022=0755
 ```
 
-  -- cioè per ogni directory creata verranno utilizzati i permessi 
+* cioè per ogni directory creata verranno utilizzati i permessi 
     0755, cioè nessun special permission bits settato, permessi 
     di lettura+scrittura+esecuzione per il proprietario e per il 
     gruppo proprietario e permessi di sola lettura+esecuzione per 
@@ -2865,7 +2865,7 @@ il primo carattere può essere:
  # "b": Indica un Block Device
 ```
 
-  -- Sono device in cui possiamo scrivere solo per chunk di 
+* Sono device in cui possiamo scrivere solo per chunk di 
     dimensione prefissata, questi device hanno inoltre una 
     dimensione definita
 
@@ -2873,14 +2873,14 @@ il primo carattere può essere:
  # "c": sta per Character Device
 ```
 
-  -- Sono device in cui possiamo leggere o scrivere caratteri, non 
+* Sono device in cui possiamo leggere o scrivere caratteri, non 
     hanno un dimensione definita come i Block Device
 
 ```sh
  # "p": sta per Pipe Device
 ```
 
-  -- I Pipe Device o Named Pipe sono come Character Device, solo 
+* I Pipe Device o Named Pipe sono come Character Device, solo 
     che al posto di scrivere ad un driver del kernel, il 
     destinatario è un altro processo, quindi possiamo usarlo come 
     mezzo di comunicazione tra due processi (IPC)
@@ -2889,7 +2889,7 @@ il primo carattere può essere:
  # "s": sta per Socket Device
 ```
 
-  -- I Socket sono interfacce special purpose frequentemente 
+* I Socket sono interfacce special purpose frequentemente 
     utilizzate per l'IPC (interprocess communication), anche se 
     in realtà questi non sono collocati nella directory /dev, 
     Unlike named pipes sockets are fully duplex-capable.
@@ -3392,9 +3392,9 @@ regole che possiamo applicare:
   udev affinchè la nuova configurazione abbia effetto, questo è 
   possibile con:
 
-  -- sudo udevadm control --reload-rules #ricarica le regole
+* sudo udevadm control --reload-rules #ricarica le regole
 
-  -- dobbiamo scollegare e ricollegare il device o riavviare
+* dobbiamo scollegare e ricollegare il device o riavviare
 
 ```sh
  # SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", 
@@ -3562,35 +3562,35 @@ pacchetti (o delle installazioni più in generale).
  # Le Debian based utilizzano:
 ```
 
-  -- APT: Per installare pacchetti da repository
+* APT: Per installare pacchetti da repository
 
-  -- DPKG: Per installare pacchetti locali con estensione ".deb"
+* DPKG: Per installare pacchetti locali con estensione ".deb"
 
-  -- Aptitude: E' uno strumento aggiuntivo per installare i 
+* Aptitude: E' uno strumento aggiuntivo per installare i 
     pacchetti da repository ormai non più molto usato
 
 ```sh
  # Le RedHat based utilizzano:
 ```
 
-  -- YUM: Per installare pacchetti da repository
+* YUM: Per installare pacchetti da repository
 
-  -- RPM: Per installare pacchetti locali con estensione ".rpm"
+* RPM: Per installare pacchetti locali con estensione ".rpm"
 
-  -- Yumdownloader & Rpm2cpio: Sono strumenti aggiuntivi per 
+* Yumdownloader & Rpm2cpio: Sono strumenti aggiuntivi per 
     gestire i pacchetti
 
 ```sh
  # Le Arch based utilizzano:
 ```
 
-  -- Pacman
+* Pacman
 
 ```sh
  # Le Gentoo based utilizzano:
 ```
 
-  -- Portage: Costituisce un sistema più complesso, su questo tipo 
+* Portage: Costituisce un sistema più complesso, su questo tipo 
     di distro si compilano i codici sorgenti anche se qualche 
     pacchetto binario esiste.
 
@@ -4302,7 +4302,7 @@ distributions, such as RHEL and CentOS.
  # programma o la directory situata in "percorso"
 ```
 
-  -- ad esempio nel caso volessimo vedere quale pacchetto è 
+* ad esempio nel caso volessimo vedere quale pacchetto è 
     responsabile dell'installazione del programma "lspci", 
     facciamo un "whereis lspci" per mostrare il percorso e 
     supponendo che il percorso del programma sia "/usr/sbin/lspci"
@@ -4428,17 +4428,17 @@ Vediamo alcuni esempi:
  # opzioni con il flag "-H" sono:
 ```
 
-  -- odc: The old (POSIX .1) portable format.
+* odc: The old (POSIX .1) portable format.
 
-  -- crc: The new (SVR4) portable format with a checksum added; in 
+* crc: The new (SVR4) portable format with a checksum added; in 
     pratica un newc con un checksum addato
 
-  -- tar: The old tar format.
+* tar: The old tar format.
 
-  -- hpodc: The portable format used by HPUX's cpio (which stores 
+* hpodc: The portable format used by HPUX's cpio (which stores 
     device files differently).
 
-  -- ecc..
+* ecc..
 
 6 Shells
 
@@ -5892,9 +5892,9 @@ importanti:
  # posizionerà il cursore sulla parola cercata
 ```
 
-  -- Per andare alla prossima ricorrenza schiaccio "n" 
+* Per andare alla prossima ricorrenza schiaccio "n" 
 
-  -- Per andare alla precedente ricorrenza schiaccio "N" in realtà 
+* Per andare alla precedente ricorrenza schiaccio "N" in realtà 
     posso cercare indietro nel documento anche con "
     ?parolaDaCercare"
 
@@ -6021,7 +6021,7 @@ possibile attraverso il comando:
  # imposta l'autocompletamento dei file quando 
  # eseguiamo ":e" o qualsiasi comando che apre un file
 ```
-  -- ad esempio ":b <TAB>" permette di andare in un file 
+* ad esempio ":b <TAB>" permette di andare in un file 
     precedentemente visitato
 
 ```sh
@@ -7165,9 +7165,9 @@ Possiamo anche specificare range, ad esempio:
  # qualsiasi cosa
 ```
 
-  -- l.*k #qualsiasi cosa fino all'ultima "k" della stringa
+* l.*k #qualsiasi cosa fino all'ultima "k" della stringa
 
-  -- l.*?k #qualsiasi cosa fino alla successiva"k" , si chiama 
+* l.*?k #qualsiasi cosa fino alla successiva"k" , si chiama 
     notazione lazy
 
 ```sh
@@ -8731,20 +8731,20 @@ Esempi di utilizzo sono:
  # che costituisce i primi 512 byte della partizione/dev/sda1
 ```
 
-  -- Il flag "bs" indica la dimensione del blocco (block size), ad 
+* Il flag "bs" indica la dimensione del blocco (block size), ad 
     esempio anche opzioni come "bs=1M" o "bs=2G" sono valide, 
     dove i suffissi M e G indicano corrispettivamente Megabyte e 
     Gigabyte, non utilizzare un suffisso corrisponde quindi ad 
     una dimensione in byte, di default se il block size non viene 
     specificato la dimensione è fissata a 512 byte
 
-  -- Il flag "count" indica quanti blocchi della dimensione del 
+* Il flag "count" indica quanti blocchi della dimensione del 
     flag bs devono essere copiati, in questo caso, siccome ci 
     interessano solo i primi 512 byte, il flag count è settato ad 
     1, mentre nel caso avessimo messo "count=2" allora in tutto 
     avremmo copiato 1024 byte
 
-  -- N.B.: Posso capire qual'è la mia partizione di boot, 
+* N.B.: Posso capire qual'è la mia partizione di boot, 
     effettuando un "df -h" e visualizzando qual'è il device su 
     cui è montata la partizione "/"
 
@@ -9071,11 +9071,11 @@ installato di default. Vediamo subito alcuni esempi:
  # -rlp" e quindi:
 ```
 
-  -- copia ricorsivamente le directory 
+* copia ricorsivamente le directory 
 
-  -- copia anche i link
+* copia anche i link
 
-  -- preserva la struttura dei permessi
+* preserva la struttura dei permessi
 
 ```sh
  # rsync -avz --delete /media/sorgente 
@@ -9194,9 +9194,9 @@ questo punto comparirà una schermata in cui:
  # inserire il PID e il segnale con cui terminarlo. 
 ```
 
-  -- Segnale 15 chiusura normale
+* Segnale 15 chiusura normale
 
-  -- Segnale -9 chiusura forzata
+* Segnale -9 chiusura forzata
 
 ```sh
  # Con "q" esce dal programma
@@ -9942,7 +9942,7 @@ per cambiare il target default possiamo invece effettuare:
  # al cambio del runlevel di default su sysVinit
 ```
 
-  -- E' da notare che quello che viene effettuato in realtà quando 
+* E' da notare che quello che viene effettuato in realtà quando 
     viene lanciato questo comando è: "ln -sf 
     /lib/systemd/system/<nome del target>.target 
     /etc/systemd/system/default.target"
@@ -9969,7 +9969,7 @@ alcuni altri comandi che utilizzano systemd:
  # analizzano dati dal processo di boot
 ```
 
-  -- attenzione, in quanto su sistemi con firmware BIOS systemd 
+* attenzione, in quanto su sistemi con firmware BIOS systemd 
     non può ottenere come dato il tempo che questo ci ha messo ad 
     inizializzarsi e a fare le sue cose, mentre con sistemi con 
     firmware UEFI, il firmware fornisce dati al kernel come il 
@@ -10138,12 +10138,12 @@ Per leggere le mail possiamo effettuare:
  # interessata per leggerla, e schiacciare poi:
 ```
 
-  -- "r" per rispondere alla mail, e "Ctrl+D" per mandare la 
+* "r" per rispondere alla mail, e "Ctrl+D" per mandare la 
     risposta una volta finito l'inserimento
 
-  -- "d" per cancellare la mail
+* "d" per cancellare la mail
 
-  -- "q" per uscire dal programma
+* "q" per uscire dal programma
 
 oppure per leggere la mail queue, cioè la coda di email (è dove 
 le mail vengono salvate nel caso non riuscissero ad arrivare al 
@@ -10337,21 +10337,21 @@ spiegazione dettagliata:
  # 7 - DEBUG:
 ```
 
-  -- Info useful to developers for debugging the app, not useful 
+* Info useful to developers for debugging the app, not useful 
     during operations
 
 ```sh
  # 6 - INFORMATIONAL:
 ```
 
-  -- Normal operational messages - may be harvested for reporting, 
+* Normal operational messages - may be harvested for reporting, 
     measuring throughput, etc - no action required
 
 ```sh
  # 5 - NOTICE:
 ```
 
-  -- Events that are unusual but not error conditions - might be 
+* Events that are unusual but not error conditions - might be 
     summarized in an email to developers or admins to spot 
     potential problems - no immediate action required
 
@@ -10359,7 +10359,7 @@ spiegazione dettagliata:
  # 4 - WARNING:
 ```
 
-  -- Warning messages - not an error, but indication that an error 
+* Warning messages - not an error, but indication that an error 
     will occur if action is not taken, e.g. file system 85% full 
     - each item must be resolved within a given time
 
@@ -10367,21 +10367,21 @@ spiegazione dettagliata:
  # 3 - ERROR:
 ```
 
-  -- Non-urgent failures - these should be relayed to developers 
+* Non-urgent failures - these should be relayed to developers 
     or admins; each item must be resolved within a given time
 
 ```sh
  # 2 - ALERT:
 ```
 
-  -- Should be corrected immediately - notify staff who can fix 
+* Should be corrected immediately - notify staff who can fix 
     the problem - example is loss of backup ISP connection
 
 ```sh
  # 1 - CRITICAL:
 ```
 
-  -- Should be corrected immediately, but indicates failure in a 
+* Should be corrected immediately, but indicates failure in a 
     primary system - fix CRITICAL problems before ALERT - example 
     is loss of primary ISP connection
 
@@ -10389,7 +10389,7 @@ spiegazione dettagliata:
  # 0 - EMERGENCY:
 ```
 
-  -- A "panic" condition - notify all tech staff on call? 
+* A "panic" condition - notify all tech staff on call? 
     (earthquake? tornado?) - affects multiple 
     apps/servers/sites...
 
@@ -10643,7 +10643,7 @@ comando "search". Vediamo alcuni comandi di grub:
  # mostra la lista di device riconosciuti da Grub
 ```
 
-  -- l'output sarà una cosa tipo: 
+* l'output sarà una cosa tipo: 
 
 
     ∗ (hd0) (hd0,msdos1) (hd0,msdos5)
@@ -10691,7 +10691,7 @@ comando "search". Vediamo alcuni comandi di grub:
  # mostra le variabili di GRUB
 ```
 
-  -- una variabile molto importante è $prefix, questa indica dove 
+* una variabile molto importante è $prefix, questa indica dove 
     Grub si aspetta di trovare la sua configurazione
 
 ```sh
@@ -10813,13 +10813,13 @@ Vediamo alcune opzioni famose da lanciare con il kernel:
  # un kernel panic, le opzioni sono:
 ```
 
-  -- 0: (opzione di default) non succede nulla, al video rimane 
+* 0: (opzione di default) non succede nulla, al video rimane 
     mostrato il kernel panic
 
-  -- 7: (o qualsiasi altro numero positivo) aspetta 7 secondi 
+* 7: (o qualsiasi altro numero positivo) aspetta 7 secondi 
     prima di riavviarsi
 
-  -- -5: (o qualsiasi altro numero negativo) si riavvia 
+* -5: (o qualsiasi altro numero negativo) si riavvia 
     immediatamente
 
 ```sh
@@ -10839,7 +10839,7 @@ Vediamo alcune opzioni famose da lanciare con il kernel:
  # lpj=", per farlo eseguiamo un
 ```
 
-  -- dmesg | grep -iA5 "calibrating" #una volta visto il valore 
+* dmesg | grep -iA5 "calibrating" #una volta visto il valore 
     qui, possiamo andarlo ad impostare nell'opzione in modo da 
     risparmiare tempo
 
@@ -11810,9 +11810,9 @@ con:
  # avvia debugfs in modalità read/write
 ```
 
-  -- ls #elenca i file
+* ls #elenca i file
 
-  -- ls -ld #elenca tutti i file, anche quelli eliminati
+* ls -ld #elenca tutti i file, anche quelli eliminati
 
 Si aprirà un prompt, a cui potremmo dare i comandi trovati nella 
 lista che compare col comando "help" digitato dal prompt di 
@@ -11956,7 +11956,7 @@ peri sistemi Personal Computer sono:
  # DOS (o MBR)
 ```
 
-  -- MBR (Master Boot Record): è un sistema di partizionamento che 
+* MBR (Master Boot Record): è un sistema di partizionamento che 
     supporta fino a un massimo di 4 partizioni, anche se è stata 
     escogitata una soluzione attraverso le cosiddette "partizioni 
     estese", che possono contenere una o più "partizioni logiche"
@@ -11967,7 +11967,7 @@ peri sistemi Personal Computer sono:
  # GPT 
 ```
 
-  -- GPT (GUID Partition Table or Globally Unique Identifier 
+* GPT (GUID Partition Table or Globally Unique Identifier 
     Partition Table): è sistema di partizionamento più recente, 
     supera limiti dovuti al vecchio schema MBR)
 
@@ -12222,7 +12222,7 @@ ora da fdisk abbiamo diverse opzioni:
  # crea una nuova partizione
 ```
 
-  -- quando viene creata una nuova partizione, viene richiesto il 
+* quando viene creata una nuova partizione, viene richiesto il 
     settore iniziale, qui normalmente premiamo Invio, e per il 
     settore finale, diamo valori come +300M (per dire 300MB a 
     partire dal settore iniziale), oppure +5G (per dire 5GB a 
@@ -12254,7 +12254,7 @@ ora da fdisk abbiamo diverse opzioni:
  # partizioni di fdisk
 ```
 
-  -- Quindi il tipo di partizione è solo un byte, un flag 
+* Quindi il tipo di partizione è solo un byte, un flag 
     all'interno della tabella delle partizioni che aiuta il 
     sistema operativo a capire come gestire quella partizione
 
@@ -12561,10 +12561,10 @@ opzioni:
  # se la periferica non è specificata nel file fstab, possiamo:
 ```
 
-  -- cambiare i diritti della directory dove il filesystem viene 
+* cambiare i diritti della directory dove il filesystem viene 
     montato
 
-  -- cambiare gruppo di appartenenza alla directory dove il 
+* cambiare gruppo di appartenenza alla directory dove il 
     filesystem viene montato
 
 ### Gestire file immagine e partizioni contenute
@@ -12720,11 +12720,11 @@ al file fstab è semplice, è bene tenere a mente che generalmente
  # da una virgola, le opzioni possono essere:
 ```
 
-  -- uid: imposta il proprietario dei file che vengono montati
+* uid: imposta il proprietario dei file che vengono montati
 
-  -- umask: imposta la umask di default per la partizione montata 
+* umask: imposta la umask di default per la partizione montata 
 
-  -- auto/noauto: monta/non monta in automatico la partizione dopo 
+* auto/noauto: monta/non monta in automatico la partizione dopo 
     il boot, ATTENZIONE, è importante non impostare questa 
     opzione per chiavette USB o altri dispositivi che vengono 
     normalmente rimossi dal computer, in quanto a boot, se non 
@@ -12733,17 +12733,17 @@ al file fstab è semplice, è bene tenere a mente che generalmente
     utile invece per partizioni che montiamo in automatico al 
     boot, come una partizione dati utente eccetera.
 
-  -- exec/noexec: permette/non permette di eseguire file 
+* exec/noexec: permette/non permette di eseguire file 
     eseguibili contenuti nella partizione montata (utile per 
     evitare virus che cercano di essere lanciati in automatico)
 
-  -- ro/rw: il filesystem può essere montato in sola lettura (read 
+* ro/rw: il filesystem può essere montato in sola lettura (read 
     only) o in lettura e scrittura (read & write)
 
-  -- user/nouser: permette/non permette a utenti normali (cioè non 
+* user/nouser: permette/non permette a utenti normali (cioè non 
     root) di montare il dispositivo
 
-  -- sync/async: imposta la scrittura dei file sincrona/asincrona, 
+* sync/async: imposta la scrittura dei file sincrona/asincrona, 
     cioè quando ad esempio viene lanciato un comando di copia 
     verso una chiavetta se l'opzione sincrona è attiva, i file 
     vengono copiati subito nel momento del lancio del comando, 
@@ -12762,7 +12762,7 @@ al file fstab è semplice, è bene tenere a mente che generalmente
     utilizzano una politica async ma con un periodo di flush 
     molto breve.
 
-  -- defaults: imposta diverse opzioni, infatti defaults 
+* defaults: imposta diverse opzioni, infatti defaults 
     costituisce: rw,suid,dev,exec,auto.nouser, e async
 
 ```sh
@@ -12970,21 +12970,21 @@ Infine, dobbiamo creare un database, e attivare quota facendo:
  # quota, dove:
 ```
 
-  -- a: controlla tutti i filesystem montati (non di rete) nel 
+* a: controlla tutti i filesystem montati (non di rete) nel 
     file /etc/mtab
 
-  -- v: attiva la modalità verbose
+* v: attiva la modalità verbose
 
-  -- u: solo gli utenti elencati nel file /etc/mtab devono essere 
+* u: solo gli utenti elencati nel file /etc/mtab devono essere 
     controllati, questa opzione è di default
 
-  -- g: solo i gruppi elencati nel file /etc/mtab devono essere 
+* g: solo i gruppi elencati nel file /etc/mtab devono essere 
     controllati
 
-  -- m: non provare a rimontare i filesystem in modalità di sola 
+* m: non provare a rimontare i filesystem in modalità di sola 
     lettura (read-only)
 
-  -- N.B.: E' possibile inserire come flag "-c" per creare i file 
+* N.B.: E' possibile inserire come flag "-c" per creare i file 
     quota.user e quota.group, in modo da non doverli creare 
     manualmente
 
@@ -12995,13 +12995,13 @@ Infine, dobbiamo creare un database, e attivare quota facendo:
  # significato:
 ```
 
-  -- a: effettua l'operazione su tutti i filesystem in /etc/fstab
+* a: effettua l'operazione su tutti i filesystem in /etc/fstab
 
-  -- v: attiva la modalità verbose
+* v: attiva la modalità verbose
 
-  -- u: effettua l'operazione per gli utenti
+* u: effettua l'operazione per gli utenti
 
-  -- g: effettua l'operazione per i gruppi
+* g: effettua l'operazione per i gruppi
 
 N.B.: Solo se il quota è stato attivato attraverso un "quotaon" 
 allora viene impedito agli utenti di superare i limiti imposti, 
@@ -13071,7 +13071,7 @@ filesystem facciamo:
  # mostra la configurazione quota sul filesystem
 ```
 
-  -- in questo caso, le ultime due colonne rappresentano i limiti 
+* in questo caso, le ultime due colonne rappresentano i limiti 
     sui file e le prime due i limiti sui blocchi
 
 ```sh
@@ -13089,7 +13089,7 @@ eseguiamo:
  # andremo a modificare qui le opzioni desiderate
 ```
 
-  -- edquota aprirà il file di testo attraverso l'editor 
+* edquota aprirà il file di testo attraverso l'editor 
     specificato nella variabile d'ambiente "EDITOR", per cambiare 
     l'editor, dobbiamo impostare la variabile d'ambiente editor 
     con un comando o andando a modificare il file "
@@ -13908,7 +13908,7 @@ server grafico e quindi terminarlo è:
  # uccide tutti i processi relativi ad X
 ```
 
-  -- un'alternativa potrebbe essere uccidere il display manager, 
+* un'alternativa potrebbe essere uccidere il display manager, 
     in quanto il display manager è il processo padre del processo 
     relativo al Desktop Environment o al Window Manager
 
@@ -14074,7 +14074,7 @@ d'ambiente $DISPLAY con:
  # display
 ```
 
-  -- l'output di questo comando sarà nella forma 
+* l'output di questo comando sarà nella forma 
     DISPLAY=:numeroDisplay.numeroSchermo
 
 il nome del display può anche essere visionato con:
@@ -14877,12 +14877,12 @@ ricevere. Ci sono due tipi fondamentali di socket:
 
   A sua volta esistono due tipi di socket su IP:
 
-  -- LISTEN, che rappresentano la possibilità di ricevere nuove 
+* LISTEN, che rappresentano la possibilità di ricevere nuove 
     connessioni. Un socket di questo tipo è identificato dalla 
     terna protocollo di trasporto, indirizzo IP del computer, 
     numero di porta; 
 
-  -- ESTABLISHED, che rappresentano una particolare connessione 
+* ESTABLISHED, che rappresentano una particolare connessione 
     attiva. Un socket di questo tipo è identificato dalla 5-tupla 
     protocollo di trasporto, indirizzo IP sorgente, indirizzo IP 
     destinazione, numero di porta sorgente, numero di porta 
@@ -15133,14 +15133,14 @@ requirements then you must use wpa_supplicant.
  # mostrerà alcune informazioni come:
 ```
 
-  -- Designated name: phy#1 
+* Designated name: phy#1 
 
-  -- Device names: wlan0 
+* Device names: wlan0 
 
-  -- Interface Index: 4. Usually as per connected ports (which can 
+* Interface Index: 4. Usually as per connected ports (which can 
     be an USB port). 
 
-  -- Type: Managed. Type specifies the operational mode of the 
+* Type: Managed. Type specifies the operational mode of the 
     wireless devices. managed means the device is a WiFi station 
     or client that connects to an access point.
 
@@ -15265,11 +15265,11 @@ di rete wireless è attiva eseguiamo:
   /etc/wpa_supplicant.conf 
  # dove:
 ```
-  -- -B means run wpa_supplicant in the background 
+* -B means run wpa_supplicant in the background 
 
-  -- -D specifies the wireless driver, wext is the generic driver
+* -D specifies the wireless driver, wext is the generic driver
 
-  -- -c specifies the path for the configuration file.
+* -c specifies the path for the configuration file.
 
 se questo non dovesse essere abbastanza allora eseguiamo:
 
@@ -15787,21 +15787,21 @@ importanti sono:
  # sezione "Flags"
 ```
 
-  -- U: Questo flag indica che questa voce di routing è "Up", cioè 
+* U: Questo flag indica che questa voce di routing è "Up", cioè 
     attiva
 
-  -- G: Questo flag indica che questa voce di routing è relativa 
+* G: Questo flag indica che questa voce di routing è relativa 
     al gateway, se questa voce non è presenta vuol dire che le 
     due reti menzionate sono connesse direttamente
 
-  -- H: Questo flag indica che la destinazione è un host, se non è 
+* H: Questo flag indica che la destinazione è un host, se non è 
     presente, allora vuol dire che la destinazione è un intero 
     network
 
-  -- D: Questo flag indica che questa voce della tabella di 
+* D: Questo flag indica che questa voce della tabella di 
     routing è stata creata da un redirect
 
-  -- M: Questo flag indica che questa voce della tabella di 
+* M: Questo flag indica che questa voce della tabella di 
     routing è modificata da un redirect
 
 ```sh
@@ -16198,18 +16198,18 @@ possiamo anche eseguire dei reverse lookups con:
  # dall'output i commenti e la sezione authority, in genere la 
  # possibilità sono:
 ```
-  -- +nocomments -- Turn off the comment lines 
+* +nocomments -- Turn off the comment lines 
 
-  -- +noauthority -- Turn off the authority section 
+* +noauthority -- Turn off the authority section 
 
-  -- +noadditional -- Turn off the additional section 
+* +noadditional -- Turn off the additional section 
 
-  -- +nostats -- Turn off the stats section 
+* +nostats -- Turn off the stats section 
 
-  -- +noanswer -- Turn off the answer section (Of course, you 
+* +noanswer -- Turn off the answer section (Of course, you 
     wouldn’t want to turn off the answer section)
 
-  -- +noall - Turn off everything, this is in general used to be 
+* +noall - Turn off everything, this is in general used to be 
     coupled with +answer so to only display the answer section
 
 ```sh
@@ -17233,7 +17233,7 @@ Vediamo ora invece alcuni esempi applicativi:
  # macchina
 ```
 
-  -- in automatico dopo la scansione viene creato un file chiamato 
+* in automatico dopo la scansione viene creato un file chiamato 
     "lsat.out", è da notare che il check di un modulo chiamato "
     md5" potrebbe richiedere molto molto tempo, possiamo quindi 
     terminarla con "Ctrl+C", la scansione di questo modulo è 
@@ -17414,11 +17414,11 @@ solo 1.5% della totalità delle possibilità):
  # salva 3 file di testo
 ```
 
-  -- il primo, è in formato human-readable
+* il primo, è in formato human-readable
 
-  -- il secondo, è in formato facilmente utilizzabile con grep
+* il secondo, è in formato facilmente utilizzabile con grep
 
-  -- il terzo, è in formato xml
+* il terzo, è in formato xml
 
 ```sh
  nmap -vv -oA scanresults 192.168.1.250 
@@ -19148,7 +19148,7 @@ devo ricordare che esistono diverse gerarchie di configurazione:
  # di sistema
 ```
 
-  -- Il file in cui sono contenute le configurazioni di sistema è "
+* Il file in cui sono contenute le configurazioni di sistema è "
     /etc/crontab", e una volta modificato e salvato il file, le 
     modifche verranno applicate automaticamente, senza nessuna 
     necessità di riavviare servizi.
@@ -19159,7 +19159,7 @@ devo ricordare che esistono diverse gerarchie di configurazione:
  # utente
 ```
 
-  -- Le configurazioni a livello utente invece sono contenute 
+* Le configurazioni a livello utente invece sono contenute 
     nella directory "/var/spool/cron" o "/var/spool/crontab/", la 
     collocazione della directory dipende dalla distro, anche se è 
     sconsigliato mettere mano direttamente a questi file, 
@@ -19543,7 +19543,7 @@ Vediamo ora alcuni comandi per eseguire accesso con ssh:
  # farlo prima di eseguire il login eseguiamo:
 ```
 
-  -- chmod 600 deployment_key.txt
+* chmod 600 deployment_key.txt
 
 Una volta eseguito per la prima volta l'accesso, ci verrà chiesto 
 qualora vogliamo salvare la chiave RSA, questa chiava verrà 
@@ -21247,7 +21247,7 @@ Ad un kernel solitamente vengono associati alcuni file:
  # un file chiamato "System.map"
 ```
 
-  -- In Linux, the System.map file is a symbol table used by the 
+* In Linux, the System.map file is a symbol table used by the 
     kernel. A symbol table is a look-up between symbol names and 
     their addresses in memory. A symbol name may be the name of a 
     variable or the name of a function. The System.map is 
@@ -21522,7 +21522,7 @@ scelte comuni sono:
  # caricare una configurazione di default:
 ```
 
-  -- questo è possibile attraverso "make defconfig", ci permette 
+* questo è possibile attraverso "make defconfig", ci permette 
     di selezionare la configurazione di default che hanno 
     elaborato gli sviluppatori del kernel, potrebbe non andare 
     bene in molti casi, possiamo comunque partire da questa per 
@@ -21551,7 +21551,7 @@ scelte comuni sono:
  # default (utile negli aggiornamenti di kernel)
 ```
 
-  -- in questo caso ci basterà eseguire un "make olddefconfig" 
+* in questo caso ci basterà eseguire un "make olddefconfig" 
     nella directory del kernel senza poi andare a modificare 
     nulla, questo ci permetterà di usare la vecchia 
     configurazione del kernel e mette le nuove features aggiunte 
@@ -21563,7 +21563,7 @@ scelte comuni sono:
  # di kernel)
 ```
 
-  -- in questo caso ci basterà eseguire un "make localmodconfig" e 
+* in questo caso ci basterà eseguire un "make localmodconfig" e 
     rispondere con invio (cioè opzione di default) per le nuove 
     voci, una volta fatto, avremo una configurazione compatibile 
     con quella attuale, è molto simile a "make oldconfig" la 
@@ -21592,7 +21592,7 @@ scelte comuni sono:
  # default
 ```
 
-  -- questo è simile al primo punto, ma a sua differenza abbiamo 
+* questo è simile al primo punto, ma a sua differenza abbiamo 
     bisogno di moduli che non sono stati aggiunti dalla 
     configurazione di default, questi possiamo aggiungerli da una 
     live eseguendo un "lspci -k", "lsusb -v" ed "lspcmcia" se 
@@ -21714,31 +21714,31 @@ following sections:
  # b. Enable loadable module support 
 ```
 
-  -- Provides the ability to load kernel modules. Sub-options 
+* Provides the ability to load kernel modules. Sub-options 
     provide additional capabilities related to modules.
 
 ```sh
  # c. Enable the block layer 
 ```
 
-  -- This needs to be enabled to be able to mound any disk drive.
+* This needs to be enabled to be able to mound any disk drive.
 
 ```sh
  # d. Processor type and features 
 ```
 
-  -- The defaults will set most of these properly for your 
+* The defaults will set most of these properly for your 
     hardware, but you may want to disable options that may not 
     apply such as Multi-core scheduler support. You can also set 
     the number of CPUs that the kernel supports.
 
-  -- You can also set support for some specific laptop brands.
+* You can also set support for some specific laptop brands.
 
 ```sh
  # e. Power management and ACPI options 
 ```
 
-  -- Controls ACPI (Advanced Configuration and Power Interface) or 
+* Controls ACPI (Advanced Configuration and Power Interface) or 
     APM (Advanced Power Management) BIOS support. These options 
     are most useful on laptops.
 
@@ -21750,13 +21750,13 @@ following sections:
  # g. Executable file formats / Emulations
 ```
 
-  -- Generally only ELF support is needed.
+* Generally only ELF support is needed.
 
 ```sh
  # h. Networking support 
 ```
 
-  -- This is where networking (including wireless) is enabled. 
+* This is where networking (including wireless) is enabled. 
     Netfilter (firewall) capabilities are also defined here. The 
     defaults are generally satisfactory.
 
@@ -21764,60 +21764,60 @@ following sections:
  # i. Device Drivers 
 ```
 
-  -- This is one of the most important configuration areas. If you 
+* This is one of the most important configuration areas. If you 
     want the hardware to work, it has to be enabled with a 
     driver. Check your devices on a currently running system with 
     `lspci -v` to confirm what hardware you have. Enable any 
     network or usb devices that you may have. Video drivers and 
     sound cards are also enabled here. 
 
-  -- Take your time in this section and make sure you add drivers 
+* Take your time in this section and make sure you add drivers 
     for all the hardware you want to use.
 
 ```sh
  # j. Firmware Drivers
 ```
 
-  -- The default is generally OK here.
+* The default is generally OK here.
 
 ```sh
  # k. File systems
 ```
 
-  -- If you want reiser, ext4, jfs, xfs, kernel automounter 
+* If you want reiser, ext4, jfs, xfs, kernel automounter 
     support, or nfs, you need to select those capabilities here.
 
 ```sh
  # l. Kernel hacking
 ```
 
-  -- If you make changes here, you better know why.
+* If you make changes here, you better know why.
 
 ```sh
  # m. Security options
 ```
 
-  -- The defaults are generally OK here too.
+* The defaults are generally OK here too.
 
 ```sh
  # n. Cryptographic API
 ```
 
-  -- Specialized crytographic capabilites. The defaults are OK 
+* Specialized crytographic capabilites. The defaults are OK 
     here.
 
 ```sh
  # o. Virtualization
 ```
 
-  -- Allows using your Linux host to run other operating systems 
+* Allows using your Linux host to run other operating systems 
     inside virtual machines (guests). 
 
 ```sh
  # p. Library routines 
 ```
 
-  -- Various CRC routines. The defaults are generally appropriate 
+* Various CRC routines. The defaults are generally appropriate 
     here unless you have special requirements. 
 
 ## Cross Compilazione del Kernel
@@ -23618,11 +23618,11 @@ ACPI has several different software components:
 
   These states include:
 
-  -- thermal control
+* thermal control
 
-  -- motherboard configuration
+* motherboard configuration
 
-  -- power states (sleep, suspend)
+* power states (sleep, suspend)
 
 ```sh
  # a policy manager, which is software that sits on top of the 
@@ -23920,7 +23920,7 @@ Ci sono due modi per effettuare test,
  # il comando test
 ```
 
-  -- come ad esempio: if test -f nome.txt
+* come ad esempio: if test -f nome.txt
 
 ```sh
  il comando [ 
@@ -23928,7 +23928,7 @@ Ci sono due modi per effettuare test,
  # aggiunto il carattere ] alla fine del conditional
 ```
 
-  -- come ad esempio: if [ -f nome.txt ]
+* come ad esempio: if [ -f nome.txt ]
 
 Vediamo un esempio di blocco if
 
@@ -25059,7 +25059,7 @@ TO ADD
 ```sh
  # imagemagick, convert or compare:
 ```
-  -- compare image1.jpg image2.jpg #gives us the difference 
+* compare image1.jpg image2.jpg #gives us the difference 
     between images
 
 ```sh
