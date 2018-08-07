@@ -7611,22 +7611,16 @@ righe dell'input contenenti l'occorrenza "windows". Di tutte le
 operazioni a disposizione di sed, vengono focalizzate, in primo 
 luogo, le tre più comunemente usate. Esse sono:
 
-```sh
- # p->print (visualizza allo stdout), 
-```
-```sh
- # d->delete (cancella)
-```
-```sh
- # s->substitute (sostituisce)
-```
+* `p`->print (visualizza allo stdout), 
+* `d`->delete (cancella)
+* `s`->substitute (sostituisce)
+
 Esempi di utilizzo, possono essere:
 
 ```sh
  sed -e '1d' /etc/services | more 
- # elimina la prima riga, il "
- # -e" indica di eseguire un comando, anche se nel caso venisse 
- # usato un solo comando possiamo ometterlo
+ # elimina la prima riga, il "-e" indica di eseguire un comando, 
+ # anche se nel caso venisse usato un solo comando possiamo ometterlo
 ```
 ```sh
  sed -e '1,10d' /etc/services | more 
@@ -7634,15 +7628,22 @@ Esempi di utilizzo, possono essere:
  # alla 10 nel file menzionato
 ```
 ```sh
+ sed -e '1,10p' nomeFile | more 
+ # in questo caso vengono 
+ # stampate le righe dalla 1 alla 10, quindi dall'inizio del file
+ # fino alla decima riga, le righe ogni volta che vengono
+ # incontrate vengono ristampate
+```
+```sh
  sed -n -e '1,10p' nomeFile | more 
  # in questo caso vengono 
- # stampate solo le righe dalla 1 alla 10, usiamo il flag "-n" in 
- # quanto quando vogliamo stampare le righe col comando "p" è 
- # buona norma, anzichè verrà comunque stampato tutto il file
+ # stampate tutte le righe dalla 1 alla 10, 
+ # usiamo il flag "-n" indica di non ristampare le righe per evitare
+ # ridondanze, e' l'equivalente di --quiet
 ```
 ```sh
  sed -n "3p" nomeFile 
- # stampa la terza riga del file
+ # stampa solo la terza riga del file
 ```
 ```sh
  sed -n -e '/BEGIN/,/END/p' /my/test/file | more 
