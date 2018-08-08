@@ -4579,233 +4579,130 @@ Una guida più dettagliata alle opzioni di shell è fornita al link
 Vediamo un esempio di file "~/.bashrc" che raggruppa varie comuni 
 e utili configurazioni per la bash:
 
+```sh
 # Store 5000 commands in history buffer 
-
 export HISTSIZE=5000
 
-
-
 # Store 5000 commands in history FILE  
-
 export HISTFILESIZE=5000
 
-     
-
 # Avoid duplicates in hisotry  
-
 export HISTIGNORE='&:[ ]*'
 
-
-
 # Use less command as a pager 
-
 export PAGER=less
 
-
-
 # Set vim as default text editor 
-
 export EDITOR=vim 
-
 export VISUAL=vim 
-
 export SVN_EDITOR="$VISUAL"
 
-
-
 # Oracle database specific
-
-export 
-ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server 
-
+export ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server 
 export ORACLE_SID=XE export 
 NLS_LANG=$($ORACLE_HOME/bin/nls_lang.sh)
 
-
-
 # Set JAVA_HOME  
-
 export JAVA_HOME=/usr/lib/jvm/java-6-sun/jre
 
-
-
 # Add ORACLE, JAVA and ~/bin bin to PATH 
-
 export PATH=$PATH:$ORACLE_HOME/bin:$HOME/bin:$JAVA_HOME/bin
-
-
 
 # Secure SSH login stuff using keychain 
 
 # No need to input password again ever 
-
 /usr/bin/keychain $HOME/.ssh/id_dsa 
-
 source $HOME/.keychain/$HOSTNAME-sh
 
-
-
 # Turn on Bash command completion 
-
 source /etc/bash_completion
-
-
-
 # MS-DOS / XP cmd like stuff 
-
 alias edit=$VISUAL 
-
 alias copy='cp' 
-
 alias cls='clear' 
-
 alias del='rm' 
-
 alias dir='ls' 
-
 alias md='mkdir' 
-
 alias move='mv' 
-
 alias rd='rmdir' 
-
 alias ren='mv' 
-
 alias ipconfig='ifconfig'
 
-
-
-# Other Linux stuff alias 
-
+# other common GNU/Linux common alias stuff
 bc='bc -l' 
-
 alias diff='diff -u'
 
-
-
 # get updates from RHN 
-
 alias update='yum -y update'
 
 
-
 # set eth1 as default 
-
 alias dnstop='dnstop -l 5  eth1' 
-
 alias vnstat='vnstat -i eth1'
 
-
-
 # force colorful grep output 
-
 alias grep='grep --color'
 
-
-
 # ls stuff 
-
 alias l.='ls -d .* --color=tty' 
-
 alias ll='ls -l --color=tty' 
-
 alias ls='ls --color=tty'
+```
 
 vediamo un altro esempio con una bella carrellata di alias utili:
 
+```sh
 alias ls='ls -c --color=auto' 
-
 alias la='ls -ac --color=auto' 
-
 alias ll='ls -lah --color=auto' 
-
 alias lsd='ls -d */' 
-
 alias lsz='ls -AZ --color=auto'
 
-
-
-# with grep 
-
-alias lsg='ls --color=auto | g' 
-
-alias lag='ls -a --color=auto | g' 
-
-alias llg='ls -lah --color=auto | g'
-
-
-
 # Colorize grep 
-
 alias g="grep --color=always" 
-
 alias gi="grep -i --color=always"
 
+# with grep 
+alias lsg='ls --color=auto | g' 
+alias lag='ls -a --color=auto | g' 
+alias llg='ls -lah --color=auto | g'
 
-
-# Confirm 
-
+# Safe copy,move or remove, asking for confirmation
 alias mv='mv -i' 
-
 alias cp='cp -i' 
-
 alias rm='rm -i'
 
 # Override -f 
-
 alias rmf='rm -Rfv' 
-
 alias cpf='\cp -v' 
-
 alias mvf='\mv -v' 
-
-alias rmf='rm -Rfv'
-
 
 
 # No clobber 
-
 set -o noclobber 
 
-
-
 # Override >|
-
 # Sysadmin 
+alias psa='ps auxf' 
+alias psg='ps aux | grep' 
 
-alias psa='ps auxf' alias 
-
-psg='ps aux | grep' 
-
-
-
-#requires an argument 
-
-#alias date='date "+%A %B %d, %Y %l:%M %p %Z"' 
-
-alias date='echo -ne "${LIGHTBLUE}";date "+%A %B %d, %Y %l:%M %p 
-%Z"' 
-
+# requires an argument 
+alias date='date "+%A %B %d, %Y %l:%M %p %Z"' 
+alias date='echo -ne "${LIGHTBLUE}";date "+%A %B %d, %Y %l:%M %p %Z"' 
 alias cal='echo -e "${CYAN}"; cal""' 
-
 alias hist='history | g $1' 
 
-
-
 #Requires one input 
-
 alias du='du -sh' 
-
 alias dul='\du -h | less' 
-
 alias df='df -h'
+```
 
 ### Zsh
 
-
 Questa è una shell molto avanzata, si consiglia l'installazione 
-dei powerline fonts e di un qualche plugin manager come "oh my 
-zsh", alcuni comandi utili qui sono:
+dei powerline fonts e di un qualche plugin manager come "oh my zsh",
+alcuni comandi utili qui sono:
 
 ```sh
  dirs -v 
@@ -4830,6 +4727,7 @@ differenza dei file che vengono eseguiti all'avvio (ergo dipende
 molto dal setup dell'ambiente). Vediamo un esempio di funzioni 
 inserite all'interno del file .bashrc:
 
+```sh
 # Set Proxy 
 
 function nomecomandopersonaleuno() {     
@@ -4837,9 +4735,9 @@ function nomecomandopersonaleuno() {
 	export {http,https,ftp}_proxy="http:#proxy-server:port" 
 
 }
+```
 
-
-
+```sh
 # Unset Proxy 
 
 function nomecomandopersonaledue() {     
@@ -4847,6 +4745,7 @@ function nomecomandopersonaledue() {
 unset {http,https,ftp}_proxy 
 
 }
+```
 
 ora al prossimo login (oppure dopo aver rieseguito il file 
 .bashrc con un source o avviandolo) all'utente basterà digitare 
@@ -4882,25 +4781,20 @@ attività da terminale, si esegue in questo modo:
  # registrati nello script.log, ma non come uno script, in quanto 
  # mi riporta l'esatto output
 ```
-### Terminal Multiplexers
 
+### Terminal Multiplexers
 
 I Terminal Multiplexer permettono di lavorare in ambienti con più 
 sessioni di terminale all'interno dello stesso terminale, è 
 l'analogo dei desktop virtuali per le GUI fatto per le TUI. I due 
 più famosi Terminal Multiplexer sono:
 
-```sh
- # tmux
-```
-```sh
- # screen
-```
-```sh
- # terminator (GUI)
-```
-### Tmux
+* tmux
+* screen
+* terminator (GUI)
 
+
+### Tmux
 
 Tmux è organizzato in sessioni, ogni sessione è costituita da una 
 o più windows (finestre) ed ogni finestra può essere costituita 
@@ -5011,8 +4905,8 @@ comandi utili sono:
 ```
 Guardare ovviamente il man per altre opzioni
 
-### Screen
 
+### Screen
 
 Possiamo avviarlo eseguendo:
 
@@ -5145,10 +5039,8 @@ testo molto efficiente una volta imparati i comandi più
 importanti:
 
 1. Modalità "comandi" (Accessibile attraverso il tasto "Esc")
-
 2. Modalità "colon" o "ex-mode" (Accessibile attraverso il tasto "
   :"): utilizzata per manipolare il file
-
 3. Modalità "inserimento" (Accessibile attraverso il comando "i"
   ): utilizzata per editare/inserire testo all'interno del file
 
@@ -7235,7 +7127,7 @@ s/[[:cntrl:]]#g
 ### Common Sed Commands Vademecum
 
 
-# sed
+## sed
 
 > Run replacements based on regular expressions.
 
@@ -9661,21 +9553,22 @@ emergency devono essere collocati nella directory indicata
 uucp,news.crit /var/log/spooler #indica che tutti i file di log 
 di uucp di tipo "critico" e di news di tipo "critico" 
 
-#vengono salvati nella directory indicata
 
-#la virgola ci permette di indicare più programmi 
+vengono salvati nella directory indicata
+
+la virgola ci permette di indicare più programmi 
 contemporaneamente, mentre il punto, indica il livello di gravità 
 dei messaggi
 
+```sh
 #auth.emerg; uucp, news.crit /var/log/auth #indica che i messaggi 
-di log di tipo emergency del programma auth e i 
+#di log di tipo emergency del programma auth e i 
 
 #messaggi di tipo critical dei programmi uucp e news verranno 
-salvati nella directory indicata, il simbolo ";" 
+#salvati nella directory indicata, il simbolo ";" 
 
 #è utilizzato per separare programmi con diversi tipi di messaggi
-
-——————————————————————————--—
+```
 
 La stringa dopo il punto indica il cosiddetto "severity level" 
 dei messaggi (7 = debug, 6 = info, 5 = notice, 4 = warning, 3 = 
@@ -14934,42 +14827,28 @@ attraverso il file "/etc/network/interfaces", e la directory "
 /etc/network/" è dove sono collocati gli script di rete, vediamo 
 un esempio di configurazione classico del file interfaces:
 
-—————————————————————--
-
+```conf
 auto lo
 
 iface lo inet loopback
 
 #
-
 auto eth0 
-
 iface eth0 inet static #utilizza un ip statico
-
 address 192.168.1.17
-
 netmask 255.255.255.0
-
 gateway 192.168.1.1
-
 network 192.168.1.0
-
 broadcast 192.168.1.255
-
 dns-nameservers 192.168.1.195
 
-up ip route add -net 192.168.1.128 netmask 255.255.255.128 gw 
-192.168.1.2 #così imposto staticamente una voce della tabella di 
-routing
+# così imposto staticamente una voce della tabella di routing
+up ip route add -net 192.168.1.128 netmask 255.255.255.128 gw 192.168.1.2 
 
 up ip route add default gw 192.168.1.200
-
 down ip route del default gw 192.168.1.200
-
-down ip route del -net 192.168.1.128 netmask 255.255.255.128 gw 
-192.168.1.2
-
-—————————————————————--
+down ip route del -net 192.168.1.128 netmask 255.255.255.128 gw 192.168.1.2
+```
 
 una volta modificato il file, ci basterà riavviare il servizio di 
 rete attraverso:
@@ -14980,32 +14859,25 @@ rete attraverso:
  # systemctl, anche se per grossi cambiamenti è più sicuro 
  # eseguire un reboot
 ```
+
 Possiamo notare nel file che le linee che iniziano con "auto" 
 servono ad identificare interfacce fisiche che vengono attivate 
 col comando "ifup -a" o ad esempio negli script di sistema. Le 
 riche "up" e "down" possono essere presenti per ogni interfaccia 
 e indicano le operazioni da effettuare per "up" quando 
 l'interfaccia viene accesa e per "down" quando l'interfaccia 
-viene spenta, sono possibili anche direttive come "pre-up" e "
-post-down". 
+viene spenta, sono possibili anche direttive come "pre-up" e "post-down". 
 
 Vediamo un altro esempio di file di configurazione:
 
-—————————————————————--
-
+```conf
 auto lo
-
 iface lo inet loopback
-
 #
-
 auto eth0 
-
-iface eth0 inet dhcp #utilizza un indirizzo dhcp
-
+iface eth0 inet dhcp # utilizza un indirizzo dhcp
 gateway 192.168.1.1
-
-—————————————————————--
+```
 
 In questo caso dopo inet viene specificata la direttiva "dhcp", 
 quindi viene usato il dhcp al posto di un indirizzo statico come 
@@ -15013,22 +14885,13 @@ nel caso precedente.
 
 Vediamo ora un altro esempio:
 
-—————————————————————--
-
+```conf
 auto lo iface lo inet loopback
-
-auto wlan0 iface wlan0 inet static address 192.168.1.104 gateway 
-192.168.1.1 
-
-\netmask 255.255.255.0 network 192.168.1.0 broadcast 
-192.168.1.255
-
-pre-up sudo wpa_supplicant -B -i wlan0 -c 
-/etc/wpa_supplicant.conf -D wext 
-
+auto wlan0 iface wlan0 inet static address 192.168.1.104 gateway 192.168.1.1 
+\netmask 255.255.255.0 network 192.168.1.0 broadcast 192.168.1.255
+pre-up sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf -D wext 
 post-down sudo killall -q wpa_supplicant 
-
-—————————————————————--
+```
 
 In questo caso andiamo a collegarci attraverso wpa_supplicant ad 
 una rete wifi.
@@ -15039,11 +14902,11 @@ interfaces(5) con:
 ```sh
  man 5 interfaces 
  # visualizza la pagina di man del file 
- # interfaces per la configurazione della rete su distro Debian 
- # based
+ # interfaces per la configurazione della rete su distro Debian based
 ```
-### Configurazione di rete su distro Red-Hat based
 
+
+### Configurazione di rete su distro Red-Hat based
 
 Nelle distro basate su Red-Hat le configurazioni delle interfacce 
 sono collocate in "/etc/sysconfig/network-scripts", in questa 
@@ -15065,45 +14928,30 @@ ifcfg-eth0", aprendo questo file con un editor di testo, possiamo
 visualizzare le diverse opzioni, vediamo ad esempio un file che 
 imposta un indirizzo ip statico:
 
-—————————————————————--
-
+```conf
 DEVICE=eth0 
-
 BOOTPROTO=none 
-
 ONBOOT=yes 
-
 NETWORK=10.0.1.0 
-
 NETMASK=255.255.255.0 
-
 IPADDR=10.0.1.27 
-
 USERCTL=no
-
-—————————————————————--
+```
 
 vediamo ora invece un file che utilizza dhcp per l'indirizzo ip:
 
-—————————————————————--
-
+```conf
 DEVICE=eth0 
-
 BOOTPROTO=dhcp
-
 ONBOOT=yes
-
-—————————————————————--
+```
 
 per impostare invece una voce nella tabella di routing avremo un 
 file tipo "route-eth0" così costruito:
 
-—————————————————————--
-
+```conf
 10.10.20.0/24 via 192.168.50.100 dev eth0
-
-—————————————————————--
-
+```
 per riavviare i servizi di rete ad esempio dopo una modifica, 
 eseguiamo:
 
@@ -15112,53 +14960,41 @@ eseguiamo:
  # riavvia il servizio di rete, 
  # anche se per grossi cambiamenti è più sicuro eseguire un reboot
 ```
-### Route & IP Route
 
+### Route & IP Route
 
 Il comando "route" ci mostrerà il routing attivo sul nostro 
 sistema, il comando mostra di default diverse colonne, ma le più 
 importanti sono:
+ * **Destination**: Mostra la destinazione, per "default" si intende 
+   reste del mondo
+ * **Gateway**: Indica l'indirizzo di gateway utilizzato per accedere 
+   agli indirizzi indicati da "Destination"
+ * **Genmask**: Indica la subnet mask utilizzata
+ * **Flags**: Mostra diversi flag, possiamo leggere una breve 
+   descrizione eseguendo "man route" e andando a leggere la 
+   sezione "Flags":
+    * U: Questo flag indica che questa voce di routing è "Up", cioè 
+        attiva
 
-```sh
- # Destination: Mostra la destinazione, per "default" si intende 
- # reste del mondo
-```
-```sh
- # Gateway: Indica l'indirizzo di gateway utilizzato per accedere 
- # agli indirizzi indicati da "Destination"
-```
-```sh
- # Genmask: Indica la subnet mask utilizzata
-```
-```sh
- # Flags: Mostra diversi flag, possiamo leggere una breve 
- # descrizione eseguendo "man route" e andando a leggere la 
- # sezione "Flags"
-```
+    * G: Questo flag indica che questa voce di routing è relativa 
+        al gateway, se questa voce non è presenta vuol dire che le 
+        due reti menzionate sono connesse direttamente
 
-* U: Questo flag indica che questa voce di routing è "Up", cioè 
-    attiva
+    * H: Questo flag indica che la destinazione è un host, se non è 
+        presente, allora vuol dire che la destinazione è un intero 
+        network
 
-* G: Questo flag indica che questa voce di routing è relativa 
-    al gateway, se questa voce non è presenta vuol dire che le 
-    due reti menzionate sono connesse direttamente
+    * D: Questo flag indica che questa voce della tabella di 
+        routing è stata creata da un redirect
 
-* H: Questo flag indica che la destinazione è un host, se non è 
-    presente, allora vuol dire che la destinazione è un intero 
-    network
+    * M: Questo flag indica che questa voce della tabella di 
+        routing è modificata da un redirect
+ * **Iface**: Indica l'interfaccia per cui è valida la regola di routing
 
-* D: Questo flag indica che questa voce della tabella di 
-    routing è stata creata da un redirect
 
-* M: Questo flag indica che questa voce della tabella di 
-    routing è modificata da un redirect
-
-```sh
- # Iface: Indica l'interfaccia per cui è valida la regola di 
- # routing
-```
-Per gli altri campi, basterà leggere il manuale del comando "
-route". Per vedere la tabella di routing, eseguiamo:
+Per gli altri campi, basterà leggere il manuale del comando "route".
+Per vedere la tabella di routing, eseguiamo:
 
 ```sh
  route -n 
@@ -15173,8 +15009,8 @@ vuole comunque visualizzare la tabella di routing è:
  # mostra informazioni di routing, senza i permessi 
  # di root
 ```
-Vediamo alcune applicazioni dei comandi di routing:
 
+Vediamo alcune applicazioni dei comandi di routing:
 ```sh
  route add default gw 192.168.1.1 
  # aggiunge "add" una voce alla 
@@ -15188,8 +15024,7 @@ Vediamo alcune applicazioni dei comandi di routing:
  # 192.168.1.3, nei flag vedremo "!H"
 ```
 ```sh
- # route add -net 192.168.1.0 netmask 255.255.255.0 reject 
-  
+ route add -net 192.168.1.0 netmask 255.255.255.0 reject 
  # aggiunge una voce alla tabella di routing, atta a rendere non 
  # raggiungibile l'intero network 192.168.1.0, nei flag vedremo "
  # !H"
@@ -15203,14 +15038,12 @@ Vediamo alcune applicazioni dei comandi di routing:
  # che al posto della voce "add" metto "del"
 ```
 ```sh
- # route add -net 10.1.5.0 netmask 255.255.255.0 gw 192.168.1.5 
-  
+ route add -net 10.1.5.0 netmask 255.255.255.0 gw 192.168.1.5 
  # rende raggiungibile la rete 10.1.5.0 attraverso il default 
  # gateway 192.168.1.5
 ```
 ```sh
- # route del -net 10.1.5.0 netmask 255.255.255.0 gw 192.168.1.5 
-  
+ route del -net 10.1.5.0 netmask 255.255.255.0 gw 192.168.1.5 
  # rimuove la voce inserita nell'esempio precedente
 ```
 In realtà oggigiorno, "route" è deprecato, ed è consigliato 
@@ -15223,8 +15056,8 @@ that point to the same destination, differentiated only by which
 interface is in play. Routes so bound show up in netstat output 
 with the I flag.
 
-### Ping
 
+### Ping
 
 Ping è un programma utilizzato a diversi scopi, possiamo testare 
 reti per connettività, per misurare la congestione all'interno di 
@@ -15342,8 +15175,7 @@ la sua normale procedura.
 
 ### Informazioni sul DNS e Traceroute
 
-
-### Traceroute
+#### Traceroute
 
 
 Per poter visualizzare i vari host attraversati per arrivare ad 
@@ -15367,16 +15199,11 @@ talvolta il traceroute potrebbe mostrare degli asterischi su
 alcuni host, questo è perchè non si riceve risposta da quelle 
 macchine, questo può essere dovuto a diverse ragioni:
 
-```sh
- # il nodo filtra i pacchetti UDP o ICMP
-```
-```sh
- # tempo di timeout troppo breve
-```
-```sh
- # il nodo non risponde a pacchetti che hanno TTL=0 con il 
- # pacchetto "TTL exceeded" e quindi non si riceve risposta
-```
+ * il nodo filtra i pacchetti UDP o ICMP
+ * tempo di timeout troppo breve
+ * il nodo non risponde a pacchetti che hanno TTL=0 con il 
+   pacchetto "TTL exceeded" e quindi non si riceve risposta
+
 esistono alcune possibili soluzioni, una possibile soluzione al 
 primo problema è cambiare il protocollo utilizzato dal 
 traceroute, infatti su GNU/Linux di default viene utilizzato il 
@@ -15410,8 +15237,9 @@ essere cambiarlo, questo può essere fatto con:
 
 Nell'output vedremo righe come questa:
 
-fra07s31-in-f23.1e100.net (173.194.112.151)  27.287 ms  26.825 ms 
- 28.280 ms
+```text
+fra07s31-in-f23.1e100.net (173.194.112.151)  27.287 ms  26.825 ms 28.280 ms
+```
 
 in cui nella prima colonna c'è il nome dell'host, o l'indirizzo 
 IP se l'host non ha un nome specifico, nella seconda colonna, 
@@ -15421,8 +15249,9 @@ persi per più di due volte e quindi il percorso non può essere
 valutato. Vediamo un altro esempio di possibile riga risultante 
 da traceroute:
 
- 10.254.0.105 (10.254.0.105)  50.172 ms  50.353 ms 10.254.0.109 
-(10.254.0.109)  51.629 ms
+```text
+10.254.0.105 (10.254.0.105)  50.172 ms  50.353 ms 10.254.0.109 (10.254.0.109)  51.629 ms
+```
 
 in questo caso, possiamo vedere che al primo e al secondo RTT 
 veniamo collegati all'indirizzo IP 10.254.0.105, ma al terzo RTT 
@@ -15476,8 +15305,9 @@ Un'alternativa a traceroute più completa è costituita da
 programmi come "mtr" che forniscono anche statistiche, per capire 
 qual'è il collo di bottiglia su una rete.
 
-  Asterischi in traceroute indipendentemente dal protocollo
+##### Motivo per asterischi in traceroute indipendentemente dal protocollo
 
+```text
 This is because some machines don't send ICMP "TTL exceeded" 
 errors, that's all to not respond to ICMP or that 
 
@@ -15495,8 +15325,9 @@ packets use
 or maybe they have a firewall preventing them from being sent 
 <UncleDrax> or it's being throttled (since responding to ICMP 
 takes CPU a very busy router has other things to do with)
+```
 
-  Traceroute senza root, ovvero tracepath
+##### Traceroute senza root, ovvero tracepath
 
 Nel caso non avessimo i permessi di root, possiamo eseguire:
 
@@ -15505,23 +15336,24 @@ Nel caso non avessimo i permessi di root, possiamo eseguire:
  # esegue un traceroute più semplice 
  # senza permessi di root
 ```
-### DNS
 
+
+#### DNS
 
 Per avere informazioni sul DNS eseguiamo:
 
 ```sh
- # host www.example.com
+ host www.example.com
 ```
 o per un esame più avanzato sul DNS eseguiamo:
 
 ```sh
- # dig www.example.com
+ dig www.example.com
 ```
 possiamo anche eseguire dei reverse lookups con:
 
 ```sh
- # host 66.11.33.112
+ host 66.11.33.112
 ```
 ```sh
  dig -x 66.11.33.112 
@@ -15618,8 +15450,8 @@ tutto suo.
 Per ottenere informazioni dns su un dominio che non conosciamo 
 possiamo usare "dnsdumpster.com"
 
-### Netcat
 
+### Netcat
 
 Netcat è il coltellino svizzero dell'amministratore di rete, ci 
 permette di gestire connessioni in senso lato, possiamo 
@@ -15650,19 +15482,15 @@ dall'altra.
 Possiamo ad esempio creare un semplice file chiamato myFile.html 
 così strutturato:
 
+```http
 HTTP/1.0 200 OK
 
-
-
 <html>
-
 <body>
-
 <h1>Prova...</h1>
-
 </body>
-
 </html>
+```
 
 ora una volta creato questo file possiamo eseguire:
 
@@ -15674,32 +15502,33 @@ ora una volta creato questo file possiamo eseguire:
  # web con la pagine myFile.html, attenzione dopo che un'utente 
  # carica il sito, il server va giu
 ```
-  Trasferimento File
+####  Trasferimento File
 
 Se da un server avente indirizzo 192.168.1.122 volessimo 
 trasferire un file dalla porta 3333, eseguiamo:
 
 ```sh
- # cat backup.iso | netcat -l 192.168.1.122 3333
+ cat backup.iso | netcat -l 192.168.1.122 3333
 ```
 mentre sul client eseguiamo:
 
 ```sh
- # netcat 192.168.1.122 3333 > backup.iso
+ netcat 192.168.1.122 3333 > backup.iso
 ```
 Purtroppo netcat non mostra nessuna barra di progresso, per 
 questo possiamo utilizzare un programmino esterno chiamato "pv" 
 (da installare) e questa volta da server effettuare:
 
 ```sh
- # cat backup.iso | pv -b | nc -l 192.168.1.122 3333
+ cat backup.iso | pv -b | nc -l 192.168.1.122 3333
 ```
 mentre da client eseguire:
 
 ```sh
- # nc 192.168.1.122 3333 | pv -b > backup.iso
+ nc 192.168.1.122 3333 | pv -b > backup.iso
 ```
-  Netcat come Port Scanner
+
+####  Netcat come Port Scanner
 
 Anche se non è lo strumento più indicato per agire da port 
 scanner, può essere utilizzato in assenza di altro, ad esempio:
@@ -15727,47 +15556,30 @@ Wget è un programma molto utile per scaricare qualsiasi cosa dal
 web, ad esempio:
 
 ```sh
- # wget 
-  http:
- # www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
-  
+ wget http://www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
  # scarica il file specificato
 ```
 ```sh
- # wget -O taglist.zip 
-  http:
- # www.vim.org/scripts/download_script.php?src_id=7701 
-  
+ wget -O taglist.zip http://www.vim.org/scripts/download_script.php?src_id=7701 
  # scarica il file specificato e lo salva col nome menzionato 
  # col flag "-O", che sta per "output"
 ```
 ```sh
- # wget --limit-rate=200k 
-  http:
- # www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
-  
+ wget --limit-rate=200k http://www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
  # imposta un limite di velocità in download
 ```
 ```sh
- # wget -c 
-  http:
- # www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
-  
+ wget -c http://www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
  # scarica il file, se è già stato parzialmente scaricato, 
  # continua dall'ultimo punto di interruzione
 ```
 ```sh
- # wget -b 
-  http:
- # www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
-  
+ wget -b http://www.openss7.org/repos/tarballs/strx25-0.9.2.1.tar.bz2 
  # scarica in background, e crea un file chiamato wget-log, 
  # possiamo osservarlo con "tail -f wget-log"
 ```
 ```sh
- # wget --user-agent="Mozilla/5.0 (X11; U; Linux i686; en-US; 
- # rv:1.9.0.3) Gecko/2008092416 Firefox/3.0.3" URL-TO-DOWNLOAD 
-  
+ wget --user-agent="Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.3) Gecko/2008092416 Firefox/3.0.3" URL-TO-DOWNLOAD 
  # scaricare un file, fingendo di essere un browser, in quanto 
  # alcuni server non permettono il download se non si è in un 
  # browser
@@ -15784,8 +15596,7 @@ web, ad esempio:
  # contenuti nel file menzionati, "-i" sta per "input"
 ```
 ```sh
- # wget --mirror -p --convert-links -P ./LOCAL-DIR WEBSITE-URL 
-  
+ wget --mirror -p --convert-links -P ./LOCAL-DIR WEBSITE-URL 
  # scarica un sito web nella sua interezza
 ```
 ```sh
@@ -15794,7 +15605,7 @@ web, ad esempio:
  # senza determinati tipi di file
 ```
 ```sh
- wget -r -A.pdf http:#url-to-webpage-with-pdfs/ 
+ wget -r -A.pdf http://url-to-webpage-with-pdfs/ 
  # scarica 
  # ricorsivamente "-r" tutti i file con estensione ".pdf" nella 
  # pagina specificata
@@ -15809,13 +15620,11 @@ web, ad esempio:
  # scarica un url ftp
 ```
 ```sh
- # wget --ftp-user=USERNAME --ftp-password=PASSWORD DOWNLOAD-URL 
-  
+ wget --ftp-user=USERNAME --ftp-password=PASSWORD DOWNLOAD-URL 
  # scarica un url ftp, con accesso credenziali
 ```
 ```sh
- # wget --user=vivek --password='myPassword' 
-  http:#theos.in/protected/area/foo.pdf 
+ wget --user=vivek --password='myPassword' http:#theos.in/protected/area/foo.pdf 
  # Scarica un file che ha 
  # bisogno di credenziali su un server per essere scaricato
 ```
@@ -15825,8 +15634,9 @@ web, ad esempio:
  # livello di profondità uguale a 2, mentre utilizzando --mirror, 
  # il livello di profondità è infinito
 ```
-### Curl
 
+
+### Curl
 
 curl is a tool to transfer data from or to a server, using one of 
 the supported protocols (DICT, FILE, FTP, FTPS, GOPHER, HTTP, 
@@ -15861,20 +15671,16 @@ vediamo altri esempi:
  # --request può essere sostituito dal flag -X 
 ```
 ```sh
- curl -XDELETE 'http:
- # www.somedomain.com/' 
+ curl -XDELETE 'http://www.somedomain.com/' 
 ```
 ```sh
- curl -XPUT 'http:
- # www.somedomain.com/' 
+ curl -XPUT 'http://www.somedomain.com/' 
 ```
 possiamo mandare dei dati in "POST" attraverso il flag "-d", ad 
 esempio:
 
 ```sh
- curl -XGET 'http:
- # localhost:9200/_count?pretty' -d ' { 
-  "query": { "match_all": {} } } ' 
+ curl -XGET 'http://localhost:9200/_count?pretty' -d ' { "query": { "match_all": {} } } ' 
  # in questo caso mandiamo JSON 
  # in POST, ma qualsiasi dato volessimo mandare in POST possiamo 
  # farlo attraverso il flag "-d"
@@ -15883,43 +15689,34 @@ dovremmo poterci autenticare con HTTP attraverso
 un'autenticazione basic o digest attraverso:
 
 ```sh
- curl -u username:password http:#awebsite.com 
- # basic 
- # authentication
+ curl -u username:password http://awebsite.com 
+ # basic authentication
 ```
 ```sh
- curl --digest -u username:password http:#awebsite.com 
- # digest 
- # authentication
+ curl --digest -u username:password http://awebsite.com 
+ # digest authentication
 ```
 Altri esempi:
 
+```curl
 http methods                    curl -XTRACE  <url> 
 
-x-forwarded-for                 curl -H "X-Forwarded-For: 
-10.0.0.1" <url>  
+x-forwarded-for                 curl -H "X-Forwarded-For: 10.0.0.1" <url>  
 
 basic authentication            curl -u <user>:<password> <url> 
 
 post form                       curl -XPOST --form "b=4_1" <url>  
         
 
-cookie                          curl --cookie 
-"PHPSESSID=5ved46gn34dopkjhstrrfgdkk1;" <url> 
+cookie                          curl --cookie "PHPSESSID=5ved46gn34dopkjhstrrfgdkk1;" <url> 
 
-cookie files (save & send)      curl -c /tmp/cookie.txt -b 
-/tmp/cookie.txt <url> 
+cookie files (save & send)      curl -c /tmp/cookie.txt -b /tmp/cookie.txt <url> 
 
 set user-agent                  curl -A "Mozilla" <url> 
 
-referer                         curl -H "Referer: 
-https:#www.cnn.com" <url> 
+referer                         curl -H "Referer: https:#www.cnn.com" <url> 
 
-json                         curl -XPOST -H "Content-Type: 
-application/json" -d "[[\"create\",                               
-  {\"type\":\"trial\",\"name\":\"bug\"}]] <url> 
-
-
+json                         curl -XPOST -H "Content-Type: application/json" -d "[[\"create\",{\"type\":\"trial\",\"name\":\"bug\"}]] <url> 
 
 silent                          curl -s <url> 
 
@@ -15937,130 +15734,75 @@ curl SSL V3                     curl -k -v --sslv3 <url>
 
 curl max time (4 seconds)       curl -m4 <url> 
 
-file upload                     curl -XPOST -F ul=30000 -F 
-location=/tmp/upload-form-data.txt                                
-  -F userfile=@/tmp/upload-file.txt <url> 
+file upload                     curl -XPOST -F ul=30000 -F location=/tmp/upload-form-data.txt -F userfile=@/tmp/upload-file.txt <url> 
 
-shell-shock                     curl -k -L -H 'User-Agent: () { 
-:;}; curl -L  <return-server>;'  <url> 
+shell-shock                     curl -k -L -H 'User-Agent: () { :;}; curl -L  <return-server>;'  <url> 
 
 post data from file             curl -data '@<filename>' <url> 
 
-curl output response time       curl -o /dev/null 
--w%{time_connect}:%{time_starttransfer}%{time_total} <url> 
+curl output response time       curl -o /dev/null -w%{time_connect}:%{time_starttransfer}%{time_total} <url> 
 
-curl output request size        curl -o /dev/null 
--w%{size_request} %{size_upload} <url>  
+curl output request size        curl -o /dev/null -w%{size_request} %{size_upload} <url>  
 
-curl output http status code    curl -o /dev/null -w%%{http_code} 
-<url> 
+curl output http status code    curl -o /dev/null -w%%{http_code} <url> 
 
-curl resolve ip from other dns  curl --resolve 
-"www.cnn.com:80:8.8.8.8" http:#www.cnn.com 
+curl resolve ip from other dns  curl --resolve "www.cnn.com:80:8.8.8.8" http://www.cnn.com 
+```
 
-curl http:#curl.haxx.se 
+Let's see other typical usage of curl:
 
-curl http:#site.{one,two,three}.com   
-
-curl ftp:#ftp.numericals.com/file[1-100].txt   
-
-curl ftp:#ftp.numericals.com/file[001-100].txt   
-
-curl ftp:#ftp.letters.com/file[a-z].txt  
-
-curl http:#any.org/archive[1996-1999]/vol[1-4]/part{a,b,c}.html  
-
-curl http:#www.numericals.com/file[1-100:10].txt   
-
-curl http:#www.letters.com/file[a-z:2].txt  
-
-curl -o index.html http:#curl.haxx.se/   
-
-curl http:#curl.haxx.se/ > index.html  
-
-curl -# http:#curl.haxx.se/ > index.html      
-
-curl -0 http:#curl.haxx.se/   
-
-curl --http1.1 http:#curl.haxx.se/   
-
-curl --http2 http:#curl.haxx.se/  
-
-curl -1 http:#curl.haxx.se/   
-
-curl --tlsv1 http:#curl.haxx.se/
-
-curl -2 http:#curl.haxx.se/   
-
-curl --sslv2 http:#curl.haxx.se/
-
-curl -3 http:#curl.haxx.se/   
-
-curl --sslv3 http:#curl.haxx.se/
-
-curl -4 http:#curl.haxx.se/   
-
-curl --ipv4 http:#curl.haxx.se/
-
-curl -6 http:#curl.haxx.se/   
-
-curl --ipv6 http:#curl.haxx.se/
-
-curl -A "wget/1.0" http:#curl.haxx.se/   
-
-curl --user-agent "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 
-5.0)" [URL] 
-
-curl --user-agent "Mozilla/4.73 [en] (X11; U; Linux 2.2.15 i686)" 
-[URL]
-
-curl -b "phpsession=Testtest" http:#demo.com/     
-
-curl --cookie "name=Daniel" http:#curl.haxx.se
-
-curl -c cookies.txt http:#curl.haxx.se/   
-
-curl --cookie-jar cookies.txt http:#curl.haxx.se
-
-curl -d "username=admin&password=pass" http:#curl.haxx.se/   
-
-curl --data "birthyear=1905&press=%20OK%20"  
-http:#curl.haxx.se/when.cgi 
-
-curl --data-urlencode "name=I am Daniel" http:#curl.haxx.se 
-
-curl --data "<xml>" --header "Content-Type: text/xml" --request 
-PROPFIND url.com
-
-curl -e "http:#referer" http:#demo.com/   
-
-curl --referer http:#curl.haxx.see http:#curl.haxx.se
-
-curl --header "Host:" http:#curl.haxx.se 
-
-curl --header "Destination: http:#nowhere" http:#curl.haxx.se
-
-curl -D - http:#curl.haxx.se/   
-
-curl --dump-header headers_and_cookies http:#curl.haxx.se
-
-curl -L http:#github.com/   
-
-curl --location http:#curl.haxx.se
-
-curl --dns-servers 8.8.8.8 http:#demo.com/  
-
-curl --trace-ascii debugdump.txt http:#curl.haxx.se/ 
-
+```curl
+curl http://curl.haxx.se 
+curl http://site.{one,two,three}.com   
+curl ftp://ftp.numericals.com/file[1-100].txt   
+curl ftp://ftp.numericals.com/file[001-100].txt   
+curl ftp://ftp.letters.com/file[a-z].txt  
+curl http://any.org/archive[1996-1999]/vol[1-4]/part{a,b,c}.html  
+curl http://www.numericals.com/file[1-100:10].txt   
+curl http://www.letters.com/file[a-z:2].txt  
+curl -o index.html http://curl.haxx.se/   
+curl http://curl.haxx.se/ > index.html  
+curl -# http://curl.haxx.se/ > index.html      
+curl -0 http://curl.haxx.se/   
+curl --http1.1 http://curl.haxx.se/   
+curl --http2 http://curl.haxx.se/  
+curl -1 http://curl.haxx.se/   
+curl --tlsv1 http://curl.haxx.se/
+curl -2 http://curl.haxx.se/   
+curl --sslv2 http://curl.haxx.se/
+curl -3 http://curl.haxx.se/   
+curl --sslv3 http://curl.haxx.se/
+curl -4 http://curl.haxx.se/   
+curl --ipv4 http://curl.haxx.se/
+curl -6 http://curl.haxx.se/   
+curl --ipv6 http://curl.haxx.se/
+curl -A "wget/1.0" http://curl.haxx.se/   
+curl --user-agent "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)" [URL] 
+curl --user-agent "Mozilla/4.73 [en] (X11; U; Linux 2.2.15 i686)" [URL]
+curl -b "phpsession=Testtest" http://demo.com/     
+curl --cookie "name=Daniel" http://curl.haxx.se
+curl -c cookies.txt http://curl.haxx.se/   
+curl --cookie-jar cookies.txt http://curl.haxx.se
+curl -d "username=admin&password=pass" http://curl.haxx.se/   
+curl --data "birthyear=1905&press=%20OK%20"  http://curl.haxx.se/when.cgi 
+curl --data-urlencode "name=I am Daniel" http://curl.haxx.se 
+curl --data "<xml>" --header "Content-Type: text/xml" --request PROPFIND url.com
+curl -e "http://referer" http://demo.com/   
+curl --referer http://curl.haxx.see http://curl.haxx.se
+curl --header "Host:" http://curl.haxx.se 
+curl --header "Destination: http://nowhere" http://curl.haxx.se
+curl -D - http://curl.haxx.se/   
+curl --dump-header headers_and_cookies http://curl.haxx.se
+curl -L http://github.com/   
+curl --location http://curl.haxx.se
+curl --dns-servers 8.8.8.8 http://demo.com/  
+curl --trace-ascii debugdump.txt http://curl.haxx.se/ 
 curl --form upload=@localfilename --form press=OK [URL] 
-
-curl --upload-file uploadfile http:#curl.haxx.se/receive.cgi 
-
-curl --user name:password http:#curl.haxx.se 
-
+curl --upload-file uploadfile http://curl.haxx.se/receive.cgi 
+curl --user name:password http://curl.haxx.se 
 curl --proxy-user proxyuser:proxypassword curl.haxx.se
-
-curl --cert mycert.pem https:#secure.example.com
+curl --cert mycert.pem https://secure.example.com
+```
 
 per mandare un file in post ad esempio contenente XML, possiamo 
 eseguire:
@@ -16075,7 +15817,7 @@ eseguire:
 Vediamo ora una serie di file molto importanti per la 
 configurazione di rete.
 
-### Il file resolv.conf
+#### Il file resolv.conf
 
 
 Il file resolv.conf è utilizzato per definire i server DNS, 
@@ -16130,67 +15872,47 @@ che non siamo membri di un determinato dominio ma vogliamo
 includerlo nella ricerca DNS. Vediamo un esempio di file 
 resolv.conf:
 
-—————————————————————--
-
+```conf
 nameserver 8.8.8.8
-
 nameserver 192.168.1.1
-
 domain mydomain.local
-
 options timeout:1
-
 search yourdomain.local
+```
 
-—————————————————————--
-
-### Il file hosts
+#### Il file hosts
 
 
 Il file "hosts" e collocato nella directory "/etc/hosts", 
 permette di associare ad indirizzi ip dei nomi. Nella maggior 
 parte dei casi in questo file di default vedremo:
 
-—————————————————————--
-
+```conf
 127.0.0.1 localhost 
-
 127.0.1.1 nomeComputer 
-
-—————————————————————--
+```
 
 quindi questo vuol dire che tutte le volte che faremo un ping a 
 localhost, verrà utilizzato quell'indirizzo. Un caso pratico è, 
 vogliamo riferirci nella nostra LAN alle varie macchine con nomi 
 significativi, questo può essere fatto semplicemente con:
 
-—————————————————————--
-
+```sh
 localhost 127.0.0.1 
-
 127.0.1.1 nomeComputer 
-
 192.168.1.105 jack 
-
 192.168.1.114 max 
-
 192.168.1.104 serverAndromeda 
-
-—————————————————————--
+```
 
 è possibile anche reindirizzare siti web, ad esempio:
 
-—————————————————————--
-
+```conf
 127.0.0.1 localhost 
-
 127.0.1.1 nomeComputer 
-
 192.168.1.16 www.yahoo.com 
-
 192.168.1.16 yahoo.com
-
-—————————————————————--
+```
 
 Ora ogni qualvolta io faccio un ping a www.yahoo.com o a 
 yahoo.com in realtà verrà fatto un ping all'indirizzo 
@@ -16203,22 +15925,18 @@ meglio mettere tuti i riferimenti ad un sito web, in quanto
 solitamente è accessibile almeno con due nomi di dominio. E' 
 possibile accorpare più domini sotto un solo ip, ad esempio:
 
-—————————————————————--
-
+```conf
 127.0.0.1 localhost 
-
 127.0.1.1 nomeComputer 
-
 192.168.1.16 www.yahoo.com yahoo.com www.playboy.com playboy.com
-
-—————————————————————--
+```
 
 Nel caso sopracitato stiamo reindirizzando sia richieste verso il 
 sito di yahoo che richieste verso il sito di playboy verso 
 l'indirizzo ip specificato.
 
-### Il file hostname
 
+#### Il file hostname
 
 Il file hostname contiene informazioni sul nome della nostra 
 macchina, il nome con cui possiamo accedere alla nostra macchina 
@@ -16241,7 +15959,7 @@ applicativi:
  # nostro hostname precedente, per effettuare modifiche permanenti 
  # dovremo andare a modificare i file sopracitati
 ```
-### Il file nsswitch.conf
+#### Il file nsswitch.conf
 
 
 Il "Name Service Switch" (NSS) è un meccanismo nei sistemi 
@@ -16303,7 +16021,7 @@ sistema di risoluzione DNS lento è quello di usare un computer
 come cache DNS, questo può essere fatto con programmi tipo "nscd" 
 o meglio ancora "pdnsd" o "unbound".
 
-### Il file /etc/services
+#### Il file /etc/services
 
 
 Nel file /etc/services possiamo trovare la lista delle porte più 
@@ -16358,21 +16076,12 @@ macchina.
 Solitamente quello che potrebbe costituire un problema di 
 sicurezza a livello di permessi potrebbe essere:
 
-```sh
- # impostazione del bit SUID per eseguibili non desiderati
-```
-```sh
- # impostazione del bit SGID per eseguibili non desiderati
-```
-```sh
- # file senza proprietario
-```
-```sh
- # file senza gruppo di appartenenza
-```
-```sh
- # link a file sconosciuti o sospetti
-```
+ * impostazione del bit SUID per eseguibili non desiderati
+ * impostazione del bit SGID per eseguibili non desiderati
+ * file senza proprietario
+ * file senza gruppo di appartenenza
+ * link a file sconosciuti o sospetti
+
 Vediamo alcuni esempi di comandi che possiamo lanciare ogni 
 qualvolta volessimo verificare la sicurezza della macchina in 
 termini di permessi:
@@ -16408,17 +16117,200 @@ consigliato è quello di utilizzare "capabilities", possiamo
 saperne di più utilizzando:
 
 ```sh
- # man capabilities
+ man capabilities
 ```
 scenari di utilizzo sono ad esempio tcpdump/net perl library con 
 la creazione di un gruppo, ad esempio se volessimo utilizzare 
 determinate funzionalità della scheda di rete come il packet 
 capturing senza però essere root.
 
+#### Capabilities
+
+Il vantaggio offerto dalle capabilities e' quello di segmentare le
+possibilita' dell'utente di root in tanti piccoli sottomoduli.
+In questo modo riusciamo ad evitare l'assegnazione dei diritti totali di root
+ad un account anche nel momento in cui a quest'ultimo serve solo una
+o alcune delle cose che serve a root. Le capabilities costituiscono
+un *fine-grained set of privileges*. 
+Generalmente le capabilities costituiscono un meccanismo migliore rispetto
+agli sticky bit (i.e., suid bit), quindi ogni qualvolta pensiamo di dover 
+utilizzare uno sticky bit, molto probabilmente possiamo utilizzare le 
+capabilities. 
+
+Un altro scenario di utilizzo e' quando dobbiamo fornire i permessi di 
+root ad un utente, la domanda che dobbiamo farci e': 
+"l'utente ha veramente bisogno di tutti i permessi di root?",
+in molti casi in realta' basta assegnare qualche capability.
+
+Un esempio comune in cui personalmente utilizzo le capabilities
+e' quando voglio dare la possibilita' ad un programma di sniffare
+pacchetti o di generare pacchetti (e.g., scapy eccetera).
+
+Vediamo come gestire le capabilities:
+```sh
+ cat /proc/sys/kernel/cap_last_cap
+ # fornisce il numero di capabilities supportate
+ # dal nostro kernel
+ # in genere piu' o meno vengono supportate dai correnti
+ # kernel circa una quarantina di capabilities
+```
+
+Per mostrare i nomi delle varie capabilities supportate usiamo:
+```sh
+ capsh --print
+ # stampa tutte le capabilities supportate
+```
+
+Un utente normale (se non diversamente configurato) non ha nessuna capability 
+attiva, mentre per l'utente di root vedremo le varie capabilities attive.
+
+Possiamo controllare le capabilities associate ad un determinato
+processo con:
+```sh
+ cat /proc/1234/status | grep Cap
+ # mostra le capabilities per il processo con id 1234
+```
+L'ultimo comando ritornera' 5 righe:
+
+* CapInh = Inherited capabilities
+* CapPrm – Permitted capabilities
+* CapEff = Effective capabilities
+* CapBnd = Bounding set
+* CapAmb = Ambient capabilities set
+
+Un esempio di output potrebbe essere:
+```text
+CapInh: 0000000000000000
+CapPrm: 0000003fffffffff
+CapEff: 0000003fffffffff
+CapBnd: 0000003fffffffff
+CapAmb: 0000000000000000
+```
+questi numeri in esadecimale potrebbero non aver senso
+ma possiamo decodificarli eseguendo:
+```sh
+ capsh --decode=0000003fffffffff
+ # mostra in modo human-friendly le capabilities del processo in questione
+```
+tutto questo sembra un casino, un modo molto piu' semplice e' invece
+utilizzare direttamente il PID del processo con il programma 
+`getpcaps`, ad esempio:
+
+```sh
+ getpcaps 1234
+ # mostra le capabilities per il processo 1234, questo
+ # programma utilizza la chiamata di sistema capget()
+```
+
+```sh
+ getcap /usr/bin/ping
+ # mostra le capabilities per il file/eseguibile indicato
+```
+
+Ora vediamo un esempio in cui aggiungiamo delle capabilities:
+```sh
+ sudo setcap cap_net_raw,cap_net_admin,cap_dac_override+eip /usr/bin/dumpcap
+ # in questo caso impostiamo le capabilities chiamate
+ # cap_net_raw, cap_net_admin e cap_dac_override
+ # sul programma `dumpcap` e impostiamo i bit
+ # effective, inherited e permitted a 1
+```
+
+possiamo anche rimuovere tutte le capabilities contenute su un programma con:
+```sh
+ setcap -r tracewalk
+ # rimuove tutte le capabilities dal programma tracewalk
+```
+
+Capability sets
+
+=========DA RIORDINARE==========
+Each process thread has three capability sets, which may contain some, all or
+none of the following sets. From the man pages:
+
+```text
+* Effective: the capabilities used by the kernel to perform permission checks
+    for the thread
+* Permitted - the capabilities that the thread may assume (i.e., a limiting
+    superset for the effective and inheritable sets). If a thread drops a
+    capability from its permitted set, it can never re-acquire that capability
+    (unless it exec()s a set-user-ID-root program).
+* Inheritable -  the capabilities preserved across an execve(2). A child created
+    via fork(2) inherits copies of its parent’s capability sets. See below for a
+    discussion of the treatment of capabilities during exec(). Using capset(2),
+    a thread may manipulate its own capability sets, or, if it has the
+    CAP_SETPCAP capability, those of a thread in another process.
+
+The effective set is needed when performing a specific system call in which it
+needs to have a specific capability.
+
+So this means for a normal binary, which will not create child processes, the
+permitted will do. This means at best it will be able to use the capability. It
+may be a limited superset of what inheritable and effective will provide. For
+processes which fork other processes, we might need to inherit the capabilities.
+In that case, use the inheritable set.
+
+## OTHR EXPLANATION
+So, what’s the meaning of the strange =eip suffix? This requires a brief
+digression into the nature of capabilities. Each process has three sets of
+capabilities — inheritable, permitted and effective:
+
+    Effective capabilities are those which define what a process can actually
+    do. For example, it can’t deal with raw sockets unless CAP_NET_RAW is in the
+    effective set.
+        Permitted capabilities are those which a process is allowed to have
+        should it ask for them with the appropriate call. These don’t allow a
+        process to actually do anything unless it’s been specially written to
+        ask for the capability specified. This allows processes to be written to
+        add particularly sensitive capabilities to the effective set only for
+        the duration when they’re actually required.
+            Inheritable capabilities are those which can be inherited into the
+            permitted set of a spawned child process. During a fork() or clone()
+            operation the child process is always given a duplicate of the
+            capabilities of the parent process, since at this point it’s still
+            running the same executable. The inheritable set is used when an
+            exec() (or similar) is called to replace the running executable with
+            another. At this point the permitted set of the process is masked
+            with the inheritable set to obtain the permitted set that will be
+            used for the new process.
+
+            So, the setcap utility allows us to add capabilities to these three
+            sets independently for a given executable. Note that the meaning of
+            the groups is interpreted slightly different for file permissions,
+            however:
+
+                Permitted file capabilities are those which are always available
+                to the executable, even if the parent process which invoked it
+                did not have them. These used to be called “forced”
+                capabilities.
+                    Inheritable file capabilities specifies an additional mask
+                    which can also be used to remove capabilities from the
+                    calling process’s set. It applies in addition to the calling
+                    process’s inheritable set, so a capability is only inherited
+                    if exists in both sets.
+                        Effective file capability is actually just a single bit
+                        rather than a set, and if set then it indicates that the
+                        entire permitted set is also copied to the effective set
+                        of the new process. This can be used to add capabilities
+                        to processes which weren’t specifically written to
+                        request them. Since it is a single bit, if you set it
+                        for any capability then it must be set for all
+                        capabilities. You can think of this as the “legacy” bit
+                        because it’s used to allow capabilities to be used for
+                        applications which don’t support them.
+
+                        When specifying capabilities via setcap the three
+                        letters e, i and p refer to the effective, inhertable
+                        and pemitted sets respectively. So the earlier
+                        specification:
+
+
+```
+
+
 ### Antivirus
 
-
-  Premessa sugli antivirus nei sistemi GNU/Linux
+####  Premessa sugli antivirus nei sistemi GNU/Linux
 
 Do you need a virus scanner on Linux/Unix?
 
@@ -16443,7 +16335,7 @@ My advice is to look at your situation and then decide if you
 need ClamAV, and if you only need to scan a few folders, the 
 entire system and if you want to auto-remove the virusses or not.
 
-### ClamAV Antivirus
+#### ClamAV Antivirus
 
 
 Uno dei più famosi antivirus per i sistemi GNU/Linux è ClamAV, 
@@ -16521,7 +16413,7 @@ informatici si sono avvalsi della possibilità di agire come
 rootkit (processo, file, chiave di registro, porta di rete) 
 all'interno del sistema operativo.
 
-### chkrootkit
+#### chkrootkit
 
 
 Un programma abbastanza comune su sistemi Unix-based è "
@@ -16546,7 +16438,7 @@ possono ledere la sicurezza del sistema o per pacchetti che non
 sono necessari. Per installarlo eseguiamo:
 
 ```sh
- # apt-get install lsat
+ apt-get install lsat
 ```
 Vediamo ora invece alcuni esempi applicativi:
 
@@ -16582,8 +16474,7 @@ Vediamo ora invece alcuni esempi applicativi:
  # inoltre l'output viene salvato in un file html chiamato "
  # output.html"
 ```
-Una lista dei moduli utilizzati è possibile consultare [http:#www.ubuntugeek.com/linux-security-auditing-tool-lsat-post-install-security-auditing-tool.html||Lista Moduli LSAT]
-.
+Una lista dei moduli utilizzati è possibile consultare [http:#www.ubuntugeek.com/linux-security-auditing-tool-lsat-post-install-security-auditing-tool.html||Lista Moduli LSAT].
 
 ### Cracking di Password
 
@@ -16599,7 +16490,7 @@ Ripper", anche se esistono alternative come "hashcat".
 Per installare "John the Ripper", eseguiamo:
 
 ```sh
- # sudo apt-get install john john-data
+ sudo apt-get install john john-data
 ```
 una volta installato, dovremo trovare un file che contiene 
 parole, i cosiddetti file di "wordlist", in quanto questo 
@@ -19400,9 +19291,7 @@ Siccome configurazioni diverse possono essere in file diversi è
 bene eseguire dei "grep -nir configurazioneCercata" per cercare 
 le configurazioni.
 
-### Configurazione centralizzata vs Configurazione 
-
-  decentralizzata
+### Configurazione centralizzata vs Configurazione decentralizzata
 
 Apache mantiene i file di configurazione nella directory /etc/, 
 ad ogni modo è possibile avere dei file di configurazione per 
@@ -19436,51 +19325,31 @@ avere:
 ```
 ### Directory Listing
 
-
 Basta aggiungere nel file di configurazione di apache in una 
 delle "<Directory>" e facciamo:
 
+```apache
 <Directory "/var/www/html">     
-
-	# Show directory listing, and allow symbolic links
-
- 
-
-	Options Indexes FollowSymLinks       
-
-
-
-	# With the following option we impose that configuration cannot 
-be overriden with .htaccess files.
-
-
-
-	AllowOverride None
-
-
-
-	# With the following options we controls who can get stuff from 
-this server
-
-  
-
-	Order allow,deny     
-
-	Allow from all 
-
+# Show directory listing, and allow symbolic links
+Options Indexes FollowSymLinks       
+# With the following option we impose that configuration cannot be overriden with .htaccess files.
+AllowOverride None
+# With the following options we controls who can get stuff from this server
+Order allow,deny     
+Allow from all 
 </Directory>
+```
 
 ### Mod Rewrite
 
 
-### Redirection di qualsiasi richiesta all'interno di una 
-
-  directory
+### Redirection di qualsiasi richiesta all'interno di una directory
 
 Possiamo all'interno di una configurazione "<Directory>" 
 includere il modulo "mod_rewrite.c" e gestire redirections, ad 
 esempio:
 
+```apache
 <IfModule mod_rewrite.c>
 
 	RewriteEngine on
@@ -19488,8 +19357,9 @@ esempio:
 	RewriteRule (.*) webroot/ [L]
 
 </IfModule>
+```
 
-#in questo caso (.*) significa qualsiasi stringa
+in questo caso (.*) significa qualsiasi stringa
 
 in questo caso ad ogni richiesta redirigo alla directory 
 webroot/, il flag "[L]" serve ad indicare che questa è una 
@@ -19500,9 +19370,7 @@ rule, il primo parametro è un regular expression e la seconda è
 un indirizzo a cui redirigere, il terzo campo è composto dagli 
 eventuali flag.
 
-### Se un file richiesto non esiste eseguire un determinato 
-
-  script
+### Se un file richiesto non esiste eseguire un determinato script
 
 In questo caso si utilizzano le condizioni "RewriteCond", la 
 meccanica è questa, se tutte le rewrite condition sono vere 
@@ -19512,6 +19380,7 @@ avviene è, se la risorsa richiesta non è un file e non è una
 directory (cioè se non esiste) allora si esegue la rewrite rule, 
 in questo caso si esegue lo script chiamato "script.php".
 
+```apache
 <IfModule mod_rewrite.c>
 
 	RewriteEngine on
@@ -19523,6 +19392,7 @@ in questo caso si esegue lo script chiamato "script.php".
 	RewriteRule ^(.*)$ script.php [PT,L]
 
 </IfModule>
+```
 
 ### Porta del Server
 
@@ -19532,11 +19402,11 @@ nella directory in cui sono contenuti i file di configurazione di
 apache:
 
 ```sh
- # grep -nir listen 
+ grep -nir listen 
 ```
 Possiamo mettere apache in ascolto su un'altra porta attraverso:
 
-# Listen: Allows you to bind Apache to specific IP addresses 
+* Listen: Allows you to bind Apache to specific IP addresses 
 and/or ports. 
 
 Listen 8000
@@ -19560,6 +19430,7 @@ principale, quella dove sono segnati i "localhost", ad esempio su
 debian in "/etc/apache2/sites-enabled/000-default.conf" e qui 
 dovremo avere una configurazione del tipo:
 
+```apache
 <VirtualHost *:80>
 
 	#Con ServerName impostiamo il nome del dominio
@@ -19594,10 +19465,12 @@ web app
 	DocumentRoot /var/www/html/mythirdandlast
 
 </VirtualHost> 
+```
 
 la configurazione è identica per siti web hostati sullo stesso 
 webserver, ricordiamo che i virtual host sono supportati dalla 
 versione 1.1 dell'HTTP.
+
 
 ## NFS
 
