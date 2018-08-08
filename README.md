@@ -10597,12 +10597,9 @@ servire, ma si può fare), utilizzando:
 Per poter visualizzare informazioni per quanto riguarda la 
 memoria rigida, vengono utilizzati solitamente i programmi:
 
-```sh
- # du (per ricordarlo pensiamo a "disk usage")
-```
-```sh
- # df (per ricordarlo pensiamo a "disk filesystem")
-```
+* `du`: per ricordarlo pensiamo a "disk usage"
+* `df`: per ricordarlo pensiamo a "disk filesystem"
+ 
 Vediamo subito qualche esempio applicativo con "du":
 
 ```sh
@@ -10679,14 +10676,15 @@ mentre con "df"
  df 
  # visualizza i diversi filesystem in utilizzo con le 
  # relative dimensioni e percentuali di occupazioni, possiamo 
- # notare che:SpazioTotale>SpazioOccupato+SpazioLibero
+ # notare che:
+ # SpazioTotale > SpazioOccupato + SpazioLibero
+ # questo avviene perchè, nella visualizzazione non viene contato 
+ # nello spazio occupato e in quello libero, il "reserved space", 
+ # cioè quello spazio che viene lasciato per sicurezza per evitare 
+ # crash del sistema o instabilità in caso di mancanza di spazio, 
+ # solitamente è il 5% dello spazio totale
 ```
 
-  questo avviene perchè, nella visualizzazione non viene contato 
-  nello spazio occupato e in quello libero, il "reserved space", 
-  cioè quello spazio che viene lasciato per sicurezza per evitare 
-  crash del sistema o instabilità in caso di mancanza di spazio, 
-  solitamente è il 5% dello spazio totale
 
 ```sh
  df -h 
