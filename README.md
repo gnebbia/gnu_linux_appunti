@@ -2159,9 +2159,7 @@ permessi ACL.
 Consultare le man page di getfacl e setfacl per ulteriori 
 informazioni molto ben dettagliate.
 
-### Sulla mia partizione è possibile usare il sistema di 
-
-  permessi ACL ?
+### Sulla mia partizione è possibile usare il sistema di permessi ACL ?
 
 Possiamo vedere se l'opzione per i permessi ACL è impostata o 
 meno sul filesystem prima eseguiamo:
@@ -2193,8 +2191,7 @@ acl" al filesystem interessato, ad esempio:
 Nella storia di Linux, ci sono stati molti cambiamenti su come il 
 kernel presenta l'hardware all'utente. Attualmente il sistema che 
 si occupa di abilitare i programmi nello user-space per la 
-configurazione e l'utilizzo dei dispositivi hardware è chiamato "
-udev".
+configurazione e l'utilizzo dei dispositivi hardware è chiamato "udev".
 
 ### Device Files
 
@@ -2209,41 +2206,26 @@ i relativi permessi possiamo utilizzare un classico "ls -l" nella
 directory "/dev". I device nodes si contraddistinguono, in quanto 
 il primo carattere può essere:
 
-```sh
- # "b": Indica un Block Device
-```
-
-* Sono device in cui possiamo scrivere solo per chunk di 
+* "b": Indica un Block Device
+    Sono device in cui possiamo scrivere solo per chunk di 
     dimensione prefissata, questi device hanno inoltre una 
     dimensione definita
-
-```sh
- # "c": sta per Character Device
-```
-
-* Sono device in cui possiamo leggere o scrivere caratteri, non 
+* "c": sta per Character Device
+    Sono device in cui possiamo leggere o scrivere caratteri, non 
     hanno un dimensione definita come i Block Device
-
-```sh
- # "p": sta per Pipe Device
-```
-
-* I Pipe Device o Named Pipe sono come Character Device, solo 
+* "p": sta per Pipe Device
+    I Pipe Device o Named Pipe sono come Character Device, solo 
     che al posto di scrivere ad un driver del kernel, il 
     destinatario è un altro processo, quindi possiamo usarlo come 
     mezzo di comunicazione tra due processi (IPC)
-
-```sh
- # "s": sta per Socket Device
-```
-
-* I Socket sono interfacce special purpose frequentemente 
+* "s": sta per Socket Device
+    I Socket sono interfacce special purpose frequentemente 
     utilizzate per l'IPC (interprocess communication), anche se 
     in realtà questi non sono collocati nella directory /dev, 
     Unlike named pipes sockets are fully duplex-capable.
 
-I numeri che vengono mostrati nel momento in cui eseguiamo un "ls 
--l", rappresentano rispettivamente il "major number" ed il "minor 
+I numeri che vengono mostrati nel momento in cui eseguiamo un "ls -l",
+rappresentano rispettivamente il "major number" ed il "minor 
 number", questi due numeri aiutano il kernel ad identificare i 
 dispositivi, e dispositivi simili avranno solitamente lo stesso 
 major number.
@@ -2254,8 +2236,8 @@ possono essere propriamente descritti con una delle categorie
 sopra descritte, un esempio è dato dalle interfacce di rete, che 
 non hanno device files.
 
-### Linux e Casualità, /dev/random e /dev/urandom
 
+### Linux e Casualità, /dev/random e /dev/urandom
 
 The files /dev/random and /dev/urandom provide an interface to 
 Kernel’s Random Number Generator. The Random Number Generator 
@@ -2288,26 +2270,20 @@ while you do nothing. Press CTRL+C to exit the situation.
 Both the files /dev/random and /dev/urandom are used to generate 
 randomness, but
 
-/dev/urandom is best used when:
+`/dev/urandom` is best used when:
 
-```sh
- # You just want a large file with random data for some kind of 
- # testing
-```
-```sh
- # You are using the dd command to wipe data off a disk by 
- # replacing it with random data. 
-```
-```sh
- # Almost everywhere else where you don’t have a really good 
- # reason to use /dev/random instead
-```
-/dev/random is likely to be the better choice when:
+ 1. You just want a large file with random data for some kind of 
+    testing
+ 2. You are using the dd command to wipe data off a disk by 
+    replacing it with random data. 
+ 3. Almost everywhere else where you don’t have a really good 
+    reason to use /dev/random instead
 
-```sh
- # Randomness is critical to the security of cryptography in your 
- # application -- one-time pads, key generation. 
-```
+`/dev/random` is likely to be the better choice when:
+
+ 1. Randomness is critical to the security of cryptography in your 
+    application -- one-time pads, key generation. 
+
 In pratica Una controparte di /dev/random è /dev/urandom 
 (sorgente causale non bloccata "unlocked") che riusa il pool 
 interno per produrre bit pseudocasuali aggiuntivi. Questo 
@@ -2322,20 +2298,19 @@ Vediamo alcuni esempi per generare password su linux con alcune
 che fanno uso di random:
 
 ```sh
- # date +%s | sha256sum | base64 | head -c 32 ; echo
+ date +%s | sha256sum | base64 | head -c 32 ; echo
 ```
 ```sh
- # < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;
+ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32};echo;
 ```
 ```sh
- # openssl rand -base64 32
+ openssl rand -base64 32
 ```
 ```sh
- # < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c6
+ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c6
 ```
 ```sh
- # randpw(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head 
-  -c${1:-16};echo;} 
+ randpw(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo;} 
  # here we define a function
 ```
 ### Create /dev/random and /dev/urandom if absent
@@ -2416,8 +2391,8 @@ mostrare il path e vari attributi, ad esempio:
  # completo del device /dev/sda all'interno di sysfs con relative 
  # informazioni
 ```
-### Hard Disks
 
+### Hard Disks
 
 La maggior parte degli Hard Disk collegati ad un sistema Linux 
 viene chiamato col prefisso "sd", quindi potremo avere nel caso 
@@ -2435,12 +2410,9 @@ utilizzate nelle macchine moderne, il protocollo SCSI è invece
 utilizzato frequentemente, grazie alla sua adattabilità. Quindi è 
 utile ricordare che SCSI può intendere:
 
-```sh
- # Hardware (ormai obsoleto)
-```
-```sh
- # Protocollo (utilizzato frequentemente)
-```
+1. Hardware (ormai obsoleto)
+2. Protocollo (utilizzato frequentemente)
+
 Ad esempio le periferiche USB utilizzano il protocollo SCSI per 
 comunicare, per quanto riguarda gli Hard Disk SATA, la questione 
 è più complessa ma il kernel Linux alla fine utilizza comandi del 
@@ -2467,8 +2439,8 @@ applicate automaticamente a quest'ultimo HDD, per evitare questi
 problemi i sistemi Linux utilizzano l'UUID (Universally Unique 
 Identifier) per una nomenclatura persistente degli HDD.
 
-### CD e DVD
 
+### CD e DVD
 
 Linux riconosce la maggior parte dei drive ottici come 
 dispositivi SCSI; ad ogni modo se il dispositivo è molto vecchio 
@@ -9693,35 +9665,34 @@ tempo vengono tenuti in memoria i log ed altre informazioni,
 vediamo un esempio di un file di configurazione all'interno della 
 directory "logrotate.d/apache2":
 
-——————————————————————————--———-
-
+```conf
 /var/log/httpd/*log {
 
 daily #lavora coi log su base giornaliera, altri esempi di 
-opzioni valide sono "monthly" 
+# opzioni valide sono "monthly" 
 
 #(prende come riferimento il primogiorno del mese) o "yearly" 
-(prende come riferimento il primo giorno dell'anno)
+# (prende come riferimento il primo giorno dell'anno)
 
 missingok # se un file di configurazione non esiste, va bene lo 
-stesso, passa al prossimo
+# stesso, passa al prossimo
 
 rotate 2 # teniamo i file archiviati per due rotazioni, in questo 
-caso due giorni e poi li eliminiamo
+# caso due giorni e poi li eliminiamo
 
 compress #comprimi i file di log, cioè anzichè creare una copia, 
-crea un archivio in cui dentro viene inserita una copia
+# crea un archivio in cui dentro viene inserita una copia
 
 delaycompress #non vengono tutti compressi, ma prima vengono 
-copiati al primo passi, e poi 
+# copiati al primo passi, e poi 
 
 #alla rotazione successiva vengono archiviati
 
 notifempty #non viene salvato nulla se i file di log sono vuoti, 
-perchè sprecare risorse ?
+# perchè sprecare risorse ?
 
-create 640 root adm #assegna agli archivi creati il proprietario "
-root" e il gruppo "adm" e permessi 640
+create 640 root adm #assegna agli archivi creati il proprietario "root" e 
+# il gruppo "adm" e permessi 640
 
 sharedscripts #condivide gli script che seguono per tutti i file 
 i log, se non esistesse questa istruzione, 
@@ -9729,8 +9700,8 @@ i log, se non esistesse questa istruzione,
 #allora gli script che seguono verrebbero eseguiti per tutti i 
 file di log di apache
 
-postrotate /etc/init.d/apache2 reload >/dev/null #esegue uno 
-script dopo la rotazione
+postrotate /etc/init.d/apache2 reload >/dev/null 
+# esegue uno script dopo la rotazione
 
 endscript
 
@@ -9742,14 +9713,12 @@ run-parts /etc/logrotate.d/httpd-prerotate; \
 fi; \
 
 endscript
+```conf
 
-——————————————————————————--———-
 
 ### Boot di un sistema GNU/Linux
 
-
-### Principio di funzionamento del boot
-
+#### Principio di funzionamento del boot
 
 Il boot di un sistema GNU/Linux è composto da varie fasi che si 
 susseguono:
@@ -11980,7 +11949,7 @@ al file fstab è semplice, è bene tenere a mente che generalmente
     evitare virus che cercano di essere lanciati in automatico)
 
 * ro/rw: il filesystem può essere montato in sola lettura (read 
-    only) o in lettura e scrittura (read & write)
+    only) o in lettura e scrittura (`read & write`)
 
 * user/nouser: permette/non permette a utenti normali (cioè non 
     root) di montare il dispositivo
@@ -12046,30 +12015,34 @@ alternatives have appeared. The first is an /etc/fstab.d
 directory that contains individual filesystem configuration files 
 (one file for each filesystem). The idea is very similar to many 
 other configuration directories that you’ll see throughout this 
-book.
+guide
 
-#Vediamo un esempio di automount per partizioni ntfs
+```conf
+# Vediamo un esempio di automount per partizioni ntfs
 
 UUID=2832buin2iu923j292anwd982   /media/user/C ntfs   
 permissions	0	2
 
-#Oppure avremmo potuto specificare il device attraverso il device 
+# Oppure avremmo potuto specificare il device attraverso il device 
 file al posto dell'UUID
 
-#ma questa pratica è sconsigliata, per completezza riportiamo 
-comunque un esempio
+# ma questa pratica è sconsigliata, per completezza riportiamo 
+# comunque un esempio
 
 /dev/sdb1  /media/user/C ntfs   permissions	0	2
+```
 
 oppure per montare un filesystem di tipo ext4 possiamo ad esempio 
 aggiungere al file:
 
+```conf
 #In questo caso per semplicità abbiamo inserito il percorso al 
 path file
 
 #ma ricordiamo che è sempre consigliato inserire il codice UUID
 
 /dev/sda3   /mnt/myPart  ext4    defaults    0   2
+```
 
 ### Swap
 
@@ -16795,40 +16768,25 @@ costituito dalla possibilità di inserire capture filters che
 utilizzano la notazione "Berkeley Packet Filter" notation, 
 vediamo qualche esempio di filtro:
 
-src 2.3.4.5 # cattura solo il traffico che ha come sorgente l'ip 
-specificato
-
-dst 3.4.5.6 # cattura solo il traffico che ha come destinazione 
-l'ip specificato
-
-net 1.2.3.0/24 # cattura solo il traffico appartenente alla rete 
-specificata
-
+```tcpdump
+src 2.3.4.5 # cattura solo il traffico che ha come sorgente l'ip specificato
+dst 3.4.5.6 # cattura solo il traffico che ha come destinazione l'ip specificato
+net 1.2.3.0/24 # cattura solo il traffico appartenente alla rete specificata
 port 3600
-
 src port 3333
-
 icmp
-
 ip6
-
 portrange 21-23
-
 less 32 # cattura solo pacchetti più piccoli di 32 byte
-
 greater 64 # cattura solo pacchetti più grandi di 64 byte
 
-`<=` 128 # cattura solo pacchetti più piccoli o uguali alla 
-dimensione di 128 byte
+`<=` 128 # cattura solo pacchetti più piccoli o uguali alla dimensione 
+# di 128 byte
 
-
-
-# possiamo combinare filtri con operatori come and (o &&), or (o 
-||) o not (o !)
-
+# possiamo combinare filtri con operatori come and (o &&), or (o ||) o not (o !)
 dst 192.168.0.2 and src net and not icmp
-
 src 10.0.2.4 and (dst port 3389 or 22)
+```
 
 Vediamo un semplice esempio di come unire questi filtri con i 
 flag visti prima:
