@@ -10740,9 +10740,7 @@ can read.
 
 HOWLINUXWORKS pag72 devo iniziare 4.2.11
 
-### lspci, lsusb, lscpu, lsblk, lsscsi, lspcmcia, lshw, lsdev, 
-
-  usbview
+### Periferiche Hardware: lspci, lsusb, lscpu, lsblk, lsscsi, lspcmcia, lshw, lsdev, usbview
 
 Esistono tre comandi molto utili per visualizzare le periferiche 
 hardware su una macchina:
@@ -18644,7 +18642,9 @@ può sempre tutto.
 
 ## Secure Host
 
-finger
+* hardening (add stuff)
+* Move Capabilities here?
+* finger
 
 ## Accesso Remoto e SSH
 
@@ -19062,8 +19062,7 @@ protocollo SFTP è il protocollo FTPS.
 
 
 ```sh
- # ssh nomeUtente@macchina cat "Videos/Path/To/Video.mp4" | vlc - 
-  
+ ssh nomeUtente@macchina cat "Videos/Path/To/Video.mp4" | vlc - 
  # questo ci permette di visualizzare un video in locale senza 
  # dover effettuare il forwarding di X o avviare sftp/scp, una 
  # cosa simile può essere fatta anche per le immagini, con un 
@@ -19077,14 +19076,11 @@ OpenPGP è uno standard Internet per l'interoperabilità dei
 messaggi protetti tramite crittografia asimmetrica. I due più 
 comuni programmi che utilizzano OpenPGP sono:
 
-```sh
- # Pretty Good Privacy (PGP), erede diretto della versione 
- # iniziale di Phil Zimmermann e ora prodotto commerciale della 
- # PGP Corporation 
-```
-```sh
- # GNU Privacy Guard (GPG), sua alternativa GPL
-```
+ * Pretty Good Privacy (PGP), erede diretto della versione 
+   iniziale di Phil Zimmermann e ora prodotto commerciale della 
+   PGP Corporation 
+ * GNU Privacy Guard (GPG), sua alternativa GPL
+
 ### Principio di funzionamento
 
 
@@ -19665,8 +19661,8 @@ Ricordiamo che di default bind funziona in modalità "caching-only"
 N.B.: Everytime we want to clear the cache of a DNS server it is 
 sufficient to just restart the relative daemon.
 
-### Configurazione di BIND
 
+### Configurazione di BIND
 
 Per visualizzare dove è presente il file di configurazione di 
 bind ci basterà dare un'occhiata ai file installati col 
@@ -19693,6 +19689,7 @@ controllare la versione di bind utilizzando:
  # verbose rispetto al "-v"
 ```
 DA CONTINUARE
+
 
 ## Database Server
 
@@ -19808,8 +19805,8 @@ oppure in alternativa possiamo lanciare:
 ```
 Ora l'ambiente mysql è pronto.
 
-### Gestione di database con MySQL
 
+### Gestione di database con MySQL
 
 Per entrare in mysql, eseguiamo:
 
@@ -19879,8 +19876,8 @@ dobbiamo racchiudere il nome tra apici retroversi ````.
  # reimposta la password per l'account di root sul server locale 
  # "localhost"
 ```
-### Creazione di tabelle e gestione delle tabelle
 
+### Creazione di tabelle e gestione delle tabelle
 
 Una volta creato un database, per poterci lavorare dovremo prima 
 indicare l'intenzione di utilizzare il database attraverso:
@@ -20236,14 +20233,14 @@ possiamo loggare in psql con:
 possiamo creare un database con "proprietario" (owner) un account 
 specifico, attraverso:
 
-```sh
- # CREATE DATABASE dbNameIWant OWNER existingUserIPrefer;
+```sql
+ CREATE DATABASE dbNameIWant OWNER existingUserIPrefer;
 ```
 Per rimuovere un utente invece dall'account abilitato per psql 
 eseguiamo:
 
 ```sh
- # dropuser nomeUtenteDaRimuovere
+ dropuser nomeUtenteDaRimuovere
 ```
 
 ## Kernel
@@ -24215,7 +24212,8 @@ Possiamo cambiare terminale eseguendo:
 Per utilizzare i colori utilizzano escape sequences.
 
 
-##  Licenza
+## Licenza
+
 
 Il testo completo della licenza può essere trovato qui, [https:#www.gnu.org/licenses/fdl.html||Licenza GFDL].
 
