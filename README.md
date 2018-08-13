@@ -16045,7 +16045,7 @@ Il programma "nmap" è utilizzato per effettuare scansioni di rete
 nostra macchina è collegata. Per installare nmap, eseguiamo:
 
 ```sh
- # apt-get install nmap sysstat
+ apt-get install nmap sysstat
 ```
 Vediamo ora alcuni esempi applicativi, tenendo a mente che dove 
 non viene specificato un port-range, nmap esegue una scansione 
