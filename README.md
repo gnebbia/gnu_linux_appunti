@@ -1704,45 +1704,27 @@ proprietario di un file e dei permessi:
 Per poter modificare i permessi relativi ad un file, esistono 
 generalmente due modalità:
 
-```sh
- # Modalità Simbolica
-```
-```sh
- # Modalità Numerica
-```
-  Modalità simbolica
+* Modalità Simbolica
+* Modalità Numerica
+
+#### Modalità simbolica
 
 Una comoda modalità per settare i permessi, è quella di 
 utilizzare la modalità simbolica. In questa modalità, si usano le 
 lettere per riferirsi ai gruppi di utenti, infatti:
 
-```sh
- # 'u': indica l'utente proprietario del file
-```
-```sh
- # 'g': indica il gruppo proprietario
-```
-```sh
- # 'o': indica il resto degli utenti
-```
-```sh
- # 'a': indica 'all', cioè tutti gli utenti, se non viene 
- # specificata una lettera, all è l'opzione di default
-```
+* `u`: indica l'utente proprietario del file
+* `g`: indica il gruppo proprietario
+* `o`: indica il resto degli utenti
+* `a`: indica 'all', cioè tutti gli utenti, se non viene 
+       specificata una lettera, all è l'opzione di default
+
 e dei caratteri chiave :
 
-```sh
- '+' 
- # aggiunge permessi a quelli pre-esistenti
-```
-```sh
- '-' 
- # rimuove permessi a quelli pre-esistenti
-```
-```sh
- '=' 
- # imposta permessi cancellando la configurazione precedente
-```
+* `+`: aggiunge permessi a quelli pre-esistenti
+* `-`: rimuove permessi a quelli pre-esistenti
+* `=`: imposta permessi cancellando la configurazione precedente
+
 Vediamo ora alcuni comandi per gestire i permessi in modalità 
 simbolica:
 
@@ -1789,55 +1771,34 @@ simbolica:
  # appartiene a nessuna modalità, serve a copiare i permessi che 
  # ha il file 1 e applicarli al file2
 ```
-  Modalità Numerica
+
+
+#### Modalità Numerica
 
 Un'altra modalità per settare i permessi all'interno di un 
 sistema GNU/Linux, è costituito dalla modalità numerica. Vengono 
 utilizzati dei numeri per rappresentare i permessi, nello 
 specifico, abbiamo:
 
-```sh
- # 1 -> esecuzione
-```
-```sh
- # 2 -> scrittura
-```
-```sh
- # 4 -> lettura
-```
+* 1 -> esecuzione
+* 2 -> scrittura
+* 4 -> lettura
+
 Infatti attraverso un sistema di numerazione ottale si riescono a 
 rappresentare tutti i permessi:
 
-[float Table:
 
-+----+-------------------------------+-------+
 | #  |           Permessi            |  rwx  |
-+----+-------------------------------+-------+
-+----+-------------------------------+-------+
+|:--:|:-----------------------------:|:-----:|
 | 7  | lettura+scrittura+esecuzione  | 4+2+1 |
-+----+-------------------------------+-------+
 | 6  |      lettura+scrittura        |  4+2  |
-+----+-------------------------------+-------+
 | 5  |      lettura+esecuzione       |  4+1  |
-+----+-------------------------------+-------+
 | 4  |           lettura             |   4   |
-+----+-------------------------------+-------+
 | 3  |     scrittura+esecuzione      |  2+1  |
-+----+-------------------------------+-------+
 | 2  |          scrittura            |   2   |
-+----+-------------------------------+-------+
 | 1  |          esecuzione           |   1   |
-+----+-------------------------------+-------+
 | 0  |       nessun permesso         |   0   |
-+----+-------------------------------+-------+
 
-
-[Table 1: 
-Permessi Numerici
-]
-
-
-]
 
 Quindi con gruppi da 3 cifre riusciamo anche in questa modalità a 
 impostare i diritti, dove il primo numero rappresenta i diritti 
@@ -1870,7 +1831,7 @@ impostazioni dei permessi:
  # gruppo proprietario non ha nessun diritto sulla directory e il 
  # suo contenuto
 ```
-  Special Permission Bits
+#### Special Permission Bits
 
 Le modalità finora discusse sono quelle più utilizzate nella 
 maggior parte dei casi, ad ogni modo esistono dei cosiddetti "
@@ -1878,37 +1839,32 @@ special permission bits" che rappresentano modalità operative
 aggiuntive più avanzate delle semplici r, w ed x. Queste modalità 
 speciali sono:
 
-```sh
- # SUID (Set User ID): identificato in modalità simbolica con 's', 
- # e in modalità numerica con '4'; mi permette di eseguire un file 
- # come se fossi il proprietario del file, ad esempio se questo 
- # file richiama o modifica file in cui non ho nessun permesso (ad 
- # esempio nella directory /etc/), in questo caso non avrò errori 
- # nell'esecuzione in quanto mi verranno dati gli stessi permessi 
- # del proprietario su tutti i file su cui opera il file in 
- # questione al momento dell'esecuzione
-```
-```sh
- # SGID (Set Group ID): anche in questo caso identificato in 
- # modalità simbolica con 's', e in modalità numerica con '2'; mi 
- # permette di eseguire un file come se appartenessi al gruppo 
- # proprietario del file, ad esempio se questo file richiama o 
- # modifica file in cui non ho nessun permesso (ad esempio nella 
- # directory /etc/), in questo caso non avrò errori 
- # nell'esecuzione in quanto mi verranno dati gli stessi permessi 
- # del gruppo proprietario su tutti i file su cui opera il file in 
- # questione al momento dell'esecuzione
-```
-```sh
- # t (sticky flag): identificato in modalità simbolica con 't' e 
- # in modalità numerica con '1'; è un flag applicabile a 
- # directory, quindi non può essere utilizzato su file semplici, 
- # se settato rende impossibile la cancellazione dei file 
- # all'interno di una directory e della directory stessa, infatti 
- # un utente potrebbe anche avere tutti i permessi 
- # (lettura+scrittura+esecuzione) per i file all'interno della 
- # cartella, ma se questo è settato, non può eliminare nulla.
-```
+* SUID (Set User ID): identificato in modalità simbolica con 's', 
+   e in modalità numerica con '4'; mi permette di eseguire un file 
+   come se fossi il proprietario del file, ad esempio se questo 
+   file richiama o modifica file in cui non ho nessun permesso (ad 
+   esempio nella directory /etc/), in questo caso non avrò errori 
+   nell'esecuzione in quanto mi verranno dati gli stessi permessi 
+   del proprietario su tutti i file su cui opera il file in 
+   questione al momento dell'esecuzione
+* SGID (Set Group ID): anche in questo caso identificato in 
+   modalità simbolica con 's', e in modalità numerica con '2'; mi 
+   permette di eseguire un file come se appartenessi al gruppo 
+   proprietario del file, ad esempio se questo file richiama o 
+   modifica file in cui non ho nessun permesso (ad esempio nella 
+   directory /etc/), in questo caso non avrò errori 
+   nell'esecuzione in quanto mi verranno dati gli stessi permessi 
+   del gruppo proprietario su tutti i file su cui opera il file in 
+   questione al momento dell'esecuzione
+* t (sticky flag): identificato in modalità simbolica con 't' e 
+   in modalità numerica con '1'; è un flag applicabile a 
+   directory, quindi non può essere utilizzato su file semplici, 
+   se settato rende impossibile la cancellazione dei file 
+   all'interno di una directory e della directory stessa, infatti 
+   un utente potrebbe anche avere tutti i permessi 
+   (lettura+scrittura+esecuzione) per i file all'interno della 
+   cartella, ma se questo è settato, non può eliminare nulla.
+
 E' da notare che per utilizzare la modalità numerica, dobbiamo 
 usare una notazione a 4 cifre anzichè 3, dove la prima cifra 
 rappresenta gli special permission bits settati e gli altri 3 
@@ -1916,34 +1872,19 @@ rappresentano le classiche cifre dei permessi spiegate nella
 sezione precedente. Una tabella riassuntiva dei valori che può 
 assumere la prima cifra può essere visionata qui sotto.
 
-[float Table:
 
-+----+---------------------------+-------+
 | #  |         Permessi          |  rwx  |
-+----+---------------------------+-------+
-+----+---------------------------+-------+
+|:--:|:-------------------------:|:-----:|
 | 7  |  SUID+SGID+Sticky Flag    | 4+2+1 |
-+----+---------------------------+-------+
 | 6  |        SUID+SGID          |  4+2  |
-+----+---------------------------+-------+
 | 5  |     SUID+Sticky Flag      |  4+1  |
-+----+---------------------------+-------+
 | 4  |           SUID            |   4   |
-+----+---------------------------+-------+
 | 3  |     Sticky Flag+SGID      |  2+1  |
-+----+---------------------------+-------+
 | 2  |           SGID            |   2   |
-+----+---------------------------+-------+
 | 1  |       Sticky Flag         |   1   |
-+----+---------------------------+-------+
 | 0  | nessun permesso speciale  |   0   |
-+----+---------------------------+-------+
 
 
-[Table 2: 
-Permessi Numerici Speciali
-]
-]
 
 Vediamo ora alcuni esempi di applicazione sia in modalità 
 simbolica che in modalità numerica dei special permission bits:
@@ -1955,8 +1896,8 @@ simbolica che in modalità numerica dei special permission bits:
  # proprietario a lanciarlo
 ```
 
-* un esempio presente di default sui sistemi GNU/Linux è il 
-    comando "passwd" che deve operare col file /etc/passwd
+un esempio presente di default sui sistemi GNU/Linux è il 
+comando "passwd" che deve operare col file /etc/passwd.
 
 ```sh
  chmod 4666 myFile 
@@ -2002,20 +1943,12 @@ simbolica che in modalità numerica dei special permission bits:
 Per visualizzare i permessi, valgono le modalità precedenti, 
 quindi con "ls -l", li visualizzo, ad ogni modo è da notare che:
 
-```sh
- # il flag 'T' sostituirà la 'x' nel gruppo di utenti 'o' (resto 
- # degli utenti)
-```
-```sh
- # il flag 'S' per SUID sostituirà la 'x' nel gruppo di caratteri 
- # del proprietario
-```
-```sh
- # il flag 'S' per SGID sostituirà la 'x' nel gruppo di caratteri 
- # del gruppo proprietario
-```
-## Permessi di Default, ossia Umask
+* il flag 'T' sostituirà la 'x' nel gruppo di utenti 'o' (resto degli utenti)
+* il flag 'S' per SUID sostituirà la 'x' nel gruppo di caratteri del proprietario
+* il flag 'S' per SGID sostituirà la 'x' nel gruppo di caratteri del gruppo proprietario
 
+
+## Permessi di Default, ossia Umask
 
 Quando un utente crea un file (o una directory) vengono settati 
 dei permessi di default relativi alla possibilità di lettura, 
@@ -2036,24 +1969,24 @@ sottrarre sia per i file che per le cartelle il valore di umask,
 e otteniamo:
 
 ```sh
- # umask - valoriDiDefaultPerFile = 0666-0022=0644
+ umask - valoriDiDefaultPerFile = 0666-0022=0644
+ # cioè per ogni file creato verranno utilizzati i permessi 
+ # 0644, cioè nessun special permission bits settato, permessi 
+ # di lettura+scrittura per il proprietario e per il gruppo 
+ # proprietario e permessi di sola lettura per il resto degli 
+ # utenti
 ```
 
-* cioè per ogni file creato verranno utilizzati i permessi 
-    0644, cioè nessun special permission bits settato, permessi 
-    di lettura+scrittura per il proprietario e per il gruppo 
-    proprietario e permessi di sola lettura per il resto degli 
-    utenti
 
 ```sh
- # umask - valoriDiDefaultPerDirectory = 0777-0022=0755
+ umask - valoriDiDefaultPerDirectory = 0777-0022=0755
+ # cioè per ogni directory creata verranno utilizzati i permessi 
+ # 0755, cioè nessun special permission bits settato, permessi 
+ # di lettura+scrittura+esecuzione per il proprietario e per il 
+ # gruppo proprietario e permessi di sola lettura+esecuzione per 
+ # il resto degli utenti
 ```
 
-* cioè per ogni directory creata verranno utilizzati i permessi 
-    0755, cioè nessun special permission bits settato, permessi 
-    di lettura+scrittura+esecuzione per il proprietario e per il 
-    gruppo proprietario e permessi di sola lettura+esecuzione per 
-    il resto degli utenti
 
 Nel caso volessimo cambiare il valore di umask, possiamo lanciare 
 il comando umask col codice che preferiamo per la maschera, ad 
@@ -2067,17 +2000,15 @@ esempio:
 ```
 Due comode umask molto gettonate sono:
 
-1. umask 022 #utilizzata per fare in modo che tutti gli utenti 
+1. `umask 022`, utilizzata per fare in modo che tutti gli utenti 
   possano vedere i file e le directory che creo
-
-2. umask 077 #utilizzata per fare in modo che tutti gli altri 
+2. `umask 077`, utilizzata per fare in modo che tutti gli altri 
   utenti non possano vedere i file e le directory che creo
-
 dobbiamo mettere la umask in uno degli startup files per fare in 
 modo che la modifica sia persistente.
 
-## Gestione Avanzata dei Permessi (ACL)
 
+## Gestione Avanzata dei Permessi (ACL)
 
 Access Control Lists (ACLs) are a way to assign fine tuned 
 permissions in Linux apart from using the chmod command. When the 
@@ -2096,11 +2027,12 @@ means the acl package is not installed, so use yum or apt-get
 according to your operating system to install the package:
 
 ```sh
- # sudo apt-get install acl
+ sudo apt-get install acl
 ```
 ```sh
- # sudo yum install acl
+ sudo yum install acl
 ```
+
 Solitamente ci accorgiamo che su un file sono impostati dei 
 permessi ACL attraverso il simbolo + davanti alla stringa dei 
 permessi quando eseguiamo ad esempio "ls -Al", se ad esempio 
@@ -2184,7 +2116,9 @@ tra le opzioni di mount di default, allora dobbiamo impostarli
 usando il file "/etc/fstab" e andando ad aggiungere l'opzione "
 acl" al filesystem interessato, ad esempio:
 
+```
 /dev/sda2	/	ext4    acl,errors=remount-ro	0	1
+```
 
 ## Hardware
 
@@ -2313,19 +2247,17 @@ che fanno uso di random:
  randpw(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo;} 
  # here we define a function
 ```
+
+
 ### Create /dev/random and /dev/urandom if absent
 
-
 Creating /dev/random & /dev/urandom, if your System doesn’t have 
-them 
+them, remind that:
 
-Minor Device number of /dev/random -- 1 
-
-Major Device number of /dev/random -- 8 
-
-Minor Device number of /dev/urandom -- 1 
-
-Major Device number of /dev/urandom -- 9
+* Minor Device number of /dev/random -- 1 
+* Major Device number of /dev/random -- 8 
+* Minor Device number of /dev/urandom -- 1 
+* Major Device number of /dev/urandom -- 9
 
 STEP1: Creating character file with mode/permission as 644 # 
 mknod -m 644 /dev/random 1 8
@@ -2338,8 +2270,8 @@ chown root:root /dev/random /dev/urandom
 
 STEP4: Done
 
-### Il filesystem sysfs
 
+### Il filesystem sysfs
 
 La directory /dev è molto comoda per i processi utente per fare 
 riferimento all'hardware supportato dal kernel, ma fornisce uno 
@@ -2431,8 +2363,8 @@ programmi che fanno questo per noi, uno dei più famosi è "lsscsi"
  # percorso al device file
 ```
 Tradizionalmente la nomenclatura dell'hardware ha spesso causato 
-problemi, per via del fatto che se ho tre HDD, "/dev/sda", "
-/dev/sdb" ed "/dev/sdc", e mi si spacca un HDD, ad esempio 
+problemi, per via del fatto che se ho tre HDD, "/dev/sda", "/dev/sdb"
+ed "/dev/sdc", e mi si spacca un HDD, ad esempio 
 /dev/sdb, allora in questo caso /dev/sdc diventerà /dev/sdb, e 
 tutte le regole che avevo impostato per /dev/sdb saranno 
 applicate automaticamente a quest'ultimo HDD, per evitare questi 
@@ -2451,8 +2383,8 @@ possiamo solo leggere; invece i dispositivi su cui possiamo
 scrivere sono indicati con "/dev/sg*", dove sg sta per SCSI 
 generic.
 
-### PATA Hard Disk
 
+### PATA Hard Disk
 
 I device indicati con "/dev/hd*", sono comuni su kernel e 
 dispositivi hardware molto vecchi. A volte potrebbe capitare di 
@@ -2461,16 +2393,15 @@ l'HDD SATA sta funzionando in "compatibility mode", questo
 abbassa le performance del dispositivo ed era una modalità 
 utilizzata tempo fa per questioni di retro-compatibilità. 
 Possiamo cambiare questa impostazione della "compatibility mode" 
-dalle impostazioni di BIOS, riportando il device in "native mode"
-.
+dalle impostazioni di BIOS, riportando il device in "native mode".
+
 
 ### Approfondimento su SCSI
 
-
 DA FARE
 
-### Terminali
 
+### Terminali
 
 I terminali sono dispositivi utilizzati per spostare caratteri 
 tra un processo utente e un dispositvo di I/O, solitamente per 
@@ -2510,17 +2441,16 @@ terminale attraverso un semplice:
  tty 
  # mostra l'identificativo del terminale corrente
 ```
+
+
 ### Display Modes
 
 
 Linux ha due cosiddette "display modes":
 
-```sh
- # Text Mode
-```
-```sh
- # X Window System server (modalità grafica)
-```
+* Text Mode
+* X Window System server (modalità grafica)
+
 Oggigiorno normalmente il boot in molte distribuzioni, 
 suprattutto "user-friendly" si avvia in automatico in modalità 
 grafica attraverso un display manager. Tuttavia Linux supporta le 
@@ -2536,6 +2466,8 @@ ad una determinata console, possiamo farlo anche col comando:
  chvt 1 
  # in questo caso switchiamo alla console 1
 ```
+
+
 ### Porte Seriali
 
 
@@ -2547,8 +2479,8 @@ Questi device vengono indicati con la nomenclatura "/dev/ttyS*",
 mentre i dispositivi adattatori seriali USB si presentano con i 
 nomi "/dev/ttyUSB*" e "/dev/ttyACM*".
 
-### Porte Parallele
 
+### Porte Parallele
 
 Questi device sono oggigiorno largamente sostituiti dai 
 dispositivi USB, le porte parallele unidirezionali hanno 
@@ -2567,8 +2499,8 @@ anche se solitamente è necessario fornire alla stampante qualche
 parametro in più; infatti server di stampa come CUPS sono fatti 
 appositamente per gestire il processo di stampa e le stampanti.
 
-### Dispositivi Audio
 
+### Dispositivi Audio
 
 Linux has two sets of audio devices. There are separate devices 
 for the Advanced Linux Sound Architecture (ALSA) system interface 
@@ -2582,8 +2514,8 @@ you send to /dev/dsp. However, the hardware may not do what you
 expect due to frequency mismatches. Furthermore, on most systems, 
 the device is often busy as soon as you log in.
 
-### Creare Device File
 
+### Creare Device File
 
 In modern Linux systems, you do not create your own device files; 
 this is done with devtmpfs and udev (see 3.5 udev). However, it 
@@ -2604,8 +2536,8 @@ la quantità di device supportata aumentava e quindi la
 manutenzione dei device file non era affatto banale, oggi è tutto 
 molto più semplice grazie all'utilizzo di "udev" e "devtmpfs".
 
-### udev
 
+### udev
 
 Il kernel linux può mandare notifiche ad un processo nello 
 user-space chiamato "udevd" quando rileva un nuovo dispositivo 
@@ -2640,22 +2572,18 @@ Il demone "udevd" opera in questo modo:
 
 1. Il kernel manda una notifica chiamata "uevent" attraverso un 
   link di rete interno ad udevd
-
 2. udevd carica tutti gli attributi menzionati nell'uevent
-
 3. udevd fa il parsing delle cosiddette "rules", e opera secondo 
   queste regole
 
 Le regole sono contenute nelle seguenti directory:
 
-```sh
- # /lib/udev/rules.d
-```
-```sh
- # /etc/udev/rules.d
-```
-### Stesura di Regole per udev
+* /lib/udev/rules.d
+* /etc/udev/rules.d
 
+
+
+### Stesura di Regole per udev
 
 Generalmente le regole sono composte da condizioni che devono 
 essere soddisfatte, che riconosceremo attraverso il simbolo "==" 
@@ -2668,8 +2596,7 @@ vediamo attraverso ad esempio "lsusb" o "lsscsi" o "lspci" in "
 eseguire:
 
 ```sh
- # udevadm info --name=/dev/bus/usb/002/003 --attribute-walk | less 
-  
+ udevadm info --name=/dev/bus/usb/002/003 --attribute-walk | less 
  # in questo modo vediamo i vari attributi settati per il device 
  # nel percorso menzionato, attenzione: ci interessa solo il primo 
  # blocco, in quanto i successivi ripercorrono tutti i parent 
@@ -2678,92 +2605,81 @@ eseguire:
 ```
 ora ad esempio possiamo vedere tra gli attributi:
 
+```
 ATTR{idProduct}=="a02f"
-
 ATTR{idVendor}=="12bd"
+```
 
 e poi un altro interessante è:
-
+```
 SUBSYSTEM=="usb"
-
 DRIVER=="usb"
+```
 
 Questi attributi ci possono essere utili per identificare il 
 device in modo fine, in tal modo siamo sicuri che quando 
 applicheremo le nostre regole non ci sbagliamo con altri device 
 appartenenti ad altri sottosistemi, ora possiamo provare a 
-scrivere una regola, che andrà in "
-/etc/udev/rules.d/nomeRegola.rules", vediamo alcuni esempi di 
-regole che possiamo applicare:
+scrivere una regola, che andrà in "/etc/udev/rules.d/nomeRegola.rules",
+vediamo alcuni esempi di regole che possiamo applicare:
 
 ```sh
- # SUBYSTEM=="usb", ATTR{idVendor}=="12bd", ATTR{idProduct}=="a02f", 
- # ACTION=="add", MODE="0666"
- # ```
-
-  in questo caso quando la regola verrà applicata sul device ci 
-  saranno permessi di lettura e scrittura per tutti gli utenti, 
-  in questo caso abbiamo solo applicato una regola sui permessi, 
-  inoltre la condizione "ACTION=="add" indica appunto che la 
-  regola deve essere eseguita se il device è stato inserito, 
-  mentre al posto di add possiamo anche mettere "remove"; questo 
-  indicherà delle possibili azioni da effetuare se il device 
-  viene rimosso, ad ogni modo ora dobbiamo riavviare le regole di 
-  udev affinchè la nuova configurazione abbia effetto, questo è 
-  possibile con:
-
-* sudo udevadm control --reload-rules #ricarica le regole
-
-* dobbiamo scollegare e ricollegare il device o riavviare
+SUBYSTEM=="usb", ATTR{idVendor}=="12bd", ATTR{idProduct}=="a02f", ACTION=="add", MODE="0666"
+```
+in questo caso quando la regola verrà applicata sul device ci 
+saranno permessi di lettura e scrittura per tutti gli utenti, 
+in questo caso abbiamo solo applicato una regola sui permessi, 
+inoltre la condizione "ACTION=="add" indica appunto che la 
+regola deve essere eseguita se il device è stato inserito, 
+mentre al posto di add possiamo anche mettere "remove"; questo 
+indicherà delle possibili azioni da effetuare se il device 
+viene rimosso, ad ogni modo ora dobbiamo riavviare le regole di 
+udev affinchè la nuova configurazione abbia effetto, questo è 
+possibile con:
 
 ```sh
- # SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", 
- # ATTR{idProduct}=="a02f", ACTION=="add", OWNER="root", 
- # GROUP="usbgroup", MODE="0660" 
- # ```
-
-  in questo caso impostiamo il proprietario del device e il 
-  gruppo di appartenenza oltre ai diritti sul device
+ sudo udevadm control --reload-rules
+ # ricarica le regole
+```
+dobbiamo scollegare e ricollegare il device o riavviare
 
 ```sh
- # SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", 
- # ATTR{idProduct}=="a02f", ACTION=="add", OWNER="root", 
- # GROUP="usbgroup", MODE="0660", SYMLINK+="ilMioJoyPad", 
- # RUN+="/usr/bin/myScript.sh"
- # ```
+SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", ATTR{idProduct}=="a02f", ACTION=="add", OWNER="root", GROUP="usbgroup", MODE="0660" 
+ ```
 
-  in questo caso, oltre ad imporre il proprietario, il gruppo e i 
-  permessi, creiamo un link simbolico al device che potremo 
-  trovare in "/dev/ilMioJoyPad", e indichiamo uno script da 
-  eseguire situato in "/usr/bin/myScript.sh"
+in questo caso impostiamo il proprietario del device e il 
+gruppo di appartenenza oltre ai diritti sul device
 
 ```sh
- # SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", 
- # ATTR{idProduct}=="a02f", ACTION=="add", OWNER="root", 
- # GROUP="usbgroup", MODE="0660", ATTR{authorized}="0"
- # ```
-
-  in questo caso effettuiamo un "blacklist" del device, questo 
-  può essere utile per diversi motivi, ad esempio vogliamo 
-  scrivere driver o installare driver/moduli diversi da quelli 
-  esistenti e quindi prevenire che il sistema in automatico 
-  carichi i driver una volta collegato il device, oppure più 
-  semplicemente disabilitare completamente un device
+SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", ATTR{idProduct}=="a02f", ACTION=="add", OWNER="root", GROUP="usbgroup", MODE="0660", SYMLINK+="ilMioJoyPad", RUN+="/usr/bin/myScript.sh"
+```
+in questo caso, oltre ad imporre il proprietario, il gruppo e i 
+permessi, creiamo un link simbolico al device che potremo 
+trovare in "/dev/ilMioJoyPad", e indichiamo uno script da 
+eseguire situato in "/usr/bin/myScript.sh"
 
 ```sh
- # BUS=="usb", OPTIONS+="ignore_device"
+SUBSYSTEM=="usb", ATTR{idVendor}=="12bd", ATTR{idProduct}=="a02f", ACTION=="add", OWNER="root", GROUP="usbgroup", MODE="0660", ATTR{authorized}="0"
 ```
 
-  in questo caso vengono disabilitate tutte le porte USB
+in questo caso effettuiamo un "blacklist" del device, questo 
+può essere utile per diversi motivi, ad esempio vogliamo 
+scrivere driver o installare driver/moduli diversi da quelli 
+esistenti e quindi prevenire che il sistema in automatico 
+carichi i driver una volta collegato il device, oppure più 
+semplicemente disabilitare completamente un device
 
 ```sh
- # BUS=="usb", SUBSYSTEM=="block", OPTIONS+="ignore_device"
+BUS=="usb", OPTIONS+="ignore_device"
+```
+in questo caso vengono disabilitate tutte le porte USB:
+
+```sh
+BUS=="usb", SUBSYSTEM=="block", OPTIONS+="ignore_device"
 ```
 
-  in questo caso vengono disabilitate tutti i dispositivi USB che 
-  fungono da block device
-
-
+in questo caso vengono disabilitate tutti i dispositivi USB che 
+fungono da block device
 
 N.B.: Le regole udev non contemplano le andate a capo, quindi ad 
 ogni linea, corrisponde una ed una sola regola udev. Inoltre 
@@ -2776,25 +2692,24 @@ applicate da chi, possiamo trovare il path corrispettivo del
 device nel filesystem sys, questo possiamo farlo attraverso:
 
 ```sh
- # udevadm info --name=/dev/bus/usb/002/003 --attribute-walk | less 
-  
+ udevadm info --name=/dev/bus/usb/002/003 --attribute-walk | less 
  # vediamo il percorso nel sysfs
 ```
+
 ```sh
  udevadm info -a -n /dev/myDevice 
- # analogo al precedente ma più 
- # semplice
+ # analogo al precedente ma più semplice
 ```
 una volta trovato questo percorso possiamo effettuare:
 
 ```sh
- # udevadm test /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.1 
-  
+ udevadm test /devices/pci0000:00/0000:00:1d.0/usb2/2-1/2-1.1 
  # questo ci farà vedere le varie regole applicate da udev quali 
  # file vengono letti, può anche essere usato direttamente
 ```
-### Capire cosa è stato collegato e ricavare informazioni
 
+
+### Capire cosa è stato collegato e ricavare informazioni
 
 Per capire cosa è stato collegato, possiamo effettuare le 
 seguenti operazioni, partiamo dal device interessato sconnesso, 
@@ -2813,20 +2728,19 @@ dall'interno di "/sys") possiamo ricavare informazioni sul device
 eseguendo:
 
 ```sh
- # udevadm info /sys/percorso/menzionato/colComando/precedente 
-  --attribute-walk 
+ udevadm info /sys/percorso/menzionato/colComando/precedente --attribute-walk 
  # questo mostrerà informazioni come anche 
- # relativi node files creati all'interno della directory "/dev", 
- # una volta
+ # relativi node files creati all'interno della directory "/dev", una volta
 ```
+
 dobbiamo ricordarci che se abbiamo il percorso in /dev a 
-disposizione allora useremo nel comando "udevadm info" l'opzione "
---name" e specificheremo il percorso in "/dev", mentre se abbiamo 
+disposizione allora useremo nel comando "udevadm info" l'opzione `--name`
+e specificheremo il percorso in "/dev", mentre se abbiamo 
 solo il percorso in "/sys" all-ora non dobbiamo mettere l'opzione 
-"--name".
+`--name`.
+
 
 ### udevadm
-
 
 Il programma udevadm costituisce il tool di gestione per udevd. 
 Possiamo ad esempio ricaricare le regole di udev oppure innescare 
@@ -2878,51 +2792,34 @@ dischi rilevati.
 A differenza della distro utilizzata si hanno diversi manager dei 
 pacchetti (o delle installazioni più in generale). 
 
-```sh
- # Le Debian based utilizzano:
-```
+* Le Debian based utilizzano:
+    * APT: Per installare pacchetti da repository
+    * DPKG: Per installare pacchetti locali con estensione ".deb"
+    * Aptitude: E' uno strumento aggiuntivo per installare i 
+        pacchetti da repository ormai non più molto usato
 
-* APT: Per installare pacchetti da repository
+* Le RedHat based utilizzano:
+    * YUM: Per installare pacchetti da repository
+    * RPM: Per installare pacchetti locali con estensione ".rpm"
+    * Yumdownloader & Rpm2cpio: Sono strumenti aggiuntivi per 
+        gestire i pacchetti
 
-* DPKG: Per installare pacchetti locali con estensione ".deb"
-
-* Aptitude: E' uno strumento aggiuntivo per installare i 
-    pacchetti da repository ormai non più molto usato
-
-```sh
- # Le RedHat based utilizzano:
-```
-
-* YUM: Per installare pacchetti da repository
-
-* RPM: Per installare pacchetti locali con estensione ".rpm"
-
-* Yumdownloader & Rpm2cpio: Sono strumenti aggiuntivi per 
-    gestire i pacchetti
-
-```sh
- # Le Arch based utilizzano:
-```
-
-* Pacman
-
-```sh
- # Le Gentoo based utilizzano:
-```
-
-* Portage: Costituisce un sistema più complesso, su questo tipo 
-    di distro si compilano i codici sorgenti anche se qualche 
-    pacchetto binario esiste.
+* Le Arch based utilizzano:
+    * Pacman
+* Le Gentoo based utilizzano:
+    * Portage: Costituisce un sistema più complesso, su questo tipo 
+        di distro si compilano i codici sorgenti anche se qualche 
+        pacchetto binario esiste.
 
 Comandi comuni a tutte le distro per avere delle informazioni sui 
 programmi installati sono whereis e which. N.B.: E' possibile 
 convertire un pacchetto ".rpm" in ".deb" o viceversa attraverso 
 un programma chiamato alien. Un comodo reference per vedere le 
-differenze tra un package manager e l'altro è [https:#wiki.archlinux.org/index.php/Pacman_Rosetta||Differenze principali tra Package Manager]
-.
+differenze tra un package manager e l'altro è 
+[Differenze principali tra Package Manager](https://wiki.archlinux.org/index.php/Pacman_Rosetta).
+
 
 ### Whereis
-
 
 Il programma whereis cerca i file relativi ad un programma 
 installato, ha delle directory predefinite dove cercare. Mi 
@@ -2936,8 +2833,9 @@ installati nelle loro directory.
  # mi fornisce tutte le locazioni riguardanti il 
  # pacchetto apache2
 ```
-### Which
 
+
+### Which
 
 Il programma "which" mi dice il percorso assoluto del 
 comando/programma esistente su un computer e sui eventuali alias.
@@ -2960,9 +2858,8 @@ variable "$PATH".
 
 Quando vediamo un pacchetto tipo:
 
-```sh
- # nano-2.2.6-1.i386.rpm
-```
+*nano-2.2.6-1.i386.rpm*
+
 Allora le informazioni sono separate dai trattini, sto 
 installando il pacchetto chiamato "nano" della versione 2.2.6 
 della build 1 per l'architettura CPU i386.
@@ -3037,10 +2934,10 @@ di un file chiamato ".bash_aliases", fatto appositamente per gli
 alias, comunque possiamo capire se questo file viene letto dal 
 file ".bashrc".
 
+
 ### APT Package Manager (High Level)
 
-
-apt-get is a high-level package manager for Debian and 
+Il comando `apt-get` is a high-level package manager for Debian and 
 derivatives, and provides a simple way to retrieve and install 
 packages, including dependency resolution, from multiple sources 
 using the command line. Unlike dpkg, apt-get does not work 
@@ -3298,8 +3195,8 @@ programmi compilati.
  # remove them without playing the "which program does that file 
  # belong to" game; ask me about
 ```
-### DPKG (Low Level)
 
+### DPKG (Low Level)
 
 dpkg is a low-level package manager for Debian-based systems. It 
 can install, remove, provide information about and build *.deb 
@@ -3409,24 +3306,24 @@ corresponding dependencies.
  # aspettiamo), ad esempio lyx
 ```
 ```sh
- # dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n 
-  
- # check biggest packages, un'altra opzione sarebbe installare 
- # wajig
+ dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n 
+ # check biggest packages, un'altra opzione sarebbe installare il 
+ # programma wajig
 ```
 posso verificare la corretta disinstallazione di un programma, 
 dopo averlo disinstallato con: 
 
 ```sh
- # which nomepgm 
+ which nomepgm 
 ```
 o con
 
 ```sh
- # dpkg --get-selections | grep nomepgm
+ dpkg --get-selections | grep nomepgm
 ```
-### Aptitude (High Level)
 
+
+### Aptitude (High Level)
 
 aptitude is another high-level package manager for Debian-based 
 systems, and can be used to perform management tasks (installing, 
@@ -3468,8 +3365,8 @@ pacchetti:
 ```
 La maggior parte dei comandi per APT esiste anche per Aptitude.
 
-### YUM (High Level)
 
+### YUM (High Level)
 
 yum adds the functionality of automatic updates and package 
 management with dependency management to RPM-based systems. As a 
@@ -3571,7 +3468,7 @@ Per poter visualizzare la lista di file installati da un
 pacchetto dobbiamo installare il programma yum-utils, attraverso:
 
 ```sh
- # yum install yum-utils
+ yum install yum-utils
 ```
 Una volta installato, nel momento in cui volessimo vedere i file 
 installati dal pacchetto di nome "nomePacchetto", eseguiamo un:
@@ -3622,16 +3519,15 @@ distributions, such as RHEL and CentOS.
  # programma o la directory situata in "percorso"
 ```
 
-* ad esempio nel caso volessimo vedere quale pacchetto è 
-    responsabile dell'installazione del programma "lspci", 
-    facciamo un "whereis lspci" per mostrare il percorso e 
-    supponendo che il percorso del programma sia "/usr/sbin/lspci"
-    , eseguendo un "rpm -qf /usr/sbin/lspci" vediamo il pacchetto 
-    che ci ha fornito il programma lspci, oppure un altro caso 
-    potrebbe essere, vogliamo vedere quale pacchetto ha 
-    installato la directory "/etc/init.d", allora eseguiamo un "
-    rpm -qf /etc/init.d" e verrà mostrato il pacchetto 
-    responsabile
+ad esempio nel caso volessimo vedere quale pacchetto è 
+responsabile dell'installazione del programma "lspci", 
+facciamo un "whereis lspci" per mostrare il percorso e 
+supponendo che il percorso del programma sia "/usr/sbin/lspci", 
+eseguendo un `rpm -qf /usr/sbin/lspci` vediamo il pacchetto 
+che ci ha fornito il programma lspci, oppure un altro caso 
+potrebbe essere, vogliamo vedere quale pacchetto ha 
+installato la directory "/etc/init.d", allora eseguiamo un 
+`rpm -qf /etc/init.d` e verrà mostrato il pacchetto responsabile
 
 ```sh
  rpm -q --list nomepacchetto 
@@ -3652,9 +3548,8 @@ distributions, such as RHEL and CentOS.
  # upgrada il pacchetto solo se esiste una 
  # versione precedente
 ```
-Potrebbe capitarmi di dover fare il rebuild del database, con "
-rpm --rebuilddb". ( lo faccio se ho fatto molte 
-installazioni/rimozioni). E' importante il file 
+Potrebbe capitarmi di dover fare il rebuild del database, con `rpm --rebuilddb`. 
+( lo faccio se ho fatto molte installazioni/rimozioni). E' importante il file 
 /usr/lib/rpm/rpmrc che è il file di configurazione per il 
 programma rpm, non bisogna far casini qui.
 
@@ -3685,12 +3580,14 @@ Cpio is a package used to view rpm package content, but in order
 to view it we must use 
 
 ```sh
- # "rpm2cpio filename.rpm | cpio -t", cpio archive are info files 
+ rpm2cpio filename.rpm | cpio -t 
+ # cpio archive are info files 
  # containing info about a package; basically rpm2cpio creates a 
  # cpio of our rpm package.
 ```
-### cpio
 
+
+### cpio
 
 cpio is a general file archiver utility and its associated file 
 format. It is primarily installed on Unix-like computer operating 
@@ -3738,8 +3635,7 @@ Vediamo alcuni esempi:
  # ." per includerli tutti
 ```
 ```sh
- # find . -depth | cpio -H newc -ov --owner root:root > 
-  initramfs.cpio 
+ find . -depth | cpio -H newc -ov --owner root:root > initramfs.cpio 
  # questo comando è utilizzato quando ad esempio 
  # si creano initramfs, con il flag "-H" specifico il formato 
  # dell'archivio cpio, in questo caso il formato è "newc", quello 
@@ -3749,16 +3645,13 @@ Vediamo alcuni esempi:
 ```
 
 * odc: The old (POSIX .1) portable format.
-
 * crc: The new (SVR4) portable format with a checksum added; in 
     pratica un newc con un checksum addato
-
 * tar: The old tar format.
-
 * hpodc: The portable format used by HPUX's cpio (which stores 
     device files differently).
-
 * ecc..
+
 
 ## Shells
 
@@ -3767,24 +3660,15 @@ la Bash,questa è la shell più comune infatti lo scripting fatto
 per le altre shell è solitamente compatibile con quello Bash, 
 comunque le shell più famose sono:
 
-```sh
- # bash
-```
-```sh
- ksh 
- # usata come shell di default su OpenBSD
-```
-```sh
- csh/tcsh 
- # usata come shell di default su FreeBSD, la tcsh non 
- # è altro che una csh con feature aggiunte (come 
- # autocompletamento, ecc...)
-```
-```sh
- zsh 
- # una shell avanzata che raggruppa molte delle feature di 
- # tutte le altre, questa è la mia preferita! 
-```
+* bash: shell di default su GNU/Linux e altri sistemi operativi
+  UNIX based o inspired
+* ksh: usata come shell di default su OpenBSD
+* csh/tcsh: usata come shell di default su FreeBSD, la tcsh non 
+  è altro che una csh con feature aggiunte (come 
+  autocompletamento, ecc...)
+* zsh: una shell avanzata che raggruppa molte delle feature di 
+  tutte le altre, questa è la mia preferita! 
+
 ognuna di queste shell ha i propri vantaggi/svantaggi, per poter 
 visualizzare la lista delle shell disponibili su un sistema 
 possiamo eseguire:
@@ -3827,10 +3711,12 @@ eseguire:
  # visualizza il processo corrente, cioè la shell, 
  # vedremo bash se la shell è una bash, oppure zsh e così via.
 ```
+
+
 ## Shell e variabili d'ambiente
 
-### Shell testuale ( DA RIGUARDARE)
 
+### Shell testuale ( DA RIGUARDARE)
 
 Esistono alcuni comandi da shell molto utili, ad esempio:
 
@@ -3933,11 +3819,8 @@ Per le Shell di Login la shell Bash cerca di eseguire nell'ordine
 sottocitato i seguenti file:
 
 1. /etc/profile
-
 2. ~/.bash_profile
-
 3. ~/.bash_login
-
 4. ~/.profile
 
 e quando esce o si effettua il logout prova ad eseguire:
@@ -3948,7 +3831,6 @@ Per le Shell non di Login, la shell Bash cerca di eseguire
 nell'ordine sottocitato i seguenti file:
 
 1. /etc/bash.bashrc
-
 2. ~/.bashrc
 
 ### Shell di Login o Shell di Non Login ?
@@ -3958,8 +3840,7 @@ Per controllare se siamo in una shell di login o in una shell non
 di login quando usiamo una shell Bash, possiamo usare il comando:
 
 ```sh
- # shopt -q login_shell && echo 'Login shell' || echo 'Not login 
-  shell' 
+ shopt -q login_shell && echo 'Login shell' || echo 'Not login shell' 
  # mostra video un messaggio mostrando se la shell in 
  # utilizzo è di login o non di login
 ```
@@ -3977,8 +3858,9 @@ oppure ancora possiamo eseguire:
  # shell è di login se invece in output abbiamo "bash" allora la 
  # nostra shell è non di login
 ```
-### Variabili d'ambiente della shell
 
+
+### Variabili d'ambiente della shell
 
 Esistono alcune variabili d'ambiente utili per la 
 personalizzazione della shell:
@@ -4102,7 +3984,7 @@ HISTFILESIZE", una volta applicate le modifiche possiamo o
 sloggare e riloggare oppure eseguire:
 
 ```sh
- # source .bashrc
+ source .bashrc
 ```
 ### Variabili d'ambiente
 
@@ -5011,10 +4893,10 @@ testo molto efficiente una volta imparati i comandi più
 importanti:
 
 1. Modalità "comandi" (Accessibile attraverso il tasto "Esc")
-2. Modalità "colon" o "ex-mode" (Accessibile attraverso il tasto "
-  :"): utilizzata per manipolare il file
-3. Modalità "inserimento" (Accessibile attraverso il comando "i"
-  ): utilizzata per editare/inserire testo all'interno del file
+2. Modalità "colon" o "ex-mode" (Accessibile attraverso il tasto `:`): utilizzata 
+   per manipolare il file
+3. Modalità "inserimento" (Accessibile attraverso il comando `i`): 
+   utilizzata per editare/inserire testo all'interno del file
 
 ```sh
  # Per uscire premere :q
@@ -5422,16 +5304,16 @@ Una volta selezionato un blocco di righe ad esempio con "Shift+V"
 , possiamo applicare comandi esterni come awk, sed o meglio 
 ancora perl, andando a modificare il testo, ad esempio una volta 
 selezionato il testo desiderato, possiamo premere ":", e ci verrà 
-mostrata una stringa coi caratteri "'<,'>", a questo punto 
+mostrata una stringa coi caratteri `'<,'>`, a questo punto 
 possiamo digitare "!" preceduto dal comando esterno ad esempio:
 
 ```sh
- # :'<,'>!perl -ne 'print if ($_ > 15)'
+:'<,'>!perl -ne 'print if ($_ > 15)'
 ```
 questo si che è figo.
 
-### Cercare documentazione in vim
 
+### Cercare documentazione in vim
 
 Possiamo cercare documentazione una volta posizionato il cursore 
 su una determinata funzione/keyword premendo "shift+k". Ad 
@@ -5552,7 +5434,7 @@ scheletro per tutti i file python, ad esempio "
 inserire nel nostro file di configurazione la stringa:
 
 ```sh
- # autocmd BufNewFile *.py 0r ~/templates/sources/skeleton.py
+ autocmd BufNewFile *.py 0r ~/templates/sources/skeleton.py
 ```
 ora ogni volta che creeremo un nuovo file avremo già lo 
 scheletro.
@@ -5564,8 +5446,7 @@ nel file relativo alla configurazione del linguaggio in uso, ad
 esempio "~/.vim/after/ftplugin/python.vim" possiamo aggiungere:
 
 ```sh
- # set keywordprg=:new\|setl\ buftype=nofile\ nobuflisted\|r\ !\ 
-  pydoc 
+ set keywordprg=:new\|setl\ buftype=nofile\ nobuflisted\|r\ !\ pydoc 
  # questo ci permetterà di aprire un nuovo buffer 
  # temporaneo in cui comparirà la documentazione
 ```
@@ -5574,17 +5455,12 @@ esempio "~/.vim/after/ftplugin/python.vim" possiamo aggiungere:
 
 In generale il workflow di vim è gestito attraverso:
 
-```sh
- # buffers: ad un buffer corrisponde un file, 
-```
-```sh
- # windows: Windows are not designed as file-proxies and can't be 
- # made into ones: they are "containers" or "viewports" designed 
- # to offer you a view into a buffer. No more, no less.
-```
-```sh
- # tabs: ad una tab corrisponde un workspace intero
-```
+* buffers: ad un buffer corrisponde un file, 
+* windows: Windows are not designed as file-proxies and can't be made into 
+  ones: they are "containers" or "viewports" designed to offer you a view 
+  into a buffer. No more, no less.
+* tabs: ad una tab corrisponde un workspace intero
+
 ora, il concetto di tab può essere fuorviante per chi è abituato 
 con altri editor, in quanto in vim il tab è associato ad un vero 
 e proprio intero workspace, mentre esiste la corrispondenza 1 
@@ -5595,8 +5471,8 @@ visualizzare più window nella stessa schermata, con lo stesso
 buffer on con buffer diversi. Un tab quindi in genere può gestire 
 molti buffer e molte window.
 
-### Comandi per gestire le Window
 
+### Comandi per gestire le Window
 
 ```sh
  Ctrl+w, n 
@@ -5687,13 +5563,14 @@ molti buffer e molte window.
  # modificare più velocemente le dimensioni
 ```
 ```sh
- # Ctrl+o, va alla precedente posizione nella jump list
+ Ctrl+o, va alla precedente posizione nella jump list
 ```
 ```sh
- # Ctrl+i, va alla successiva posizione nella jump list
+ Ctrl+i, va alla successiva posizione nella jump list
 ```
-### Comandi per gestire i Buffer
 
+
+### Comandi per gestire i Buffer
 
 utilizzare ctrp.vim per avere una gestione più flessibile delle 
 finestre, dei buffer eccetera e per lavorare con progetti con 
@@ -7001,15 +6878,13 @@ Vediamo ora esempi di script sed, questi ci permettono una
 flessibilità maggiore, vediamo ad esempio come effettuare 
 sostituzioni multiple:
 
+```sed
 1,20{         
-
 	s/[Ll]inux/GNU\/Linux/g         
-
 	s/samba/Samba/g         
-
 	s/posix/POSIX/g 
-
 }
+```
 
 in questo caso verranno effettuate tutte le sostituzioni indicate 
 tra la riga 1 alla riga 20, ovviamente al posto dei numeri 
@@ -7017,17 +6892,14 @@ possiamo inserire anche delle regular expressions.
 
 Vediamo un altro esempio:
 
+```sed
 1,/^END/{         
-
 	s/[Ll]inux/GNU\/Linux/g          
-
 	s/samba/Samba/g          
-
 	s/posix/POSIX/g         
-
 	p 
-
 }
+```
 
 in questo caso verranno effettuate tutte le sostituzioni tra la 
 riga 1 e la riga che inizia per "END" oppure se questa non si 
@@ -7058,43 +6930,27 @@ You're history, original line! Muhahaha!
 
 Let's see a more complex script:
 
+```sed
 1d 
-
 /^^/d
-
 s/[[:cntrl:]]#g
-
 /^D/ {   
-
 		s/^D\(.*\)/\1\tOUTY\tINNY\t/         
-
 		s/^01/Jan/         
-
 		s/^02/Feb/         
-
 		s/^03/Mar/         
-
 		s/^04/Apr/         
-
 		s/^05/May/         
-
 		s/^06/Jun/         
-
 		s/^07/Jul/         
-
 		s/^08/Aug/         
-
 		s/^09/Sep/         
-
 		s/^10/Oct/         
-
 		s/^11/Nov/         
-
 		s/^12/Dec/         
-
 		s:^\(.*\)/\(.*\)/\(.*\):\2 \1 \3:  
-
 }
+```
 
 ### Common Sed Commands Vademecum
 
@@ -7106,34 +6962,46 @@ s/[[:cntrl:]]#g
 - Replace the first occurrence of a string in a file, and print 
 the result:
 
-`sed 's/{{find}}/{{replace}}/' {{filename}}`
+```sh
+sed 's/{{find}}/{{replace}}/' {{filename}}
+```
 
 - Replace all occurrences of an extended regular expression in a 
 file:
 
-`sed -r 's/{{regex}}/{{replace}}/g' {{filename}}`
+```sh
+sed -r 's/{{regex}}/{{replace}}/g' {{filename}}
+```
 
 - Replace all occurrences of a string in a file, overwriting the 
 file (i.e. in-place):
 
-`sed -i 's/{{find}}/{{replace}}/g' {{filename}}`
+```sed
+sed -i 's/{{find}}/{{replace}}/g' {{filename}}
+```
 
 - Replace only on lines matching the line pattern:
 
-`sed '/{{line_pattern}}/s/{{find}}/{{replace}}/' {{filename}}`
+```sed
+sed '/{{line_pattern}}/s/{{find}}/{{replace}}/' {{filename}}
+```
 
 - Apply multiple find-replace expressions to a file:
 
-`sed -e 's/{{find}}/{{replace}}/' -e 's/{{find}}/{{replace}}/' 
-{{filename}}`
+```sed
+sed -e 's/{{find}}/{{replace}}/' -e 's/{{find}}/{{replace}}/' 
+{{filename}}
+```
 
 - Replace separator / by any other character not used in the find 
 or replace patterns, e.g., #:
 
-`sed 's#{{find}}#{{replace}}#' {{filename}}` 
+```sed
+sed 's#{{find}}#{{replace}}#' {{filename}}
+```
+
 
 ### Awk
-
 
 ```sh
  awk '{ print $2 }' 
@@ -7182,65 +7050,38 @@ or replace patterns, e.g., #:
 Nei sistemi GNU/Linux esistono diverse tipologie di file, uno 
 schema può essere visionato nella tabella sottostante:
 
-[float Table:
 
-+--------------------------+----------------------------------------------------------------------------------+
 |      Tipo di File        |                                   Descrizione                                    |
-+--------------------------+----------------------------------------------------------------------------------+
-+--------------------------+----------------------------------------------------------------------------------+
+|:------------------------:|:--------------------------------------------------------------------------------:|
 |     file regolare        |             file che contiene dei dati (l'accezione normale di file)             |
-+--------------------------+----------------------------------------------------------------------------------+
 | cartella o direttorio    |           file che contiene una lista di nomi associati a degli inode            |
-+--------------------------+----------------------------------------------------------------------------------+
 | collegamento simbolico   |           file che contiene un riferimento ad un altro file/directory            |
-+--------------------------+----------------------------------------------------------------------------------+
 | dispositivo a caratteri  |            file che identifica una periferica ad accesso a caratteri             |
-+--------------------------+----------------------------------------------------------------------------------+
 |  dispositivo a blocchi   |             file che identifica una periferica ad accesso a blocchi              |
-+--------------------------+----------------------------------------------------------------------------------+
-|     "coda" (o fifo)      | file speciale che identifica una linea di comunicazione software 
-unidirezionale |
-+--------------------------+----------------------------------------------------------------------------------+
-|   "presa" (o socket)     | file speciale che identifica una linea di comunicazione software 
-bidirezionale  |
-+--------------------------+----------------------------------------------------------------------------------+
+|     "coda" (o fifo)      | file speciale che identifica una linea di comunicazione software unidirezionale  |
+|   "presa" (o socket)     | file speciale che identifica una linea di comunicazione software bidirezionale   |
 
-
-[Table 3: 
-Tipi di File con relativa descrizione
-]
-]
 
 Le tipologie per noi di maggiore interesse sono le prime tre, 
 siccome conosciamo già abbastanza bene il concetto di file e il 
 concetto di directory, nella prossima sezione parleremo di 
 collegamenti (o link).
 
-### Soft Link e Hard link
 
+### Soft Link e Hard link
 
 Esistono due modalità per creare dei collegamenti (o "link") sui 
 sistemi GNU/Linux:
 
-```sh
- # Soft Link
-```
-```sh
- # Hard Link
-```
-le uniche differenze sono:
+* Soft Link
+* Hard Link
 
-```sh
- # Gli hard link possono vivere solo sullo stesso filesystem
-```
-```sh
- # Se rimuovo una copia di un hard link, l'altra continua a 
- # sopravvivere
-```
-```sh
- # Nel caso di soft link, se rimuovo la copia originale, l'altra 
- # muore
-```
+le differenze sono:
+
+* Gli hard link possono vivere solo sullo stesso filesystem
+* Se rimuovo una copia di un hard link, l'altra continua a sopravvivere
+* Nel caso di soft link, se rimuovo la copia originale, l'altra muore
+
 Gli Hard Link sono simili ad una copia, ma si aggiornano quando 
 viene effettuata una modifica su uno dei link. Per creare un Hard 
 Link facciamo:
@@ -7277,23 +7118,20 @@ ATTENZIONE: non provare assolutamente a rimuovere link a
 directory utilizzando rm -R sul link della directory, questo 
 provocherà la rimozione dei file reali e non del link.
 
-### Cercare File in GNU/Linux
 
+### Cercare File in GNU/Linux
 
 I comandi più comunemente utilizzati per cercare file su linux 
 sono:
 
-```sh
- # find
-```
-```sh
- # locate
-```
+* find
+* locate
+
 Anche se è possibile effettuare ricerche di file anche con un 
 appropriato utilizzo dei comandi "grep" ed "ls".
 
-### Find
 
+### Find
 
 Vediamo alcuni esempi di applicazione del programma find:
 
@@ -7311,7 +7149,7 @@ provenienti dallo standard error, per evitare di stampare questi
 messaggi a schermo possiamo fare uso del seguente comando:
 
 ```sh
- # find /etc -name motd 2>/dev/null
+ find /etc -name motd 2>/dev/null
 ```
 Altri esempi di applicazione del comando find possono essere:
 
@@ -7473,8 +7311,8 @@ possiamo ricercare anche in funzione di nomi utente o di gruppo
  # della sicurezza per effettuare privilege escalation, quindi 
  # fare attenzione a questi file
 ```
-### Locate
 
+### Locate
 
 Locate è un programma che crea un indice dei file salvati sul 
 sistema all'interno di un database. Quando viene effettuata una 
@@ -7499,6 +7337,7 @@ Altri esempi di utilizzo possono essere:
  # questo cercherà i file 
  # chiamati "physics" che sono situati nella directory "/DATA"
 ```
+
 Nota Bene: Se un file viene creato e istantaneamente viene 
 cercato, locate non riesce a trovarlo in quanto il database non è 
 stato aggiornato.
@@ -7506,10 +7345,10 @@ stato aggiornato.
 Il file di configurazione per il database è localizzato in "
 /etc/updatedb.conf".
 
-  Updatedb File
+#####  Updatedb File
 
-Vediamo ora alcune impostazioni importanti all'interno del file "
-/etc/updatedb.conf"
+Vediamo ora alcune impostazioni importanti all'interno del 
+file "/etc/updatedb.conf"
 
 ```sh
  PRUNE_BIND_MOUNTS = "yes" 
@@ -7532,6 +7371,7 @@ Vediamo ora alcune impostazioni importanti all'interno del file "
  # le directory da escludere nelle 
  # ricerche
 ```
+
 ### Modalità Alternative per cercare file
 
 
@@ -7539,19 +7379,20 @@ Verranno di sequito elencate alcune modalità alternative per
 effettuare ricerche di file su sistemi GNU/Linux:
 
 ```sh
- # ls /nomeDirectoryInCuiCercare -R | grep "nomeFileOWildCard" 
-  
+ ls /nomeDirectoryInCuiCercare -R | grep "nomeFileOWildCard" 
  # cerca in modo ricorsivo (dir e subdirs) all'interno della 
  # directory /nomeDirectoryInCuiCercare i file che hanno nome 
  # nomeFileOWildCard
 ```
+
 ```sh
  grep -lr nomeFile /directory 
  # elenca i file i cui nomi 
  # corrispondono a nomeFile all'interno della directory /directory
 ```
-### Il programma Tar
 
+
+### Il programma Tar
 
 Tar è un programma utilizzato per archiviare (o raggruppare) più 
 file in un singolo file, i file creati con tar sono chiamati "
@@ -7663,28 +7504,14 @@ compressione possono lavorare sepratamente, ad esempio:
 Nota Bene: Esistono delle analogie tra le estensioni dei file 
 archiviati e compressi:
 
-[float Table:
 
-+--------------------+--------------------+
-|  Suffisso Breve    |   Suffisso Lungo   |
-+--------------------+--------------------+
-+--------------------+--------------------+
-|       .tgz         |      .tar.gz       |
-+--------------------+--------------------+
-| .tbz, .tbz2, .tb2  |      .tar.bz2      |
-+--------------------+--------------------+
-|     .taz, .tz      |       .tar.Z       |
-+--------------------+--------------------+
-|       .tlz         | .tar.lz, .tar.lzma |
-+--------------------+--------------------+
-|       .txz         |      .tar.xz       |
-+--------------------+--------------------+
-
-
-[Table 4: 
-Suffissi equivalenti per file archiviati e compressi
-]
-]
+|   Suffisso Breve  |   Suffisso Lungo   |
+|:-----------------:|:------------------:|
+|        .tgz       |       .tar.gz      |
+| .tbz, .tbz2, .tb2 |      .tar.bz2      |
+|     .taz, .tz     |       .tar.Z       |
+|        .tlz       | .tar.lz, .tar.lzma |
+|        .txz       |       .tar.xz      |
 
 Vediamo ora alcuni esempi di tar in cui viene combinata la 
 compressione/decompressione:
@@ -7719,48 +7546,41 @@ contenuto e "unrar x nomearchivio.rar" per estrarre l'archivio.
 
 ### Librerie
 
-
 Esistono generalmente due tipi di librerie:
 
-```sh
- # Shared libraries: are .so (or in Windows .dll, or in OS X 
- # .dylib) files. All the code relating to the library is in this 
- # file, and it is referenced by programs using it at run-time. A 
- # program using a shared library only makes reference to the code 
- # that it uses in the shared library.
-```
-```sh
- # Static libraries are .a (or in Windows .lib) files. All the 
- # code relating to the library is in this file, and it is 
- # directly linked into the program at compile time. A program 
- # using a static library takes copies of the code that it uses 
- # from the static library and makes it part of the program. 
- # [Windows also has .lib files which are used to reference .dll 
- # files, but they act the same way as the first one].
-```
+* **Shared libraries** are .so (or in Windows .dll, or in OS X 
+  .dylib) files. All the code relating to the library is in this 
+  file, and it is referenced by programs using it at run-time. A 
+  program using a shared library only makes reference to the code 
+  that it uses in the shared library.
+* **Static libraries** are .a (or in Windows .lib) files. All the 
+  code relating to the library is in this file, and it is 
+  directly linked into the program at compile time. A program 
+  using a static library takes copies of the code that it uses 
+  from the static library and makes it part of the program. 
+  [Windows also has .lib files which are used to reference .dll 
+  files, but they act the same way as the first one].
+
 There are advantages and disadvantages in each method.
 
-```sh
- # Shared libraries reduce the amount of code that is duplicated 
- # in each program that makes use of the library, keeping the 
- # binaries small. It also allows you to replace the shared object 
- # with one that is functionally equivalent, but may have added 
- # performance benefits without needing to recompile the program 
- # that makes use of it. Shared libraries will, however have a 
- # small additional cost for the execution of the functions as 
- # well as a run-time loading cost as all the symbols in the 
- # library need to be connected to the things they use. 
- # Additionally, shared libraries can be loaded into an 
- # application at run-time, which is the general mechanism for 
- # implementing binary plug-in systems.
-```
-```sh
- # Static libraries increase the overall size of the binary, but 
- # it means that you don't need to carry along a copy of the 
- # library that is being used. As the code is connected at compile 
- # time there are not any additional run-time loading costs. The 
- # code is simply there.
-```
+* **Shared libraries** reduce the amount of code that is duplicated 
+  in each program that makes use of the library, keeping the 
+  binaries small. It also allows you to replace the shared object 
+  with one that is functionally equivalent, but may have added 
+  performance benefits without needing to recompile the program 
+  that makes use of it. Shared libraries will, however have a 
+  small additional cost for the execution of the functions as 
+  well as a run-time loading cost as all the symbols in the 
+  library need to be connected to the things they use. 
+  Additionally, shared libraries can be loaded into an 
+  application at run-time, which is the general mechanism for 
+  implementing binary plug-in systems.
+* **Static libraries** increase the overall size of the binary, but 
+  it means that you don't need to carry along a copy of the 
+  library that is being used. As the code is connected at compile 
+  time there are not any additional run-time loading costs. The 
+  code is simply there.
+
 Personally, one could prefer shared libraries, but use static 
 libraries when needing to ensure that the binary does not have 
 many external dependencies that may be difficult to meet, such as 
@@ -7796,14 +7616,11 @@ la variabile d'ambiente LD_PRELOAD, ad esempio:
 Esistono diversi modi per configurare le librerie di sistema su 
 GNU/Linux:
 
-```sh
- # Configurazione Globale (o Global Configurations): 
- # configurazione valida per tutti gli utenti di un sistema
-```
-```sh
- # Configurazione locale o d'ambiente (Environment 
- # Configurations): configurazione valida per un utente specifico
-```
+* Configurazione Globale (o Global Configurations): 
+  configurazione valida per tutti gli utenti di un sistema
+* Configurazione locale o d'ambiente (Environment Configurations):
+  configurazione valida per un utente specifico
+
 Quando cambiamo una qualche configurazione riguardante le 
 librerie, dobbiamo effettuare una pulizia della cache, questo 
 avviene per rendere effettivi i cambiamenti, a questo proposito 
@@ -7839,10 +7656,9 @@ che contiene questa/queste libreria/e e poi creare una variabile
 d'ambiente che mi fornisce il link alla directory contenente la 
 mia libreria. Ad esempio:
 
-1. mkdir /usr/local/mylibrary #creo una directory e all'interno 
+1. `mkdir /usr/local/mylibrary` creo una directory e all'interno 
   ci metto la mia libreria
-
-2. export LD_LIBRARY_PATH=/usr/local/mylibrary #modifico la 
+2. `export LD_LIBRARY_PATH=/usr/local/mylibrary` modifico la 
   variabile d'ambiente "LD_LIBRARY_PATH" contenente il percorso 
   alle librerie accessibile all'utente
 
@@ -7851,8 +7667,7 @@ posso utilizzare il separatore ":" per indicare i vari percorsi,
 come ad esempio:
 
 ```sh
- # export 
- # LD_LIBRARY_PATH=/usr/local/mylibrary:/usr/local/mylibrary2
+ export LD_LIBRARY_PATH=/usr/local/mylibrary:/usr/local/mylibrary2
 ```
 Ricorda che se sono state effettuate delle modifiche all'interno 
 del file /etc/ld.so.conf, allora dobbiamo lanciare un "ldconfig", 
@@ -7860,15 +7675,13 @@ viceversa se abbiamo aggiunto delle librerie solo per il mio
 utente allora non sarà necessario lanciare il comando "ldconfig". 
 In linea di massima possiamo dire che:
 
-```sh
- # In presenza di modifiche della Configurazione Globale -> 
- # necessario un "ldconfig"
-```
-```sh
- # In presenza di modifiche della Configurazione Locale -> non 
- # necessario un "ldconfig"
-```
-  Problemi comuni con le librerie
+* In presenza di modifiche della Configurazione Globale -> 
+  necessario un "ldconfig"
+* In presenza di modifiche della Configurazione Locale -> non 
+  necessario un "ldconfig"
+
+
+####  Problemi comuni con le librerie
 
 Talvolta pur essendoci la libreria richiesta, prendiamo ad 
 esempio la libreria "libXft.so.2", il lancio di un eseguibile 
@@ -7897,40 +7710,24 @@ permette di copiare o convertire file da una locazione ad uno
 specifico file, viene usato per diversi scopi, alcuni esempi 
 applicativi sono:
 
-```sh
- # Creare immagini ISO
-```
-```sh
- # Effettuare Backup
-```
-```sh
- # Salvare i primi 512 Byte nella partizione "/" di root per 
- # salvare il Master Boot Record
-```
-```sh
- # Per riempire di zeri una partizione o in genere un dispositivo 
- # di memoria per poterlo svuotare completamente di tutti i dati 
- # presenti
-```
-```sh
- # Per creare in genere un file di una determinata dimensione (ad 
- # esempio per effettuare qualche tipo di simulazione)
-```
-```sh
- # Per creare file di swap
-```
-```sh
- # Effettuare benchmark grossolani
-```
-```sh
- # Salvare un dispositivo con tutte le sue relative partizioni e 
- # tabella delle partizioni, se ad esempio c'è un HD con diversi 
- # sistemi operativi e diversi dati, o ad esempio un'immagine SD 
- # di un sistema operativo con una configurazione particolare, 
- # possiamo usare dd per copiare tutto
-```
-Esempi di utilizzo sono:
+* Creare immagini ISO
+* Effettuare Backup
+* Salvare i primi 512 Byte nella partizione "/" di root per 
+* salvare il Master Boot Record
+* Per riempire di zeri una partizione o in genere un dispositivo 
+  di memoria per poterlo svuotare completamente di tutti i dati 
+  presenti
+* Per creare in genere un file di una determinata dimensione (ad 
+  esempio per effettuare qualche tipo di simulazione)
+* Per creare file di swap
+* Effettuare benchmark grossolani
+* Salvare un dispositivo con tutte le sue relative partizioni e 
+  tabella delle partizioni, se ad esempio c'è un HD con diversi 
+  sistemi operativi e diversi dati, o ad esempio un'immagine SD 
+  di un sistema operativo con una configurazione particolare, 
+  possiamo usare dd per copiare tutto
 
+Esempi di utilizzo sono:
 ```sh
  dd if=/root/mydir of=/home/user/backup.iso 
  # dove if sta per "
@@ -8008,12 +7805,13 @@ dd" di eseguire un:
  # rende un iso ibrida in modo da 
  # poter essere leggibile sia da un sistema UEFI che ISO.
 ```
+
 ### Manipolazione avanzata di file
 
 
 Vediamo ora alcuni comandi per la manipolazione di file.
 
-  Xargs
+#### Xargs
 
 Un programma molto utile per eseguire uno specifico comando per 
 ogni voce sullo standard output è xargs, vediamone un esempio 
@@ -8025,7 +7823,7 @@ applicativo:
  # tutti i file che hanno la parola "test" all'interno del loro 
  # nome
 ```
-  Sort
+#### Sort
 
 Sort è un programma utilizzato per riordinare i risultati sullo 
 standard output
@@ -8058,7 +7856,9 @@ standard output
  # riordinamento avviene in funzione della colonna 1 e della 
  # colonna 3 sul file chiamato "test.txt"
 ```
-  Expand ed Unexpand
+
+
+#### Expand ed Unexpand
 
 Questi due comandi vengono utilizzati solitamente per sostituire 
 uno o una serie di spazi in un file con dei tab o viceversa, o ad 
@@ -8081,7 +7881,9 @@ Vediamo un esempio:
  # converto tutti gli spazi 
  # in tab e salvo risultati in myfile2.txt
 ```
-  Paste
+
+
+#### Paste
 
 Paste è un programma che unisce le righe di due file, ma è molto 
 utilizzato per visualizzare le differenze tra due file, in quanto 
@@ -8099,7 +7901,8 @@ applicativo è:
  # in questo caso genereremo 
  # un file con le righe accoppiate e separate dal simbolo ":"
 ```
-  Tr
+
+#### Tr
 
 Il comando "tr" viene utilizzato per effettuare sostituzioni 
 carattere per carattere, ad esempio:
@@ -8131,7 +7934,7 @@ carattere per carattere, ad esempio:
 N.B.: Per effettuare la sostituzione di stringhe il comando sed è 
 più flessibile.
 
-  Contare le linee di un file
+#### Contare le linee di un file
 
 Per contare le linee esistono diverse opzioni, alcune classiche 
 opzioni sono:
@@ -8161,12 +7964,14 @@ ridondanti, utilizziamo il comando "uniq", ad esempio:
  # oppure possiamo utilizzare "
  # sort -u"
 ```
-  Fmt
+
+#### Fmt
 
 E' possibile formattare il testo attraverso il comando "fmt", per 
 vedere le diverse opzioni possiamo effettuare un "man fmt".
 
-  Uniq
+
+#### Uniq
 
 Questo comando è utile per visualizzare le righe uniche 
 all'interno di un file, deve essere usato sempre in coppia con "
@@ -8188,8 +7993,9 @@ alla precedente, vediamo qualche esempio di utilizzo
  # quante occorrenze ci sono ma questa volte secondo un ordine 
  # crescente, quindi le righe più rare saranno in alto
 ```
-### Effettuare Backup
 
+
+### Effettuare Backup
 
 In informatica con il termine backup, copia di sicurezza o copia 
 di riserva si indica la replicazione, su un qualunque supporto di 
@@ -8219,30 +8025,19 @@ L'esempio visto qui sopra è veramente basilare e non fa altro che
 effettuare una semplice copia, mentre i programmi di backup 
 generalmente possono presentare le seguenti funzionalità:
 
-```sh
- # Copia immagine di un disco rigido; 
-```
-```sh
- # Copia selettiva di directory e singoli file; 
-```
-```sh
- # Criteri di selezione per la ricerca dei contenuti salvati e per 
- # la scelta di quelli che devono essere oggetto di backup (per 
- # data, tipo di file, autore della modifica); 
-```
-```sh
- # Compressione dei contenuti per ridurre la memoria richiesta per 
- # la copia; 
-```
-```sh
- # Sicurezza: protezione dei dati copiati attraverso password e 
- # crittografia.
-```
+* Copia immagine di un disco rigido 
+* Copia selettiva di directory e singoli file
+* Criteri di selezione per la ricerca dei contenuti salvati e per 
+  la scelta di quelli che devono essere oggetto di backup (per 
+  data, tipo di file, autore della modifica)
+* Compressione dei contenuti per ridurre la memoria richiesta per la copia
+* Sicurezza: protezione dei dati copiati attraverso password e crittografia
+
 Vediamo ora alcune tecniche per effettuare backup su sistemi 
 GNU/Linux che prevedono l'utilizzo di Tar o Rsync.
 
-### Backup con Tar
 
+### Backup con Tar
 
 Un semplice modo di effettuare backup col comando Tar ed ottenere 
 compressione è:
@@ -8260,16 +8055,14 @@ periodici utilizzando questa il programma tar, questo è possibile
 attraverso uno script in cui scriviamo:
 
 ```sh
- # tar -pczf /home/backup/backup.`/bin/date +\%y\%m\%d`.tar.gz 
-  home/user/ 
- # crea archivi con la data nel nome, della directory 
- # /home/user
+ tar -pczf /home/backup/backup.`/bin/date +\%y\%m\%d`.tar.gz home/user/ 
+ # crea archivi con la data nel nome, della directory /home/user
 ```
 Un'altra opzione è quella di aggiungere questo comando a "cron", 
 in modo da poterlo eseguire periodicamente.
 
-### Backup con Rsync
 
+### Backup con Rsync
 
 Uno strumento veramente molto flessibile per effettuare backup è 
 costituito da "rsync", molte distro hanno questo comando 
@@ -8282,17 +8075,14 @@ installato di default. Vediamo subito alcuni esempi:
  # stampando sullo standard output file per file copiato, il flag "
  # -a" sta per archivio e costituisce la combinazione di più flag "
  # -rlp" e quindi:
+ # 1.copia ricorsivamente le directory 
+ # 2.copia anche i link
+ # 3.preserva la struttura dei permessi
 ```
 
-* copia ricorsivamente le directory 
-
-* copia anche i link
-
-* preserva la struttura dei permessi
 
 ```sh
- # rsync -avz --delete /media/sorgente 
-  /media/giuseppe/destinazione/ 
+ rsync -avz --delete /media/sorgente /media/giuseppe/destinazione/ 
  # viene effettuata una copia di 
  # backup da sorgente a destinazione, il flag "-z", indica di 
  # effettuare la compressione per il trasferimento, e l'opzione "
@@ -8301,8 +8091,7 @@ installato di default. Vediamo subito alcuni esempi:
  # esatta di "sorgente"
 ```
 ```sh
- # rsync -avzi --delete --progress /media/sorgente 
-  /media/giuseppe/destinazione/ 
+ rsync -avzi --delete --progress /media/sorgente /media/giuseppe/destinazione/ 
  # viene effettuata la stessa 
  # operazione precedente, solo che attraverso il flag "-i" vengono 
  # visualizzate le modifiche effettuate in destinazione e 
@@ -8313,9 +8102,10 @@ Il programma rsync può anche essere usato per sincronizzare
 directory su (o da) server remoti, ad esempio:
 
 ```sh
- # rsync -av gng@andromeda:/home/gng/mySourceFolder 
- # /home/marco/BackupServer/
+ rsync -av gng@andromeda:/home/gng/mySourceFolder /home/marco/BackupServer/
 ```
+
+
 ## Processi
 
 In soldoni un processo è un programma, i processi possono 
@@ -8325,12 +8115,9 @@ notifiche asincrone mandate ad un processo. Gli strumenti
 principali per visualizzare i processi attivi su una macchina 
 sono:
 
-```sh
- # Top (Programma interattivo e dinamico)
-```
-```sh
- # Ps (Programma statico)
-```
+* Top (Programma interattivo e dinamico)
+* Ps (Programma statico)
+
 N.B.: Esiste una categoria particolare di processi chiamata "
 demoni" (Su altri sistemi operativi possono essere chiamati 
 servizi), sono processi che vengono lanciati in background 
@@ -8340,8 +8127,8 @@ tempi o in risposta a determinati eventi. Nei sistemi GNU/Linux e
 derivati da Unix i nomi dei processi demone finiscono in "d" o in 
 'd[0,x]' come ksyslogd, kswapd0 o kthreadd.
 
-### Differenza tra PID e TID
 
+### Differenza tra PID e TID
 
 It is complicated: pid is process identifier; tid is thread 
 identifier.
@@ -8365,62 +8152,41 @@ utilities documented to work with pid actually use tids. But if
 the effect is process-wide you will simply not notice the 
 difference. 
 
-### Top
 
+### Top
 
 Top è un programma interattivo e dinamico per la gestione dei 
 processi. Per avviarlo basta scrivere in un terminale "top", a 
 questo punto comparirà una schermata in cui:
 
-```sh
- # "Load average" tiene conto della media di utilizzo della CPU, 
- # il primo numero è al minuto, il secondo ogni 5 minuti e il 
- # terzo ogni 15 minuti, possiamo fare delle considerazioni su 
- # questi, ad esempio se il primo è molto alto e l'ultimo basso, 
- # allora c'è stato un picco nell'ultimo minuto di risorse 
- # richieste e viceversa, inoltre è da tenere a mente che possono 
- # essere un buono strumento per valutare se un server è troppo 
- # debole o troppo forte per il suo lavoro, ad esempio su una 
- # macchina con 4 processori ho una media costante molto più bassa 
- # rispetto al numero 4 allora, tutti quei processori sono 
- # sprecati per il mio sistema
-```
-```sh
- # Con "Shift+P" ordina i processi per utilizzo cpu
-```
-```sh
- # Con "Shift+M" ordina i processi per utilizzo della memoria RAM
-```
-```sh
- # La colonna "NI" rappresenta la priorità di un processo: più è 
- # basso il numero più è alta la priorità assegnata al processo. 
- # Le priorità vanno da -20 a +19; -20 costituisce la priorità più 
- # alta che un processo possa avere, viceversa +19 è la più bassa.
-```
-```sh
- # Con "r" posso cambiare la priorità di un processo, mi basta 
- # inserire il PID (Process ID) da ri-prioritarizzare e 
- # schiacciando invio posso inserire la nuova priorità. 
-```
-```sh
- # Con "k" termino un processo, anche in questo caso mi basta 
- # inserire il PID e il segnale con cui terminarlo. 
-```
+* "Load average" tiene conto della media di utilizzo della CPU, 
+  il primo numero è al minuto, il secondo ogni 5 minuti e il 
+  terzo ogni 15 minuti, possiamo fare delle considerazioni su 
+  questi, ad esempio se il primo è molto alto e l'ultimo basso, 
+  allora c'è stato un picco nell'ultimo minuto di risorse 
+  richieste e viceversa, inoltre è da tenere a mente che possono 
+  essere un buono strumento per valutare se un server è troppo 
+  debole o troppo forte per il suo lavoro, ad esempio su una 
+  macchina con 4 processori ho una media costante molto più bassa 
+  rispetto al numero 4 allora, tutti quei processori sono 
+  sprecati per il mio sistema
+* Con "Shift+P" ordina i processi per utilizzo cpu
+* Con "Shift+M" ordina i processi per utilizzo della memoria RAM
+* La colonna "NI" rappresenta la priorità di un processo: più è 
+  basso il numero più è alta la priorità assegnata al processo. 
+* Le priorità vanno da -20 a +19; -20 costituisce la priorità più 
+  alta che un processo possa avere, viceversa +19 è la più bassa.
+* Con "r" posso cambiare la priorità di un processo, mi basta 
+  inserire il PID (Process ID) da ri-prioritarizzare e 
+  schiacciando invio posso inserire la nuova priorità. 
+* Con "k" termino un processo, anche in questo caso mi basta 
+  inserire il PID e il segnale con cui terminarlo. 
+    * Segnale 15 chiusura normale
+    * Segnale -9 chiusura forzata
+* Con "q" esce dal programma
+* Con "m" mostra o nasconde informazioni sulla memoria
+* Con "s" cambia il tempo di aggiornamento della schemata di top (di default questo tempo è 3 secondi)
 
-* Segnale 15 chiusura normale
-
-* Segnale -9 chiusura forzata
-
-```sh
- # Con "q" esce dal programma
-```
-```sh
- # Con "m" mostra o nasconde informazioni sulla memoria
-```
-```sh
- # Con "s" cambia il tempo di aggiornamento della schemata di top 
- # (di default questo tempo è 3 secondi)
-```
 La schermata di top si aggiorna automaticamente ogni 3 secondi, 
 ad ogni modo esistono altre modalità con cui lanciarlo per poter 
 cambiare questa impostazione o richiedere feature specifiche:
@@ -8429,21 +8195,25 @@ cambiare questa impostazione o richiedere feature specifiche:
  top -d 1 
  # aggiorna lo stato dei processi ogni secondo
 ```
+
 ```sh
  top -p 1 
  # si ottiene una versione di top con focus sul 
  # processo avento PID = 1
 ```
+
 ```sh
  top -p 1,2,3 
  # come il caso precedente, ma ora il focus è sui 
  # processi 1, 2 and 3
 ```
+
 ```sh
  top -b 
  # avvio top in modalità "batch", in questa modalità 
  # visualizzo solo i processi senza informazioni aggiuntive
 ```
+
 Possiamo vedere una descrizione dettagliata del significato dei 
 campi visualizzati da top, nella pagina di man di top, nella 
 sezione "DESCRIPTIONS". Una variante molto comoda e più avanzata 
@@ -8454,8 +8224,8 @@ diversi thread associati allo stesso processo con "Shift+H", a
 common suggestion is, enabling "Display threads in a different 
 color" and "Show custom thread names" under F2 / Display.
 
-### PS
 
+### PS
 
 Ps è un programma statico per la gestione dei processi, viene 
 molto utilizzato nella stesura di programmi o script che devono 
@@ -8512,8 +8282,8 @@ running on. Other cases are:
  # possono essere diverse in quanto un processo può avere una 
  # parte in memoria e l'altra sull'area di swap
 ```
-### Altre Informazioni sui processi
 
+### Altre Informazioni sui processi
 
 E' possibile reperire altre informazioni sui processi attraverso 
 altri programmi; ad esempio:
@@ -8541,8 +8311,8 @@ un sommario sull'utilizzo dei processi è dato da:
  # "man procinfo" per la spiegazione di ogni singola stringa e per 
  # varie opzioni
 ```
-### Nice e Renice
 
+### Nice e Renice
 
 E' possibile lanciare programmi specificando il grado di priorità 
 attraverso il comando "nice", ad esempio:
@@ -8622,32 +8392,26 @@ oppure è possibile portare un comando in background anche con:
 N.B.: E' bene tenere a mente che tutti i processi del terminale 
 vengono terminati con nel momento in cui usciamo dal terminale, 
 nel caso volessimo far sopravvivere i nostri processi anche una 
-volta usciti dal terminale dobbiamo effettuare un'operazione di "
-nohup".
+volta usciti dal terminale dobbiamo effettuare un'operazione di "nohup".
+
 
 ### Uccidere Processi
-
 
 E' possibile uccidere un processo mandandogli dei segnali, 
 esistono tre tipi di segnali utili per la terminazione di un 
 processo:
 
-```sh
- 1 - sigup 
- # termina il programma e chiede al demone di 
- # rileggere i file di configurazione, solitamente questo è 
- # utilizzato con i demoni, visto che la loro particolarità è 
- # quella di riavviarsi una volta uccisi
-```
-```sh
- 9 - sigterm 
- # forza l'uscita
-```
-```sh
- 15 - quit with shutdown 
- # chiude prima tutti i file aperti dal 
- # processo, è una terminazione meno brusca rispetto al segnale 9
-```
+* 1 - sigup 
+  termina il programma e chiede al demone di 
+  rileggere i file di configurazione, solitamente questo è 
+  utilizzato con i demoni, visto che la loro particolarità è 
+  quella di riavviarsi una volta uccisi
+* 9 - sigterm 
+  forza l'uscita
+* 15 - quit with shutdown 
+  chiude prima tutti i file aperti dal 
+  processo, è una terminazione meno brusca rispetto al segnale 9
+
 Esempi di utilizzo possono essere:
 
 ```sh
@@ -8697,8 +8461,8 @@ Alcune distro hanno il comando "killall", ad esempio:
 Nel caso volessi chiudere tutti i programmi legati al mio 
 terminale, mi basta lanciare il comando "exit".
 
-### Nohup
 
+### Nohup
 
 Nel caso volessimo lanciare un programma e assicurarci che 
 continui la sua esecuzione anche nel caso in cui il nostro 
@@ -8730,6 +8494,16 @@ possiamo effettuare:
  # lancia programName in background in 
  # modalità "nohup"
 ```
+```sh
+ nohup perl myscript.pl > out.txt 2>err.txt &
+ # esegue lo script in perl e redirege l'output
+ # sul file out.txt e lo standard error sul file
+ # err.txt inoltre lo script parte in background
+ # quindi intanto possiamo fare altro e anche effettuare
+ # logout dalla macchina, tanto lo script continuera'
+ # la sua esecuzione
+```
+
 Un altro comando utile può essere:
 
 ```sh
@@ -8760,8 +8534,9 @@ terminal, find the process id (using ps) and run:
  # background. So now, closing both your terminals won't stop your 
  # process. 
 ```
-### Lsof
 
+
+### Lsof
 
 Il programma lsof permette di capire quali file sono aperti dai 
 vari processi, infatti lsof sta per "list opened files", vediamo 
@@ -8917,26 +8692,15 @@ un'alternativa ad lsof è "fuser", vediamo alcuni esempi:
 ```
 nelle tabelle presentate da fuser, la simbologia è:
 
-```sh
- # c current directory 
-```
-```sh
- # e executable being run 
-```
-```sh
- # f open file. f is omitted in default display mode 
-```
-```sh
- # F open file for writing. F is omitted in default display mode 
-```
-```sh
- # r root directory 
-```
-```sh
- # m mmap’ed file or shared library 
-```
-### Gestione dei demoni e dei processi
+* `c` current directory 
+* `e` executable being run 
+* `f` open file. f is omitted in default display mode 
+* `F` open file for writing. F is omitted in default display mode 
+* `r` root directory 
+* `m` mmap’ed file or shared library 
 
+
+### Gestione dei demoni e dei processi
 
 Storicamente (e ancora su alcune distro) il gestore di 
 inizializzazione dei servizi su GNU/Linux è stato "sysVinit", che 
@@ -8959,24 +8723,19 @@ questa strategia:
 Before proceeding, you need to determine your system’s version of 
 init. If you’re not sure, check your system as follows: 
 
-```sh
- # If your system has /usr/lib/systemd and /etc/systemd 
- # directories, you have systemd. Go to 6.4 systemd. 
-```
-```sh
- # If you have an /etc/init directory that contains several .conf 
- # files, you’re probably running Upstart (unless you’re running 
- # Debian 7, in which case you probably have System V init). Go to 
- # 6.5 Upstart. 
-```
-```sh
- # If neither of the above is true, but you have an /etc/inittab 
- # file, you’re probably running System V init. Go to 6.6 System V 
- # init. If your system has manual pages installed, viewing the 
- # init(8) manual page should help identify your version.
-```
-### SysVinit
+1. If your system has /usr/lib/systemd and /etc/systemd 
+   directories, you have systemd. Go to 6.4 systemd. 
+2. If you have an /etc/init directory that contains several .conf 
+   files, you’re probably running Upstart (unless you’re running 
+   Debian 7, in which case you probably have System V init). Go to 
+   6.5 Upstart. 
+3. If neither of the above is true, but you have an /etc/inittab 
+  file, you’re probably running System V init. Go to 6.6 System V 
+  init. If your system has manual pages installed, viewing the 
+  init(8) manual page should help identify your version.
 
+
+### SysVinit
 
 Il sistema di gestione servizi sysVinit è molto semplice, in 
 pratica è basato su 6 runlevel del sistema, ad ogni runlevel 
@@ -8992,8 +8751,8 @@ determinato servizio, allora dovremmo creare un link simbolico in
 una delle directory "/etc/rc.x/" (dove "x" rappresenta il 
 runlevel).
 
-### Systemd
 
+### Systemd
 
 Systemd permette all'utente di creare diversi "stati" che 
 forniscono all'utente un meccanismo flessibile per creare diverse 
@@ -9003,6 +8762,7 @@ cosiddetti "target", i target hanno nomi significativi al posto
 di semplici numeri come avveniva in sysVinit, e gli "unit file" 
 gestiscono servizi, socket, e mount. Gli "unit file" sono 
 collocati in due directory:
+
 
 ```sh
  /etc/systemd/sytem/ 
@@ -9155,10 +8915,11 @@ per cambiare il target default possiamo invece effettuare:
  # al cambio del runlevel di default su sysVinit
 ```
 
-* E' da notare che quello che viene effettuato in realtà quando 
-    viene lanciato questo comando è: "ln -sf 
-    /lib/systemd/system/<nome del target>.target 
-    /etc/systemd/system/default.target"
+E' da notare che quello che viene effettuato in realtà quando 
+viene lanciato questo comando è: 
+```sh
+ln -sf /lib/systemd/system/<nome del target>.target /etc/systemd/system/default.target
+```
 
 Altre istruzioni utili sono:
 
@@ -9166,6 +8927,7 @@ Altre istruzioni utili sono:
  systemctl get-default 
  # mostra il target presente
 ```
+
 Mentre un'altra directory utile in alcune distro è /etc/init.d/, 
 questa directory viene dal sistema sysVinit e contiene gli script 
 che si occupano di lanciare o terminare i processi; in pratica 
@@ -9182,15 +8944,15 @@ alcuni altri comandi che utilizzano systemd:
  # analizzano dati dal processo di boot
 ```
 
-* attenzione, in quanto su sistemi con firmware BIOS systemd 
-    non può ottenere come dato il tempo che questo ci ha messo ad 
-    inizializzarsi e a fare le sue cose, mentre con sistemi con 
-    firmware UEFI, il firmware fornisce dati al kernel come il 
-    tempo di avvio, vedremo infatti sui sistemi UEFI una voce 
-    aggiuntiva chiamata "firmware" questa si riferisce proprio al 
-    tempo di caricamento del firmware UEFI, un'altra voce 
-    aggiuntiva che incontriamo sui sistemi UEFI è "loader" questo 
-    è il tempo impiegato dal bootloader
+ATTENZIONE: su sistemi con firmware BIOS systemd 
+non può ottenere come dato il tempo che questo ci ha messo ad 
+inizializzarsi e a fare le sue cose, mentre con sistemi con 
+firmware UEFI, il firmware fornisce dati al kernel come il 
+tempo di avvio, vedremo infatti sui sistemi UEFI una voce 
+aggiuntiva chiamata "firmware" questa si riferisce proprio al 
+tempo di caricamento del firmware UEFI, un'altra voce 
+aggiuntiva che incontriamo sui sistemi UEFI è "loader" questo 
+è il tempo impiegato dal bootloader.
 
 ```sh
  systemd-analyze blame 
@@ -9232,18 +8994,15 @@ Attraverso i comandi sopracitati, possiamo quindi tenere sotto
 controllo il sistema, sapendo cosa viene avviato, quando viene 
 avviato e da cosa (quale script, programma) viene avviato.
 
-  Creare un servizio per systemd
+#### Creare un servizio per systemd
 
 Per creare un servizio, dobbiamo creare uno "unit file", uno unit 
 file molto minimale potrebbe essere:
 
-——————————————————————————--——————————————--
-
+```conf
 [Unit]
 
-Description=Possiamo inserire una breve descrizione del servizio 
-qui
-
+Description=Possiamo inserire una breve descrizione del servizio qui
 After=default.target
 
 [Install]
@@ -9253,27 +9012,20 @@ WantedBy=default.target
 [Service]
 
 Type=forking
-
 ExecStart=/usr/local/bin/myScript
-
-——————————————————————————--——————————————--
+```
 
 Dove:
 
-```sh
- # nella sezione [Unit] indichiamo quando deve essere avviato 
- # rispetto a default.target
-```
-```sh
- # nella sezione [Install] indichiamo che è richiesto quando viene 
- # lanciato default.target
-```
-```sh
- # nella sezione [Service] il Type=forking è necessario, in quanto 
- # nel nostro esempio stiamo eseguendo uno script di shell, in 
- # caso contrario dobbiamo eliminarlo, mentre in ExecStart 
- # indichiamo il programma da eseguire
-```
+* nella sezione [Unit] indichiamo quando deve essere avviato 
+  rispetto a default.target
+* nella sezione [Install] indichiamo che è richiesto quando viene 
+  lanciato default.target
+* nella sezione [Service] il Type=forking è necessario, in quanto 
+  nel nostro esempio stiamo eseguendo uno script di shell, in 
+  caso contrario dobbiamo eliminarlo, mentre in ExecStart 
+  indichiamo il programma da eseguire
+
 Per installarlo spostiamo (o creiamo un link) il file all'interno 
 della directory "/etc/systemd/system" ed eseguiamo:
 
@@ -9282,6 +9034,7 @@ della directory "/etc/systemd/system" ed eseguiamo:
  # dove nomeServizio è il 
  # nome del file
 ```
+
 Possiamo verificare al prossimo riavvio se il modulo è stato 
 caricato, col comando:
 
@@ -9290,6 +9043,7 @@ caricato, col comando:
  # visualizza i moduli che non sono stati 
  # caricati correttamente
 ```
+
 Se il nostro modulo è presente in questa lista, allora non è 
 stato caricato correttamente e possiamo ispezionare il problema 
 con:
@@ -9298,31 +9052,33 @@ con:
  systemctl status nomeModulo 
  # visualizza lo status del modulo	
 ```
+
+
 ### Superdaemons e xinet.d
 
-
-Nei sistemi GNU/Linux esistono anche demoni particolari detti "
-superdemoni", questi superdemoni non sono altro che demoni il cui 
+Nei sistemi GNU/Linux esistono anche demoni particolari detti "superdemoni",
+questi superdemoni non sono altro che demoni il cui 
 scopo è gestire altri demoni, uno dei più famosi è "xinet.d", che 
 ha sostituito l'ormai obsoleto "inet.d", ma esistono anche altri 
 pacchetti software che ci permettono di installare superdemoni.
+
 
 ## Mail
 
 We'll use postfix as MTA, but there is even exim;
 
 ```sh
- # sudo apt-get install postfix
+ sudo apt-get install postfix
 ```
 then we run
 
 ```sh
  service postfix start 
- # to start the service, or systemctl 
- # start postfix
+ # to start the service, or systemctl start postfix
 ```
-The path where mail for individual users are stored is "/var/mail"
-, l'utente root invece è diverso dagli altri utenti, in quanto 
+
+The path where mail for individual users are stored is "/var/mail",
+l'utente root invece è diverso dagli altri utenti, in quanto 
 lui può ricevere mail dal kernel, o dal sistema operativo per 
 diversi avvisi. Vediamo alcuni esempi:
 
@@ -9340,8 +9096,9 @@ predefinito chiamato "body.txt", possiamo effettuare, all'interno
 dello script l'istruzione:
 
 ```sh
- # mail -s "Lo script è completato" < /root/bin/body.txt root
+ mail -s "Lo script è completato" < /root/bin/body.txt root
 ```
+
 Per leggere le mail possiamo effettuare:
 
 ```sh
@@ -9353,17 +9110,15 @@ Per leggere le mail possiamo effettuare:
 
 * "r" per rispondere alla mail, e "Ctrl+D" per mandare la 
     risposta una volta finito l'inserimento
-
 * "d" per cancellare la mail
-
 * "q" per uscire dal programma
 
 oppure per leggere la mail queue, cioè la coda di email (è dove 
 le mail vengono salvate nel caso non riuscissero ad arrivare al 
 server di destinazione, per motivi di diversa natura)
 
-### Inoltro delle mail
 
+### Inoltro delle mail
 
 Un altro file importante, è "/etc/aliases", questo file gestisce 
 gli alias degli utenti, ad esempio nel caso volessi che sia i 
@@ -9385,46 +9140,33 @@ di creare un file chiamato ".forward" nella home directory di un
 utente, in questo file ci basta scrivere il nome utente a cui 
 inoltrare le mail.
 
+
 ## Informazioni sul Sistema e Diagnostica
+
 
 ### Overview del Processo di Boot
 
-
 A simplified view of the boot process looks like this: 
 
-1. The machine’s BIOS or boot firmware loads and runs a boot 
-  loader.
-
-2. The boot loader finds the kernel image on disk, loads it into 
-  memory, and starts it.
-
+1. The machine’s BIOS or boot firmware loads and runs a boot loader.
+2. The boot loader finds the kernel image on disk, loads it into memory,
+   and starts it.
 3. The kernel initializes the devices and its drivers. 
-
 4. The kernel mounts the root filesystem.
-
 5. The kernel starts a program called init with a process ID of 
   1. This point is the user space start. 
-
 6. init sets the rest of the system processes in motion. 
-
 7. At some point, init starts a process allowing you to log in, 
   usually at the end or near the end of the boot.
 
 Inoltre allo startup, il kernel Linux effettua le 
 inizializzazioni in quest'ordine:
-
 1. CPU Inspection
-
 2. Memory Inspection
-
 3. Device bus Discovery
-
 4. Device discovery
-
 5. Auxiliary kernel subsystem setup (networking, and so on)
-
 6. Root filesystem mount
-
 7. User space start
 
 Solitamente i messaggi di boot sono contenuti in 
@@ -9432,6 +9174,7 @@ Solitamente i messaggi di boot sono contenuti in
 sistema, possiamo ad esempio visualizzarli con "dmesg" o 
 attraverso il nostro gestore di demoni, in quanto a volte il 
 sistema cancella quei messaggi.
+
 
 ### Log
 
@@ -9486,15 +9229,14 @@ messaggi al boot possono esistere diversi file, a volte vengono
 salvati in "/var/log/dmesg", altre in "/var/log/boot" o in "
 var/log/syslog", questo dipende dalla distribuzione e dalla 
 versione della distribuzione. Un reference per i file di log più 
-comuni può essere [http:#www.thegeekstuff.com/2011/08/linux-var-log-files/||File di Log più comuni]
-.
+comuni può essere [http:#www.thegeekstuff.com/2011/08/linux-var-log-files/||File di Log più comuni].
 
 per copiare ed eliminare cartelle si usa cp e rm col flag -r, se 
 uso anche il flag -f non gli importa dei parametri non esistenti, 
 cancella tutto quello che può.
 
-### Rsyslog e Syslog
 
+### Rsyslog e Syslog
 
 Rsyslog e Syslog costituiscono due sistemi di gestione dei log, 
 le distro Debian-based utilizzano rsyslogd, ma i concetti sono 
@@ -9511,8 +9253,7 @@ directory contenente gli script anzichè chiamarsi "rsyslog.d" si
 chiama "syslog.d". Vediamo un esempio di file "/etc/rsyslog.conf" 
 (che potrebbe anche essere "syslog.conf"):
 
-——————————————————————————--—
-
+```conf
 $IncludeConfig /etc/rsyslog.d/*.conf #include i file di 
 configurazione all'interno della directory specificata
 
@@ -9524,6 +9265,7 @@ emergency devono essere collocati nella directory indicata
 
 uucp,news.crit /var/log/spooler #indica che tutti i file di log 
 di uucp di tipo "critico" e di news di tipo "critico" 
+```
 
 
 vengono salvati nella directory indicata
@@ -9532,13 +9274,12 @@ la virgola ci permette di indicare più programmi
 contemporaneamente, mentre il punto, indica il livello di gravità 
 dei messaggi
 
-```sh
-#auth.emerg; uucp, news.crit /var/log/auth #indica che i messaggi 
+```conf
+auth.emerg; uucp, news.crit /var/log/auth 
+#indica che i messaggi 
 #di log di tipo emergency del programma auth e i 
-
 #messaggi di tipo critical dei programmi uucp e news verranno 
 #salvati nella directory indicata, il simbolo ";" 
-
 #è utilizzato per separare programmi con diversi tipi di messaggi
 ```
 
@@ -9546,69 +9287,28 @@ La stringa dopo il punto indica il cosiddetto "severity level"
 dei messaggi (7 = debug, 6 = info, 5 = notice, 4 = warning, 3 = 
 err, 2 = crit, 1 = alert, 0 = emerg, x = nothing), vediamo una 
 spiegazione dettagliata:
-
-```sh
- # 7 - DEBUG:
-```
-
-* Info useful to developers for debugging the app, not useful 
+* 7 - DEBUG: Info useful to developers for debugging the app, not useful 
     during operations
-
-```sh
- # 6 - INFORMATIONAL:
-```
-
-* Normal operational messages - may be harvested for reporting, 
-    measuring throughput, etc - no action required
-
-```sh
- # 5 - NOTICE:
-```
-
-* Events that are unusual but not error conditions - might be 
+* 6 - INFORMATIONAL: Normal operational messages - may be harvested for 
+  reporting, measuring throughput, etc - no action required
+* 5 - NOTICE: Events that are unusual but not error conditions - might be 
     summarized in an email to developers or admins to spot 
     potential problems - no immediate action required
-
-```sh
- # 4 - WARNING:
-```
-
-* Warning messages - not an error, but indication that an error 
+* 4 - WARNING: Warning messages - not an error, but indication that an error 
     will occur if action is not taken, e.g. file system 85% full 
-    - each item must be resolved within a given time
-
-```sh
- # 3 - ERROR:
-```
-
-* Non-urgent failures - these should be relayed to developers 
-    or admins; each item must be resolved within a given time
-
-```sh
- # 2 - ALERT:
-```
-
-* Should be corrected immediately - notify staff who can fix 
+    this means - each item must be resolved within a given time
+* 3 - ERROR: Non-urgent failures - these should be relayed to developers 
+    or admins; - each item must be resolved within a given time
+* 2 - ALERT: Should be corrected immediately - notify staff who can fix 
     the problem - example is loss of backup ISP connection
-
-```sh
- # 1 - CRITICAL:
-```
-
-* Should be corrected immediately, but indicates failure in a 
+* 1 - CRITICAL: Should be corrected immediately, but indicates failure in a 
     primary system - fix CRITICAL problems before ALERT - example 
     is loss of primary ISP connection
+* 0 - EMERGENCY A "panic" condition - notify all tech staff on call? 
+    (earthquake? tornado?) - affects multiple apps/servers/sites...
 
-```sh
- # 0 - EMERGENCY:
-```
-
-* A "panic" condition - notify all tech staff on call? 
-    (earthquake? tornado?) - affects multiple 
-    apps/servers/sites...
 
 ### Logger
-
 
 Il programma "logger" ci permette di scrivere nei file di log. 
 Vediamo alcuni esempi applicativi:
@@ -9650,8 +9350,9 @@ Vediamo alcuni esempi applicativi:
  # autore "backup" riportando anche il PID del process che l'ha 
  # generato, questo avviene attraverso il flag "-i"
 ```
-### Logrotate
 
+
+### Logrotate
 
 Un programma molto utile per gestire i log è "logrotate", esiste 
 un file chiamato "/etc/logrotate.conf" che è il file di 
@@ -9713,10 +9414,11 @@ run-parts /etc/logrotate.d/httpd-prerotate; \
 fi; \
 
 endscript
-```conf
+```
 
 
 ### Boot di un sistema GNU/Linux
+
 
 #### Principio di funzionamento del boot
 
@@ -9724,28 +9426,24 @@ Il boot di un sistema GNU/Linux è composto da varie fasi che si
 susseguono:
 
 1. Power-Up/Reset: L'elettronica della macchina si accende
-
 2. System Startup (BIOS/BootMonitor): Viene visualizzata la 
-  schermata di startup, vengono eseguite delle procedure basilari 
-  atte a verificare che l'hardware connesso sia funzionante, 
-  oppure assegnazione dei range di memoria, IRQ, DMA, eccetera. 
-
+   schermata di startup, vengono eseguite delle procedure basilari 
+   atte a verificare che l'hardware connesso sia funzionante, 
+   oppure assegnazione dei range di memoria, IRQ, DMA, eccetera. 
 3. Stage 1 bootloader (Master Boot Record): L'MBR è installato 
-  nel settore zero dell'Hard Disk quasi sempre (potrebbe anche 
-  essere installato in un altro settore), lo stage 1 ha lo scopo 
-  di capire dove è localizzato il Bootloader
-
+   nel settore zero dell'Hard Disk quasi sempre (potrebbe anche 
+   essere installato in un altro settore), lo stage 1 ha lo scopo 
+   di capire dove è localizzato il Bootloader
 4. Stage 2 bootloader (Lilo, Grub, etc...): Lo stage 2 ha lo 
-  scopo di localizzare i kernel presenti negli schemi di 
-  partizione
-
+   scopo di localizzare i kernel presenti negli schemi di 
+   partizione
 5. Kernel (Linux): In questa fase viene lanciato il kernel, 
-  vengono caricati i moduli eccetera.
-
+   vengono caricati i moduli eccetera.
 6. Init/Systemd: Viene avviato il processo iniziale chiamato "
-  init" (se si utilizza sysVinit) e questo processo termina 
-  l'avvio del sistema operativo e permette l'inizia dello 
-  user-space, quindi le applicazioni utente
+   init" (se si utilizza sysVinit) e questo processo termina 
+   l'avvio del sistema operativo e permette l'inizia dello 
+   user-space, quindi le applicazioni utente
+
 
 ### Log di Boot
 
@@ -9754,7 +9452,7 @@ Per visualizzare il log di boot di un sistema GNU/Linux dobbiamo
 visualizzare il file "/var/log/messages", quindi:
 
 ```sh
- # cat "/var/log/messages"
+ cat "/var/log/messages"
 ```
 oppure eseguire:
 
@@ -9764,10 +9462,8 @@ oppure eseguire:
  # (dmesg sta per "diagnostic message")
 ```
 ```sh
- # dmesg -T|sed -e 's|\(^.*'`date 
-  +%Y`']\)\(.*\)|\x1b[0;34m\1\x1b[0m - \2|g' 
- # visualizza i 
- # messaggi di dmesg con un formato leggibile delle date
+ dmesg -T|sed -e 's|\(^.*'`date +%Y`']\)\(.*\)|\x1b[0;34m\1\x1b[0m - \2|g' 
+ # visualizza i messaggi di dmesg con un formato leggibile delle date
 ```
 ```sh
  dmesg -C 
@@ -9778,8 +9474,9 @@ oppure eseguire:
  # possiamo scrivere nei log 
  # del kernel anche da userspace
 ```
-### Boot Loaders
 
+
+### Boot Loaders
 
 All'inizio del processo di boot, prima che il kernel venga 
 lanciato, l'obiettivo del boot loader sembra semplice, deve 
@@ -9787,12 +9484,9 @@ caricare il kernel in memoria e lanciarlo con un set di
 parametri, quindi le domande a cui il boot loader deve rispondere 
 sono:
 
-```sh
- # Dove sono i kernel?
-```
-```sh
- # Quali parametri devono essere passati al kernel al suo avvio?
-```
+* Dove sono i kernel?
+* Quali parametri devono essere passati al kernel al suo avvio?
+ 
 Le risposte (tipicamente) sono che il kernel e i suoi parametri 
 sono da qualche parte sul root filesystem.
 
@@ -9818,8 +9512,8 @@ enhance the boot loader. Linux boot loaders have not always had
 this capability; without it, configuring the boot loader was more 
 difficult.
 
-### Grub
 
+### Grub
 
 Grub sta per Grand Unified Boot Loader, per essere sicuri di 
 avviarlo, tenere premuto il tasto "Shift", dall'avvio del pc, e 
@@ -9838,7 +9532,7 @@ sistema operativo avviato controllare il nome del menu entry
 lanciato con:
 
 ```sh
- # cat /proc/cmdline
+ cat /proc/cmdline
 ```
 ### Esplorare i dispositivi e le partizioni da Grub
 
@@ -9855,15 +9549,15 @@ comando "search". Vediamo alcuni comandi di grub:
 ```
 
 * l'output sarà una cosa tipo: 
+```
+ (hd0) (hd0,msdos1) (hd0,msdos5)
+```
+dove (hd0) rappresenta l'HDD, e le due stringhe successive 
+racchiuse tra parentesi tonde sono le partizioni, indicate con "
+msdos", questo indica che la tabella di partizione sul disco su 
+cui risiedono è di tipo MBR, nel caso in cui fosse stata GPT, 
+sarebbero iniziate con "gpt"
 
-
-    ∗ (hd0) (hd0,msdos1) (hd0,msdos5)
-
-  dove (hd0) rappresenta l'HDD, e le due stringhe successive 
-  racchiuse tra parentesi tonde sono le partizioni, indicate con "
-  msdos", questo indica che la tabella di partizione sul disco su 
-  cui risiedono è di tipo MBR, nel caso in cui fosse stata GPT, 
-  sarebbero iniziate con "gpt"
 
 ```sh
  ls -l 
@@ -9902,8 +9596,8 @@ comando "search". Vediamo alcuni comandi di grub:
  # mostra le variabili di GRUB
 ```
 
-* una variabile molto importante è $prefix, questa indica dove 
-    Grub si aspetta di trovare la sua configurazione
+una variabile molto importante è `$prefix`, questa indica dove 
+Grub si aspetta di trovare la sua configurazione
 
 ```sh
  linux (hd0,gpt1)/boot/vmlinuz-4.1.2 root=/dev/sda1 
@@ -9915,8 +9609,7 @@ comando "search". Vediamo alcuni comandi di grub:
  # buon fine, dobbiamo settare anche l'initial ram disk
 ```
 ```sh
- # linux (hd0,gpt1)/boot/vmlinuz-4.1.2 root=/dev/sda1 nomodeset 
-  
+ linux (hd0,gpt1)/boot/vmlinuz-4.1.2 root=/dev/sda1 nomodeset 
  # imposta il percorso del kernel da caricare, e la posizione 
  # della root directory da usare, nota che questo kernel sarà 
  # caricato solo quando lanceremo il comando "boot", attenzione se 
@@ -9934,12 +9627,14 @@ comando "search". Vediamo alcuni comandi di grub:
  # lanciare il kernel con "boot" se sia kernel e initial ram disk 
  # sono correttamente settati, forse al posto di 1 ci va "gpt1"
 ```
+
 ```sh
  boot 
  # comando utilizzato per effettuare il boot della 
  # configurazione attuale, si utilizza una volta impostato ad 
  # esempio il kernel da bootare o se presente l'initramfs
 ```
+
 ```sh
  chainloader (hd0,1)+1 
  # avvia un altro bootloader contenuto 
@@ -9947,12 +9642,12 @@ comando "search". Vediamo alcuni comandi di grub:
  # "gpt1", questo è utile per avviare sistemi operativi come 
  # Windows che contengono boot loader propri
 ```
+
 N.B.: Il parametro passato al comando "linux" è chiamato "kernel 
 command line" e i suoi parametri sono chiamati "kernel command 
 line parameters"
 
 ### Kernel Command Line
-
 
 Vediamo alcune opzioni famose da lanciare con il kernel:
 
@@ -10026,10 +9721,8 @@ Vediamo alcune opzioni famose da lanciare con il kernel:
 
 * 0: (opzione di default) non succede nulla, al video rimane 
     mostrato il kernel panic
-
 * 7: (o qualsiasi altro numero positivo) aspetta 7 secondi 
     prima di riavviarsi
-
 * -5: (o qualsiasi altro numero negativo) si riavvia 
     immediatamente
 
@@ -10050,9 +9743,12 @@ Vediamo alcune opzioni famose da lanciare con il kernel:
  # lpj=", per farlo eseguiamo un
 ```
 
-* dmesg | grep -iA5 "calibrating" #una volta visto il valore 
-    qui, possiamo andarlo ad impostare nell'opzione in modo da 
-    risparmiare tempo
+```sh 
+dmesg | grep -iA5 "calibrating"
+# una volta visto il valore 
+# qui, possiamo andarlo ad impostare nell'opzione in modo da 
+# risparmiare tempo
+```
 
 N.B.(Jiffies): The x86 family processors send an interrupt every 
 4ms, Linux sees this interrupt and tries to see how many loops 
@@ -10071,8 +9767,8 @@ Possiamo partire in un livello più basso ad esempio per non far
 partire xorg, ad esempio andando ad impostare dopo quiet "3" o il 
 numero corrispettivo alla modalità che preferiamo.
 
-### Configurazione di Grub
 
+### Configurazione di Grub
 
 La configurazione di Grub è contenuta in un file chiamato "
 grub.cfg", e diversi moduli caricabili ".mod", la directory in 
@@ -10124,13 +9820,13 @@ Per installare grub, possiamo eseguire:
  # montato sia il mountpoint / che quello di /boot se esiste
 ```
 ```sh
- # grub-install --efi-directory=efi_dir ---bootloader-id=name 
-  
+ grub-install --efi-directory=efi_dir ---bootloader-id=name 
  # installa grub in un sistema UEFI, dove il bootloader id è il 
  # nome dato a grub, nel menu di boot UEFI, ed efi directory è la 
  # posizione della directory di UEFI che solitamente è in 
  # /boot/efi/efi o in /boot/efi
 ```
+
 Grub, supporta anche l'avvio di altri boot-loaders, 
 quest'operazione è chiamata "ChainLoading", ed è usata ad esempio 
 quando si vuole installare un sistema Linux in dual boot con un 
@@ -10178,10 +9874,11 @@ di opzioni che possiamo aggiungere a questo file:
 una volta cambiate una di queste voci, dobbiamo eseguire:
 
 ```sh
- # sudo update-grub
+ sudo update-grub
 ```
-### Il file grub.cfg
 
+
+### Il file grub.cfg
 
 Il file grub.cfg, è il file principale di configurazione di grub, 
 questo è formato da istruzioni di Grub, ogni entry, è delineata 
@@ -10192,17 +9889,12 @@ che avviene comunemente per non avere un menu pieno di voci, grub
 utilizza questo comportamento di default per avere un menu più 
 ordinato. Da questo file possiamo:
 
-```sh
- # Cambiare l'ordine delle menu entries
-```
-```sh
- # Cambiare il titolo delle menu entries
-```
-```sh
- # Cambiare l'organizzazione di submenu, per avere macro voci e 
- # sottovoci
-```
-  Grub Note aggiuntive
+* Cambiare l'ordine delle menu entries
+* Cambiare il titolo delle menu entries
+* Cambiare l'organizzazione di submenu, per avere macro voci e sottovoci
+
+
+###  Grub Note aggiuntive
 
 Grub 2 has various differences from grub1, anyway we have a 
 directory called /boot/grub/ and there are many files here.
@@ -10223,10 +9915,11 @@ semplificata basta eseguire:
  # rigenera il file di 
  # configurazione in caso di errori
 ```
+TODO
 DA AGGIUNGERE grub mkconfig, e grub update
 
-### Sicurezza di Grub
 
+### Sicurezza di Grub
 
 ```sh
  grub-mkpasswd-pbkdf2 
@@ -10235,25 +9928,22 @@ DA AGGIUNGERE grub mkconfig, e grub update
  # temporanemente per scriverla in un file di configurazione di 
  # GRUB.
 ```
-Ora scriviamo nel file "custom" di grub situato in "
-/etc/grub.d/40_custom" e mettiamo in append il seguente 
-contenuto:
+Ora scriviamo nel file "custom" di grub situato in "/etc/grub.d/40_custom"
+e mettiamo in append il seguente contenuto:
 
+```conf
 set superusers="username" 
 
 password_pbkdf2 username <passwordHash>
+```
 
 dove per: 
 
-```sh
- # "username": specificheremo un utente che deve essere separato 
- # da quelli di sistema, cioè è preferibile usare un nome utente 
- # non presente sul sistema
-```
-```sh
- # "passwordHash": è l'hash della password generato dal comando "
- # grub-mkpasswd-pbkdf2"
-```
+* "username": specificheremo un utente che deve essere separato 
+  da quelli di sistema, cioè è preferibile usare un nome utente 
+  non presente sul sistema
+* "passwordHash": è l'hash della password generato dal comando "grub-mkpasswd-pbkdf2"
+
 Ovviamente è sempre necessario avviare "grub-mkconfig" per 
 aggiornare il file di configurazione.
 
@@ -10261,47 +9951,35 @@ E' possibile anche proteggere singole voci di menu (ad esempio le
 recovery mode, o alcuni sistemi operativi), questo è possibile 
 andando a modificare il file grub.cfg, in questo modo:
 
+```conf
 set superusers="root" 
-
 password_pbkdf2 root grub.pbkdf2.sha512.10000.biglongstring 
-
 password user1 insecure
-
 menuentry "May be run by any user" --unrestricted { 	
-
 	set root=(hd0,1) 	
-
 	linux /vmlinuz 
-
 }
-
-
 
 menuentry "Superusers only" --users "" { 	
-
 	set root=(hd0,1) 	
-
 	linux /vmlinuz single 
-
 }
 
-
-
 menuentry "May be run by user1 or a superuser" --users user1 { 	
-
 	set root=(hd0,2) 	
-
 	chainloader +1 
-
 } 
+```
+
 
 ### Bypassare Grub per avere una shell minimale
-
 
 Per bypassare grub, possiamo aggiungere all'opzione da bootare 
 attraverso il comando "e" da grub, la stringa:
 
+```sh
 init=/bin/sh
+```
 
 questa stringa va inserita tra le opzioni di lancio del kernel, 
 una volta entrati in questa shell molto probabilmente avremo il 
@@ -10313,8 +9991,9 @@ rimontarlo runtime in modalità read-write attraverso il comando:
  # rimonto il filesystem in modalità 
  # read/write
 ```
-### Uname
 
+
+### Uname
 
 Col comando "uname" richiedo informazioni sul sistema. Uname può 
 essere utile quando si deve installare un nuovo kernel per il 
@@ -10351,21 +10030,15 @@ nostro sistema. Vediamo alcuni esempi:
  uname -a 
  # mostra tutto
 ```
-Per vedere la versione dell'OS (o ad esempio la distribuzione in 
-uso) ci sono più strade:
+Per vedere la versione dell'OS (o ad esempio la distribuzione in uso) ci sono 
+più strade:
 
-```sh
- # analizzare il file /etc/issue, ad esempio "cat /etc/issue"
-```
-```sh
- # analizzare il file /proc/version
-```
-```sh
- # mostrare i file in /etc/ che hanno la parola "release" e 
- # analizzarli, "ls /etc/*release*"
-```
+* analizzare il file /etc/issue, ad esempio "cat /etc/issue"
+* analizzare il file /proc/version
+* mostrare i file in /etc/ che hanno la parola "release" e analizzarli, "ls /etc/*release*"
+
+
 ### Sistema UEFI o BIOS ?
-
 
 Per capire se abbiamo effettuato il boot all'interno di un 
 sistema UEFI o BIOS, il metodo più semplice è quello di 
@@ -10374,11 +10047,11 @@ effettuare un:
 ```sh
  ls /sys/firmware/efi 
  # se questo file esiste allora il sistema 
- # è bootato in UEFI, altrimenti abbiamo effettuato il boot in 
- # BIOS
+ # è bootato in UEFI, altrimenti abbiamo effettuato il boot in BIOS
 ```
-### Informazioni sull'Hardware
 
+
+### Informazioni sull'Hardware
 
 Le informazioni sull'hardware possono essere trovate nella 
 directory /proc, anche se esistono diversi programmi molto 
@@ -10387,21 +10060,12 @@ impazzire all'interno del filesystem proc.
 
 Opzioni comuni per l'ispezione dell'hardware sono:
 
-```sh
- # dmidecode
-```
-```sh
- # lshw
-```
-```sh
- # hwinfo
-```
-```sh
- # inxi
-```
-```sh
- # hardinfo (GUI program)
-```
+* dmidecode
+* lshw
+* hwinfo
+* inxi
+* hardinfo (GUI program)
+
 Un programma molto utile per poter visualizzare informazioni 
 relative all'SMBIOS (System Management BIOS) è "dmidecode", nel 
 mondo del computing, le specifiche SMBIOS (detto anche "tabella 
@@ -10410,33 +10074,16 @@ possono essere usati per leggere informazioni salvate nel BIOS di
 un computer. Il programma dmidecode analizza e visualizza i dati 
 dell'SMBIOS, queste informazioni costituiscono solitamente:
 
-```sh
- # produttore del sistema
-```
-```sh
- # nome del modello
-```
-```sh
- # numero di serie
-```
-```sh
- # versione firmware
-```
-```sh
- # CPU sockets
-```
-```sh
- # slot di espansione (compresi AGP, PCI e ISA)
-```
-```sh
- # slot di moduli di memoria
-```
-```sh
- # lista di porte di I/O (Input/Output)
-```
-```sh
- # ecc...
-```
+* produttore del sistema
+* nome del modello
+* numero di serie
+* versione firmware
+* CPU sockets
+* slot di espansione (compresi AGP, PCI e ISA)
+* slot di moduli di memoria
+* lista di porte di I/O (Input/Output)
+* ecc...
+
 Per poter visualizzare queste informazioni, basta un semplice:
 
 ```sh
@@ -10544,10 +10191,11 @@ dell'hardware in html è "hardinfo", possiamo lanciarlo
 semplicemente eseguendo:
 
 ```sh
- # hardinfo
+ hardinfo
 ```
-### Memoria Centrale
 
+
+### Memoria Centrale
 
 Un programma che ci permette di visualizzare informazioni sulla 
 memoria è Free, possiamo lanciarlo eseguendo "free" da terminale:
@@ -10591,8 +10239,9 @@ servire, ma si può fare), utilizzando:
  # visualizza il contenuto 
  # della RAM sullo standard output
 ```
-### Memoria Rigida
 
+
+### Memoria Rigida
 
 Per poter visualizzare informazioni per quanto riguarda la 
 memoria rigida, vengono utilizzati solitamente i programmi:
@@ -10738,6 +10387,7 @@ this). The df program also has a -m option to list capacities in
 1MB blocks and a -h option to take a best guess at what a person 
 can read.
 
+TODO
 HOWLINUXWORKS pag72 devo iniziare 4.2.11
 
 ### Periferiche Hardware: lspci, lsusb, lscpu, lsblk, lsscsi, lspcmcia, lshw, lsdev, usbview
@@ -10906,18 +10556,15 @@ whatever.conf" (l'importante è che sia .conf, anche se per
 convenzione utilizziamo file con lo stesso nome del modulo 
 interessato) con scritto:
 
-—————————————————-
-
+```conf
 options sr_mod xa_test=1
-
-—————————————————-
+```
 
 Possiamo visualizzare le opzioni dei moduli correntemente 
 caricati attraverso:
 
 ```sh
- # cat /sys/module/nomeModulo/parameters/parameterName 
-  
+ cat /sys/module/nomeModulo/parameters/parameterName 
  # visualizza informazioni sulle opzioni caricate dal modulo 
  # chiamato "nomeModulo", se il file parameterName che rappresenta 
  # il nome parametro esiste, allora quell'opzione è caricata e il 
@@ -11017,9 +10664,8 @@ con:
  # avvia debugfs in modalità read/write
 ```
 
-* ls #elenca i file
-
-* ls -ld #elenca tutti i file, anche quelli eliminati
+* ls # elenca i file
+* ls -ld # elenca tutti i file, anche quelli eliminati
 
 Si aprirà un prompt, a cui potremmo dare i comandi trovati nella 
 lista che compare col comando "help" digitato dal prompt di 
@@ -11051,11 +10697,11 @@ specifica del file, come stringa interna (meglio) o nome del file
 (peggio) con grep, ad esempio:
 
 ```sh
- # grep -a -C 200 -F 'Unique string in text file' /dev/sdXN > 
- # OutputFile 
+ grep -a -C 200 -F 'Unique string in text file' /dev/sdXN > OutputFile 
 ```
-### Hardware Monitoring di dischi con SMART
 
+
+### Hardware Monitoring di dischi con SMART
 
 Smartmontools (S.M.A.R.T. Monitoring Tools) is a set of utility 
 programs (smartctl and smartd) to control and monitor computer 
@@ -11065,7 +10711,7 @@ Serial ATA and SCSI hard drives. Innanzitutto dobbiamo installare
 il pacchetto "smartmontools", quindi:
 
 ```sh
- # apt-get install smartmontools
+ apt-get install smartmontools
 ```
 Una volta installato, avremo a disposizione il comando "smartctl" 
 e il demone "smartd", vediamo alcuni esempi di comandi con 
@@ -11141,7 +10787,7 @@ eseguire:
 ```
 Un utile front-end grafico per smartmontools è "GSmartControl".
 
-  Approfondimento sul sistema S.M.A.R.T
+###  Approfondimento sul sistema S.M.A.R.T
 
 Self-Monitoring, Analysis, and Reporting Technology, o 
 S.M.A.R.T., è un sistema di monitoraggio per dischi rigidi e per 
@@ -11150,8 +10796,8 @@ nella speranza di anticipare i malfunzionamenti.
 
 ## Gestione dei Dispositivi di Memoria
 
-### Premessa sui dispositivi di memoria
 
+### Premessa sui dispositivi di memoria
 
 Ogni dispositivo di memoria, può essere suddiviso in più 
 partizioni, ma prima di poter essere suddiviso bisogna scegliere 
@@ -11159,24 +10805,17 @@ una cosidetta "tabella delle partizioni", che costituisce uno
 schema di partizionamento del disco. I due schemi più utilizzati 
 peri sistemi Personal Computer sono:
 
-```sh
- # DOS (o MBR)
-```
-
-* MBR (Master Boot Record): è un sistema di partizionamento che 
-    supporta fino a un massimo di 4 partizioni, anche se è stata 
-    escogitata una soluzione attraverso le cosiddette "partizioni 
-    estese", che possono contenere una o più "partizioni logiche"
-    ; l'MBR inoltre non supporta partizioni con capacità maggiore 
-    a 2TB
-
-```sh
- # GPT 
-```
-
-* GPT (GUID Partition Table or Globally Unique Identifier 
-    Partition Table): è sistema di partizionamento più recente, 
-    supera limiti dovuti al vecchio schema MBR)
+* DOS (o MBR)
+    * MBR (Master Boot Record): è un sistema di partizionamento che 
+        supporta fino a un massimo di 4 partizioni, anche se è stata 
+        escogitata una soluzione attraverso le cosiddette "partizioni 
+        estese", che possono contenere una o più "partizioni logiche"
+        ; l'MBR inoltre non supporta partizioni con capacità maggiore 
+        a 2TB
+* GPT 
+    * GPT (GUID Partition Table or Globally Unique Identifier 
+        Partition Table): è sistema di partizionamento più recente, 
+        supera limiti dovuti al vecchio schema MBR)
 
 E' da notare che però sui dischi d'avvio di un sistema operativo, 
 la scelta dello schema di partizionamento deve essere accurata in 
@@ -11184,7 +10823,7 @@ quanto, in base all'interfaccia firmware della macchina la mia
 scelta potrebbe essere forzata ad un determinata tabella di 
 partizioni.
 
-  Nota sui firmware
+#### Nota sui firmware
 
 Nei meno recenti personal computer, esisteva un firmware chiamato 
 BIOS (Basic Input/Output System), questo è un sistema veramente 
@@ -11211,17 +10850,13 @@ Per quanto riguarda schemi di partizionamento minimali possiamo
 distinguere alcune configurazioni possibili e comunemente 
 utilizzate nella stragrande maggioranza dei casi:
 
-  BIOS+MBR+GRUB
+####  BIOS+MBR+GRUB
 
-In questo caso non c'è nessun vincolo sulle partizioni:
+In questo caso non c'è nessun vincolo sulle partizioni, possiamo installare:
 
-```sh
- # 1 partizione di root /
-```
-```sh
- # 1 partizione di /boot (consigliabile, ma nella pratica, non 
- # necessaria)
-```
+* 1 partizione di root /
+* 1 partizione di /boot (consigliabile, ma nella pratica, non necessaria)
+
 In realtà su alcuni sistemi molto molto vecchi, è consigliabile 
 per sicurezza fare comunque una partizione di /boot in quanto 
 questa è la prima partizione/directory che viene cercata dal BIOS 
@@ -11233,17 +10868,13 @@ di Windows), dove i bootloader magari hanno bisogno di più
 spazio, in quanto non ci stanno tutti nei 446 byte del boot 
 sector
 
-  BIOS+GPT+GRUB
+#### BIOS+GPT+GRUB
 
 In questo caso dovremo creare:
 
-```sh
- # 1 partizione da 1MB marcata come BIOS Boot o bios_grub (a 
- # differenza del programma con cui creiamo le partizioni)
-```
-```sh
- # 1 partizione di root /
-```
+* 1 partizione da 1MB marcata come BIOS Boot o bios_grub (a differenza del programma con cui creiamo le partizioni)
+* 1 partizione di root /
+
 non è necessaria una partizione separata di /boot.
 
 N.B.:It's necessary to have a separate /boot partition only if 
@@ -11264,40 +10895,34 @@ recommended to reserve the space explicitly.
 N.B.:some BIOSes have a bug with booting from a GPT label in BIOS 
 mode, Lenovo and HP are known for this.
 
-  UEFI+GPT+GRUB
+#### UEFI+GPT+GRUB
 
 Nel caso si avesse un sistema UEFI, allora dobbiamo creare 
 
-```sh
- # 1 partizione ESP (EFI System Partition) che può andare dai 20MB 
- # ai 550MB con filesystem vfat (dipende, da se ci metto dentro i 
- # kernel o no, metterci i kernel ha questo vantaggio "well one 
- # advantage is that if you efistub-enable them, then you can 
- # still boot them if grub went missing or broke"), questa deve 
- # essere montata da qualche parte, solitamente è in /boot oppure 
- # in /boot/efi, anche se posso mettere qualsiasi directory, 
- # l'unica restrizione è quella di montarla prima di installare 
- # grub
-```
-```sh
- # 1 partizione di root /
-```
+* 1 partizione ESP (EFI System Partition) che può andare dai 20MB 
+  ai 550MB con filesystem vfat (dipende, da se ci metto dentro i 
+  kernel o no, metterci i kernel ha questo vantaggio "well one 
+  advantage is that if you efistub-enable them, then you can 
+  still boot them if grub went missing or broke"), questa deve 
+  essere montata da qualche parte, solitamente è in /boot oppure 
+  in /boot/efi, anche se posso mettere qualsiasi directory, 
+  l'unica restrizione è quella di montarla prima di installare 
+  grub
+* 1 partizione di root /
+
 N.B.: Quando si parla di partizioni "/boot" dobbiamo ricordare 
 che possiamo scegliere se farle ext2 o ext4, a questo punto 
 dobbiamo considerare la compatibilità del boot loader, nel caso 
 di GRUB ormai è tutto supportate però:
 
-```sh
- # ext2: più piccolo overhead, siamo sicuri che funziona con tutte 
- # le versioni di grub
-```
-```sh
- # ext4: overhead maggiore, dovrebbe funzionare sulle versioni più 
- # recenti ed alcuni dicono che nonostante abbiamo overhead 
- # maggiore, avere ext4 velocizzi il boot
-```
-### Partizioni Separate vs Partizione Unica
+* ext2: più piccolo overhead, siamo sicuri che funziona con tutte 
+  le versioni di grub
+* ext4: overhead maggiore, dovrebbe funzionare sulle versioni più 
+  recenti ed alcuni dicono che nonostante abbiamo overhead 
+  maggiore, avere ext4 velocizzi il boot
 
+
+### Partizioni Separate vs Partizione Unica
 
 A molti utenti principianti di GNU/Linux viene consigliato 
 implementare una partizione unica per l'installazione del 
@@ -11307,46 +10932,35 @@ principali che stanno alla base di questa scelta sono:
 
 1. Minimizing loss: If /usr is on separate partition a damaged 
   /usr does not mean that you cannot recover /etc
-
 2. Security: / cannot be always ro (/root may need to be rw etc.) 
   but /usr can. It can be used to made ro as much as possible
-
 3. Using different filesystems: I may want to use different 
   system for /tmp (not reliable but fast for many files) and 
   /home (have to be reliable). Similary /var contains data while 
-  /usr not so /usr stability can be sacrifice but not so much as 
-  /tmp
-
-4. Duration of fsck: Smaller partitions means that checking one 
-  is faster
-
-5. Mentioned filling up of partions, although other method is 
-  quotas
+  /usr not so /usr stability can be sacrifice but not so much as /tmp
+4. Duration of fsck: Smaller partitions means that checking one is faster
+5. Mentioned filling up of partions, although other method is quotas
 
 Altre buone ragioni per tenere la partizione "/home" separata dal 
 resto sono:
 
-```sh
- # Crittografia: Possiamo di decidere i nostri dati, in quanto 
- # nella partizione home sono contenuti tutti i dati personali
-```
-```sh
- # Persistenza: Possiamo mantenere i nostri dati, senza dover 
- # ricopiare tutto quando vogliamo eseguire una formattazione
-```
+ * Crittografia: Possiamo di decidere i nostri dati, in quanto 
+   nella partizione home sono contenuti tutti i dati personali
+ * Persistenza: Possiamo mantenere i nostri dati, senza dover 
+   ricopiare tutto quando vogliamo eseguire una formattazione
+
 Invece altre buone ragioni per tenere la partizione "/usr" 
 separata dal resto sono:
 
-```sh
- # A separate /usr can be useful if you have several machines 
- # sharing the same OS. They can share a single central /usr 
- # instead of duplicating it on every system. /usr can be mounted 
- # read-only; mount a partition read-only is useful to keep 
- # malicious users (or processes) from overwriting or replacing 
- # binaries there with trojans. So if your ssh binary lives in 
- # /usr/local/bin and /usr/local is mounted read-only, it's going 
- # to be tough for anyone to replace that binary
-```
+* A separate /usr can be useful if you have several machines 
+  sharing the same OS. They can share a single central /usr 
+  instead of duplicating it on every system. /usr can be mounted 
+  read-only; mount a partition read-only is useful to keep 
+  malicious users (or processes) from overwriting or replacing 
+  binaries there with trojans. So if your ssh binary lives in 
+  /usr/local/bin and /usr/local is mounted read-only, it's going 
+  to be tough for anyone to replace that binary
+
 Nota sulla partizione di swap: Inoltre è bene tenere a mente che 
 la partizione di swap deve essere almeno della dimensione della "
 RAM" nel caso si volesse utilizzare l'opzione di sospensione del 
@@ -11357,8 +10971,8 @@ ATTENZIONE: Directory essenziali al booting del sistema (e cioè
 stessa partizione del rootfs (cioè "/") o in userspace montati 
 nelle prime fasi dell'avvio da initramfs.
 
-### Creazione di partizioni e loro gestione
 
+### Creazione di partizioni e loro gestione
 
 I dispositivi di memoria (come tutti gli altri dispositvi) 
 possono essere visualizzati nella directory /dev/. Una volta 
@@ -11370,8 +10984,8 @@ un programma molto diffuso oggigiorno chiamato "parted" che
 supporta sia sistemi MBR che GPT, ha anche un front-end grafico 
 chiamato "gparted".
 
-### Dischi e Geometria delle Partizioni
 
+### Dischi e Geometria delle Partizioni
 
 Un Hard Disk, è composto da uno o più piatti magnetici, su questi 
 piatti magnetici c'è un braccio elettro-meccanico che simile ad 
@@ -11430,10 +11044,10 @@ ora da fdisk abbiamo diverse opzioni:
 ```
 
 * quando viene creata una nuova partizione, viene richiesto il 
-    settore iniziale, qui normalmente premiamo Invio, e per il 
-    settore finale, diamo valori come +300M (per dire 300MB a 
-    partire dal settore iniziale), oppure +5G (per dire 5GB a 
-    partire dal settore iniziale)
+  settore iniziale, qui normalmente premiamo Invio, e per il 
+  settore finale, diamo valori come +300M (per dire 300MB a 
+  partire dal settore iniziale), oppure +5G (per dire 5GB a 
+  partire dal settore iniziale)
 
 ```sh
  d 
@@ -11488,8 +11102,8 @@ infatti coi comandi "mount -a", e "umount -a" possiamo montare e
 smontare tutto quello che è specificato all'interno di questo 
 file.
 
-### Parted
 
+### Parted
 
 N.B.: Parted non chiede di confermare le modifiche all'utente, le 
 applica direttamente, quindi attenzione a quello che si fa, 
@@ -11537,22 +11151,22 @@ tipo di filesystem di un determinato dispositivo, possiamo fare
 uso del comando:
 
 ```sh
- # blkid
+ blkid
 ```
 o in alternativa:
 
 ```sh
- # file -sL /dev/deviceName
+ file -sL /dev/deviceName
 ```
 o in alternativa:
 
 ```sh
- # df -hT
+ df -hT
 ```
 o in alternativa:
 
 ```sh
- # fsck -N /dev/sda1
+ fsck -N /dev/sda1
 ```
 Altri comandi utili per analizzare filesystem sono:
 
@@ -11585,8 +11199,7 @@ formattare il nostro dispositivo con:
  # precedente
 ```
 ```sh
- # mkfs.ext4 -U "ab955ff4-fc2e-40f2-97b3-6fd37b10e7fa" /dev/sdb1 
-  
+ mkfs.ext4 -U "ab955ff4-fc2e-40f2-97b3-6fd37b10e7fa" /dev/sdb1 
  # in questo modo formatto la partizione indicata, utilizzando 
  # l'UUID specificato, questo può essere utile, per fare in modo 
  # di non andare tute le volte a modificare l'UUID nel file "fstab"
@@ -11624,8 +11237,9 @@ formattare il nostro dispositivo con:
  # omessa, i nomi sarebbero tutti in maiuscolo, il comando "
  # mkisofs --help" può tornare utile
 ```
-Nei casi precedenti sono stati creati solo filesystem di tipo "
-ext3" ma per sapere invece quali sono le opzioni disponibili col 
+
+Nei casi precedenti sono stati creati solo filesystem di tipo "ext3"
+ma per sapere invece quali sono le opzioni disponibili col 
 flag "-t" attraverso il comando mount, o comunque per capire cosa 
 inserire in funzione di un determinato filesystem risultato da 
 uno dei comandi precedenti, allora possiamo usare "man mount"; 
@@ -11636,8 +11250,9 @@ oppure eseguire un:
  # visualizza tutti i possibili comandi per 
  # formattare
 ```
-### Mounting e unmounting di partizioni
 
+
+### Mounting e unmounting di partizioni
 
 Per montare un filesystem possiamo effettuare:
 
@@ -11672,10 +11287,8 @@ pacchetti che mi abilitano il supporto per ntfs, ed eseguiamo:
  # monta tutti i filesystem indicati nel file fstab
 ```
 ```sh
- # mount UUID=a9011c2b-1c03-4288-b3fe-8ba961ab0898 /home/extra 
-  
- # monta il device con l'UUID specificato nella directory 
- # menzionata
+ mount UUID=a9011c2b-1c03-4288-b3fe-8ba961ab0898 /home/extra 
+ # monta il device con l'UUID specificato nella directory menzionata
 ```
 ```sh
  mount -n -t ntfs-3g /dev/myDevice /home/user/mountDir 
@@ -11701,8 +11314,7 @@ live cd sono:
 
 ```sh
  mount -t proc proc /mnt/gentoo/proc 
- # monta un filesystem di 
- # tipo proc 
+ # monta un filesystem di tipo proc 
 ```
 ```sh
  mount --rbind /sys /mnt/gentoo/sys 
@@ -11725,7 +11337,7 @@ live cd sono:
  # anche per il filesystem /dev
 ```
 ```sh
- # mount --make-rslave /mnt/gentoo/dev
+ mount --make-rslave /mnt/gentoo/dev
 ```
 Per smontare una periferica, possiamo usare:
 
@@ -11770,12 +11382,11 @@ opzioni:
 
 * cambiare i diritti della directory dove il filesystem viene 
     montato
-
 * cambiare gruppo di appartenenza alla directory dove il 
     filesystem viene montato
 
-### Gestire file immagine e partizioni contenute
 
+### Gestire file immagine e partizioni contenute
 
 Per poter gestire file immagine, sfruttiamo la funzionalità di 
 loopback del kernel di linux, quindi possiamo creare un device 
@@ -11808,7 +11419,7 @@ Adesso possiamo ad esempio aprire le nostre partizioni e
 modificarle o formattarle con:
 
 ```sh
- # sudo gparted /dev/loop0
+ sudo gparted /dev/loop0
 ```
 possiamo anche montarle attraverso una semplice mount, infatti ad 
 esempio nel caso volessimo montare /dev/loop0p1 eseguo:
@@ -11830,41 +11441,36 @@ sul file immagine, allora quello che dobbiamo eseguire è:
  # byte dovremmo effettuare
 ```
 ```sh
- # truncate --size=$[(9181183+1)*512] myimage.img
+ truncate --size=$[(9181183+1)*512] myimage.img
 ```
 per rimuovere un device di loopback eseguiamo:
-
 ```sh
  sudo losetup -d /dev/loop0 
- # rimuove il device di loopback 
- # /dev/loop0
+ # rimuove il device di loopback /dev/loop0
 ```
-### Dove montare una partizione
 
+
+### Dove montare una partizione
 
 Esistono diverse posizioni sui sistemi GNU/Linux dove per 
 convenzione vengono montate le partizioni, vediamo alcuni casi 
 d'uso:
 
-```sh
- /mnt/ 
- # utilizzata per filesystem di dispositivi non rimovibili 
- # dalla macchina, come partizioni fisse su uno dei nostri hard 
- # disk, o filesystem di rete, è il posto adatto anche per mount 
- # che vengono effettuate manualmente
-```
-```sh
- /media/ 
- # utilizzata per dispositivi che rimuoviamo dalla 
- # nostra macchina, come chiavette USB, hard disk esterni, floppy 
- # disk, CD-ROM, DVD, eccetera.
-```
-```sh
- /run/media/username/ 
- # permette di effettuare le stesse cose di 
- # "/media", ma differenziando per username riesco a controllare 
- # meglio i diritti che ogni utente ha sulla partizione
-```
+* /mnt/ 
+  utilizzata per filesystem di dispositivi non rimovibili 
+  dalla macchina, come partizioni fisse su uno dei nostri hard 
+  disk, o filesystem di rete, è il posto adatto anche per mount 
+  che vengono effettuate manualmente
+* /media/ 
+  utilizzata per dispositivi che rimuoviamo dalla 
+  nostra macchina, come chiavette USB, hard disk esterni, floppy 
+  disk, CD-ROM, DVD, eccetera.
+* /run/media/username/ 
+  permette di effettuare le stesse cose di 
+  "/media", ma differenziando per username riesco a controllare 
+  meglio i diritti che ogni utente ha sulla partizione
+
+
 ### Visualizzare le partizioni attualmente montate
 
 
@@ -11887,8 +11493,9 @@ possiamo procedere in 3 modalità analoghe:
  # visualizza il file "mounts", questo è un 
  # file di sola-lettura e non ha senso modificarlo
 ```
-### Recovery di partizioni ntfs
 
+
+### Recovery di partizioni ntfs
 
 Un buon programma per recuperare file da partizioni corrotte o 
 file che sono stati cancellati su partizioni ntfs è "testdisk". 
@@ -11900,8 +11507,8 @@ questo programma le azioni disponibili sono sempre o in basso o
 in alto) che ci permetterà di elencare i file sulla partizione ed 
 eventualmente copiarli. 
 
-### Il file "fstab"
 
+### Il file "fstab"
 
 Il file "fstab" situato in /etc/fstab è un file utilizzato per 
 mantenere informazioni su filesystem statici (cioè filesystem che 
@@ -11909,89 +11516,68 @@ sono frequentemente montati su un computer). Aggiungere una voce
 al file fstab è semplice, è bene tenere a mente che generalmente 
 è composto da 6 colonne:
 
-```sh
- # la prima, rappresenta il percorso del dispositivo (eg 
- # /dev/sda1)
-```
-```sh
- # la seconda, rappresenta la directory in cui vogliamo montare il 
- # nostro dispositivo (eg /mnt/mySda1)
-```
-```sh
- # la terza, reppresenta il tipo (o i tipi) di filesystem (ad ogni 
- # modo è possibile anche l'opzione "auto", che lascia al kernel 
- # il compito di rilevare il tipo di filesystem sul dispositivo)
-```
-```sh
- # la quarta, è utilizzata per indicare diverse opzioni separate 
- # da una virgola, le opzioni possono essere:
-```
+* la prima, rappresenta il percorso del dispositivo (e.g., /dev/sda1)
+* la seconda, rappresenta la directory in cui vogliamo montare il 
+  nostro dispositivo (eg /mnt/mySda1)
+* la terza, reppresenta il tipo (o i tipi) di filesystem (ad ogni 
+  modo è possibile anche l'opzione "auto", che lascia al kernel 
+  il compito di rilevare il tipo di filesystem sul dispositivo)
+* la quarta, è utilizzata per indicare diverse opzioni separate 
+  da una virgola, le opzioni possono essere:
+    * uid: imposta il proprietario dei file che vengono montati
+    * umask: imposta la umask di default per la partizione montata 
+    * auto/noauto: monta/non monta in automatico la partizione dopo 
+        il boot, ATTENZIONE, è importante non impostare questa 
+        opzione per chiavette USB o altri dispositivi che vengono 
+        normalmente rimossi dal computer, in quanto a boot, se non 
+        trova la partizione che deve montare entra in una "Emergency 
+        Mode" o in genere una shell di recovery. E' una modalità 
+        utile invece per partizioni che montiamo in automatico al 
+        boot, come una partizione dati utente eccetera.
+    * exec/noexec: permette/non permette di eseguire file 
+        eseguibili contenuti nella partizione montata (utile per 
+        evitare virus che cercano di essere lanciati in automatico)
+    * ro/rw: il filesystem può essere montato in sola lettura (read 
+        only) o in lettura e scrittura (`read & write`)
+    * user/nouser: permette/non permette a utenti normali (cioè non 
+        root) di montare il dispositivo
+    * sync/async: imposta la scrittura dei file sincrona/asincrona, 
+        cioè quando ad esempio viene lanciato un comando di copia 
+        verso una chiavetta se l'opzione sincrona è attiva, i file 
+        vengono copiati subito nel momento del lancio del comando, 
+        mentre nel caso di modalità asincrona i file vengono copiati 
+        quando la partizione viene smontata o quando viene eseguito 
+        il comando "sync", è buona norma utilizzare infatti il 
+        comando "sync" prima di smontare una partizione montata con "
+        async"; meglio utilizzare la modalità "async", in quanto ci 
+        permette di velocizzare il tutto consumando meno anche i 
+        dispositivi, la modalità sync non andrebbe mai utilizzata, va 
+        utilizzata solo nel caso in cui vogliamo smontare un 
+        dispositivo senza effettuare "umount", o dove comunque le 
+        politiche di caching vengono gestite autonomamente come in un 
+        ramdisk (memoria RAM) o in un database, insomma in casi d'uso 
+        molto particolari, i sistemi operativi Microsoft, solitamente 
+        utilizzano una politica async ma con un periodo di flush 
+        molto breve.
+    * defaults: imposta diverse opzioni, infatti defaults 
+        costituisce: rw,suid,dev,exec,auto.nouser, e async
+* la quinta, rappresenta la modalità "dump", in questo caso 
+  possiamo impostare questo valore a 0 (non impostato) o 1 
+  (impostato), se vale 1, allora l'utility di dump effettuerà il 
+  backup della partizione, questa è una tenica old school per 
+  effettuare backup
+* la sesta, rappresenta il "Filesystem check" (o fsck), in questo 
+  caso i valori possibili sono 0 (non impostato) o valore 
+  positivo diverso da zero (impostato), se è impostata, permette 
+  al computer di effettuare un controllo di integrità del 
+  filesystem al riavvio nel caso di crash di sistema o sorgono 
+  problemi legati al disco, l'intero rappresenta l'ordine della 
+  partizione nel controllo di integrità, ad esempio se abbiamo 
+  impostato 1, allora questa sarà la prima partizione ad essere 
+  sottoposta al controllo di integrità, se abbiamo impostato 2 
+  sarà la seconda partizione ad essere sottoposta al controllo di 
+  integrità e così via
 
-* uid: imposta il proprietario dei file che vengono montati
-
-* umask: imposta la umask di default per la partizione montata 
-
-* auto/noauto: monta/non monta in automatico la partizione dopo 
-    il boot, ATTENZIONE, è importante non impostare questa 
-    opzione per chiavette USB o altri dispositivi che vengono 
-    normalmente rimossi dal computer, in quanto a boot, se non 
-    trova la partizione che deve montare entra in una "Emergency 
-    Mode" o in genere una shell di recovery. E' una modalità 
-    utile invece per partizioni che montiamo in automatico al 
-    boot, come una partizione dati utente eccetera.
-
-* exec/noexec: permette/non permette di eseguire file 
-    eseguibili contenuti nella partizione montata (utile per 
-    evitare virus che cercano di essere lanciati in automatico)
-
-* ro/rw: il filesystem può essere montato in sola lettura (read 
-    only) o in lettura e scrittura (`read & write`)
-
-* user/nouser: permette/non permette a utenti normali (cioè non 
-    root) di montare il dispositivo
-
-* sync/async: imposta la scrittura dei file sincrona/asincrona, 
-    cioè quando ad esempio viene lanciato un comando di copia 
-    verso una chiavetta se l'opzione sincrona è attiva, i file 
-    vengono copiati subito nel momento del lancio del comando, 
-    mentre nel caso di modalità asincrona i file vengono copiati 
-    quando la partizione viene smontata o quando viene eseguito 
-    il comando "sync", è buona norma utilizzare infatti il 
-    comando "sync" prima di smontare una partizione montata con "
-    async"; meglio utilizzare la modalità "async", in quanto ci 
-    permette di velocizzare il tutto consumando meno anche i 
-    dispositivi, la modalità sync non andrebbe mai utilizzata, va 
-    utilizzata solo nel caso in cui vogliamo smontare un 
-    dispositivo senza effettuare "umount", o dove comunque le 
-    politiche di caching vengono gestite autonomamente come in un 
-    ramdisk (memoria RAM) o in un database, insomma in casi d'uso 
-    molto particolari, i sistemi operativi Microsoft, solitamente 
-    utilizzano una politica async ma con un periodo di flush 
-    molto breve.
-
-* defaults: imposta diverse opzioni, infatti defaults 
-    costituisce: rw,suid,dev,exec,auto.nouser, e async
-
-```sh
- # la quinta, rappresenta la modalità "dump", in questo caso 
- # possiamo impostare questo valore a 0 (non impostato) o 1 
- # (impostato), se vale 1, allora l'utility di dump effettuerà il 
- # backup della partizione, questa è una tenica old school per 
- # effettuare backup
-```
-```sh
- # la sesta, rappresenta il "Filesystem check" (o fsck), in questo 
- # caso i valori possibili sono 0 (non impostato) o valore 
- # positivo diverso da zero (impostato), se è impostata, permette 
- # al computer di effettuare un controllo di integrità del 
- # filesystem al riavvio nel caso di crash di sistema o sorgono 
- # problemi legati al disco, l'intero rappresenta l'ordine della 
- # partizione nel controllo di integrità, ad esempio se abbiamo 
- # impostato 1, allora questa sarà la prima partizione ad essere 
- # sottoposta al controllo di integrità, se abbiamo impostato 2 
- # sarà la seconda partizione ad essere sottoposta al controllo di 
- # integrità e così via
-```
 N.B.: E' sempre buona norma utilizzare gli UUID dei device, 
 visualizzabili con comandi tipo "blkid", in quanto più sicuri 
 rispetto all'indicare la partizione.
@@ -12013,9 +11599,9 @@ directory that contains individual filesystem configuration files
 other configuration directories that you’ll see throughout this 
 guide
 
-```conf
-# Vediamo un esempio di automount per partizioni ntfs
+Vediamo un esempio di automount per partizioni ntfs
 
+```conf
 UUID=2832buin2iu923j292anwd982   /media/user/C ntfs   
 permissions	0	2
 
@@ -12032,16 +11618,16 @@ oppure per montare un filesystem di tipo ext4 possiamo ad esempio
 aggiungere al file:
 
 ```conf
-#In questo caso per semplicità abbiamo inserito il percorso al 
-path file
+# In questo caso per semplicità abbiamo inserito il percorso al 
+# path file
 
 #ma ricordiamo che è sempre consigliato inserire il codice UUID
 
 /dev/sda3   /mnt/myPart  ext4    defaults    0   2
 ```
 
-### Swap
 
+### Swap
 
 Con il termine swap si intende, in informatica, l'estensione 
 della capacità della memoria volatile complessiva del computer, 
@@ -12077,7 +11663,7 @@ root" e con permessi "0600", quindi eseguiamo:
 per essere sicuri che appartenga a root eseguiamo:
 
 ```sh
- # chown root:root swap.swp
+ chown root:root swap.swp
 ```
 ```sh
  mkswap swap.swp 
@@ -12094,8 +11680,8 @@ per essere sicuri che appartenga a root eseguiamo:
 per renderlo fisso, dobbiamo aggiornare il file fstab con una 
 stringa così:
 
-```sh
- # /percorso/alFile/Swap none swap sw 0 0
+```conf
+/percorso/alFile/Swap none swap sw 0 0
 ```
 Possiamo verificare le modifiche apportate attraverso:
 
@@ -12107,8 +11693,8 @@ Una volta riavviato il sistema, lo spazio di swap non sarà
 attivo, per rendere questa memoria di swap permanente dovremo 
 moddificare il file "/etc/fstab" aggiungendo una riga del tipo:
 
-```sh
- # /percorsoAlFileDiSwap/swap.swp / swap defaults
+```conf
+/percorsoAlFileDiSwap/swap.swp / swap defaults
 ```
 Altri comandi utili sono:
 
@@ -12122,28 +11708,30 @@ Altri comandi utili sono:
  # attiva tutte le partizioni di swap indicate nel 
  # file "/etc/fstab"
 ```
-Quanto Swap fare?
+
+
+#### Quanto Swap fare?
 
 Tanto tempo fa una regola empirica era fare una partizione/file 
 di swap di due volte la quantità fisica di RAM, ma oggi non è più 
 necessario, basta un po' di swap.
 
-### Gestione dello spazio su disco con Quota
 
+### Gestione dello spazio su disco con Quota
 
 Quota è un famoso software utilizzato per gestire spazio su disco 
 per gli utenti e per i gruppi. Possiamo ad esempio limitare le 
 dimensioni dei file o delle directory che un utente può possedere 
 o con cui può operare.
 
+
 ### Preparazione della macchina per l'utilizzo di Quota
 
-
-Innanzitutto dobbiamo installare i pacchetti "quota" e "quotatool"
-, vediamo come fare su una macchina Debian-based:
+Innanzitutto dobbiamo installare i pacchetti "quota" e "quotatool",
+vediamo come fare su una macchina Debian-based:
 
 ```sh
- # sudo apt-get install quota quotatool
+ sudo apt-get install quota quotatool
 ```
 Dopo aver installato quest istrumenti, dobbiamo specificare le 
 partizioni su cui vogliamo usare quota, per farlo, andremo nel 
@@ -12154,73 +11742,59 @@ usare quota sia sugli utenti che sui gruppi.
 Il prossimo passo è quello di creare un paio di file coi diritti 
 di root, quindi usando "sudo" nella directory root "/" chiamati:
 
-```sh
- # /quota.user (nelle versioni più recenti, il file è chiamato "
- # aquota.user")
-```
-```sh
- # /quota.group (nelle versioni più recenti, il file è chiamato "
- # aquota.group")
-```
+* /quota.user (nelle versioni più recenti, il file è chiamato "aquota.user")
+* /quota.group (nelle versioni più recenti, il file è chiamato "aquota.group")
+
 Quindi eseguiamo, dopo averli creati:
 
 ```sh
- # sudo chmod 600 /quota.*
+ sudo chmod 600 /quota.*
 ```
 una volta effettuata questa operazione, effettuiamo un remount 
 della partizione di root "/":
 
 ```sh
- # sudo mount -o remount /
+ sudo mount -o remount /
 ```
 Infine, dobbiamo creare un database, e attivare quota facendo:
 
 ```sh
  sudo quotacheck -avugm 
- # genera un database per il programma 
- # quota, dove:
+ # genera un database per il programma quota, dove:
+ # * a: controlla tutti i filesystem montati (non di rete) nel 
+ #     file /etc/mtab
+ # * v: attiva la modalità verbose
+ # * u: solo gli utenti elencati nel file /etc/mtab devono essere 
+ #     controllati, questa opzione è di default
+ # * g: solo i gruppi elencati nel file /etc/mtab devono essere 
+ #     controllati
+ # * m: non provare a rimontare i filesystem in modalità di sola 
+ #     lettura (read-only)
+ #
+ # * N.B.: E' possibile inserire come flag "-c" per creare i file 
+ #     quota.user e quota.group, in modo da non doverli creare 
+ #     manualmente
 ```
 
-* a: controlla tutti i filesystem montati (non di rete) nel 
-    file /etc/mtab
-
-* v: attiva la modalità verbose
-
-* u: solo gli utenti elencati nel file /etc/mtab devono essere 
-    controllati, questa opzione è di default
-
-* g: solo i gruppi elencati nel file /etc/mtab devono essere 
-    controllati
-
-* m: non provare a rimontare i filesystem in modalità di sola 
-    lettura (read-only)
-
-* N.B.: E' possibile inserire come flag "-c" per creare i file 
-    quota.user e quota.group, in modo da non doverli creare 
-    manualmente
 
 ```sh
  quotaon -avug 
  # viene attivato quota, può essere spento con "
  # quotaoff -avug" dove in entrambi i casi i flag hanno 
  # significato:
+ # * a: effettua l'operazione su tutti i filesystem in /etc/fstab
+ # * v: attiva la modalità verbose
+ # * u: effettua l'operazione per gli utenti
+ # * g: effettua l'operazione per i gruppi
 ```
-
-* a: effettua l'operazione su tutti i filesystem in /etc/fstab
-
-* v: attiva la modalità verbose
-
-* u: effettua l'operazione per gli utenti
-
-* g: effettua l'operazione per i gruppi
 
 N.B.: Solo se il quota è stato attivato attraverso un "quotaon" 
 allora viene impedito agli utenti di superare i limiti imposti, 
 quindi è bene tenere a mente di attivare quota dopo la 
 configurazione per l'utilizzo. 
 
-### Configurazione di Quota
 
+### Configurazione di Quota
 
 Abbiamo bisogno di un paio di applicazioni per configurare quota. 
 Per controllare le configurazioni di quota per un particolare 
@@ -12238,52 +11812,37 @@ utente eseguiamo:
 ```
 La configurazione quota è suddivisa su sette colonne:
 
-```sh
- # la prima, indica il filesystem relativo alla configurazione
-```
-```sh
- # la seconda, "blocks" (o blocchi), e rappresenta lo spazio 
- # occupato attualmente dall'utente in blocchi, dove per blocco si 
- # intende uno spazio da 1kB
-```
-```sh
- # la terza, "blocks soft limit" (o limite soft per i blocchi), e 
- # rappresenta un limite per i blocchi che può usare l'utente, 
- # essendo un limite "soft", questo vuol dire che l'utente può 
- # temporaneamente superare questo limite secondo il "grace time" 
- # (o tempo di grazie) di default impostato a sette giorni
-```
-```sh
- # la quarta, "blocks hard limit" (o limite hard per i blocchi), e 
- # rappresenta un limite per i blocchi che l'utente non può 
- # assolutamente superare
-```
-```sh
- # la quinta, "inodes", rappresenta il numero di file attualmente 
- # in possesso dall'utente
-```
-```sh
- # la sesta, "inodes soft limit" (o limite soft per gli inodes), e 
- # rappresenta un limite per i file che può possedere l'utente, 
- # essendo un limite "soft", questo vuol dire che l'utente può 
- # temporaneamente superare questo limite secondo il "grace time" 
- # (o tempo di grazie) di default impostato a sette giorni
-```
-```sh
- # la settima, "inodes hard limit" (o limite hard per gli inodes), 
- # e rappresenta un limite per i file che l'utente non può 
- # assolutamente superare
-```
-Per avere un quadro generale della configurazione quota su un 
-filesystem facciamo:
+* la prima, indica il filesystem relativo alla configurazione
+* la seconda, "blocks" (o blocchi), e rappresenta lo spazio 
+  occupato attualmente dall'utente in blocchi, dove per blocco si 
+  intende uno spazio da 1kB
+* la terza, "blocks soft limit" (o limite soft per i blocchi), e 
+  rappresenta un limite per i blocchi che può usare l'utente, 
+  essendo un limite "soft", questo vuol dire che l'utente può 
+  temporaneamente superare questo limite secondo il "grace time" 
+  (o tempo di grazie) di default impostato a sette giorni
+* la quarta, "blocks hard limit" (o limite hard per i blocchi), e 
+  rappresenta un limite per i blocchi che l'utente non può 
+  assolutamente superare
+* la quinta, "inodes", rappresenta il numero di file attualmente 
+  in possesso dall'utente
+* la sesta, "inodes soft limit" (o limite soft per gli inodes), e 
+  rappresenta un limite per i file che può possedere l'utente, 
+  essendo un limite "soft", questo vuol dire che l'utente può 
+  temporaneamente superare questo limite secondo il "grace time" 
+  (o tempo di grazie) di default impostato a sette giorni
+* la settima, "inodes hard limit" (o limite hard per gli inodes), 
+  e rappresenta un limite per i file che l'utente non può 
+  assolutamente superare
 
+Per avere un quadro generale della configurazione quota su un 
+filesystem possiamo eseguire:
 ```sh
  repquota / 
  # mostra la configurazione quota sul filesystem
 ```
-
-* in questo caso, le ultime due colonne rappresentano i limiti 
-    sui file e le prime due i limiti sui blocchi
+in questo caso, le ultime due colonne rappresentano i limiti 
+sui file e le prime due i limiti sui blocchi
 
 ```sh
  repquota -s / 
@@ -12300,11 +11859,11 @@ eseguiamo:
  # andremo a modificare qui le opzioni desiderate
 ```
 
-* edquota aprirà il file di testo attraverso l'editor 
-    specificato nella variabile d'ambiente "EDITOR", per cambiare 
-    l'editor, dobbiamo impostare la variabile d'ambiente editor 
-    con un comando o andando a modificare il file "
-    ~/.bash_profile" inserendo il percorso completo all'editor
+edquota aprirà il file di testo attraverso l'editor 
+specificato nella variabile d'ambiente "EDITOR", per cambiare 
+l'editor, dobbiamo impostare la variabile d'ambiente editor 
+con un comando o andando a modificare il file "~/.bash_profile"
+inserendo il percorso completo all'editor
 
 ```sh
  edquota -g nomeGruppo 
@@ -12348,26 +11907,22 @@ andando a creare un file chiamato "quotacheck" nella directory "
  # aggiorna il database utilizzato da quota
 ```
 N.B.: Per una descrizione più approfondita di quota, è 
-consigliato visualizzare la documentazione presente al link [http:#www.ibm.com/developerworks/library/l-lpic1-v3-104-4/index.html||Documentazione Quota]
-.
+consigliato visualizzare la documentazione presente al link [Documentazione Quota](http://www.ibm.com/developerworks/library/l-lpic1-v3-104-4/index.html)
+
 
 ### Manutenzione dei dispositivi di memoria di tipo "ext"
-
 
 In questa sezione vedremo alcuni strumenti che cipermetteranno di 
 effettuare una manutenzione più semplice di quella che avverrebbe 
 col programma "debugfs", attraverso i programmi:
 
-```sh
- # dumpe2fs: ci permette di visualizzare informazioni sui 
- # filesystem, simile a debugfs, ma non interattivo
-```
-```sh
- # tune2fs: ci permette di impostare parametri avanzati su 
- # filesystem ext
-```
-Vediamo alcuni esempi:
+* dumpe2fs: ci permette di visualizzare informazioni sui 
+  filesystem, simile a debugfs, ma non interattivo
+* tune2fs: ci permette di impostare parametri avanzati su 
+  filesystem ext
 
+
+Vediamo alcuni esempi:
 ```sh
  dumpe2fs /dev/myDevice 
  # visualizza informazioni sul device, 
@@ -12401,8 +11956,9 @@ Vediamo alcuni esempi:
  # cambia la label di un 
  # dispositivo
 ```
-### Manutenzione dei dispositivi di memoria di tipo "xfs"
 
+
+### Manutenzione dei dispositivi di memoria di tipo "xfs"
 
 Per gestire filesystem di tipo "xfs" abbiamo bisogno di due 
 pacchetti chiamati "xfsprogs" e "xfsdump", quindi su una 
@@ -12463,8 +12019,8 @@ consigliato guardare il manuali attraverso il comando "man" sulle
 utility presenti al percorso "/usr/sbin/xfs*" per effettuare 
 operazioni più complicate.
 
-### RAID
 
+### RAID
 
 Il RAID (originally redundant array of inexpensive disks; ora più 
 comunemente redundant array of independent disks) è una tecnica 
@@ -12479,24 +12035,17 @@ memorizzazione disponibile, miglioramenti nella tolleranza ai
 guasti. Esistono diverse configurazioni RAID utilizzate per 
 diversi scopi, si parla dei cosiddetti livelli di RAID:
 
-```sh
- # RAID Lineare: Le partizioni (o i dischi) non sono delle stesse 
- # dimensioni, ma costituireanno un volume unico con una 
- # dimensione data dalla somma delle dimensioni dei singoli
-```
-```sh
- # RAID 0: Le partizioni (o i dischi) sono delle stesse dimensioni 
- # e costituireanno un volume unico con una dimensione data dalla 
- # somma delle dimensioni dei singoli
-```
-```sh
- # RAID 1: Mirrora i dati tra dischi/partizioni di dimensioni 
- # uguali (alto livello di ridondanza ma spreco di capacità)
-```
-```sh
- # RAID 4/5/6: I dati vengono copiati su tre o più dischi 
- # sfruttando controlli come blocchi di parità
-```
+* RAID Lineare: Le partizioni (o i dischi) non sono delle stesse 
+ dimensioni, ma costituireanno un volume unico con una 
+ dimensione data dalla somma delle dimensioni dei singoli
+* RAID 0: Le partizioni (o i dischi) sono delle stesse dimensioni 
+ e costituireanno un volume unico con una dimensione data dalla 
+ somma delle dimensioni dei singoli
+* RAID 1: Mirrora i dati tra dischi/partizioni di dimensioni 
+ uguali (alto livello di ridondanza ma spreco di capacità)
+* RAID 4/5/6: I dati vengono copiati su tre o più dischi 
+ sfruttando controlli come blocchi di parità
+
 Il filesystem ID (quello che viene usato da fdisk) da utilizzare 
 su dischi su cui vogliamo utilizzare il RAID è "0xDA" detto anche 
 "Non FS".
@@ -12555,23 +12104,23 @@ mdadm, attraverso:
 per fermare un RAID possiamo effettuare:
 
 ```sh
- # mdadm --stop /dev/md0
+ mdadm --stop /dev/md0
 ```
 oppure per avviarlo (o riavviarlo) possiamo eseguire:
 
 ```sh
- # mdadm --assemble --scan
+ mdadm --assemble --scan
 ```
 Ora possiamo formattare md0 col filesystem che più preferiamo e 
 il gioco è fatto; possiamo effettuare:
 
 ```sh
  mkfs.ext4 /dev/md0 
- # formatta tutto il sistema RAID con 
- # filesystem ext4
+ # formatta tutto il sistema RAID con filesystem ext4
 ```
-### RAID ocn Btrfs
 
+
+### RAID ocn Btrfs
 
 Avere un filesystem che supporta nativamente il RAID è di grande 
 vantaggio, in quanto semplifica significativamente la creazione 
@@ -12581,31 +12130,29 @@ con un comando:
 
 ```sh
  mkfs.btrfs -m raid1 -d raid1 /dev/sdd /dev/sde 
- # crea un RAID 1 
- # con le partizioni "sdd" ed "sde"
+ # crea un RAID 1 con le partizioni "sdd" ed "sde"
 ```
+
 Btrfs ha diversi vantaggi rispetto ad ext4 ed altri filesystem, 
 il vantaggio principale è quello di supportare nativamente gli 
 snapshot, quindi fare snapshot del sistema e calcolare la 
 differenza tra due snapshot sono operazioni molto leggere su 
 questo filesystem.
 
+
 ### Tuning delle prestazioni e configurazione delle 
 
-  impostazioni di dispositivi di memoria
+#### Impostazioni di dispositivi di memoria
 
 Per effettuare un tuning delle prestazioni o accedere alle 
 configurazioni dei dispositivi di memoria, possiamo utilizzare 
 una coppia di programmi:
 
-```sh
- # hdparm (per dispositvi con controller ATA e derivati): in 
- # pratica la quasi totalità dei sistemi PC moderni
-```
-```sh
- # sdparm (per dispositivi con controller SCSI): usati in contesto 
- # workstation/server
-```
+* hdparm (per dispositvi con controller ATA e derivati): in 
+  pratica la quasi totalità dei sistemi PC moderni
+* sdparm (per dispositivi con controller SCSI): usati in contesto 
+  workstation/server
+
 Se usiamo un hard disk ATA (o derivato) ma che viene emulato con 
 il driver SCSI, possiamo usare entrambi i comandi. Vediamo alcuni 
 esempi di comandi:
@@ -12629,8 +12176,9 @@ esempi di comandi:
  # controlla se la politica di write 
  # caching è abilitata sul device sda
 ```
-### Criptare Partizioni
 
+
+### Criptare Partizioni
 
 E' possibile criptare partizioni (o interi dispositvi di memoria) 
 per aumentare la sicurezza attraverso LUKS (Linux Unified Key 
@@ -12697,8 +12245,8 @@ soluzione è Ecryptfs, questo ci permette di creare una directory
 sola criptata anzichè dover formattare per criptare l'intero 
 disco.
 
-### Gestire dischi criptati con Bitlocker
 
+### Gestire dischi criptati con Bitlocker
 
 Dato un disco criptato con Bitlocker (tipico software utilizzato 
 su Windows), possiamo accedere utilizzando questi comandi:
@@ -12729,22 +12277,21 @@ operazioni per smontare il disco:
  # per non rimanere nella directory del disco montato
 ```
 ```sh
- # umount /mnt/disk
+ umount /mnt/disk
 ```
 ```sh
- # umount /mnt/tmp
+ umount /mnt/tmp
 ```
-### LVM
 
+
+### LVM
 
 LVM sta per Logical Volume Management e costituisce un sistema 
 molto flessibile per la gestione delle partizioni. Possiamo 
 identificare tre elementi nella gestione organizzata secondo LVM:
 
 1. Physical Volumes: I dispositivi fisici
-
 2. Volume Groups: Raggruppamenti di volumi fisici
-
 3. Logical Volumes: I dispositivi virtuali che vengono visti dal 
   sistema
 
@@ -12812,8 +12359,9 @@ e la montiamo con:
  mount /dev/vg1/data_lv /data 
  # monta la partizione logica
 ```
-### Estendere una partizione logica
 
+
+### Estendere una partizione logica
 
 Ora immaginiamo di avere quasi riempito il dispositivo /dev/sdb1 
 citato in precedenza che aveva partizione logica /dev/vg1/data_lv 
@@ -12849,8 +12397,9 @@ comando "resize2fs":
  # ridimensiona la partizione data_lv 
  # per occupare tutto lo spazio disponibile
 ```
-### Backup con LVM
 
+
+### Backup con LVM
 
 Il backup è una procedura molto flessibile utilizzando il sistema 
 LVM, infatti è possibile creare dei veri e propri "snapshot" cioè 
@@ -12871,24 +12420,25 @@ effettuare il backup. Possiamo eseguire:
  # logical volume di cui vogliamo effettuare il backup
 ```
 ```sh
- # mkdir /mnt/backup
+ mkdir /mnt/backup
 ```
 ```sh
- # mount /dev/vg1/backup /mnt/backup
+ mount /dev/vg1/backup /mnt/backup
 ```
 ```sh
- # tar -cf /tmp/backup.tar /mnt/backup
+ tar -cf /tmp/backup.tar /mnt/backup
 ```
 ```sh
- # umount /mnt/backup
+ umount /mnt/backup
 ```
 ```sh
  lvremove /dev/vg1/backup 
  # rimuove il logical volume utilizzato 
  # momentaneamente per il backup
 ```
-### Altre utility di LVM
 
+
+### Altre utility di LVM
 
 Vediamo ora altre utility di LVM:
 
@@ -12923,6 +12473,8 @@ Vediamo ora altre utility di LVM:
  # esegue uno scan e visualizza in output i physical 
  # volume presenti sul sistema
 ```
+
+
 ## Gestione del server grafico X
 
 Many Linux and Unixoid users (Unix and Unix-like systems) have 
@@ -12931,7 +12483,7 @@ environments, and such. But what exactly are these and how do
 they relate to each other? I hope to clarify some of these topics 
 and explain how it all works.
 
-  First of all, a Graphical User Interface (GUI) 
+###  First of all, a Graphical User Interface (GUI) 
 
 is an interface that allows users to interact with the system in 
 a visual manner. GUIs typically have icons, windows, or graphics 
@@ -12958,7 +12510,7 @@ systems provide the basic framework for other parts of the GUI.
 Windowing systems do not control the appearance of the GUI. 
 Rather, the windowing system offers the core functionality.
 
-  Xlib 
+###  Xlib 
 
 is a C-programming library for interacting with display servers 
 using the X11 protocol (X Window System Version 11). Not all 
@@ -12982,7 +12534,7 @@ compatible with the different display-managers/windowing-systems.
 Examples of window managers include Mutter, Metacity, KWin, twm, 
 and IceWM.
 
-  A widget-toolkit
+###  A widget-toolkit
 
 is a set of software or a library that works with the window 
 manager to design the window's appearance. For example, the GTK 
@@ -13005,13 +12557,13 @@ Notice that some of the windows have an appearance that differs
 from the others (Clementine is more gray and box-like wile the 
 calculator has rounded buttons and a lighter color).
 
-  A display manager 
+###  A display manager 
 
 is the "login screen". LightDM, KDM (KDE display manager), GDM 
 (GNOME Display Manager), etc. are pieces of software that manage 
 the appearance of the login screen.
 
-  A desktop 
+###  A desktop 
 
 is the "invisible window" that allows users to set a 
 wallpaper/background and place "desktop icons". A virtual desktop 
@@ -13020,7 +12572,7 @@ about "workspaces" or "workspace switchers". You see your
 desktop, but there is more of it than what you see on the 
 physical screen.
 
-  A dock, launcher, launch bar, or taskbar
+### A dock, launcher, launch bar, or taskbar
 
 is a graphical element that may be its own entity or a component 
 of another graphical software. In Ubuntu, the launcher on the 
@@ -13028,7 +12580,7 @@ side and the bar at the top are components of Unity. Cairo-Dock
 is an example of a dock that is its own entity. Their purpose is 
 to give users access to file and applications.
 
-  Screensavers 
+### Screensavers 
 
 are special programs that protect the screen from phosphor 
 burn-in on CRT (tube-based monitors) and plasma monitors. 
@@ -13039,7 +12591,7 @@ would then require a password to allows users to see the desktop
 and interact with the machine. Screensavers may be simple like a 
 solid color or they can be graphics intensive like a video game.
 
-  A Desktop Environment 
+### A Desktop Environment 
 
 is a collection of software that provides a standard look and 
 feel. For example, the KDE Plasma Desktop uses the X11 windowing 
@@ -13072,7 +12624,7 @@ of your other windows and docks.
 All these pieces of software work together to create the 
 applications we see on the screen.
 
-  A display server or window system
+### A display server or window system
 
 The display server controls and manages the low-level features to 
 help integrate the parts of the GUI. For instance, display 
@@ -13119,9 +12671,9 @@ server grafico e quindi terminarlo è:
  # uccide tutti i processi relativi ad X
 ```
 
-* un'alternativa potrebbe essere uccidere il display manager, 
-    in quanto il display manager è il processo padre del processo 
-    relativo al Desktop Environment o al Window Manager
+un'alternativa potrebbe essere uccidere il display manager, 
+in quanto il display manager è il processo padre del processo 
+relativo al Desktop Environment o al Window Manager
 
 possiamo generare un file di configurazione di xorg, 
 assicurandoci prima che Xorg non sia in esecuzione, (o uccidendo 
@@ -13168,34 +12720,28 @@ eseguire all'interno di un altro tty il comando:
 ```
 Ricorda che:
 
-```sh
- # For a Linux computer with 6 allowed shell sessions, the virtual 
- # displays are numbered 0 to 5 
-```
-```sh
- # Shell sessions are mapped to function keys F1 through F6 
-```
-```sh
- # Virtual displays are mapped to function keys F7 through F12
-```
-I file di log, possono essere visionati al percorso "
-/var/log/Xorg.?.log".
+* For a Linux computer with 6 allowed shell sessions, the virtual 
+  displays are numbered 0 to 5 
+* Shell sessions are mapped to function keys F1 through F6 
+* Virtual displays are mapped to function keys F7 through F12
+ 
+I file di log, possono essere visionati al percorso "/var/log/Xorg.?.log".
 
-  Problemi Incontrati
+### Problemi Incontrati
 
 Nel caso un utente non dovesse essere abilitato ad avviare 
 startx, con messaggi tipo "User is not authorized to run X", 
 dobbiamo andare a scrivere nel file "/etc/X11/Xwrapper.config" ed 
 inserire nella voce "allowed_users" la stringa "anybody".
 
-  Troubleshooting con X
+### Troubleshooting con X
 
 In genere per fare troubleshooting sugli errori generati da X, 
 possiamo ispezionare i seguenti file: ~/.xsession-errors, 
 /var/log/Xorg.*/var/log/messages.
 
-### Copy & Paste (ossia copia e incolla)
 
+### Copy & Paste (ossia copia e incolla)
 
 Xorg ha tre clipboard, in cui vengono memorizzati i copia 
 incolla, una utility molte efficace è "xclip", questa ci permette 
@@ -13285,13 +12831,13 @@ d'ambiente $DISPLAY con:
  # display
 ```
 
-* l'output di questo comando sarà nella forma 
-    DISPLAY=:numeroDisplay.numeroSchermo
+l'output di questo comando sarà nella forma 
+`DISPLAY=:numeroDisplay.numeroSchermo`
 
 il nome del display può anche essere visionato con:
 
 ```sh
- # xdpyinfo | grep display
+ xdpyinfo | grep display
 ```
 Quindi avendo due sistemi A e B, se su A impostiamo come 
 variabile d'ambiente DISPLAY con l'indirizzo IP di B e un display 
@@ -13316,15 +12862,15 @@ server si occupi del carico grafico, mentre su una macchina
 remota vengano visualizzati solo i risultati all'interno del 
 server grafico.
 
-### Xnest
 
+### Xnest
 
 E' possibile avviare desktop environment o window manager 
 annidati attraverso Xnest. Oppure con un wrapper che semplifica 
 queste operazioni e cioè Xephyr.
 
-### Xwininfo
 
+### Xwininfo
 
 Il programma xwininfo è molto utile per reperire informazioni 
 sulle finestre attive su Xorg. Vediamo subito alcuni esempi 
@@ -13418,14 +12964,15 @@ Possiamo dare focus a una finestra che non vediamo più con:
  xdotool windowfocus 0x1a00ad2 
  # dove l'id è preso da xlsclients
 ```
-### Xrefresh
 
+
+### Xrefresh
 
 E' un comodo comando per fare il refresh del server X, nel caso 
 in cui una o più parti devono essere ridisegnate
 
-### Xdpyinfo
 
+### Xdpyinfo
 
 Il programma xdpyinfo fornisce informazioni sul display manager; 
 vediamo subito alcuni esempi:
@@ -13448,8 +12995,8 @@ vediamo subito alcuni esempi:
  # fornisce informazioni tecniche 
  # sulle estensioni caricate, utili per i programmatori
 ```
-### Xinput
 
+### Xinput
 
 Questo comando è utile per capire le periferiche di input a 
 disposizione, come ad esempio mouse eccetera, le loro features, e 
@@ -13480,22 +13027,21 @@ le eventuali configurazioni, possiamo eseguire:
  # apici) mostrata dal comando "xinput --list --short"
 ```
 ```sh
- # xinput --set-prop "SynPS/2 Synaptics TouchPad" "Device Accel 
-  Constant Deceleration" 1.5 
+ xinput --set-prop "SynPS/2 Synaptics TouchPad" "Device Accel Constant Deceleration" 1.5 
  # imposta il parametro "Device Accel 
  # Constant Deceleration" del device "SynPS/2 Synaptics TouchPad" 
  # al valore di "1.5"
 ```
 ```sh
- # xinput --set-prop "Logitech USB-PS/2 Optical Mouse" "libinput 
-  Accel Speed" -0.6 
+ xinput --set-prop "Logitech USB-PS/2 Optical Mouse" "libinput Accel Speed" -0.6 
  # imposta il parametro "libinput Accel Speed" 
- # del device "Logitech USB-PS/2 Optical Mouse" al valore di "-0.6"
- # , in questo caso un valore negativo riduce l'accelerazione e 
+ # del device "Logitech USB-PS/2 Optical Mouse" al valore di "-0.6", 
+ # in questo caso un valore negativo riduce l'accelerazione e 
  # velocità del mouse.
 ```
-### xwd
 
+
+### xwd
 
 Il programma xwd (X Window Dump) è un utile tool per effettuare 
 screenshot dello schermo, possiamo avviarlo con:
@@ -13542,8 +13088,9 @@ un altro formato ad esempio con:
  convert shot.xwd shot.jpg 
  # converte l'immagine .xwd in .jpg
 ```
-### Xrandr
 
+
+### Xrandr
 
 RandR ("resize and rotate") is a communications protocol written 
 as an extension to the X11[2] and Wayland[3] protocols for 
@@ -13583,19 +13130,19 @@ the structure of the xrandr command is usually "xrandr --output
 Let's see other examples:
 
 ```sh
- # xrandr --output LVDS --auto --rotate normal --pos 0x0 --output VGA 
-  --auto --rotate left --right-of LVDS 
+ xrandr --output LVDS --auto --rotate normal --pos 0x0 --output VGA \
+ --auto --rotate left --right-of LVDS 
  # Sets an output called LVDS 
  # to its preferred mode, and on its right put an output called 
  # VGA to preferred mode of a screen which has been physically 
  # rotated clockwise
 ```
+
 ```sh
- # xrandr --output HDMI1 --off --output LVDS1 --primary --mode 1366x768 
- # --pos 0x0 --rotate normal --output VIRTUAL1 --off --output DP1 --off 
+ randr --output HDMI1 --off --output LVDS1 --primary --mode 1366x768 --pos 0x0 \
+ --rotate normal --output VIRTUAL1 --off --output DP1 --off 
   --output VGA1 --mode 1280x1024 --pos 1366x0 --rotate normal 
- # this 
- # is a complete setup of all the interfaces, notice the "--primary"
+ # this is a complete setup of all the interfaces, notice the "--primary"
  # option is used to set the LVDS1 interface as primary
 ```
 ```sh
@@ -13645,8 +13192,8 @@ questo caso, dobbiamo assicurarci di aver installato bumblebee o
 che comunque entrambe le schede video funzionino correttamente e 
 che i driver vengano caricati senza errori.
 
-### DPMS
 
+### DPMS
 
 DPMS (Display Power Management Signaling) is a technology that 
 allows power saving behaviour of monitors when the computer is 
@@ -13661,12 +13208,13 @@ Desktop Environment o al Window Manager, una volta installato "
 libnotify" con:
 
 ```sh
- # notify-send "rsnapshot done :)"
+ notify-send "rsnapshot done :)"
 ```
+
+
 ### X e startx
 
-
-  Premessa su Desktop Environment e Display Manager
+#### Premessa su Desktop Environment e Display Manager
 
 E' importante capire la distinzione tra Desktop Environment o 
 Window Manger (ambiente più leggero, ma di concetto simile) e 
@@ -13678,8 +13226,7 @@ Environment o il Window Manager è costituito dai programmi atti a
 gestire le finestre, i workspace e gli stili dell'ambiente 
 grafico.
 
-  X, startx e xinit e come avviare applicazioni all'avvio del 
-  sistema se si usa "startx"
+#### X, startx e xinit e come avviare applicazioni all'avvio del sistema se si usa "startx"
 
 Il programma startx è uno script utilizzato per lanciare il 
 server grafico X utilizzando determinati driver e un determinato 
@@ -13690,12 +13237,9 @@ applicazioni andando ad inserire il nome dell'applicazione da
 lanciare nel file di configurazione adibito, che può essere a 
 differenza della distribuzione:
 
-```sh
- # ~/.xinitrc
-```
-```sh
- # ~/.xsession
-```
+* ~/.xinitrc
+* ~/.xsession
+
 Mentre è comunque possibile automatizzare l'avvio di applicazioni 
 a livello globale (utile ad esempio per applicazioni enterprise) 
 attraverso i file di configurazione in "/etc" che anche in questo 
@@ -13764,8 +13308,8 @@ dello script startx per capirlo) l'istruzione:
 Un altro modo per avviare script o cose da terminale è quello di 
 usare il file /etc/rc.local per i sistemi sysVinit.
 
-### Inittab e Xwindows
 
+### Inittab e Xwindows
 
 Il file inittab, è un file atto a specificare il default runlevel 
 del nostro sistema, anche se nella maggior parte delle distro 
@@ -13791,15 +13335,13 @@ Storicamente la posizione del file "inittab" era "/etc/inittab",
 per avere un'idea più precisa di come gestire i demoni, si 
 rimanda alla sezione sui processi e su systemd.
 
-### Font
 
+### Font
 
 Che palle, questa la fai tu Jack, non ne vedo l'utilità. E' la 
 lezione 16 della seconda parte del corso.
 
-### Xorg Oggi e come avviare applicazioni all'avvio del sistema 
-
-  se non si usa "startx"
+### Xorg Oggi e come avviare applicazioni all'avvio del sistema se non si usa "startx"
 
 Xorg, attualmente autoconfigura le impostazioni per l'ambiente 
 grafico, esistono diverse directory dove sono collocati i file di 
@@ -13855,8 +13397,9 @@ Per informazioni aggiuntive, possiamo eseguire:
  man xorg.conf 
  # visualizza le pagine di manuale su xorg
 ```
-### Alcuni file importanti di Xorg
 
+
+### Alcuni file importanti di Xorg
 
 Elenchiamo alcuni file degni di nota:
 
@@ -13878,8 +13421,9 @@ per caricare un file di impostazioni come .Xdefaults o
  xrdb -q 
  # mostra le impostazioni attuali
 ```
-### Login Manager
 
+
+### Login Manager
 
 Il login manager di default è specificato nel file:
 
@@ -13895,6 +13439,7 @@ o ci fossero altri caratteri oltre al percorso del login manager,
 allora il login manager al riavvio non partirà. E' dalla 
 configurazione del login manager che possiamo impostare le 
 applicazioni che devono avviarsi al suo avvio.
+
 
 ### Remap dei Tasti
 
@@ -13943,7 +13488,7 @@ keycode 58 = Escape
 e poi eseguiamo:
 
 ```sh
- # loakeys ~/.keymap
+ loakeys ~/.keymap
 ```
 per vedere i codici corrispettivi ai tasti in un ambiente solo 
 testo senza X, possiamo eseguire:
@@ -13954,8 +13499,9 @@ testo senza X, possiamo eseguire:
  # uscire dobbiamo aspettare 10 secondi o premere Ctrl+C che 
  # funziona solo se viene eseguito in un ambiente con X
 ```
-### Touchpad e configurazione
 
+
+### Touchpad e configurazione
 
 In questa sezione vedremo alcuni strumenti generali per la 
 gestione dei driver Synaptics input driver per i touchpad 
@@ -13982,18 +13528,15 @@ copiato può avere anche un nome diverso. Ora al suo interno
 possiamo inserire l'opzione in append al file, nella sezione 
 specifica (qui basta leggere un attimo con attenzione il file):
 
-——————————————————————--
-
+```conf
 Option "TabButton1" "1"
-
-———————————————————————
-
+```
 Al riavvio di X, l'opzione prenderà effetto.
+
 
 ### Utility in ambiente senza X
 
-
-### setterm
+#### setterm
 
 
 The setterm command can set various terminal attributes:
@@ -14005,8 +13548,7 @@ The setterm command can set various terminal attributes:
  # standby will occur at 60 minutes
 ```
 ```sh
- # setterm -underline on; echo "Add Your Important Message Here" 
-  setterm -underline off 
+ setterm -underline on; echo "Add Your Important Message Here"; setterm -underline off 
  # In this example show underlined text 
  # for xterm window
 ```
@@ -14019,6 +13561,8 @@ The setterm command can set various terminal attributes:
  setterm -cursor on 
  # Turn the cursor on
 ```
+
+
 ## Networking
 
 E' importante parlare di interfacce quando si parla di 
@@ -14026,31 +13570,20 @@ networking, un'interfaccia è tutto quello che ci permette di
 avere un'indirizzo ip e una connessione, esempi di interfaccia 
 possono essere:
 
-```sh
- lo: loopback interface 
- # presente su tuti i sistemi e 
- # utilizzata da un sistema per riferirsi a se stesso, solitamente 
- # è assegnato l'indirizzo "127.0.0.1" ma può assumere tutti gli 
- # indirizzi nel range 127.0.0.0/8 address block. That is, 
- # 127.0.0.1 through 127.255.255.254 all represent your computer.
-```
-```sh
- # vpn: interfaccia per rete vpn
-```
-```sh
- # ppp: interfaccia per connessione point to point
-```
-```sh
- # eth: interfaccia ethernet
-```
-```sh
- # wlan: interfaccia wlan
-```
-```sh
- # ecc...
-```
-### Nota sui socket
+* lo: loopback interface 
+  presente su tuti i sistemi e 
+  utilizzata da un sistema per riferirsi a se stesso, solitamente 
+  è assegnato l'indirizzo "127.0.0.1" ma può assumere tutti gli 
+  indirizzi nel range 127.0.0.0/8 address block. That is, 
+  127.0.0.1 through 127.255.255.254 all represent your computer.
+* vpn: interfaccia per rete vpn
+* ppp: interfaccia per connessione point to point
+* eth: interfaccia ethernet
+* wlan: interfaccia wlan
+* ecc...
 
+
+### Nota sui socket
 
 A network socket is an endpoint of an inter-process communication 
 across a computer network. Today, most communication between 
@@ -14085,8 +13618,7 @@ ricevere. Ci sono due tipi fondamentali di socket:
  # operativi per le comunicazioni attraverso un protocollo di 
  # trasporto (quali TCP o UDP); 
 ```
-
-  A sua volta esistono due tipi di socket su IP:
+A sua volta esistono due tipi di socket su IP:
 
 * LISTEN, che rappresentano la possibilità di ricevere nuove 
     connessioni. Un socket di questo tipo è identificato dalla 
@@ -14106,21 +13638,17 @@ ricevere. Ci sono due tipi fondamentali di socket:
 ```
 In base alla modalità di connessione, inoltre, si distinguono:
 
-```sh
- # Stream socket: connection-oriented, basati su TCP; 
-```
-```sh
- # Datagram socket: connectionless, basati su UDP; 
-```
-```sh
- # Raw socket: utilizzati per lo sviluppo di protocolli.
-```
+* Stream socket: connection-oriented, basati su TCP; 
+* Datagram socket: connectionless, basati su UDP; 
+* Raw socket: utilizzati per lo sviluppo di protocolli.
+
 I socket sono stati introdotti nel 1983 in BSD e poi sono stati 
 ripresi da praticamente tutti gli altri sistemi operativi. Per 
 questo motivo solitamente le funzioni di programmazione dei 
 socket vengono chiamate Berkeley socket API. Si consiglia di dare 
 un'occhiata alla pagina inglese di wikipedia, per informazioni 
 dettagliate sull'argomento.
+
 
 ### Nota sugli Indirizzi IP Privati
 
@@ -14129,32 +13657,18 @@ Una piccola tabella rappresentante gli indirizzi IP privati,
 questa scelta è stata fatta per la scarsità degli indirizzi 
 pubblici con IPv4.
 
-[float Table:
-
-+---------------+---------------------+-------------------+------------------------+------------------------------+
 |     Nome      | Indirizzo Iniziale  | Indirizzo Finale  |        Classi          |    Blocco CIDR più grande    |
-+---------------+---------------------+-------------------+------------------------+------------------------------+
-+---------------+---------------------+-------------------+------------------------+------------------------------+
+|:-------------:|:-------------------:|:-----------------:|:----------------------:|:----------------------------:|
 | 24-bit block  |      10.0.0.0       |  10.255.255.255   |   Singola Classe A     |    10.0.0.0/8 (255.0.0.0)    |
-+---------------+---------------------+-------------------+------------------------+------------------------------+
 | 20-bit block  |     172.16.0.0      |  172.31.255.255   | 16 Classi B Contigue   | 172.16.0.0/12 (255.240.0.0)  |
-+---------------+---------------------+-------------------+------------------------+------------------------------+
 | 16-bit block  |    192.168.0.0      | 192.168.255.255   | 256 Classi C Contigue  | 192.168.0.0/16 (255.255.0.0) |
-+---------------+---------------------+-------------------+------------------------+------------------------------+
 
-
-[Table 5: 
-Indirizzi IP Privati
-]
-
-
-]
 
 Ricorda che l'IPv6 non ha questa distinzione tra indirizzi 
 privati e pubblici.
 
-### Ifconfig
 
+### Ifconfig
 
 Se abbiamo installato il pacchetto net-tools in cui risiede il 
 comando ifconfig possiamo effettuare un:
@@ -14218,8 +13732,9 @@ veloce il nostro ip esterno attraverso:
  curl --socks5 127.0.0.1:9050 http:
  # checkip.amazonaws.com/ 
 ```
-### Ip
 
+
+### Ip
 
 In pratica al posto di ifconfig e del relativo pacchetto di 
 appartenenza "net-tools", che è ritenuto ormai deprecato, 
@@ -14280,8 +13795,7 @@ iproute2", vediamo alcuni comandi d'esempio:
  # connettendo ad internet od ad una determinata rete
 ```
 ```sh
- # ip route add 10.10.20.0/24 via 192.168.50.100 dev eth0 
-  
+ ip route add 10.10.20.0/24 via 192.168.50.100 dev eth0 
  # aggiunge una voce alla tabella di routing
 ```
 ```sh
@@ -14313,8 +13827,9 @@ iproute2", vediamo alcuni comandi d'esempio:
 ```sh
  # ip monitor all
 ```
-### Iw
 
+
+### Iw
 
 La suite di comandi "iw" gestisce le interfaccie wireless. To 
 connect to an AP you can use iw connect if the connection 
@@ -14465,23 +13980,18 @@ Per connetterci ad una rete WPA/WPA2, una volta che l'interfaccia
 di rete wireless è attiva eseguiamo:
 
 ```sh
- # wpa_passphrase ApName myExampleApPassword >> 
-  /etc/wpa_supplicant.conf 
+ wpa_passphrase ApName myExampleApPassword >> /etc/wpa_supplicant.conf 
  # salva un file di configurazione che 
  # può essere utilizzato da wpa_supplicant per connettersi alla 
  # rete wifi wpa/wpa2
 ```
 ```sh
- # wpa_supplicant -B -D nl80211,wext -i wlan0 -c 
-  /etc/wpa_supplicant.conf 
+ wpa_supplicant -B -D nl80211,wext -i wlan0 -c /etc/wpa_supplicant.conf 
  # dove:
+ # * -B means run wpa_supplicant in the background 
+ # * -D specifies the wireless driver, wext is the generic driver
+ # * -c specifies the path for the configuration file.
 ```
-* -B means run wpa_supplicant in the background 
-
-* -D specifies the wireless driver, wext is the generic driver
-
-* -c specifies the path for the configuration file.
-
 se questo non dovesse essere abbastanza allora eseguiamo:
 
 ```sh
@@ -14505,8 +14015,8 @@ in modo molto chiaro e veloce, molto utile per ottenere
 informazioni, ad esempio con "iwgetid -r" per ottenere il nome 
 dell'access point a cui sono connesso.
 
-### Arp
 
+### Arp
 
 Possiamo visualizzare la tabella di associazione indirizzo IP, 
 mac address locale interrogando il sistema con:
@@ -14528,44 +14038,37 @@ con:
 
 Questo protocollo prevede 4 modalità operative:
 
-```sh
- # Master mode (also called AP or infrastructure mode) is used to 
- # create a service that looks like a traditional access point. 
- # The wireless card creates a network with a specified name 
- # (called the SSID) and channel, and offers network services on 
- # it. While in master mode, wireless cards manage all 
- # communications related to the network (authenticating wireless 
- # clients, handling channel contention, repeating packets, etc.) 
- # Wireless cards in master mode can only communicate with cards 
- # that are associated with it in managed mode.
-```
-```sh
- # Managed mode is sometimes also referred to as client mode. 
- # Wireless cards in managed mode will join a network created by a 
- # master, and will automatically change their channel to match 
- # it. They then present any necessary credentials to the master, 
- # and if those credentials are accepted, they are said to be 
- # associated with the master. Managed mode cards do not 
- # communicate with each other directly, and will only communicate 
- # with an associated master. 
-```
-```sh
- # Ad-hoc mode creates a multipoint-to-multipoint network where 
- # there is no single master node or AP. In ad-hoc mode, each 
- # wireless card communicates directly with its neighbors. Nodes 
- # must be in range of each other to communicate, and must agree 
- # on a network name and channel. 
-```
-```sh
- # Monitor mode is used by some tools (such as Kismet, chapter 
- # six) to passively listen to all radio traffic on a given 
- # channel. When in monitor mode, wireless cards transmit no data. 
- # This is useful for analyzing problems on a wireless link or 
- # observing spectrum usage in the local area. Monitor mode is not 
- # used for normal communications. 
-```
-### Network Manager
+* Master mode (also called AP or infrastructure mode) is used to 
+  create a service that looks like a traditional access point. 
+  The wireless card creates a network with a specified name 
+  (called the SSID) and channel, and offers network services on 
+  it. While in master mode, wireless cards manage all 
+  communications related to the network (authenticating wireless 
+  clients, handling channel contention, repeating packets, etc.) 
+  Wireless cards in master mode can only communicate with cards 
+  that are associated with it in managed mode.
+* Managed mode is sometimes also referred to as client mode. 
+  Wireless cards in managed mode will join a network created by a 
+  master, and will automatically change their channel to match 
+  it. They then present any necessary credentials to the master, 
+  and if those credentials are accepted, they are said to be 
+  associated with the master. Managed mode cards do not 
+  communicate with each other directly, and will only communicate 
+  with an associated master. 
+* Ad-hoc mode creates a multipoint-to-multipoint network where 
+  there is no single master node or AP. In ad-hoc mode, each 
+  wireless card communicates directly with its neighbors. Nodes 
+  must be in range of each other to communicate, and must agree 
+  on a network name and channel. 
+* Monitor mode is used by some tools (such as Kismet, chapter 
+  six) to passively listen to all radio traffic on a given 
+  channel. When in monitor mode, wireless cards transmit no data. 
+  This is useful for analyzing problems on a wireless link or 
+  observing spectrum usage in the local area. Monitor mode is not 
+  used for normal communications. 
 
+
+### Network Manager
 
 Un comune software per la gestione delle connessioni è network 
 manager, questo può essere usato in tre modalità:
@@ -14586,30 +14089,26 @@ siccome i primi due sono molto intuitivi e non hanno bisogno di
 ulteriore documentazione per le operazioni di base ci 
 focalizzeremo sul terzo.
 
-### nmcli
 
+### nmcli
 
 Vediamo alcuni comandi di base di nmcli:
 
 ```sh
  nmcli device wifi list 
- # mostra la lista degli access point 
- # wifi
+ # mostra la lista degli access point wifi
 ```
 ```sh
  nmcli device wifi rescan 
- # rieffettua lo scan degli access 
- # point disponibili
+ # rieffettua lo scan degli access point disponibili
 ```
 ```sh
  nmcli device wifi connect <SSID|BSSID> 
- # ci connettiamo ad una 
- # rete wifi aperta
+ # ci connettiamo ad una rete wifi aperta
 ```
 ```sh
  nmcli device wifi connect <SSID|BSSID> password <password> 
- # ci 
- # connettiamo ad una rete protetta sia wpa1 che wpa2
+ # ci connettiamo ad una rete protetta sia wpa1 che wpa2
 ```
 ```sh
  nmcli device status 
@@ -14623,33 +14122,29 @@ Vediamo alcuni comandi di base di nmcli:
 ```
 ```sh
  nmcli connection edit con-name <name of new connection> 
- #  crea 
- # una nuova connessione chiamata con un nome deciso da noi
+ #  crea una nuova connessione chiamata con un nome deciso da noi
 ```
 ```sh
  nmcli connection edit <connection name> 
- # modifica la 
- # connessione identificata col nome menzionato
+ # modifica la connessione identificata col nome menzionato
 ```
 ```sh
  nmcli connection up id <connection name> 
- # mi collego alla 
- # connessione menzionata
+ # mi collego alla connessione menzionata
 ```
 ```sh
  nmcli connection down id <connection name> 
- # mi scollego dalla 
- # connessione menzionata
+ # mi scollego dalla connessione menzionata
 ```
 il comando più utile è comunque:
 
 ```sh
  man nmcli-examples 
- # pagina di man con diversi esempi di 
- # applicazione
+ # pagina di man con diversi esempi di applicazione
 ```
-### Gestione della rete con Network Manager oppure no?
 
+
+### Gestione della rete con Network Manager oppure no?
 
 I file di configurazione di network manager sono situati nella 
 directory:
@@ -14665,7 +14160,7 @@ Per fare in modo di disabilitare network manager dobbiamo
 disabilitareil corrispettivo demone, con ad esempio:
 
 ```sh
- # sudo systemctl disable NetworkManager.service
+ sudo systemctl disable NetworkManager.service
 ```
 attenzione in quanto il file /etc/network/interfaces ci potrà 
 sembrare strano quando gestiamo la rete con NetworkManager in 
@@ -14678,11 +14173,11 @@ gestione della configurazione di NetworkManager:
 
 ```sh
  less /usr/share/doc/network-manager/README 
- # visualizza la 
- # documentazione di network manager
+ # visualizza la documentazione di network manager
 ```
-### Bridge
 
+
+### Bridge
 
 Possiamo configurare un bridge, con due schede di rete ethernet 
 (non wifi) attraverso il programma "brctl", per vedere le opzioni 
@@ -14729,22 +14224,22 @@ Uno scenario d'esempio per configurare una macchina come bridge
 puro è:
 
 ```sh
- # ifconfig eth0 0.0.0.0
+ ifconfig eth0 0.0.0.0
 ```
 ```sh
- # ifconfig eth1 0.0.0.0
+ ifconfig eth1 0.0.0.0
 ```
 ```sh
- # brctl addbr mybridge
+ brctl addbr mybridge
 ```
 ```sh
- # brctl addif mybridge eth0
+ brctl addif mybridge eth0
 ```
 ```sh
- # brctl addif mybridge eth1
+ brctl addif mybridge eth1
 ```
 ```sh
- # ifconfig mybridge up
+ ifconfig mybridge up
 ```
 in questo caso il bridge non avrà un proprio indirizzo IP, quindi 
 non potremo farci accesso via TCP/IP, nel caso volessimo invece 
@@ -14752,16 +14247,17 @@ assegnargli un indirizzo IP, allora sostituiamo l'ultima
 istruzione con:
 
 ```sh
- # ifconfig mybridge 192.168.100.5 netmask 255.255.255.0
+ ifconfig mybridge 192.168.100.5 netmask 255.255.255.0
 ```
 oppure nel caso in cui volessimo assegnargli un indirizzo IP con 
 il DHCP eseguiamo:
 
 ```sh
- # dhclient mybridge
+ dhclient mybridge
 ```
-### Connessione Point to Point (PPP) tra due Host
 
+
+### Connessione Point to Point (PPP) tra due Host
 
 Possiamo connettere due computer tramite cavo ethernet cross 
 oppure tramite classico cavo "straight" se le schede di rete 
@@ -14771,15 +14267,13 @@ A:
 
 ```sh
  sudo ifconfig eth0 192.168.0.5 
- # imposto un IP per la macchina 
- # A
+ # imposto un IP per la macchina A
 ```
 mentre sulla macchina B
 
 ```sh
  sudo ifconfig eth0 192.168.0.6 
- # imposto un IP per la macchina 
- # B
+ # imposto un IP per la macchina B
 ```
 la scelta dell'IP è arbitraria, ma è meglio ad esempio scegliere 
 una rete diversa rispetto ad esempio ad un'altra interfaccia, 
@@ -14788,12 +14282,12 @@ l'indirizzo ip 192.168.1.4 non andrò ad impostare un indirizzo
 .1.x sulla mia interfaccia eth0, in modo da rendere più lineare 
 possibile la comunicazione e non avere conflitti.
 
+
 ### Configurazione di rete su distro Debian based 
 
-
 Nelle distro Debian-based le interfacce sono configurate 
-attraverso il file "/etc/network/interfaces", e la directory "
-/etc/network/" è dove sono collocati gli script di rete, vediamo 
+attraverso il file "/etc/network/interfaces", e la directory "/etc/network/"
+è dove sono collocati gli script di rete, vediamo 
 un esempio di configurazione classico del file interfaces:
 
 ```conf
@@ -19729,7 +19223,6 @@ Microsoft Database Server", "Oracle Database Server", "Postgres".
 
 ### Installazione su Red-Hat Based Distro
 
-
 Per installare mySQL su distribuzioni basate su Red-Hat, 
 effettuiamo
 
@@ -19756,6 +19249,7 @@ quindi effettueremo un:
  # installa i pacchetti 
  # mysql-server e mysql
 ```
+
 Una volta installato, possiamo verificarne la corretta 
 installazione, effettuando un controllo sul demone mysqld
 
@@ -19847,59 +19341,57 @@ mysql, da questo prompt possiamo effettuare diverse operazioni
 come ad esempio creare database, creare tabelle o in genere 
 effettuare query. Vediamo alcuni esempi di comandi:
 
-```sh
+```sql
  show databases; 
- # mostra i database presenti, di default 
- # potremmo vedere due o tre database d'esempio
+ -- mostra i database presenti, di default 
+ -- potremmo vedere due o tre database d'esempio
 ```
-```sh
+```sql
  create database dbName; 
- # crea un database con nome "dbName", è 
- # da notare che il simbolo ";" è utilizzato per terminare le 
- # istruzioni, un semplice invio permette invece di continuare un 
- # comando, nota che se il nome dovesse contenere caratteri 
- # particolari come ad esempio "-" (dash) o doppi apici o 
- # parentesi, dobbiamo rinchiudere il nome del database tra apici 
- # retroversi "`".
+ -- crea un database con nome "dbName", è 
+ -- da notare che il simbolo ";" è utilizzato per terminare le 
+ -- istruzioni, un semplice invio permette invece di continuare un 
+ -- comando, nota che se il nome dovesse contenere caratteri 
+ -- particolari come ad esempio "-" (dash) o doppi apici o 
+ -- parentesi, dobbiamo rinchiudere il nome del database tra apici 
+ -- retroversi "`".
 ```
-```sh
+```sql
  drop database dbName; 
- # elimina il database con nome "dbName"
+ -- elimina il database con nome "dbName"
 ```
-```sh
+```sql
  SHOW GLOBAL VARIABLES LIKE 'PORT'; 
- # mostra su quale porta sta 
- # girando mysql
+ -- mostra su quale porta sta girando mysql
 ```
-```sh
+```sql
  SHOW GLOBAL VARIABLES; 
- # mostra tutte le variabili globali
+ -- mostra tutte le variabili globali
 ```
+
 N.B.: Nota che in SQL, per indicare nomi con caratteri speciali, 
 dobbiamo racchiudere il nome tra apici retroversi ````.
 
 ### Gestione Utenti in MySQL
 
 
-```sh
- # CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password'; 
-  
- # crea un utente chiamata "newuser" con la password specificato
+```sql
+ CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password'; 
+ -- crea un utente chiamata "newuser" con la password specificato
 ```
-```sh
- # GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost'; 
-  
- # fornire permessi all'utente altrimenti non può fare nulla
+```sql
+ GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost'; 
+ -- fornire permessi all'utente altrimenti non può fare nulla
 ```
-```sh
+```sql
  FLUSH PRIVILEGES; 
- # aggiorna i privilegi
+ -- aggiorna i privilegi
 ```
-```sh
- # SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass'); 
+```sql
+ SET PASSWORD FOR 'root'@'localhost' = PASSWORD('MyNewPass'); 
   
- # reimposta la password per l'account di root sul server locale 
- # "localhost"
+ -- reimposta la password per l'account di root sul server locale 
+ -- "localhost"
 ```
 
 ### Creazione di tabelle e gestione delle tabelle
@@ -19907,152 +19399,146 @@ dobbiamo racchiudere il nome tra apici retroversi ````.
 Una volta creato un database, per poterci lavorare dovremo prima 
 indicare l'intenzione di utilizzare il database attraverso:
 
-```sh
+```sql
  use dbName; 
- # seleziono il database con nome "dbName"
+ -- seleziono il database con nome "dbName"
 ```
 Vediamo alcuni comandi per gestire le tabelle:
 
-```sh
+```sql
  show tables; 
- # mostra le tabelle presenti all'interno del 
- # database
+ -- mostra le tabelle presenti all'interno del 
+ -- database
 ```
-```sh
+```sql
  show columns from `nome Tabella`; 
- # mostra le colonne della 
- # tabella col tipo di dato, è anche utile per capire qual'è la 
- # chiave primaria e che opzioni sono applicate sui campi
+ -- mostra le colonne della 
+ -- tabella col tipo di dato, è anche utile per capire qual'è la 
+ -- chiave primaria e che opzioni sono applicate sui campi
 ```
-```sh
- # CREATE TABLE nomeTab (id int(5) PRIMARY KEY, name varchar(255), 
-  email varchar(255), description text); 
- # crea una tabella 
- # chiamata "nomeTab", con tre attributi, uno di tipo intero con 
- # massimo 5 cifre che sarà anche la chiave primaria, e gli altri 
- # due di tipo stringa con un numero massimo di caratteri ammessi 
- # di 255
+```sql
+ CREATE TABLE nomeTab (id int(5) PRIMARY KEY, name varchar(255), 
+ email varchar(255), description text); 
+ -- crea una tabella 
+ -- chiamata "nomeTab", con tre attributi, uno di tipo intero con 
+ -- massimo 5 cifre che sarà anche la chiave primaria, e gli altri 
+ -- due di tipo stringa con un numero massimo di caratteri ammessi 
+ -- di 255
 ```
-```sh
- # CREATE TABLE users ( user_id int NOT NULL auto_increment, 
- # username varchar(20) NOT NULL, password char(40) NOT NULL, mail 
- # varchar(255), PRIMARY KEY (user_id), UNIQUE KEY username 
+```sql
+ CREATE TABLE users ( user_id int NOT NULL auto_increment, 
+ username varchar(20) NOT NULL, password char(40) NOT NULL, mail 
+ varchar(255), PRIMARY KEY (user_id), UNIQUE KEY username 
   (username) ); 
- # crea una tabella con alcuni attributi NOT NULL, 
- # e il primo attributo "user_id" con l'auto increment attivato 
+ -- crea una tabella con alcuni attributi NOT NULL, 
+ -- e il primo attributo "user_id" con l'auto increment attivato 
 ```
-```sh
+```sql
  DESCRIBE nomeTab; 
- # mostra la struttura della tabella chiamata 
- # nomeTab, con i propri attributi, il tipo e le chiavi
+ -- mostra la struttura della tabella chiamata 
+ -- nomeTab, con i propri attributi, il tipo e le chiavi
 ```
-```sh
- # ALTER TABLE users CHANGE COLUMN id id INT(11) PRIMARY KEY 
-  AUTO_INCREMENT; 
- # cambia una colonna chiamata "id" nella 
- # tabella "users" e la rinomina ancora "id", la imposta come 
- # chiave primaria
+```sql
+ ALTER TABLE users CHANGE COLUMN id id INT(11) PRIMARY KEY AUTO_INCREMENT; 
+ -- cambia una colonna chiamata "id" nella 
+ -- tabella "users" e la rinomina ancora "id", la imposta come 
+ -- chiave primaria
 ```
-```sh
- # ALTER TABLE websites CHANGE COLUMN hash hash varchar(64) NULL; 
-  
- # sulla tabella websites importa l'attributo hash in modo che 
- # possa essere null
+```sql
+ ALTER TABLE websites CHANGE COLUMN hash hash varchar(64) NULL; 
+ -- sulla tabella websites importa l'attributo hash in modo che 
+ -- possa essere null
 ```
-```sh
- # ALTER TABLE websites CHANGE COLUMN hash hash varchar(64) NOT 
-  NULL; 
- # sulla tabella websites importa l'attributo hash in modo 
- # che non possa essere null
+```sql
+ ALTER TABLE websites CHANGE COLUMN hash hash varchar(64) NOT NULL; 
+ -- sulla tabella websites importa l'attributo hash in modo 
+ -- che non possa essere null
 ```
-```sh
- # ALTER TABLE users CHANGE COLUMN id user_id INT(11) PRIMARY KEY 
-  AUTO_INCREMENT; 
- # cambia una colonna chiamata "id" nella 
- # tabella "users" e la rinomina col nome attributo "user_id", la 
- # imposta come chiave primaria
+```sql
+ ALTER TABLE users CHANGE COLUMN id user_id INT(11) PRIMARY KEY AUTO_INCREMENT; 
+ -- cambia una colonna chiamata "id" nella 
+ -- tabella "users" e la rinomina col nome attributo "user_id", la 
+ -- imposta come chiave primaria
 ```
-```sh
- # INSERT INTO nomeTab (id, name, values) VALUES (1, 'anthony', 
-  'anthony@me.com'); 
- # inserisce nella tabella chiamata nomeTab 
- # una tupla nell'ordine specificato (id, name, values) coi valori 
- # (1, "anthony"m "anthony@me.com")
+```sql
+ INSERT INTO nomeTab (id, name, values) VALUES (1, 'anthony', 'anthony@me.com'); 
+ -- inserisce nella tabella chiamata nomeTab 
+ -- una tupla nell'ordine specificato (id, name, values) coi valori 
+ -- (1, "anthony"m "anthony@me.com")
 ```
-```sh
- # INSERT INTO users (name, mail) VALUES ('giuseppe', 
-  'giuseppe@casa.it'); 
- # nel caso avessimo un campo "id" con 
- # autoincremento, basta solo non citarlo all'interno della insert 
- # into, e per magia l'autoincremento verrà gestito da mysql
+```sql
+ INSERT INTO users (name, mail) VALUES ('giuseppe', 'giuseppe@casa.it'); 
+ -- nel caso avessimo un campo "id" con 
+ -- autoincremento, basta solo non citarlo all'interno della insert 
+ -- into, e per magia l'autoincremento verrà gestito da mysql
 ```
-```sh
+```sql
  select * from nomeTab; 
- # mostra tutte le tuple della tabella 
- # chiamata "nomeTab"
+ -- mostra tutte le tuple della tabella 
+ -- chiamata "nomeTab"
 ```
-```sh
+```sql
  select name from nomeTab; 
- # mostra solo il campo "name" di 
- # tutte le tuple della tabella chiamata "nomeTab"
+ -- mostra solo il campo "name" di 
+ -- tutte le tuple della tabella chiamata "nomeTab"
 ```
-```sh
+```sql
  select * from nomeTab where name="anthony"; 
- # mostra tutte le 
- # tuple della tabella con nome "nomeTab" che hanno come attributo 
- # "name" esattamente il valore "anthony"
+ -- mostra tutte le 
+ -- tuple della tabella con nome "nomeTab" che hanno come attributo 
+ -- "name" esattamente il valore "anthony"
 ```
-```sh
+```sql
  UPDATE nomeTab SET id=3; 
- # cambia il campo "id" di tutte le 
- # tuple della tabella "nomeTab" al valore "3"
+ -- cambia il campo "id" di tutte le 
+ -- tuple della tabella "nomeTab" al valore "3"
 ```
-```sh
+```sql
  UPDATE nomeTab SET id=1 where name="anthony"; 
- # cambia il campo 
- # "id" solo delle tuple il cui nome è esattamente "anthony"
+ -- cambia il campo 
+ -- "id" solo delle tuple il cui nome è esattamente "anthony"
 ```
-```sh
+```sql
  DELETE from nomeTab where id=3; 
- # elimina la tupla con valore 
- # id=3 dalla tabella "nomeTab"
+ -- elimina la tupla con valore 
+ -- id=3 dalla tabella "nomeTab"
 ```
-```sh
+```sql
  desc nomeTabella; 
- # mostra uno schema che ci dice come è fatta 
- # una tabella, MOOLTO UTILE!
+ -- mostra uno schema che ci dice come è fatta 
+ -- una tabella, MOOLTO UTILE!
 ```
-```sh
+```sql
  select * from nomeTab where id=1 or id=2; 
- # mostra tutte le 
- # tuple con id=1 o id=2
+ -- mostra tutte le 
+ -- tuple con id=1 o id=2
 ```
-```sh
+```sql
  select * from nomeTab order by id asc; 
- # mostra tutte le tuple 
- # ordinate in ordine crescente in funzione del campo "id"
+ -- mostra tutte le tuple 
+ -- ordinate in ordine crescente in funzione del campo "id"
 ```
-```sh
+```sql
  select * from nomeTab order by id desc; 
- # mostra tutte le tuple 
- # ordinate in ordine decrescente in funzione del campo "id"
+ -- mostra tutte le tuple 
+ -- ordinate in ordine decrescente in funzione del campo "id"
 ```
-```sh
- # select nomeTab.email, nomeTab.name as customers_name, 
- # nomeTab2.name from nomeTab, nomeTab2 where 
-  nomeTab.id=nomeTab2.id; 
- # mostra una tabella sia con campi 
- # della tabella chiamata "nomeTab" che della tabella chiamata "
- # nomeTab2", la keyword "as" ci permette di visualizzare un 
- # determinato campo con un altro nome a schermo nel momento in 
- # cui la tabella viene visualizzata, in questo caso abbiamo 
- # effettuato un "join"
+```sql
+ select nomeTab.email, nomeTab.name as customers_name, 
+ nomeTab2.name from nomeTab, nomeTab2 where 
+ nomeTab.id=nomeTab2.id; 
+ -- mostra una tabella sia con campi 
+ -- della tabella chiamata "nomeTab" che della tabella chiamata "
+ -- nomeTab2", la keyword "as" ci permette di visualizzare un 
+ -- determinato campo con un altro nome a schermo nel momento in 
+ -- cui la tabella viene visualizzata, in questo caso abbiamo 
+ -- effettuato un "join"
 ```
-```sh
+```sql
  ALTER TABLE Persons AUTO_INCREMENT=100; 
- # in questo caso 
- # facciamo in modo che la tabella persons cominci l'auto 
- # incremento dal valore 100
+ -- in questo caso 
+ -- facciamo in modo che la tabella persons cominci l'auto 
+ -- incremento dal valore 100
 ```
 Vediamo ora come inserire una chiave esterna, se abbiamo ad 
 esempio una tabella negozio, e poi una tabella prodotti, ed in 
@@ -20060,46 +19546,42 @@ prodotti, vogliamo avere un riferimento al negozio, allora
 innanzitutto creiamo una nuova voce nella tabella prodotti 
 chiamata "id_negozio", con:
 
-```sh
- # ALTER TABLE prodotti ADD COLUMN id_negozio int not null;
+```sql
+ ALTER TABLE prodotti ADD COLUMN id_negozio int not null;
 ```
 e ora possiamo includere la chiave esterna con:
 
-```sh
- # ALTER TABLE prodotti ADD FOREIGN KEY fk_id_negozio(id_negozio) 
- # REFERENCES negozi(id_negozio) ON DELETE CASCADE ON UPDATE 
- # CASCADE;
+```sql
+ ALTER TABLE prodotti ADD FOREIGN KEY fk_id_negozio(id_negozio) 
+ REFERENCES negozi(id_negozio) ON DELETE CASCADE ON UPDATE 
+ CASCADE;
 ```
 oppure se esiste già la colonna su cui andare a referenziarci 
 possiamo usare:
 
-```sh
- # CREATE TABLE Orders ( O_Id int NOT NULL, OrderNo int NOT NULL, 
- # P_Id int, PRIMARY KEY (O_Id), FOREIGN KEY (P_Id) REFERENCES 
- # Persons(P_Id) );
+```sql
+ CREATE TABLE Orders ( O_Id int NOT NULL, OrderNo int NOT NULL, P_Id int, PRIMARY KEY (O_Id), FOREIGN KEY (P_Id) REFERENCES Persons(P_Id) );
 ```
+
+
 ### Backup Database
 
-
 ```sh
- # mysqldump -u nomeUtente -p --databases nomeDb1 nomeDb2 > 
-  dump.sql 
+ mysqldump -u nomeUtente -p --databases nomeDb1 nomeDb2 > dump.sql 
  # crea un file con il backup del database
 ```
+
 ```sh
- # mysql -u nomeUtente -p -h localhost nomeNuovoDB < dump.sql 
-  
+ mysql -u nomeUtente -p -h localhost nomeNuovoDB < dump.sql 
  # questo serve ad importare i DB all'interno di uno scritto
 ```
 ```sh
  mysql -u nomeUtente -p -h localhost nomeNuovoDB < dump.sql 
- # if 
- # you do not know the database name or database name is included 
+ # if you do not know the database name or database name is included 
  # in sql dump you can try out something as follows
 ```
 ```sh
- # mysql -u nomeUtente -p -h 27.12.4.121 nomeNuovoDB < dump.sql 
-  
+ mysql -u nomeUtente -p -h 27.12.4.121 nomeNuovoDB < dump.sql 
  # importa su un database remoto uno script dump
 ```
 oppure exportato un file da ad esempio phpmyadmin, possiamo 
@@ -20107,11 +19589,11 @@ importarlo con:
 
 ```sh
  mysql -u username -p database_name < file.sql 
- # il database 
- # deve essere già esistente
+ # il database deve essere già esistente
 ```
-### PostgreSQL
 
+
+### PostgreSQL
 
 PostgreSQL è un progetto open-source, guidato dalla community, 
 che segue il modello ad oggetti e relazionale.
@@ -20136,19 +19618,19 @@ per poter collegarci alla sua shell, quindi:
 ora dalla shell adesso possiamo creare un nuovo utente con il 
 comando:
 
-```sh
+```sql
  createuser --interactive 
- # il programma createuser fa parte del 
- # pacchetto postgresql-client Trucchetto: If you create a 
- # PostgreSQL user with the same name as your Linux username, it 
- # allows you to access the PostgreSQL database shell without 
- # having to specify a user to login (which makes it quite 
- # convenient).
+ -- il programma createuser fa parte del 
+ -- pacchetto postgresql-client Trucchetto: If you create a 
+ -- PostgreSQL user with the same name as your Linux username, it 
+ -- allows you to access the PostgreSQL database shell without 
+ -- having to specify a user to login (which makes it quite 
+ -- convenient).
 ```
-```sh
+```sql
  createdb dbNameIWant 
- # creo il database con il nome che 
- # preferisco
+ -- creo il database con il nome che 
+ -- preferisco
 ```
 adesso possiamo avviare il client psql con l'utente corrente
 
@@ -20227,17 +19709,17 @@ andando ad eseguire:
  # eseguo la shell di postgresql 
  # utilizzando l'utente adibito "postgres"
 ```
-```sh
- # CREATE ROLE giuseppe superuser;
+```sql
+ CREATE ROLE giuseppe superuser;
 ```
-```sh
- # CREATE USER giuseppe;
+```sql
+ CREATE USER giuseppe;
 ```
-```sh
+```sql
  ALTER ROLE giuseppe WITH LOGIN; 
- # and then enable login that 
- # user, so you can run e.g.: psql template1, from normal $ 
- # terminal
+ -- and then enable login that 
+ -- user, so you can run e.g.: psql template1, from normal $ 
+ -- terminal
 ```
 possiamo loggare in psql con:
 
@@ -20264,7 +19746,7 @@ specifico, attraverso:
 Per rimuovere un utente invece dall'account abilitato per psql 
 eseguiamo:
 
-```sh
+```sql
  dropuser nomeUtenteDaRimuovere
 ```
 
@@ -20274,43 +19756,16 @@ Quando si parla della gestione del kernel, dobbiamo tenere a
 mente il comando "uname", vediamo alcuni flag del comando uname 
 che possono esserci utili:
 
-```sh
- -a 
- # visualizza tutte le informazioni
-```
-```sh
- -s 
- # nome del kernel
-```
-```sh
- -n 
- # nome computer, visualizzabile anche col comando "hostname"
-```
-```sh
- -r 
- # kernel release
-```
-```sh
- -v 
- # versione kernel
-```
-```sh
- -m 
- # architettura della macchina, visualizzabile anche col 
- # comando "arch"
-```
-```sh
- -p 
- # tipo di processore
-```
-```sh
- -i 
- # piattaforma hardware
-```
-```sh
- -o 
- # sistema operativo
-```
+* `-a` visualizza tutte le informazioni
+* `-s` nome del kernel
+* `-n` nome computer, visualizzabile anche col comando "hostname"
+* `-r` kernel release
+* `-v` versione kernel
+* `-m` architettura della macchina, visualizzabile anche col # comando "arch"
+* `-p` tipo di processore
+* `-i` piattaforma hardware
+* `-o` sistema operativo
+
 Il comando uname mostra informazioni dal file "/proc/version", 
 un'altro file importante è "/proc/cmdline", in questo file sono 
 contenute alcune informazioni relative all'avvio del kernel in 
@@ -20323,7 +19778,8 @@ sul kernel che stiamo runnando attraverso:
  # del kernel che stiamo runnando, utile, soprattutto nel momento 
  # in cui dovessimo avere più kernel
 ```
-### Cominciare a capire il Kernel
+
+### Capire il Kernel
 
 
 Per capire il kernel, uno strumento utile è la documentazione, 
@@ -20365,16 +19821,13 @@ tutti i kernel installati, presupponiamo di avere un solo kernel
 installato sulla macchina, allora possiamo vedere due tipo di 
 directory:
 
-```sh
- /boot/vmlinux 
- # era la directory dove una volta venivano messi 
- # i file del kernel, questa cartella non è compressa
-```
-```sh
- /boot/vmlinuz 
- # è la directory dove attualmente sono messi i 
- # file del kernel, questa cartella è compressa con algoritmo gzip
-```
+* /boot/vmlinux 
+  era la directory dove una volta venivano messi 
+  i file del kernel, questa cartella non è compressa
+* /boot/vmlinuz 
+  è la directory dove attualmente sono messi i 
+  file del kernel, questa cartella è compressa con algoritmo gzip
+
 il nome delle directory sopracitate non è completo in quanto 
 queste directory hanno un nome composto anche dalla versione del 
 kernel ad esempio "/boot/vmlinuz-3.16.0-4-amd64" possiamo vedere 
@@ -20758,11 +20211,8 @@ scelte comuni sono:
     scenario in cui volessimo ad esempio compilare il kernel per 
     un altro computer, quello che possiamo fare è:
 
-
     ∗ target$ `lsmod > /tmp/mylsmod`
-
     ∗ target$ `scp /tmp/mylsmod host:/tmp`
-
     ∗ host$ `make LSMOD=/tmp/mylsmod localmodconfig`
 
 ```sh
@@ -21178,45 +20628,19 @@ importanti di quelli forniti di default, possiamo lanciarlo con:
 ```
 vedremo diverse informazioni sullo schermo dove:
 
-```sh
- # r: numero totale di processi che aspettano tempo CPU, ergo coda 
- # processi
-```
-```sh
- # b: numero totale di processi bloccati che sono in attesa di 
- # risorse come disco o rete
-```
-```sh
- # Swpd: memoria virtuale usata
-```
-```sh
- # Free: memoria virtuale libera
-```
-```sh
- # Buff: memoria usata come buffer (percorsi delle directory e 
- # cosa c'è all'interno)
-```
-```sh
- # Cache: memoria usata come cache (contenuto dei file)
-```
-```sh
- # Si: quantità di memoria swappata dal disco ogni secondo
-```
-```sh
- # So: quantità di memoria swappata sul disco ogni secondo
-```
-```sh
- # Bi: blocchi in ingresso al secondo
-```
-```sh
- # Bo: blocchi in uscita al secondo
-```
-```sh
- # In: interrupt al secondo
-```
-```sh
- # Cs: context switch che avvengono al secondo
-```
+* r: numero totale di processi che aspettano tempo CPU, ergo coda processi
+* b: numero totale di processi bloccati che sono in attesa di risorse come disco o rete
+* Swpd: memoria virtuale usata
+* Free: memoria virtuale libera
+* Buff: memoria usata come buffer (percorsi delle directory e cosa c'è all'interno)
+* Cache: memoria usata come cache (contenuto dei file)
+* Si: quantità di memoria swappata dal disco ogni secondo
+* So: quantità di memoria swappata sul disco ogni secondo
+* Bi: blocchi in ingresso al secondo
+* Bo: blocchi in uscita al secondo
+* In: interrupt al secondo
+* Cs: context switch che avvengono al secondo
+
 possiamo utilizzare:
 
 ```sh
@@ -21230,8 +20654,8 @@ possiamo visualizzare in modo comodo una history ed inoltre hanno
 funzionalità basilari, vedremo nelle prossime sezioni strumenti 
 più avanzati.
 
-### Monitoring da riga di comando
 
+### Monitoring da riga di comando
 
 Per avere un sistema di monitoring più avanzato è utile 
 installare il pacchetto "sysstat" che costituisce un'evoluzione 
@@ -21247,7 +20671,7 @@ sono abilitati attraverso cron. Possiamo quindi installare
 sysstat con:
 
 ```sh
- # sudo apt-get install sysstat
+ sudo apt-get install sysstat
 ```
 sulle distro Debian-based dopo l'installazione dobbiamo abilitare 
 il raccoglimento di dati attraverso il file "/etc/default/sysstat"
@@ -21342,14 +20766,14 @@ Vediamo alcuni esempi applicativi:
  # dal giorno 11 del mese su distro RH-based, basta cambiare la 
  # locazione del file per le distro Debian-based
 ```
-### Monitoring Grafico con CollectD
 
+### Monitoring Grafico con CollectD
 
 Per mostrare informazioni grafiche di monitoring, dobbiamo 
 installare collectd. Possiamo installarlo attraverso:
 
 ```sh
- # sudo apt-get install collectd
+ sudo apt-get install collectd
 ```
 La configurazione varia molto a differenza della distro, bisogna 
 guardare la documentazione.Compilare programmi
@@ -21376,11 +20800,10 @@ questo è possibile attraverso:
  # scarica il codice sorgente del 
  # programma nomePGM
 ```
-una volta scaricato il source-code possiamo trovarlo in "
-/usr/src/nomePGMeVersione", quindi ci sposteremo nella directory 
-interessata per potere procedere con la compilazione, ma prima 
-verifichiamo di aver installato i pacchetti fondamentali per 
-poter compilare:
+una volta scaricato il source-code possiamo trovarlo in `/usr/src/nomePGMeVersione`,
+quindi ci sposteremo nella directory interessata per potere procedere 
+con la compilazione, ma prima verifichiamo di aver installato i pacchetti 
+fondamentali per poter compilare:
 
 ```sh
  sudo apt-get install build-essential 
@@ -21423,8 +20846,8 @@ an interesting feature for security is:
  # which checks if installed software has 
  # vulnerabilities
 ```
-### USE Flags
 
+### USE Flags
 
 To help users in deciding what to install/activate and what not, 
 Gentoo wanted the user to specify his/her environment in an easy 
@@ -21454,29 +20877,27 @@ selected profile.
 
 Ci sono due tipi di USE flags:
 
-```sh
- # Globali, sono use flag usati da molti pacchetti, per una 
- # configurazione di sistema, una lista di USE Flag globali 
- # disponibili può essere trovata in 
- # /usr/portage/profiles/use.desc
-```
-```sh
- # Locali, sono gli USE flag specifici relativi ed utilizzati da 
- # un singolo pacchetto, una lista di USE flag locali può essere 
- # trovata in /usr/portage/profiles.local.desc
-```
+* Globali, sono use flag usati da molti pacchetti, per una 
+  configurazione di sistema, una lista di USE Flag globali 
+  disponibili può essere trovata in 
+  /usr/portage/profiles/use.desc
+* Locali, sono gli USE flag specifici relativi ed utilizzati da 
+  un singolo pacchetto, una lista di USE flag locali può essere 
+  trovata in /usr/portage/profiles.local.desc
+
 Per vedere la lista di USE flag completa usiamo:
 
 ```sh
- # emerge --info | grep ^USE
+ emerge --info | grep ^USE
 ```
+
 ### Cambiare Impostazioni su USE flag
 
 
 Possiamo cambiare impostazioni per gli USE flag globalmente o per 
 singoli pacchetti.
 
-  Configurazione Globale
+####  Configurazione Globale
 
 To change this default setting, add or remove keywords to/from 
 the USE variable. This is done globally by defining the USE 
@@ -21485,7 +20906,7 @@ add the extra USE flags required, or remove the USE flags that
 are no longer needed. This latter is done by prefixing the 
 keyword with the minus-sign (-). 
 
-  Configurazione per Pacchetto
+####  Configurazione per Pacchetto
 
 ometimes users want to declare a certain USE flag for one (or a 
 couple) of applications but not system-wide. To accomplish this, 
@@ -21496,15 +20917,16 @@ esempio per abilitare lo USE flag chiamato "berkdb" per il
 pacchetto "dev-db/mysql" eseguiamo:
 
 ```sh
- # echo "dev-db/mysql berkdb" >> /etc/portage/package.use 
+ echo "dev-db/mysql berkdb" >> /etc/portage/package.use 
 ```
+
 Similarly it is possible to explicitly disable USE flags for a 
 certain application. For instance, to disable java support in PHP 
 (but have it for all other packages through the USE flag 
 declaration in make.conf): 
 
 ```sh
- # echo "dev-php/php -java" >> /etc/portage/package.use
+ echo "dev-php/php -java" >> /etc/portage/package.use
 ```
 E' anche possibile definire USE flag temporanei, cioè non validi 
 permanentemente per uno specifico pacchetto ma solo per la 
@@ -21519,29 +20941,21 @@ Esiste una certa precedenza quando viene ispezionata la
 configurazione degli USE flag, nell'installazione di un 
 pacchetto:
 
-```sh
- # Default USE setting dichiatati nei make.defaults file del 
- # nostro profilo
-```
-```sh
- # user-defined USE settings in /etc/portage/make.conf
-```
-```sh
- # user-defined USE setting in /etc/portage/package.use
-```
-```sh
- # user-defined USE setting definiti come variabile d'ambiente 
- # nella sessione corrente del terminale in uso
-```
+1. Default USE setting dichiatati nei make.defaults file del nostro profilo
+2. user-defined USE settings in /etc/portage/make.conf
+3. user-defined USE setting in /etc/portage/package.use
+4. user-defined USE setting definiti come variabile d'ambiente nella sessione corrente del terminale in uso
+
 Quando avvengono cambi agli USE flag, il sistema deve essere 
 aggiornato in modo appropriato per includere il supporto per il 
 nuovo flag, questo avviene con:
 
 ```sh
- # emerge --update --deep --newuse @world
+ emerge --update --deep --newuse @world
 ```
-### Portage Quick Tutorial
 
+
+### Portage Quick Tutorial
 
 In questa sezione impariamo ad usare una distro molto flessibile 
 (una delle mie preferite, al punto da dedicarle un'intera 
@@ -21705,19 +21119,21 @@ dei pacchetti piuttosto che della compilazione eseguendo:
  # applicazioni utente, e non anche quelle di sistema come 
  # portage, o altre librerie magari che ci servono per il 
  # development, ad esempio per un ipotetico aggiornamento di 
-  portage, eseguiamo "emerge -u1 nomePacchetto" 
+ # portage, eseguiamo 
+ emerge -u1 nomePacchetto
  # questo indica 
  # appunto col flag "1" abbreviazione di "--oneshot" di non 
  # aggiungere portage all'insieme @world
 ```
-### Ricerca di informazioni su un pacchetto o su USE flags
 
+
+### Ricerca di informazioni su un pacchetto o su USE flags
 
 Un programma più veloce e potente di emerge per effettuare 
 ricerche e query a portage è eix.
 
 It is made to be more efficient and flexible than the emerge 
---search command. eix comes with colorized output which helps 
+`--search` command. eix comes with colorized output which helps 
 users easily find the needed package information. 
 
 Vediamo alcuni comandi:
@@ -21834,7 +21250,7 @@ questo caso, dobbiamo innanzitutto verificare di aver selezionato
 il profilo corretto attraverso:
 
 ```sh
- # eselect profile list
+ eselect profile list
 ```
 ```sh
  eselect profile set 8 
@@ -21924,16 +21340,15 @@ dependencies, metadata, and installed files.
 ### pfl
 
 
-Il programma pfl fa riferimento al sito web [http:#www.portagefilelist.de/||Portage File Dist]
-.
+Il programma pfl fa riferimento al sito web [Portage File Dist](http://www.portagefilelist.de/)
 
 ```sh
  e-file nomeComandoOnomeFile 
  # ricerca i pacchetti anche non 
  # installati che contengono uno specifico comando/file
 ```
-### Overlays
 
+### Overlays
 
 Gli overlays sono repository secondary dove possiamo reperire 
 ebuilds che non sono disponibili nel ports tree principale. Per 
@@ -21948,8 +21363,7 @@ una volta installato dobbiamo avvertire emerge della sua
 presenza, questo è possibile eseguendo
 
 ```sh
- # echo "source /var/lib/layman/make.conf" >> 
-  /etc/portage/make.conf 
+ echo "source /var/lib/layman/make.conf" >> /etc/portage/make.conf 
  # copia impostazioni di configurazione 
  # per gli overlay, in questo modo possiamo installare i pacchetti 
  # dei repo non ufficiali con emerge, se emerge trova pacchetti 
@@ -21981,8 +21395,9 @@ vediamo alcuni esempi di comandi layman:
  # aggiorna solo lo specifico repository 
  # menzionato
 ```
-### eselect
 
+
+### eselect
 
 eselect is the Gentoo's multi-purpose configuration and 
 management tool, vediamo alcuni esempi:
@@ -22001,8 +21416,7 @@ management tool, vediamo alcuni esempi:
 ```
 ```sh
  eselect kernel set 2 
- # imposta come kernel di default il numero 
- # 2
+ # imposta come kernel di default il numero 2
 ```
 ```sh
  eselect profile list 
@@ -22023,19 +21437,14 @@ e per capire cosa posso fare con un modulo inserisco:
  # ad esempio "eselect news help" mi 
  # fornirà la lista delle operazioni possibili
 ```
-### eclean
 
+### eclean
 
 By default, 
 
-```sh
- # source files are located in the "/usr/portage/distfiles" 
- # directory
-```
-```sh
- # binary packages are located in the /usr/portage/packages 
- # directory
-```
+* source files are located in the /usr/portage/distfiles directory
+* binary packages are located in the /usr/portage/packages directory
+
 The locations for each can be changed by altering the DISTDIR and 
 the PKGDIR variables respectively in /etc/portage/make.conf. Both 
 locations can grow quite big if not periodically cleaned; this is 
@@ -22071,8 +21480,7 @@ come variabile all'interno di "/etc/portage/make.conf", la
 stringa:
 
 ```sh
- PORTAGE_BINHOST="ftp:
- # buildhost/gentoo"
+ PORTAGE_BINHOST="ftp://buildhost/gentoo"
 ```
 ora da una macchina su cui è stato impostato questo indirizzo 
 possiamo eseguire:
@@ -22161,17 +21569,13 @@ installato o il software stesso o almeno una delle dipendenze,
 richieda la modifica degli USE flag, per mettere a posto questo 
 problema abbiamo a disposizione due soluzioni:
 
-```sh
- # modificare il file delle configurazioni globali "
- # /etc/portage/make.conf", aggiungendo il flag necessario nella 
- # voce relativa agli USE flags
-```
-```sh
- # modificare il file "/etc/portage/package.use" inserendo 
- # singolarmente pacchetto per pacchetto gli use flag necessari
-```
-### Aggiornare il sistema
+1. modificare il file delle configurazioni globali "/etc/portage/make.conf",
+  aggiungendo il flag necessario nella voce relativa agli USE flags
+2. modificare il file "/etc/portage/package.use" inserendo 
+   singolarmente pacchetto per pacchetto gli use flag necessari
 
+
+### Aggiornare il sistema
 
 Per aggiornare il sistema eseguiamo un aggiornamento dei 
 repository con:
@@ -22206,34 +21610,30 @@ il programma è stato compilato non sono più necessarie, per
 aggiornare queste dipendenze eseguiamo:
 
 ```sh
- # emerge --update --deep --with-bdeps=y @world
+ emerge --update --deep --with-bdeps=y @world
 ```
 se dall'ultimo aggiornamento delle modifiche agli USE flag sono 
 avvenuti, allora è consigliato utilizzare:
 
 ```sh
  emerge --update --deep --with-bdeps=y --newuse @world 
- # l'opzione "
- # --newuse" si assicura di installare le applicazione 
+ # l'opzione "--newuse" si assicura di installare le applicazione 
  # precedentemente installate includendo i nuovi USE flag 
 ```
+
+
 ## Debian
 
 Debian ha tre maggiori distribuzioni:
 
-```sh
- # Stable
-```
-```sh
- # Testing
-```
-```sh
- # Unstable (sempre chiamata sid)
-```
+* Stable
+* Testing
+* Unstable (sempre chiamata sid)
+
 Per capire che versione stiamo runnando facciamo:
 
 ```sh
- # lsb_release -a
+ lsb_release -a
 ```
 However some systems might have sources.list files with multiple 
 entries corresponding to different distributions. This could 
@@ -22241,8 +21641,7 @@ happen if the administrator is tracking different packages from
 different Debian distributions. This is frequently referred to as 
 apt-pinning. These systems might run a mixture of distributions. 
 
-Gli autori di un pacchetto possiamo trovarli in "
-/usr/share/doc/PACKAGE/copyright".
+Gli autori di un pacchetto possiamo trovarli in "/usr/share/doc/PACKAGE/copyright".
 
 Per compilare programmi abbiamo bisogno del pacchetto 
 build-essential, possiamo anche aver bisogno per alcuni pacchetti 
@@ -22253,7 +21652,7 @@ dipendenze in realtà vengono installate e non compilate (da
 verificare):
 
 ```sh
- # apt-get build-dep foo;apt-get source --build foo
+ apt-get build-dep foo;apt-get source --build foo
 ```
 Le librerie sono installate in appositi package denominati "
 package-dev", infatti se mi serve la libreria libx.so molto 
@@ -22265,37 +21664,36 @@ Le pagine di man per altre lingue, sono disponibili col pacchetto
 variabile LC_MESSAGES in modo appropriato per vedere i man nella 
 lingua scelta.
 
-### Pacchetti
 
+### Pacchetti
 
 Packages generally contain all of the files necessary to 
 implement a set of related commands or features. There are two 
 types of Debian packages:
 
-```sh
- # Binary packages, which contain executables, configuration 
- # files, man/info pages, copyright information, and other 
- # documentation. These packages are distributed in a 
- # Debian-specific archive format (see What is the format of a 
- # Debian binary package?, Section 7.2); they are usually 
- # distinguished by having a '.deb' file extension. Binary 
- # packages can be unpacked using the Debian utility dpkg 
- # (possibly via a frontend like aptitude); details are given in 
- # its manual page.
-```
-```sh
- # Source packages, which consist of a .dsc file describing the 
- # source package (including the names of the following files), a 
- # .orig.tar.gz file that contains the original unmodified source 
- # in gzip-compressed tar format and usually a .diff.gz file that 
- # contains the Debian-specific changes to the original source. 
- # The utility dpkg-source packs and unpacks Debian source 
- # archives; details are provided in its manual page. (The program 
- # apt-get can get used a frontend for dpkg-source.) 
-```
+* Binary packages, which contain executables, configuration 
+  files, man/info pages, copyright information, and other 
+  documentation. These packages are distributed in a 
+  Debian-specific archive format (see What is the format of a 
+  Debian binary package?, Section 7.2); they are usually 
+  distinguished by having a '.deb' file extension. Binary 
+  packages can be unpacked using the Debian utility dpkg 
+  (possibly via a frontend like aptitude); details are given in 
+  its manual page.
+* Source packages, which consist of a .dsc file describing the 
+  source package (including the names of the following files), a 
+  .orig.tar.gz file that contains the original unmodified source 
+  in gzip-compressed tar format and usually a .diff.gz file that 
+  contains the Debian-specific changes to the original source. 
+  The utility dpkg-source packs and unpacks Debian source 
+  archives; details are provided in its manual page. (The program 
+  apt-get can get used a frontend for dpkg-source.) 
+
 The Debian binary package file names conform to the following 
 convention: 
+```
 <foo>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb
+```
 
 Ai pacchetti possono essere associati diversi flag, questi sono 
 chiamati "want" flags tell what the user wanted to do with a 
@@ -22305,28 +21703,18 @@ of dpkg).
 
 Their meanings are:
 
-```sh
- # unknown - the user has never indicated whether he wants the 
- # package
-```
-```sh
- # install - the user wants the package installed or upgraded
-```
-```sh
- # remove - the user wants the package removed, but does not want 
- # to remove any existing configuration files.
-```
-```sh
- # purge - the user wants the package to be removed completely, 
- # including its configuration files.
-```
-```sh
- # hold - the user wants this package not to be processed, i.e., 
- # he wants to keep the current version with the current status 
- # whatever that is. 
-```
-### Compilare pacchetti
+* unknown - the user has never indicated whether he wants the package
+* install - the user wants the package installed or upgraded
+* remove - the user wants the package removed, but does not want to 
+  remove any existing configuration files.
+* purge - the user wants the package to be removed completely, 
+  including its configuration files.
+* hold - the user wants this package not to be processed, i.e., 
+  he wants to keep the current version with the current status 
+  whatever that is. 
 
+
+### Compilare pacchetti
 
 How do I build binary packages from a source package?
 
@@ -22337,35 +21725,35 @@ package if you haven't done so already.
 Now, first get the source package:
 
 ```sh
- # apt-get source foo
+ apt-get source foo
 ```
 and change to the source tree:
 
 ```sh
- # cd foo-*
+ cd foo-*
 ```
 Then install needed build-dependencies (if any):
 
 ```sh
- # sudo apt-get build-dep foo
+ sudo apt-get build-dep foo
 ```
 Then create a dedicated version of your own build (so that you 
 won't get confused later when Debian itself releases a new 
 version)
 
 ```sh
- # dch -l local 'Blah blah blah'
+ dch -l local 'Blah blah blah'
 ```
 And finally build your package
 
 ```sh
- # debuild -us -uc
+ debuild -us -uc
 ```
 If everything worked out fine, you should now be able to install 
 your package by running
 
 ```sh
- # sudo dpkg -i ../*.deb
+ sudo dpkg -i ../*.deb
 ```
 If you prefer to do things manually, and don't want to use 
 devscripts, follow this procedure:
@@ -22379,7 +21767,7 @@ Once you have them (How do I install a source package?, Section
 command:
 
 ```sh
- # dpkg-source -x foo_version-revision.dsc
+ dpkg-source -x foo_version-revision.dsc
 ```
 will extract the package into a directory called foo-version.
 
@@ -22387,26 +21775,27 @@ If you want just to compile the package, you may cd into
 foo-version directory and issue the command
 
 ```sh
- # dpkg-buildpackage -rfakeroot -b
+ dpkg-buildpackage -rfakeroot -b
 ```
 to build the package (note that this also requires the fakeroot 
 package), and then
 
 ```sh
- # dpkg -i ../foo_version-revision_arch.deb
+ dpkg -i ../foo_version-revision_arch.deb
 ```
 to install the newly-built package(s). 
 
-### Installare grossi gruppi di pacchetti
 
+### Installare grossi gruppi di pacchetti
 
 Possiamo usare tasksel, per installare grossi gruppi di 
 pacchetti, come ad esempio la suite di KDE, o GNOME, molto utile 
 nel momento in cui dobbiamo installare DE.
 
 ```sh
- # sudo tasksel
+ sudo tasksel
 ```
+
 ### Tenere aggiornare i repository regolarmente
 
 
@@ -22414,8 +21803,8 @@ You can use cron-apt, this tool updates the system at regular
 interval by using a cron job. By default it just updates the 
 package list and download new packages without installing. 
 
-### Tenere aggiornati i repository di più macchine
 
+### Tenere aggiornati i repository di più macchine
 
 If you have more than one Debian machine on your network, it is 
 useful to use apt-proxy to keep all of your Debian systems 
@@ -22435,8 +21824,8 @@ Of course, you can get the same benefit if you are already using
 a standard caching proxy and all your systems are configured to 
 use it. 
 
-### Using dpkg-divert
 
+### Using dpkg-divert
 
 How do I override a file installed by a package, so that a 
 different version can be used instead?
@@ -22445,9 +21834,7 @@ Suppose a sysadmin or local user wishes to use a program
 "login-local" rather than the program "login" provided by the 
 Debian login package.
 
-Do not:
-
-Overwrite /bin/login with login-local.
+Do not: Overwrite /bin/login with login-local.
 
 The package management system will not know about this change, 
 and will simply overwrite your custom /bin/login whenever login 
@@ -22459,7 +21846,7 @@ Rather, do
 Execute:
 
 ```sh
- # dpkg-divert --divert /bin/login.debian /bin/login
+ dpkg-divert --divert /bin/login.debian /bin/login
 ```
 in order to cause all future installations of the Debian login 
 package to write the file /bin/login to /bin/login.debian 
@@ -22468,21 +21855,21 @@ instead.
 Then execute:
 
 ```sh
- # cp login-local /bin/login
+ cp login-local /bin/login
 ```
 to move your own locally-built program into place.
 
 Run 
 
 ```sh
- # dpkg-divert --list 
+ dpkg-divert --list 
 ```
 to see which diversions are currently active on your system.
 
 Details are given in the manual page dpkg-divert(8). 
 
-### Alternative a categorie di programmi
 
+### Alternative a categorie di programmi
 
 Possiamo browsare la directory /etc/alternatives, varie categorie 
 di programmi, e utilizzare il comando:
@@ -22501,7 +21888,7 @@ di programmi, e utilizzare il comando:
 se un'alternativa non compare tra le alternative possiamo usare:
 
 ```sh
- # update-alternatives --install /usr/bin/x-window-manager \ 
+ update-alternatives --install /usr/bin/x-window-manager \ 
   x-window-manager /usr/local/bin/wmaker-cvs 50 
  # in questo caso, 
  # l'ultimo attributo è la priorità, una priorità più alta 
@@ -22511,34 +21898,36 @@ se un'alternativa non compare tra le alternative possiamo usare:
 per rimuovere un'alternativa eseguiamo:
 
 ```sh
- # update-alternatives --remove x-window-manager 
-  /usr/local/bin/wmaker-cvs 
+ update-alternatives --remove x-window-manager /usr/local/bin/wmaker-cvs 
  # rimuove un'alternativa
 ```
-### Fixare il sistema dopo aver rimosso dei pacchetti
 
+### Fixare il sistema dopo aver rimosso dei pacchetti
 
 In this case, look for /var/log/apt/history.log, look for the 
 time around which your system was broken. Copy the removed 
 packages which would be in the format of:
 
+```
 libapt-inst1.5:amd64 (0.9.7.9+deb7u5, 0.9.7.9+deb7u6), 
 apt-utils:amd64 (0.9.7.9+deb7u5, 0.9.7.9+deb7u6).
-
+```
 e poi li reinstalliamo con un classico:
 
 ```sh
- # sudo apt-get install <listaPacchetti>
+ sudo apt-get install <listaPacchetti>
 ```
-### Repository non fidati e chiavi GPG
 
+### Repository non fidati e chiavi GPG
 
 Può capitare cambiando i repository di incappare in questo 
 errore:
 
-W: GPG error: http:#http.kali.org /kali Release: The following 
+```
+W: GPG error: http://http.kali.org /kali Release: The following 
 signatures couldn't be verified because the public key is not 
 available: NO_PUBKEY ED444FF07D8D0BF6
+```
 
 In questo cass d'uso ho utilizzato un debootstrap per creare un 
 ambiente debian in una distro debian, e nel sottoambiente ho 
@@ -22548,20 +21937,20 @@ penetration test, per risolvere questo problema ci basta
 eseguire:
 
 ```sh
- # gpg --keyserver pgpkeys.mit.edu --recv-key ED444FF07D8D0BF6 
-  
+ gpg --keyserver pgpkeys.mit.edu --recv-key ED444FF07D8D0BF6 
  # questo pgpkeys.mit.edu è un server in cui sono presenti 
  # moltissime chiavi, quindi probabilmente ci ritroveremo spesso 
  # ad usarlo
 ```
 ```sh
- # gpg -a --export ED444FF07D8D0BF6 > nomeChiave.txt
+ gpg -a --export ED444FF07D8D0BF6 > nomeChiave.txt
 ```
 ```sh
- # sudo apt-key add nomeChiave.txt
+ sudo apt-key add nomeChiave.txt
 ```
-### Gestione delle chiavi gpg su Debian
 
+
+### Gestione delle chiavi gpg su Debian
 
 Possiamo gestire le chiavi su sistemi Debian o Debian based con i 
 seguenti comandi:
@@ -22579,8 +21968,9 @@ seguenti comandi:
  # 1024D/437D05B5 2004-09-12" in questo caso l'id della chiave è "
  # 437D05B5"
 ```
-### Supporto per i PPA
 
+
+### Supporto per i PPA
 
 Molte volte si cita come svantaggio di Debian rispetto alle 
 distro Ubuntu based, l'assenza di PPA, cioè repository secondari, 
@@ -22592,18 +21982,14 @@ seguire i seguenti passi:
   realtà ci basterebbe solo quella del sorgente "deb-src", una 
   volta copiate queste due stringhe mettiamole all'interno di 
   /etc/apt/sources.list
-
 2. aggiungiamo la chiave GPG del PPA con "apt-key adv --keyserver 
   keyserver.ubuntu.com --recv-keys 
-  <stringa_dopo_lo_slash_sotto_la_voce_signing_key_sul_sito_del_ppa>
-
+  `<stringa_dopo_lo_slash_sotto_la_voce_signing_key_sul_sito_del_ppa>`
 3. apt-get update
-
 4. apt-get source -b nomePacchetto #questo compila il pacchetto, 
   potrebbe darmi problemi di compilazione, devo installare i 
   pacchetti necessari che mancano al processo di compilazione, 
   questo creerà un paio di pacchetti ".deb" solitamente
-
 5. dpkg -i nomePacchetto.deb #questo installa il programma, 
   anche qui potrei avere problemi di dipendenze, anche in questo 
   caso andrò ad installarle
@@ -22639,6 +22025,11 @@ Per gestire l'output ho trovato i comandi utili:
  # visualizzo i livelli di volume dell'audio e posso 
  # modificarli attraverso un'interfaccia TUI
 ```
+
+Un programma molto utile per gestire l'audio e per capire a volte
+la sorgente di alcuni problemi e' `pavucontrol`.
+
+
 ## Tmp Filesystem
 
 The cleaning of /tmp is done by the upstart script 
@@ -22653,17 +22044,24 @@ deleted. $TMPTIME is an environment variable defined in
 Notice that we can create temporary files with mktemp, for 
 example: 
 
+```sh
 my_tmp_file=$(mktemp)
+```
+and write to it with:
 
-and write to it with:echo "ciaooo" > "$my_tmp_file"
-
+```sh
+echo "ciaooo" > "$my_tmp_file"
+```
 remove it with: 
 
+```sh
 rm "$my_tmp_file"
-
+```
 we can even create a temporary directory:
 
+```sh
 my_tmp_dir=$(mktemp -d)
+```
 
 ## Note sui Laptop (e alcuni PC)
 
@@ -22679,8 +22077,7 @@ GRUB_CMDLINE_LINUX_DEFAULT", infatti questa voce dovrà essere
 qualcosa di simile a questo:
 
 ```sh
- # GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_osi=Linux 
-  acpi_backlight=vendor" 
+ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_osi=Linux acpi_backlight=vendor" 
  # imposta la backlight in modo che venga 
  # gestita da specifiche del produttore, nota che i parametri 
  # quiet e splash possono essere tolti per fornire un boot e uno 
@@ -22690,14 +22087,13 @@ qualcosa di simile a questo:
 se questo non funziona possiamo provare con:
 
 ```sh
- # GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_osi="
+ GRUB_CMDLINE_LINUX_DEFAULT="quiet splash acpi_osi="
 ```
 oppure altre volte con ad esempio i driver nouveau potrebbe 
 funzionare una cosa del tipo:
 
 ```sh
- # GRUB_CMDLINE_LINUX_DEFAULT="nouveau.modeset=0 
- # rd.driver.blacklist=nouveau acpi_backlight=vendor quiet splash"
+ GRUB_CMDLINE_LINUX_DEFAULT="nouveau.modeset=0 rd.driver.blacklist=nouveau acpi_backlight=vendor quiet splash"
 ```
 una volta effettuata una di queste modifiche, dobbiamo aggiornare 
 la configurazione di grub, possiamo farlo con:
@@ -22712,11 +22108,10 @@ settabile tramite l'aggiunta di uno script che parte all'avvio
 che esegue:
 
 ```sh
- # cat /sys/class/backlight/acpi_video0/max_brightness > 
- # /sys/class/backlight/acpi_video0/brightness
+ cat /sys/class/backlight/acpi_video0/max_brightness > /sys/class/backlight/acpi_video0/brightness
 ```
-### Distro che non eseguono Boot
 
+### Distro che non eseguono Boot
 
 A volte potrebbe capitare di avere delle distro che non eseguono 
 correttamente il boot, ad esempio si fermano sul logo della 
@@ -22725,7 +22120,7 @@ legato alla scheda video, possiamo impostare da grub come opzione
 al kernel la voce:
 
 ```sh
- # nomodeset
+ nomodeset
 ```
 quindi da grub ci basterà schiacciare "e" una volta selezionata 
 la voce di boot interessata della distro e nella riga che inizia 
@@ -22739,10 +22134,11 @@ necessario anche aggiungere altre opzioni oltre a nomodeset, in
 modo daindirizzare direttamente i nostri driver, come:
 
 ```sh
- # nomodeset i915.modeset=0 nouveau.modeset=0
+ nomodeset i915.modeset=0 nouveau.modeset=0
 ```
-### ACPI and DSDT
 
+
+### ACPI and DSDT
 
 In computing, the Advanced Configuration and Power Interface 
 (ACPI) specification provides an open standard that the operating 
@@ -22773,28 +22169,18 @@ parameters.
 
 ACPI has several different software components:
 
-```sh
- # a subsystem which controls hardware states and functions that 
- # may have previously been in the BIOS configuration
-```
-
+* a **subsystem which controls hardware states** and functions that 
+  may have previously been in the BIOS configuration.
   These states include:
+    * thermal control
+    * motherboard configuration
+    * power states (sleep, suspend)
+* a **policy manager**, which is software that sits on top of the 
+  operating system and allows user input on the system policies
+* the **ACPI** also has **device drivers** that control/monitor devices 
+  such as a laptop battery, SMBus (communication/transmission 
+  path) and EC (embedded controller).
 
-* thermal control
-
-* motherboard configuration
-
-* power states (sleep, suspend)
-
-```sh
- # a policy manager, which is software that sits on top of the 
- # operating system and allows user input on the system policies
-```
-```sh
- # the ACPI also has device drivers that control/monitor devices 
- # such as a laptop battery, SMBus (communication/transmission 
- # path) and EC (embedded controller).
-```
 ACPI is to laptop users what oxygen is to mankind. BIOS, by 
 itself, provides very basic support for all the hardware 
 typically found inside a laptop. It cannot, for example, handle 
@@ -22835,8 +22221,8 @@ Oppure sui sistemi linux un sistema per il power management è "
 acpid", che contiene l'eseguibile "acpi_listen" che ci permette 
 di ascoltare gli eventi dell'acpi.
 
-### Working with the DSDT
 
+### Working with the DSDT
 
 The first thing to do is to grab the latest copy of the Intel ASL 
 Compiler from your distro repositories or the source code from 
@@ -22846,7 +22232,7 @@ the download section of the acpica website, or by searching "dsdt"
 We can extract the DSDT of our system with:
 
 ```sh
- # sudo cat /sys/firmware/acpi/tables/DSDT > dsdt.aml
+ sudo cat /sys/firmware/acpi/tables/DSDT > dsdt.aml
 ```
 questo file "dsdt.aml" però sarà per noi illegibile, dobbiamo 
 quindi decompilarlo attraverso il pacchetto installato per il 
@@ -22865,8 +22251,9 @@ with the compiling tools.
  iasl -tc dsdt.dsl 
  # compila il file dsdt.dsl
 ```
-### Risparmiare potenza e allungare la durata della batteria
 
+
+### Risparmiare potenza e allungare la durata della batteria
 
 Un tool utile a questo scopo è "powertop".
 
@@ -22879,6 +22266,8 @@ Un tool utile a questo scopo è "powertop".
  # questa costituisce una vera e propria scheda audio a parte, 
  # attaccata alla scheda video.
 ```
+
+
 ## Bash Shell Scripting
 
 In questa sezione vediamo lo shell scripting. Diamo innanzitutto 
@@ -22975,103 +22364,63 @@ nell shell scripting.
  # esempio $1, è il primo parametro passato, $2 il secondo 
  # parametro passato e così via
 ```
-### Stringhe
 
+
+### Stringhe
 
 Vediamo alcune operazioni sulle stringhe in Bash.
 
+```sh
 var=ciao
 
+# stampa "ciao"
+echo "$var" 	
 
-
-#stampa "ciao"
-
-echo  $var 	
-
-
-
-#uguale al precedente, stampa "ciao"
-
+# uguale al precedente, stampa "ciao"
 echo "$var"	
 
-
-
-#stampa "$var", gli apici singoli sono diversi dagli apici doppi
-
+# stampa "$var", gli apici singoli sono diversi dagli apici doppi
 echo '$var'	
 
-
-
-#stampa solo il primo carattere, cioè "c"
-
+# stampa solo il primo carattere, cioè "c"
 echo "${var::1}" 
 
-
-
-#stampa solo i primi due caratteri, posso leggerlo come "stampa 
-fino al carattere 2", quindi "ci"
-
+# stampa solo i primi due caratteri, posso leggerlo come 
+# "stampa #fino al carattere 2", quindi "ci"
 echo "${var::2}" 
 
 
 
-#stampa tutta la stringa senza l'ultimo carattere
-
+# stampa tutta la stringa senza l'ultimo carattere
 echo "${var::(-1)}" 
 
-
-
-#stampa tutta la stringa senza gli ultimi due caratteri
-
+# stampa tutta la stringa senza gli ultimi due caratteri
 echo "${var::(-2)}" 
 
-
-
-#stampa tutta la stringa senza l'ultimo carattere
-
+# stampa tutta la stringa senza l'ultimo carattere
 echo "${var:0:-1}"  
 
-
-
-#stampa solo i caratteri dal secondo al penultimo
-
+# stampa solo i caratteri dal secondo al penultimo
 echo "${var:1:-1}" 
 
-
-
-#in questo modo concateno le stringhe
-
+# in questo modo concateno le stringhe
 var_seconda=($var$var) 
 
-
-
-#stampa la stringa senza gli ultimi 4 caratteri
-
+# stampa la stringa senza gli ultimi 4 caratteri
 echo "${var::-4}"
 
+# stampa gli ultimi 3 caratteri della stringa, quindi "iao"
+echo "${var:(-3)}"
 
+# stampa i caratteri dal 3 alla fine quindi "ao"
+echo "${var:3}"
 
-#stampa gli ultimi 3 caratteri della stringa, quindi "iao"
-
-echo ${var:(-3)}
-
-
-
-#stampa i caratteri dal 3 alla fine quindi "ao"
-
-echo ${var:3}
-
-
-
-#per ricavare la lunghezza di una stringa eseguiamo
-
+# per ricavare la lunghezza di una stringa eseguiamo
 length=${#var}
 
-
-
-#salva l'output di un programma/comando in una variabile
-
+# salva l'output di un programma/comando in una variabile
 output=$(comando -arg1 23 -opz1)
+```
 
 ### Conditionals
 
@@ -23094,121 +22443,70 @@ Ci sono due modi per effettuare test,
 
 Vediamo un esempio di blocco if
 
+```sh
+
 if [ -f fred.c ]
-
 then
-
 	...
-
 elif
-
 	...
-
 else
-
 	...
-
 fi
 
-
-
-##versione alternativa su una sola linea
-
-#dobbiamo specificare il ; se non mettiamo il then 
-
+# versione alternativa su una sola linea
+# dobbiamo specificare il ; se non mettiamo il then 
 # su una nuova linea
 
-
-
 if [ -f fred.c ]; then
-
 	...
-
 elif
-
-	wdaddwdwa
-
-else
-
 	...
-
+else
+	...
 endif
+```
+i tipi di condizioni che possiamo usare col comando "test", sono 3:
 
-i tipi di condizioni che possiamo usare col comando "test", sono 
-3:
+* string comparison
+* arithmetic comparison
+* file conditionals
 
-```sh
- # string comparison
-```
-```sh
- # arithmetic comparison
-```
-```sh
- # file conditionals
-```
 The following table describes these condition types:
 
-[float Table:
 
-+---------------------+----------------------------------------------+
 | String Comparison   |                    Result                    |
-+---------------------+----------------------------------------------+
-+---------------------+----------------------------------------------+
+|:-------------------:|:--------------------------------------------:|
 |  string1==string2   |        true if the strings are equal         |
-+---------------------+----------------------------------------------+
 | string1 != string2  |      true if the strings are not equal       |
-+---------------------+----------------------------------------------+
 |     -n string       |        true if the string is not null        |
-+---------------------+----------------------------------------------+
 |     -z string       | true if the string is null (an empty string) |
-+---------------------+----------------------------------------------+
 
 
 
-+------------------------------+----------------------------------------------------+
 |    Arithmetic Comparison     |                       Result                       |
-+------------------------------+----------------------------------------------------+
-+------------------------------+----------------------------------------------------+
+|:----------------------------:|:--------------------------------------------------:|
 | expression1 -eq expression2  |         vera se le espressioni sono uguali         |
-+------------------------------+----------------------------------------------------+
 | expression1 -ne expression2  |       vera se le espressioni non sono uguali       |
-+------------------------------+----------------------------------------------------+
 | expression1 -gt expression2  |     vera se expression1 è maggiore dell'altra      |
-+------------------------------+----------------------------------------------------+
 | expression1 -ge expression2  | vera se expression1 è maggiore o uguale dell'altra |
-+------------------------------+----------------------------------------------------+
 | expression1 -lt expression2  |      vera se expression1 è minore dell'altra       |
-+------------------------------+----------------------------------------------------+
 | expression1 -le expression2  | vera se expression1 minore o uguale di expression2 |
-+------------------------------+----------------------------------------------------+
 |        ! expression          |     vera se l'espressione è falsa, e viceversa     |
-+------------------------------+----------------------------------------------------+
 
 
 
-+--------------------+--------------------------------------------------------------------------------------------------+
 | File Conditionals  |                                              Result                                              |
-+--------------------+--------------------------------------------------------------------------------------------------+
-+--------------------+--------------------------------------------------------------------------------------------------+
+|:------------------:|:------------------------------------------------------------------------------------------------:|
 |      -d file       |                    vera se il file è una directory, o se la directory esiste                     |
-+--------------------+--------------------------------------------------------------------------------------------------+
-|      -e file       | vera se il file esiste, nota che storicamente l'opzione "-e" non 
-è portable, quindi si usa "-f" |
-+--------------------+--------------------------------------------------------------------------------------------------+
+|      -e file       | vera se il file esiste, nota che storicamente l'opzione "-e" non è portable, quindi si usa "-f"  |
 |      -f file       |                           vera se il file è un file regolare (esiste)                            |
-+--------------------+--------------------------------------------------------------------------------------------------+
 |      -g file       |                       vera se il set-group-id (SGID) è settato su un file                        |
-+--------------------+--------------------------------------------------------------------------------------------------+
 |      -r file       |                                    vera se il file è readable                                    |
-+--------------------+--------------------------------------------------------------------------------------------------+
 |      -s file       |                          vera se il file ha dimensioni diverse da zero                           |
-+--------------------+--------------------------------------------------------------------------------------------------+
 |      -u file       |                          vera se il set-user-id SUID è settato sul file                          |
-+--------------------+--------------------------------------------------------------------------------------------------+
 |      -w file       |                                    vera se il file è writable                                    |
-+--------------------+--------------------------------------------------------------------------------------------------+
 |      -x file       |                                   vera se il file è executable                                   |
-+--------------------+--------------------------------------------------------------------------------------------------+
 
 
 è da ricordare che uno script termina correttamente con "exit 0", 
@@ -23220,8 +22518,8 @@ apici, anche se contenute in variabili, in quanto l'assenza di
 questi ultimi potrebbe dare problemi, quindi dobbiamo usare "
 $miaStringa" e non $miaStringa.
 
-### Cicli for
 
+### Cicli for
 
 La struttura base di un ciclo for è:
 
@@ -23238,6 +22536,7 @@ exit 0
 ```
 
 vediamo un esempio pratico:
+
 ```sh
 #!/bin/sh
 
@@ -23255,12 +22554,12 @@ Vediamo un altro esempio, con una notazione "one-line":
 ```sh
 #!/bin/sh
 
-#this is wrong... we should not use ls, since it is an 
+# this is wrong... we should not use ls, since it is an 
 # interactive tool we should use "f*.sh"
 
-#the correct form is
+# the correct form is
 
-##for file in f*.sh do ; echo "$file
+# for file in f*.sh do ; echo "$file
 
 for file in $(ls f*.sh); do
 	echo $file
@@ -23269,7 +22568,7 @@ done
 exit 0
 ```
 
-quello compreso tra $() viene eseguito come comando e preso 
+quello compreso tra `$()` viene eseguito come comando e preso 
 l'output.
 
 Vediamo un esempio di ciclo in stile C:
