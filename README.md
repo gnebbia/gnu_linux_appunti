@@ -24043,6 +24043,5 @@ Per utilizzare i colori utilizzano escape sequences.
 
 ## Licenza
 
-
 Il testo completo della licenza può essere trovato qui, [https:#www.gnu.org/licenses/fdl.html||Licenza GFDL].
 
