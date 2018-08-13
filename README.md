@@ -15665,6 +15665,47 @@ un'autenticazione basic o digest attraverso:
  curl --digest -u username:password http://awebsite.com 
  # digest authentication
 ```
+Nel caso volessimo eseguire una richiesta attraverso
+un proxy possiamo fare uso del flag `-x`. Ad esempio:
+```sh
+ curl -x http://localhost:8080 -XPOST www.google.it -d "param1=ciao&param2=esempio"
+ # esegue una richiesta attraverso il proxy in ascolto sulla
+ # porta 8080 attraverso il flag '-x' e poi utilizzando 
+ # il metodo POST e inserendo nel body della richiesta 
+ # i parametri indicati col parametro '-d'
+ # un'alternativa al flag -x e' l'opzione --proxy
+```
+A volte i proxy hanno credenziali di accesso,
+possiamo specificarle con curl semplicemente in questo
+modo:
+
+```sh
+ curl -x http://proxy_server:proxy_port --proxy-user \
+ username:password http://url.com
+ # esegue una richiesta attraverso il proxy indicato
+ # utilizzando le credenziali specificate attraverso  
+ # l'opzione --proxy-user
+```
+
+Se il proxy e' di tipo socks e quindi non http, possiamo
+indicarlo con:
+```sh
+ curl --socks5 http://url:8080 http://example.com/
+ # usa un proxy di tipo socks5 per eseguire una richiesta
+ # all'url example.com
+```
+
+Ricordiamoci che a volte i webserver rispondono con un
+messaggio che indica una location, con un response code
+di tipo 3XX, per seguire la location possiamo utilizzare
+il flag `-L` o l'opzione `--location`. Ad esempio:
+
+```sh
+ curl -L http://example.com/
+ # in questo caso seguiamo un'eventuale
+ # redirection che avviene con dei response code 3XX
+```
+
 Altri esempi:
 
 ```curl
@@ -16193,88 +16234,72 @@ possiamo anche rimuovere tutte le capabilities contenute su un programma con:
 
 Capability sets
 
-=========DA RIORDINARE==========
-Each process thread has three capability sets, which may contain some, all or
-none of the following sets. From the man pages:
-
-```text
 * Effective: the capabilities used by the kernel to perform permission checks
-    for the thread
-* Permitted - the capabilities that the thread may assume (i.e., a limiting
+    for the thread, in the practice the process can choose to use or not the capability
+* Permitted: the capabilities that the thread may assume (i.e., a limiting
     superset for the effective and inheritable sets). If a thread drops a
     capability from its permitted set, it can never re-acquire that capability
     (unless it exec()s a set-user-ID-root program).
-* Inheritable -  the capabilities preserved across an execve(2). A child created
+    If a certain capability is permitted but not effective, it is temporarily 
+    disabled
+* Inheritable:  the capabilities preserved across an execve(2). A child created
     via fork(2) inherits copies of its parent’s capability sets. See below for a
     discussion of the treatment of capabilities during exec(). Using capset(2),
     a thread may manipulate its own capability sets, or, if it has the
     CAP_SETPCAP capability, those of a thread in another process.
 
-The effective set is needed when performing a specific system call in which it
-needs to have a specific capability.
 
-So this means for a normal binary, which will not create child processes, the
-permitted will do. This means at best it will be able to use the capability. It
-may be a limited superset of what inheritable and effective will provide. For
-processes which fork other processes, we might need to inherit the capabilities.
-In that case, use the inheritable set.
-
-## OTHR EXPLANATION
-So, what’s the meaning of the strange =eip suffix? This requires a brief
+So, what's the meaning of the strange `=eip` suffix? This requires a brief
 digression into the nature of capabilities. Each process has three sets of
-capabilities — inheritable, permitted and effective:
+capabilities -- inheritable, permitted and effective:
 
-    Effective capabilities are those which define what a process can actually
-    do. For example, it can’t deal with raw sockets unless CAP_NET_RAW is in the
-    effective set.
-        Permitted capabilities are those which a process is allowed to have
-        should it ask for them with the appropriate call. These don’t allow a
-        process to actually do anything unless it’s been specially written to
-        ask for the capability specified. This allows processes to be written to
-        add particularly sensitive capabilities to the effective set only for
-        the duration when they’re actually required.
-            Inheritable capabilities are those which can be inherited into the
-            permitted set of a spawned child process. During a fork() or clone()
-            operation the child process is always given a duplicate of the
-            capabilities of the parent process, since at this point it’s still
-            running the same executable. The inheritable set is used when an
-            exec() (or similar) is called to replace the running executable with
-            another. At this point the permitted set of the process is masked
-            with the inheritable set to obtain the permitted set that will be
-            used for the new process.
+* Effective capabilities are those which define what a process can actually
+do. For example, it can’t deal with raw sockets unless `CAP_NET_RAW` is in the
+effective set.
+Effective file capability is actually just a single bit
+rather than a set, and if set then it indicates that the
+entire permitted set is also copied to the effective set
+of the new process. This can be used to add capabilities
+to processes which weren’t specifically written to
+request them. Since it is a single bit, if you set it
+for any capability then it must be set for all
+capabilities. You can think of this as the “legacy” bit
+because it’s used to allow capabilities to be used for
+applications which don’t support them.
+* Permitted capabilities are those which a process is allowed to have
+should it ask for them with the appropriate call. These don’t allow a
+process to actually do anything unless it’s been specially written to
+ask for the capability specified. This allows processes to be written to
+add particularly sensitive capabilities to the effective set only for
+the duration when they’re actually required.
+Permitted file capabilities are those which are always available
+to the executable, even if the parent process which invoked it
+did not have them. These used to be called "forced"
+capabilities.
+* Inheritable capabilities are those which can be inherited into the
+permitted set of a spawned child process. During a fork() or clone()
+operation the child process is always given a duplicate of the
+capabilities of the parent process, since at this point it’s still
+running the same executable. The inheritable set is used when an
+exec() (or similar) is called to replace the running executable with
+another. At this point the permitted set of the process is masked
+with the inheritable set to obtain the permitted set that will be
+used for the new process.
+Inheritable file capabilities specifies an additional mask
+which can also be used to remove capabilities from the
+calling process’s set. It applies in addition to the calling
+process’s inheritable set, so a capability is only inherited
+if exists in both sets.
 
-            So, the setcap utility allows us to add capabilities to these three
-            sets independently for a given executable. Note that the meaning of
-            the groups is interpreted slightly different for file permissions,
-            however:
-
-                Permitted file capabilities are those which are always available
-                to the executable, even if the parent process which invoked it
-                did not have them. These used to be called “forced”
-                capabilities.
-                    Inheritable file capabilities specifies an additional mask
-                    which can also be used to remove capabilities from the
-                    calling process’s set. It applies in addition to the calling
-                    process’s inheritable set, so a capability is only inherited
-                    if exists in both sets.
-                        Effective file capability is actually just a single bit
-                        rather than a set, and if set then it indicates that the
-                        entire permitted set is also copied to the effective set
-                        of the new process. This can be used to add capabilities
-                        to processes which weren’t specifically written to
-                        request them. Since it is a single bit, if you set it
-                        for any capability then it must be set for all
-                        capabilities. You can think of this as the “legacy” bit
-                        because it’s used to allow capabilities to be used for
-                        applications which don’t support them.
-
-                        When specifying capabilities via setcap the three
-                        letters e, i and p refer to the effective, inhertable
-                        and pemitted sets respectively. So the earlier
-                        specification:
+So, the setcap utility allows us to add capabilities to these three
+sets independently for a given executable. Note that the meaning of
+the groups is interpreted slightly different for file permissions,
+however:
 
 
-```
+When specifying capabilities via setcap the three
+letters e, i and p refer to the effective, inhertable
+and pemitted sets respectively.
 
 
 ### Antivirus
@@ -23200,360 +23225,246 @@ $miaStringa" e non $miaStringa.
 
 La struttura base di un ciclo for è:
 
+```sh
 #!/bin/sh
-
-
 
 for variable in values
-
 do 
-
 	statements
-
 	...
-
 done
 
 exit 0
+```
 
 vediamo un esempio pratico:
-
+```sh
 #!/bin/sh
 
-
-
 for foo in ciao1 ciao2 32 6 lol
-
 do 
-
 	echo $foo
-
 done
 
 exit 0
+```
 
 in questa caso vengono stampate le stringhe mostrate dopo "in". 
 Vediamo un altro esempio, con una notazione "one-line":
 
+```sh
 #!/bin/sh
 
-
-
 #this is wrong... we should not use ls, since it is an 
-interactive tool i should use "f*.sh"
+# interactive tool we should use "f*.sh"
 
 #the correct form is
 
 ##for file in f*.sh do ; echo "$file
 
 for file in $(ls f*.sh); do
-
 	echo $file
-
 done
 
-
-
-
-
 exit 0
+```
 
 quello compreso tra $() viene eseguito come comando e preso 
 l'output.
 
 Vediamo un esempio di ciclo in stile C:
 
+```sh
 for i in {1..5} 
-
 do    
-
 	echo "Welcome $i times" 
-
 done
+```
 
 un'altro esempio, potrebbe essere:
 
+```sh
 # in questo caso specifichiamo anche lo step da usare
 
 for i in {1..10..2} 
-
 do    
-
 	echo "Welcome $i times" 
-
 done
+```
 
 possiamo eseguire cicli infiniti con:
-
+```sh
 for (( ; ; ))
-
 do    
-
 	echo "infinite loops [ hit CTRL+C to stop]" 
-
 done
+```
 
 ### Cicli while
 
 
 La struttura base di un ciclo while è:
-
+```sh
 #!/bin/sh
 
-
-
 echo "Enter Password"
-
 read trythis
 
-
-
 while [ "$trythis" != "secret" ];do
-
 	echo "Sorry, try again"
-
 	read trythis
-
 done
 
 exit 0
+```
+
 
 ### Ciclo Until
 
-
 La struttura base di un ciclo until è:
-
+```sh
 #!/bin/sh
-
-
 
 until condizione
-
 do
-
 	statements
-
 	...
-
 	...
-
 done
 
-
-
 exit 0
+```
 
 Un esempio di base è:
-
+```sh
 #!/bin/sh
 
-
-
-until who | grep "$1" > /dev/null #in questo caso viene fatto un 
-un do fino a che  non c'è l'utente indicato come parametro nella 
-lista degli account loggati, la parte ">/dev/null" serve solo per 
-redirigere l'output di alcuni comandi
-
+until who | grep "$1" > /dev/null 
+#in questo caso viene fatto un un do fino a che  non c'è l'utente 
+# indicato come parametro nella lista degli account loggati, 
+# la parte ">/dev/null" serve solo per redirigere l'output di alcuni comandi
 do
-
 	statements
-
 	...
-
 	...
-
 done
 
-
-
 exit 0
+```
+
 
 ### Case Switch
 
-
 La struttura base di un case switch è:
-
+```sh
 #!/bin/sh
 
 ##N.B.: Attenzione a come vengono usate le wildcard 
-
 ##nei case switch, perchè in realtà solo la 
-
 ##prima opzione di una wildcard verrà 
-
 ##presa in considerazione
 
-
-
-
-
 echo "Is it morning ? Please answer yes or no"
-
 read timeofday
-
-
-
 case "$timeofday" in
-
 	yes) echo "Good Morning";;
-
 	no ) echo "Good Afternoon";;
-
 	y  ) echo "Good Morning";;
-
 	n  ) echo "Good Afternoon";;
-
 	*  ) echo "Sorry, answer not recognized";;
-
 esac
 
-
-
 exit 0
+```
 
 vediamo un'alternativa struttura di uno switch case:
 
+```sh
 #!/bin/sh
 
 ##N.B.: Attenzione a come vengono usate le wildcard 
-
 ##nei case switch, perchè in realtà solo la 
-
 ##prima opzione di una wildcard verrà 
-
 ##presa in considerazione
 
-
-
-
-
 echo "Is it morning ? Please answer yes or no"
-
 read timeofday
-
-
-
 case "$timeofday" in
-
 	yes | Y | Yes | YES) echo "Good Morning";;
-
 	n* | N* ) echo "Good Afternoon";;
-
 	*  ) echo "Sorry, answer not recognized";;
-
 esac
 
 
-
 ##in questo caso le wildcard funzionano
-
 ##correttamente, l'unico problema è che 
-
 ##stringhe come never o Never
-
 ##avranno la stessa valenza di "no" ad esempio
 
 exit 0
+```
 
 una struttura alternativa di uno switch case in cui vengono 
 specificate più istruzioni all'interno di un case è:
 
+```sh
 #!/bin/sh
 
 ##N.B.: Attenzione a come vengono usate le wildcard 
-
 ##nei case switch, perchè in realtà solo la 
-
 ##prima opzione di una wildcard verrà 
-
 ##presa in considerazione
 
-
-
-
-
 echo "Is it morning ? Please answer yes or no"
-
 read timeofday
 
-
-
 case "$timeofday" in
-
 	[yY] | [yY][eE][sS]) 
-
 		echo "Good Morning";;
-
 		echo "Up bright and early this morning"
-
 		;;
-
 	[nN]*) 
-
 		echo "Good Afternoon"
-
 		;;
-
 	*) 
-
 		echo "Sorry, answer not recognized"
-
 		echo "Please answer yes or no"
-
 		exit 1
-
 		;;
-
 esac
 
-
-
 ##in questo caso le wildcard funzionano
-
 ##correttamente, l'unico problema è che 
-
 ##stringhe come never o Never
-
 ##avranno la stessa valenza di "no" ad esempio
 
 exit 0
+```
 
 ### Liste AND e liste OR
 
 
 Possiamo concatenare comandi a livello condizionale, ad esempio:
 
+```sh
 #!/bin/sh
 
 
-
 ##Esempio Lista AND
-
-
-
 if [ -f file_one ] && echo "ciao" && [ -f file_two]
-
 then
-
 	echo "in if"
-
 fi
-
-
 
 ##Esempio Lista OR
 
-
-
 if [ -f file_one ] || echo "ciao" || [ -f file_two ]
-
 then 
-
 	echo "The first one is executed"
-
 fi
 
 exit 0
+```
 
 l'esempio con la lista AND, esegue i vari comandi da sinistra a 
 destra solo se lìultimo eseguito è vero, cioè se la prima 
@@ -23579,12 +23490,9 @@ siamo costretti ad usare bc, vediamo alcuni esempi:
 
 echo "1/3" | bc -l; 
 
-
-
 #oppure
 
 a=2; 
-
 b=5; 
 
 res=$(bc -l <<< "$a * 3.4 + 4 / $b") 
@@ -23595,19 +23503,15 @@ res=$(bc -l <<< "$a * 3.4 + 4 / $b")
 
 
 #setta la precisione del risultato a 2 cifredopo la virgola
-
 echo "scale=2; 3/8" | bc
 
 
-
 #radice quadrata
-
 echo "sqrt(100)" | bc
 
 
 
 #elevamento a potenza
-
 echo "10^10" | bc
 ```
 
@@ -23742,30 +23646,27 @@ xdotool key a b in questo caso mandiamo a e poi b.
 
 Per mandare caratteri distanziati da 1ms, facciamo:
 
+```sh
 xdotool type --delay 1 'abc'
+```
 
 Possiamo anche aspettare che un'applicazione sia prima partita 
 prima di lanciargli comandi, ad esempio:
 
-google-chrome & xdotool search --sync --onlyvisible --class 
-"google-chrome"x-terminal-emulator
+```sh
+google-chrome & xdotool search --sync --onlyvisible --class "google-chrome"x-terminal-emulator
+```
 
 ### Snippet di Codice Utili
 
 ```sh
 # === Check per super-user (i.e., sei root ?) ===
-
-
 #Ricorda che il valore UID per l'utente root è 0
 
 if [ $UID -ne 0 ]; then 
-
 	echo "Non root user. Please run as root."
-
 else 
-
 	echo "Root user"
-
 fi
 ```
 
@@ -23777,30 +23678,23 @@ fi
 Per creare un initial ram filesystem con file di base eseguiamo:
 
 ```sh
- # mkdir rootfs
+ mkdir rootfs
 ```
 ```sh
- # cd rootfs
+ cd rootfs
 ```
 ```sh
- # mkdir bin dev etc home lib proc sbin sys tmp usr 
-  usr/{bin,lib,sbin} var var/log 
- # creazione delle directory di 
- # base
+ mkdir bin dev etc home lib proc sbin sys tmp usr usr/{bin,lib,sbin} var var/log 
+ # creazione delle directory di base
 ```
 possiamo poi pensare ad esempio di copiare busybox all'interno 
 del nostro initramfs, e poi una volta fatto dovremo copiare le 
 librerie, l'insieme minimo è:
 
-```sh
- # ld-linux
-```
-```sh
- # libc
-```
-```sh
- # libm
-```
+* ld-linux
+* libc
+* libm
+
 nel dubbio cerchiamo la libreria dell'architettura interessata ad 
 esempio nel caso dell'armhf cerchiamo, ld-linux-armhf.so.3, 
 libc.so, libm.so. Se voglio risparmiare spazio posso usare "strip"
@@ -23808,7 +23702,7 @@ libc.so, libm.so. Se voglio risparmiare spazio posso usare "strip"
 strippato o meno, possiamo eseguire strip su arm ad esempio con:
 
 ```sh
- # arm-linux-gnueabihf-strip libc.so
+ arm-linux-gnueabihf-strip libc.so
 ```
 e possiamo eseguirla per tutte le librerie, nel caso non 
 volessimo avere problemi con le librerie possiamo copiare tutta 
@@ -23818,62 +23712,52 @@ cui abbiamo bisogno per avviare una shell, questi possiamo
 crearli con:
 
 ```sh
- # sudo mknod -m 666 dev/null c 1 3
+ sudo mknod -m 666 dev/null c 1 3
 ```
 ```sh
- # sudo mknod -m 600 dev/console c 5 1
+ sudo mknod -m 600 dev/console c 5 1
 ```
 ora una volta che abbiamo creato il nostro rootfs possiamo creare 
 l'initial ram disk con:
 
 ```sh
- # cd rootfs
+ cd rootfs
 ```
 ```sh
- # find . | cpio -H newc -ov --owner root:root > ../initramfs.cpio
+ find . | cpio -H newc -ov --owner root:root > ../initramfs.cpio
 ```
 ```sh
- # cd ..
+ cd ..
 ```
 ```sh
- # gzip initramfs.cpio
+ gzip initramfs.cpio
 ```
 ora questo file "initramfs.cpio.gz" è già leggibile da qemu, 
 comunque possiamo creare un initramfs da bootare su un device 
 reale con:
 
 ```sh
- # mkimage -A arm -O linux -T ramdisk -d initramfs.cpio.gz 
- # uRamdisk
+ mkimage -A arm -O linux -T ramdisk -d initramfs.cpio.gz uRamdisk
 ```
 A questo punto se volessimo risparmiare spazio dobbiamo 
 considerare una delle seguenti opzioni:
 
-```sh
- # fare il kernel più piccolo lasciando fuori qualche modulo in 
- # più
-```
-```sh
- # fare busybox più piccolo lasciando qualche utility fuori in più
-```
-```sh
- # usare uClibc o musl libc al posto di glibc
-```
-```sh
- # compilare busybox staticamente, (attuabile solo nel caso in cui 
- # ci devono girare pochissimi programmi sul sistema embedded)
-```
+* fare il kernel più piccolo lasciando fuori qualche modulo in più
+* fare busybox più piccolo lasciando qualche utility fuori in più
+* usare uClibc o musl libc al posto di glibc
+* compilare busybox staticamente, (attuabile solo nel caso in cui ci 
+  devono girare pochissimi programmi sul sistema embedded)
+
 per effettuare il boot di un initramfs ad esempio con Qemu 
 considerando una board beaglebone:
 
 ```sh
- # QEMU_AUDIO_DRV=none \ qemu-system-arm -m 256M -nographic -M 
- # vexpress-a9 -kernel zImage -append "console=ttyAMA0 
- # rdinit=/bin/sh" -dtb vexpress-v2p-ca9.dtb -initrd 
- # initramfs.cpio.gz
+ QEMU_AUDIO_DRV=none \ qemu-system-arm -m 256M -nographic -M \
+ vexpress-a9 -kernel zImage -append "console=ttyAMA0 rdinit=/bin/sh" \
+ -dtb vexpress-v2p-ca9.dtb -initrd initramfs.cpio.gz
 ```
-### Cross Compilare Busybox per arm
 
+### Cross Compilare Busybox per arm
 
 Quando dobbiamo cross compilare è sempre buona norma quando si 
 impostano configurazioni di default come "defconfig" prima 
@@ -23881,16 +23765,14 @@ specificare l'architettura, il modo corretto ad esempio per cross
 compilare busybox è:
 
 ```sh
- # make distclean
+ make distclean
 ```
 ```sh
- # make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig 
-  
+ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig 
  # carichiamo le impostazioni di default
 ```
 ```sh
- # make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig 
-  
+ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig 
  # per cambiare le impostazioni che vogliamo
 ```
 ```sh
@@ -23898,13 +23780,12 @@ compilare busybox è:
  # compiliamo
 ```
 ```sh
- # make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install 
-  CONFIG_PREFIX=/home/export/rootfs 
- # installiamo nella directory 
- # che desideriamo
+  make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- install CONFIG_PREFIX=/home/export/rootfs 
+ # installiamo nella directory che desideriamo
 ```
-### Comunicazione in Seriale
 
+
+### Comunicazione in Seriale
 
 Possiamo connetterci ad un dispositivo seriale, attraverso:
 
@@ -23917,7 +23798,7 @@ Possiamo connetterci ad un dispositivo seriale, attraverso:
 altri programmi alternativi sono:
 
 ```sh
- # gtkterm -p /dev/ttyUSB0 -s 115200
+ gtkterm -p /dev/ttyUSB0 -s 115200
 ```
 oppure possiamo provare minicom e picocom.
 
@@ -23945,12 +23826,9 @@ da qui possiamo entrare nella configurazione con "o" e qui
 assicuriamoci che da entrambi i lati della comunicazione sia 
 impostata la stessa velocità in "baud" e che:
 
-```sh
- # la voce "Hardware Flow Control" sia impostata su "No"
-```
-```sh
- # la voce "Software Flow Control" sia impostata su "Yes"
-```
+* la voce "Hardware Flow Control" sia impostata su "No"
+* la voce "Software Flow Control" sia impostata su "Yes"
+
 possiamo anche salvare le impostazioni come dfl, in questo modo 
 il setting sarà permanente.
 
@@ -23960,8 +23838,8 @@ port, beyond just GND, TX and RX, a formal "serial port" like the
 "Data Terminal Ready indicator", so hardware flow control is 
 telling the computer to expect those extra signals
 
-### GPIO Pins
 
+### GPIO Pins
 
 GPIO mean "General Purpose Input/Output" and is a special pin 
 present in some chip that can be set as input or output and used 
@@ -23975,8 +23853,9 @@ access to GPIO pins. Once executed kernel menuconfig you can
 easily verify is this interface is active in your kernel and, in 
 case, enable them. The kernel tree path is the following:
 
-Device Drivers  ---> GPIO Support  ---> /sys/class/gpio/... 
-(sysfs interface)
+```
+Device Drivers  ---> GPIO Support  ---> /sys/class/gpio/... (sysfs interface)
+```
 
 If not, enable this feature and recompile the kernel before 
 continue to read. The interface to allow working with GPIO is at 
@@ -23997,51 +23876,51 @@ interested to a special path as follow (change XX with the GPIO
 number you need):
 
 ```sh
- # echo XX > /sys/class/gpio/export
+ echo XX > /sys/class/gpio/export
 ```
 if the operation is successful (the possible case of operation 
 failed is explained below) a new "folder" will show up in the 
 GPIO interface path as example below:
 
 ```sh
- # /sys/class/gpio/gpioXX/
+ /sys/class/gpio/gpioXX/
 ```
 This new "folder" will allow you to work with the GPIO you just 
 reserved. In particular if you want to set the in/out direction 
 you simply need to execute the following echo commands: 
 
 ```sh
- # echo "out" > /sys/class/gpio/gpioXX/direction
+ echo "out" > /sys/class/gpio/gpioXX/direction
 ```
 or 
 
 ```sh
- # echo "in" > /sys/class/gpio/gpioXX/direction
+ echo "in" > /sys/class/gpio/gpioXX/direction
 ```
 In case you set out direction you can directly manage the value 
 of GPIO. You can make this operation by executing additional echo 
 commands like:
 
 ```sh
- # echo 1 > /sys/class/gpio/gpioXX/value
+ echo 1 > /sys/class/gpio/gpioXX/value
 ```
 or
 
 ```sh
- # echo 0 > /sys/class/gpio/gpioXX/value
+ echo 0 > /sys/class/gpio/gpioXX/value
 ```
 Since GPIO is a single pin the possible states allowed are high 
 (1) and low (0). In case you set in direction you can read the 
 current pin value by using the following command:
 
 ```sh
- # cat /sys/class/gpio/gpioXX/value
+ cat /sys/class/gpio/gpioXX/value
 ```
 Once finished to use your GPIO you can free it by make the same 
 echo command but to different path:
 
 ```sh
- # echo XX > /sys/class/gpio/unexport
+ echo XX > /sys/class/gpio/unexport
 ```
 In case of GPIO folder not showed after export operation is very 
 likely that the GPIO is already reserved by some module. For 
@@ -24054,124 +23933,67 @@ As usual, if not enabled, enable it and recompile the kernel. The
 next step is to launch the following command line for mount 
 debugfs:
 
+```sh
 mount -t debugfs none /sys/kernel/debug
+```
 
 and dump the current GPIO configuration by using:
-
+```sh
 cat /sys/kernel/debug/gpio
+```
 
 The output will show you the current list og reserved GPIO. Una 
 libreria molto comoda per gestire il GPIO è "WiringPI", inoltre 
 ha diversi binding per vari linguaggi di programmazione.
 
-TO ADD
+## TO ADD
 
-```sh
- # cgroups
-```
-```sh
- # lxc
-```
-```sh
- # network namespace
-```
-```sh
- # xen
-```
-```sh
- # active directory
-```
-```sh
- # dpms
-```
-```sh
- # xrandr
-```
-```sh
- # xsetroot or hsetroot
-```
-```sh
- # power management (section)
-```
-```sh
- # Xclip
-```
-```sh
- # cross compiling
-```
-```sh
- # xev
-```
-```sh
- # xdotool
-```
-```sh
- # xset, with this we can control leds on computers/laptops or 
- # even mouse speed, the keyboard repeat delay and rate and if the 
- # repeat is enabled or not
-```
-```sh
- # tunctl
-```
-```sh
- # bridge ethernet
-```
-```sh
- # xmodmap to remap the keys
-```
-```sh
- # acpid
-```
-```sh
- ulimit: Commands and resources ulimit -n 
- # view number of 
- # processes change /etc/security/limits.conf or 
- # /etc/security/limits.d/90-xxxxx.conf, ulimit -a views the list 
- # of all the limits on the machine
-```
-```sh
- # audio (utile pavucontrol)
-```
-```sh
- # sysctl (used mostly on bsd systems, even for laptop features 
- # such as lid closing/opening events)
-```
-```sh
- # strace, ftrace
-```
-```sh
- # bash scripting
-```
-```sh
- # tun/tap
-```
-```sh
- setterm 
- # to manage screen blanking in pure terminal 
- # environments
-```
-```sh
- gcore 
- # check the content of the program in memory
-```
-```sh
- # apt-pinning
-```
-```sh
- # dget and backporting packages in debian
-```
-```sh
- # come aprire un file di man tipo "pagina.1" con man
-```
-```sh
- # MULTIMEDIA: Convert (Swiss Army Knife for Images) and Sox 
- # (Swiss Army Knife for Audio)
-```
-```sh
- # imagemagick, convert or compare:
-```
+* cgroups
+* lxc
+* network namespace
+* xen
+* active directory
+* dpms
+* xrandr
+* xsetroot or hsetroot
+* power management (section)
+* Xclip
+* cross compiling
+* xev
+* xdotool
+* xset, with this we can control leds on computers/laptops or 
+* even mouse speed, the keyboard repeat delay and rate and if the 
+* repeat is enabled or not
+* tunctl
+* bridge ethernet
+* xmodmap to remap the keys
+* acpid
+* ulimit: Commands and resources ulimit -n 
+* view number of 
+* processes change /etc/security/limits.conf or 
+* /etc/security/limits.d/90-xxxxx.conf, ulimit -a views the list 
+* of all the limits on the machine
+* audio (utile pavucontrol)
+* sysctl (used mostly on bsd systems, even for laptop features 
+* such as lid closing/opening events)
+* strace, ftrace, ltrace
+* bash scripting
+* tun/tap
+* setterm 
+* to manage screen blanking in pure terminal 
+* environments
+* gcore 
+* check the content of the program in memory
+* apt-pinning
+* dget and backporting packages in debian
+* come aprire un file di man tipo "pagina.1" con man
+* MULTIMEDIA: Convert (Swiss Army Knife for Images) and Sox 
+* (Swiss Army Knife for Audio)
+* imagemagick, convert or compare:
 * compare image1.jpg image2.jpg #gives us the difference 
     between images
+
+## Miscellaneous
 
 ```sh
  fortune | cowsay -f dragon-and-cow | lolcat 
@@ -24179,6 +24001,13 @@ TO ADD
  # fortune un echo "ciao", anche figlet funziona bene, tipo 
  # 'echo "ciao" | figlet'
 ```
+
+```sh
+ figlet ciao
+ # stampa a schermo la stringa "ciao"
+ # asciizzata
+```
+
 #### Video Terminals
 
 ```sh
