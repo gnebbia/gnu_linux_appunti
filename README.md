@@ -1,4 +1,4 @@
-# Appunti Gnu Linux
+# Gnu Linux Appunti
 
 Copyright (c) 2018 Giuseppe Nebbione. Permission is granted to copy, distribute and/or
 modify this document under the terms of the GNU Free Documentation License,
