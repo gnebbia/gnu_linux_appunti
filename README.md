@@ -801,17 +801,15 @@ The synopsis section usually gives some example use-cases.
 Sometimes sub-commands have different options, so several 
 examples might be shown. 
 
-* Brackets [] always denote optional switches, arguments, 
- # options, etc. 
-* the pipe | means "or", particularly when inside brackets or 
- # parenthesis. 
-* Brackets in brackets just means that the second part is 
- # dependent on the first, and also itself optional. Some switches 
- # you can use on their own or add a value to them. 
+* Brackets [] always denote optional switches, arguments, options, etc. 
+* the pipe | means "or", particularly when inside brackets or parenthesis. 
+* Brackets in brackets just means that the second part is dependent on 
+  the first, and also itself optional. Some switches you can use on 
+  their own or add a value to them. 
 * Commas at the start of a bracket would indicate there can be 
- # multiple comma separated values, e.g., [-m system[,...]]
+  multiple comma separated values, e.g., `[-m system[,...]]`
 * They lean on Regex concepts, but are meant to be human readable 
- # so don't follow all the escaping rules etc.
+  so don't follow all the escaping rules etc.
 
 Poi da less, è comodo utilizzare i marker, cioè possiamo salvare 
 una posizione nella pagina con " m lettera ", e dopo ritornare a 
@@ -882,8 +880,7 @@ comunque forzare l'aggiornamento eseguendo:
 
 ```sh
  mandb 
- # Aggiorna il database delle pagine di manuale per 
- # apropos
+ # Aggiorna il database delle pagine di manuale per apropos
 ```
 N.B.: A volte se siamo in cerca di esempio e non li troviamo 
 nelle pagine di "man" e di "info", possiamo cercarli all'interno 
@@ -912,8 +909,9 @@ esempio:
  help 
  # mostra la lista dei comandi builtin
 ```
-#### Pagine man degne di nota
 
+
+#### Pagine man degne di nota
 
 Here follows a non-exhaustive list of noteworthy pages that might 
 help you understand a lot of things more in-depth. Some of them 
@@ -965,8 +963,8 @@ orizzontale, questo è possibile tramite:
 ```
 un utile comando da dare a less, per fare in modo di avere una 
 visualizzazione real time del file (uguale alla modalità -f del 
-comando "tail") è premere "-F" quando stiamo visualizzando il 
-file
+comando "tail") è premere "-F" quando stiamo visualizzando il file.
+
 
 ### Il comando `reset`
 
@@ -1055,6 +1053,7 @@ nome di un file, o verrà utilizzato comunque per altri scopi.
 N.B.: For traditional UNIX programs that behave as filters the - 
 is superfluous.
 
+
 ## Orientarsi in un sistema GNU/Linux
 
 In questa sezione analizzeremo e capiremo quali sono le directory principali in
@@ -1139,8 +1138,8 @@ scopo delle principali directory:
     dispositivi hardware, in linux ogni componente hardware viene 
     rappresentato da un file, vari comandi possono essere mandati 
     ai dispositivi o si può leggere da essi, ad esempio:
-    ∗ `cat /dev/random > somefile.txt` #scriverà delle cose 
-      casuali all'interno del file somefile.txt
+    ∗ `cat /dev/random > somefile.txt` # scriverà delle cose 
+       # casuali all'interno del file somefile.txt
 
 	N.B.: E' da notare che nonostante sia /dev che /sys operano 
     col kernel, in realtà /sys è ad un livello d'astrazione più 
@@ -1160,17 +1159,17 @@ scopo delle principali directory:
     all'interno di questo filesystem virtuale troviamo 
     informazioni su:
     ∗ Componenti Hardware
-      ∙ /proc/cpuinfo -- informazioni sulla cpu
-      ∙ /proc/meminfo -- informazioni sulla memoria
-      ∙ /proc/loadavg -- average system load
-      ∙ /proc/version -- current linux version
+      * /proc/cpuinfo -- informazioni sulla cpu
+      * /proc/meminfo -- informazioni sulla memoria
+      * /proc/loadavg -- average system load
+      * /proc/version -- current linux version
     ∗ Informazioni sui processi attivi sul sistema: sono 
       strutturati secondo directory che prendono il nome 
       dall'identificativo del processo (PID) e contengono:
-      ∙ cwd -- link alla directory di lavoro del processo
-      ∙ exe -- link all'eseguibile
-      ∙ root -- directory del processo padre
-      ∙ environ -- variabili d'ambiente lette dal processo
+      * cwd -- link alla directory di lavoro del processo
+      * exe -- link all'eseguibile
+      * root -- directory del processo padre
+      * environ -- variabili d'ambiente lette dal processo
 	Possiamo usarlo anche per vedere che file ha aperto un 
     processo, infatti in ogni cartella relativa ai processi 
     esiste una directory chiamata "fd", questa contiene i file 
@@ -1202,6 +1201,7 @@ permette un tuning dell'hardware più fine e pulito.
 N.B.3: Il kernel è situato in un file chiamato "vmlinuz", o 
 anticamente "vmlinux", ed è collocato o in /vmlinuz o più 
 comunemente in "/boot/vmlinuz".
+
 
 ## Gestione degli Utenti e dei Gruppi
 
@@ -1288,46 +1288,32 @@ Esistono un paio di file nella directory /etc di interesse:
 
 
     1. user name:nome di login dell'utente
-
     2. password: campo contenente la password sottoposta ad un 
       algorithm di hashing dell'utente più altre informazioni, 
       infatti questo campo può essere suddiviso in tre sottocampi 
       divisi dal carattere "$", il primo campo è l'algoritmo 
       usato per l'hashing, infatti le possibili soluzioni per 
       questo campo sono:
-
       (a) $1 = MD5 hashing algorithm
-
       (b) $2 =Blowfish Algorithm 
-
       (c) $2a=eksblowfish Algorithm 
-
       (d) $5 =SHA-256 Algorithm 
-
       (e) $6 =SHA-512 Algorithm
-
       il secondo campo è il valore del "salt", mentre il terzo 
       campo è l'hash di salt+password
-
     3. last password change: data in cui è stata modificata la 
       password l'ultima volta
-
     4. minimum validity: il minimo numero di giorni richiesti per 
       poter cambiare la password
-
     5. maximum validity: il massimo numero di giorni per cui la 
       password è valida, dopo questo numero di giorni l'utente è 
       forzato a cambiare la sua password
-
     6. warn: numero di giorni prima della scadenza della 
       password, durante i quali l'utente viene avvisato della 
       necessità di cambiarla
-
     7. inactive: durata massima di validità dell'utenza dopo che 
       la password è scaduta
-
     8. expire: data di scadenza dell'utenza
-
     9. reserved: campo riservato per usi futuri
 
     E' da notare che le date sono espresse in numero di giorni a 
@@ -1445,8 +1431,8 @@ Questo comando è utile per cambiare il tipo di shell dell'utente
  # un'alternativa a passwd -u nomeUtente, sono analoghi
 ```
 
-### Gpasswd
 
+### Gpasswd
 
 ```sh
  gpasswd -d username nomeGruppo 
@@ -1481,7 +1467,9 @@ visti come useradd e usermod, vediamo alcuni esempi applicativi:
  # imposta il numero massimo di 
  # giorni per cui una password è valida
 ```
-  Groups
+
+
+### Groups
 
 ```sh
  groups nomeutente 
@@ -1523,8 +1511,9 @@ ad utenti, le modifiche vengono apportate al prossimo login.
 To add a group called myGroup we just do
 
 ```sh
- # addgroup myGroup
+ addgroup myGroup
 ```
+
 
 ###  Groupmod
 
@@ -1571,6 +1560,8 @@ aggiungiamo un -R, quindi avremo:
  # associa alla directory 
  # nomeDirectory il gruppo nomeGruppo
 ```
+
+
 ### Newgrp 
 
 Imposta tutti i file creati dal momento in cui viene lanciato in 
@@ -1593,10 +1584,11 @@ si utilizza quindi questo comando, ad esempio:
  # rifare il login per vedere applicate le nuove modifiche
 ```
 
+
 ## Gestione dei Permessi
 
-### Permessi e Impostazioni
 
+### Permessi e Impostazioni
 
 Per ogni file su GNU/Linux è possibile gestire i permessi di 
 lettura, scrittura ed esecuzione da parte degli utenti. In questa 
@@ -1627,56 +1619,35 @@ utenti. Le lettere possono essere 'r' (lettura), 'w' (scrittura)
 e 'x' (esecuzione). Per quanto riguarda i tre gruppi di 
 caratteri:
 
-```sh
- # il primo gruppo rappresenta i diritti del proprietario del file
-```
-```sh
- # il secondo gruppo rappresenta i permessi dei membri del gruppo 
- # del proprietario
-```
-```sh
- # il terzo gruppo rappresenta i permessi del resto degli utenti
-```
+* il primo gruppo rappresenta i diritti del proprietario del file
+* il secondo gruppo rappresenta i permessi dei membri del gruppo 
+  del proprietario
+* il terzo gruppo rappresenta i permessi del resto degli utenti
+
 Inoltre davanti ai tre gruppi di caratteri è presente un'altro 
 carattere che rappresenta la natura del file e può essere:
 
-```sh
- # '-' significa, questo è un file
-```
-```sh
- # 'd' significa, questa è una directory
-```
-```sh
- # 'l' significa, questo è un link
-```
+* '-' significa, questo è un file
+* 'd' significa, questa è una directory
+* 'l' significa, questo è un link
+
 Il significato dei permessi: lettura, scrittura ed esecuzione, 
 varia se stiamo operando con una directory o con un file 
 semplice, infatti:
 
-```sh
- # Per i file semplici:
-```
-
-* lettura 'r': significa poter leggere il file
-
-* scrittura 'w': significa poter modificare il file o poterlo 
-    generalmente sovrascrivere
-
-* esecuzione 'x': significa poterlo eseguire
-
-```sh
- # Per le directory:
-```
-
-* lettura 'r': significa poter leggere il contenuto di una 
-    directory, quindi eseguire comandi come "ls" ad esempio
-
-* scrittura 'w': significa poter creare, cancellare o 
-    modificare i file (anche sotto-directory) all'interno della 
-    directory
-
-* esecuzione 'x': significa poter attraversare una directory, 
-    ad esempio col comando "cd"
+* Per i file semplici:
+    * lettura 'r': significa poter leggere il file
+    * scrittura 'w': significa poter modificare il file o poterlo 
+        generalmente sovrascrivere
+    * esecuzione 'x': significa poterlo eseguire
+* Per le directory:
+    * lettura 'r': significa poter leggere il contenuto di una 
+        directory, quindi eseguire comandi come "ls" ad esempio
+    * scrittura 'w': significa poter creare, cancellare o 
+        modificare i file (anche sotto-directory) all'interno della 
+        directory
+    * esecuzione 'x': significa poter attraversare una directory, 
+        ad esempio col comando "cd"
 
 N.B.: Se un utente possiede i permessi di sola esecuzione per una 
 directory, allora può accedere ai file all'interno della 
@@ -1689,8 +1660,7 @@ proprietario di un file e dei permessi:
 
 ```sh
  usermod -g myGroup jeff 
- # inserisce l'utente jeff nel gruppo 
- # myGroup
+ # inserisce l'utente jeff nel gruppo chiamato myGroup
 ```
 ```sh
  chown -R jeff.wheel nomeDirectory 
@@ -1831,6 +1801,8 @@ impostazioni dei permessi:
  # gruppo proprietario non ha nessun diritto sulla directory e il 
  # suo contenuto
 ```
+
+
 #### Special Permission Bits
 
 Le modalità finora discusse sono quelle più utilizzate nella 
@@ -9181,7 +9153,6 @@ sistema cancella quei messaggi.
 
 ### Come visualizzare i Log
 
-
 La directory /var contiene file che variano nel tempo, la 
 directory "/var/log" contiene i log di sistema.
 
@@ -9223,13 +9194,15 @@ directory "/var/log" contiene i log di sistema.
  # tempo reale, ogni 3 secondi, utilizzato ad esempio con "
  # /proc/net/wireless" per monitorare la qualità del segnale wifi
 ```
+
 Un file per vedere i login è "/var/log/secure" sulle RedHat based 
 mentre sulle Debian based è "var/log/auth.log". Per vedere i 
 messaggi al boot possono esistere diversi file, a volte vengono 
 salvati in "/var/log/dmesg", altre in "/var/log/boot" o in "
 var/log/syslog", questo dipende dalla distribuzione e dalla 
 versione della distribuzione. Un reference per i file di log più 
-comuni può essere [http:#www.thegeekstuff.com/2011/08/linux-var-log-files/||File di Log più comuni].
+comuni può essere 
+[File di Log più comuni](http://www.thegeekstuff.com/2011/08/linux-var-log-files/).
 
 per copiare ed eliminare cartelle si usa cp e rm col flag -r, se 
 uso anche il flag -f non gli importa dei parametri non esistenti, 
@@ -9267,7 +9240,6 @@ uucp,news.crit /var/log/spooler #indica che tutti i file di log
 di uucp di tipo "critico" e di news di tipo "critico" 
 ```
 
-
 vengono salvati nella directory indicata
 
 la virgola ci permette di indicare più programmi 
@@ -9276,11 +9248,11 @@ dei messaggi
 
 ```conf
 auth.emerg; uucp, news.crit /var/log/auth 
-#indica che i messaggi 
-#di log di tipo emergency del programma auth e i 
-#messaggi di tipo critical dei programmi uucp e news verranno 
-#salvati nella directory indicata, il simbolo ";" 
-#è utilizzato per separare programmi con diversi tipi di messaggi
+# indica che i messaggi 
+# di log di tipo emergency del programma auth e i 
+# messaggi di tipo critical dei programmi uucp e news verranno 
+# salvati nella directory indicata, il simbolo ";" 
+# è utilizzato per separare programmi con diversi tipi di messaggi
 ```
 
 La stringa dopo il punto indica il cosiddetto "severity level" 
@@ -9369,10 +9341,10 @@ directory "logrotate.d/apache2":
 ```conf
 /var/log/httpd/*log {
 
-daily #lavora coi log su base giornaliera, altri esempi di 
+daily # lavora coi log su base giornaliera, altri esempi di 
 # opzioni valide sono "monthly" 
 
-#(prende come riferimento il primogiorno del mese) o "yearly" 
+# (prende come riferimento il primogiorno del mese) o "yearly" 
 # (prende come riferimento il primo giorno dell'anno)
 
 missingok # se un file di configurazione non esiste, va bene lo 
@@ -9396,10 +9368,10 @@ create 640 root adm #assegna agli archivi creati il proprietario "root" e
 # il gruppo "adm" e permessi 640
 
 sharedscripts #condivide gli script che seguono per tutti i file 
-i log, se non esistesse questa istruzione, 
+# i log, se non esistesse questa istruzione, 
 
 #allora gli script che seguono verrebbero eseguiti per tutti i 
-file di log di apache
+# file di log di apache
 
 postrotate /etc/init.d/apache2 reload >/dev/null 
 # esegue uno script dopo la rotazione
@@ -9407,7 +9379,7 @@ postrotate /etc/init.d/apache2 reload >/dev/null
 endscript
 
 prerotate if [-d /etc/logrotate.d/httpd-prerotate ]; then \ 
-#esegue uno script prima di effettuare una rotazione
+# esegue uno script prima di effettuare una rotazione
 
 run-parts /etc/logrotate.d/httpd-prerotate; \
 
@@ -9446,7 +9418,6 @@ susseguono:
 
 
 ### Log di Boot
-
 
 Per visualizzare il log di boot di un sistema GNU/Linux dobbiamo 
 visualizzare il file "/var/log/messages", quindi:
@@ -9534,8 +9505,9 @@ lanciato con:
 ```sh
  cat /proc/cmdline
 ```
-### Esplorare i dispositivi e le partizioni da Grub
 
+
+### Esplorare i dispositivi e le partizioni da Grub
 
 Grub ha un proprio schema di device-addressing. Ad esempio il 
 primo HDD trovato è chiamato "hd0", seguito da "hd1", e così via. 
@@ -10809,9 +10781,8 @@ peri sistemi Personal Computer sono:
     * MBR (Master Boot Record): è un sistema di partizionamento che 
         supporta fino a un massimo di 4 partizioni, anche se è stata 
         escogitata una soluzione attraverso le cosiddette "partizioni 
-        estese", che possono contenere una o più "partizioni logiche"
-        ; l'MBR inoltre non supporta partizioni con capacità maggiore 
-        a 2TB
+        estese", che possono contenere una o più "partizioni logiche";
+        l'MBR inoltre non supporta partizioni con capacità maggiore a 2TB
 * GPT 
     * GPT (GUID Partition Table or Globally Unique Identifier 
         Partition Table): è sistema di partizionamento più recente, 
@@ -10822,6 +10793,7 @@ la scelta dello schema di partizionamento deve essere accurata in
 quanto, in base all'interfaccia firmware della macchina la mia 
 scelta potrebbe essere forzata ad un determinata tabella di 
 partizioni.
+
 
 #### Nota sui firmware
 
@@ -10843,12 +10815,15 @@ supporti la modalità CSM (Compatibility Support Mode) che
 permette di emulare la modalità BIOS, permettendo a sistemi che 
 non supportano UEFI di avviarsi come se avessero BIOS.
 
+
 ### Schemi di Partizionamento Minimali
 
 
 Per quanto riguarda schemi di partizionamento minimali possiamo 
 distinguere alcune configurazioni possibili e comunemente 
-utilizzate nella stragrande maggioranza dei casi:
+utilizzate nella stragrande maggioranza dei casi. Queste
+verranno analizzate nelle sottosezioni seguenti.
+
 
 ####  BIOS+MBR+GRUB
 
@@ -10894,6 +10869,7 @@ recommended to reserve the space explicitly.
 
 N.B.:some BIOSes have a bug with booting from a GPT label in BIOS 
 mode, Lenovo and HP are known for this.
+
 
 #### UEFI+GPT+GRUB
 
