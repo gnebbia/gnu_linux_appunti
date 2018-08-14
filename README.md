@@ -16433,7 +16433,6 @@ cattura di pacchetti eccetera.
 
 ### IpTables (Firewall)
 
-
 Il programma IpTables un'interfaccia per gli amministratori di 
 sistema vincolata al kernel Linux e costituisce un programma di 
 gestione "firewall" per sistemi GNU/Linux. Nei sistemi Debian 
@@ -16448,18 +16447,18 @@ directory /etc/init.d/, possiamo visualizzarli con: "ls -al
  # inizia il processo iptables
 ```
 ```sh
- # sudo service iptables stop
+ sudo service iptables stop
 ```
 Nelle distro Debian-based invece si abilita il firewall 
 attraverso:
 
 ```sh
- # sudo ufw enable
+ sudo ufw enable
 ```
 e si può verificare lo stato del firewall con:
 
 ```sh
- # sudo ufw status
+ sudo ufw status
 ```
 inoltre i log di ufw vengono salvati in "/var/log/ifw.log".
 
@@ -16492,13 +16491,13 @@ mentre per abilitare ad esempio la porta "22" per il con TCP, in
 ingresso eseguiamo:
 
 ```sh
- # iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+ iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 ```
 mentre per abilitare il traffico di uscita sulla stessa porta 
 sempre con TCP, eseguiamo:
 
 ```sh
- # iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
+ iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 ```
 Comandi utili per salvare e caricare le configurazioni sono:
 
@@ -16523,8 +16522,9 @@ Per cancellare regole facciamo:
  sudo iptables -F 
  # si cancellano tutte le regole
 ```
-### Hosts Deny e Hosts Allow (Deprecati)
 
+
+### Hosts Deny e Hosts Allow (Deprecati)
 
 Dei file che costituiscono una blacklist (o whitelist) per le 
 connessioni sono i file "hosts.allow" e "hosts.deny", questi file 
@@ -16544,26 +16544,22 @@ attenzione a non scrivere impostazioni che possono andare in
 conflitto. Configurare questi file è molto semplice comunque, 
 prendiamo come esempio "hosts.allow", basta scrivere:
 
-——————————————————————————-
+```conf
+ssh: LOCAL 192.168.1.195 
+# imponiamo il diritto di potersi connettere in ssh all
+# 'indirizzo ip indicato, il servizio ssh, su sistemi RH-based è sshd
+```
 
-ssh: LOCAL 192.168.1.195 #imponiamo il diritto di potersi 
-connettere in ssh all'indirizzo ip indicato, il servizio ssh, su 
-sistemi RH-based è sshd
+avremmo potuto scrivere in alternativa nel file "hosts.deny":
 
-——————————————————————————-
+```conf
+ssh: ALL EXCEPT 192.168.1.195 
+# imponiamo il diritto di potersi connettere in ssh all'indirizzo 
+# ip indicato e lo neghiamo a tuti gli altri indirizzi IP
+```
 
-avremmo potuto scrivere altrimenti nel file "hosts.deny":
-
-——————————————————————————-
-
-ssh: ALL EXCEPT 192.168.1.195 #imponiamo il diritto di potersi 
-connettere in ssh all'indirizzo ip indicato e lo neghiamo a tuti 
-gli altri indirizzi IP
-
-——————————————————————————-
-
-Al posto di ssh, avremmo potuto inserire "httpd", "mysqld", "ALL"
-, e tanti altri servizi. Una volta effettuate le modifiche, 
+Al posto di ssh, avremmo potuto inserire "httpd", "mysqld", "ALL",
+e tanti altri servizi. Una volta effettuate le modifiche, 
 dobbiamo riavviare i servizi coinvolti nella modifica, o 
 riavviare semplicemente il sistema.
 
@@ -16758,8 +16754,7 @@ abbiamo l'accesso) possiamo eseguire:
 che è equivalente ad un:
 
 ```sh
- # nmap -sS -p 1-65535 -T 5 localhost; nmap -sU -p 1-65535 -T 5 
-  localhost 
+ nmap -sS -p 1-65535 -T 5 localhost; nmap -sU -p 1-65535 -T 5 localhost 
  # una scansione nmap su tutte le porte TCP e UDP, il 
  # flag "-T 5" è utilizzato per effettuare una scansione veloce 
  # (ergo, molto traffico, è anche un po' più impreciso, nel caso 
@@ -16833,7 +16828,7 @@ attraverso il programma "time", proviamo ad esempio ad effettuare
 un:
 
 ```sh
- # time netstat -at
+ time netstat -at
 ```
 e successivamente un:
 
@@ -16846,15 +16841,15 @@ e successivamente un:
 ```
 Per quanto riguarda l'output, possiamo notare che:
 
-```sh
- # The "Recv-Q" and "Send-Q" columns tell us how much data is in 
- # the queue for that socket, waiting to be read (Recv-Q) or sent 
- # (Send-Q). In short: if this is 0, everything’s ok, if there are 
- # non-zero values anywhere, there may be trouble. If you look 
- # closely at the example, you’ll see that two sockets have a 
- # Recv-Q with 38 unread bytes in them. We’ll look into those 
- # connections once we know what the other columns mean.
-```
+The "Recv-Q" and "Send-Q" columns tell us how much data is in 
+the queue for that socket, waiting to be read (Recv-Q) or sent 
+(Send-Q). In short: if this is 0, everything’s ok, if there are 
+non-zero values anywhere, there may be trouble. If you look 
+closely at the example, you’ll see that two sockets have a 
+Recv-Q with 38 unread bytes in them. We’ll look into those 
+connections once we know what the other columns mean.
+
+
 ### Iptraf
 
 
@@ -17280,7 +17275,7 @@ invece la gestione del layout della tastiera è lasciata al
 Desktop Environment, quindi dovremo andare nelle impostazioni del 
 Desktop Environment per poter cambiare layout.
 
-  Modifiche permanenti al layout della tastiera
+#### Modifiche permanenti al layout della tastiera
 
 Un keymap persistente può essere impostato attraverso il file 
 /etc/vconsole.conf, che viene normalmente letto da systemd (o 
@@ -17289,7 +17284,7 @@ disponibili con (anche se il percorso può cambiare da distro a
 distro):
 
 ```sh
- # find /usr/share/kbd/keymaps/ -type f 
+ find /usr/share/kbd/keymaps/ -type f 
 ```
   Settaggio permanente della lingua con systemd
 
@@ -17328,54 +17323,45 @@ manualmente il file /etc/vconsole.conf facciamo:
  # prevenire di cambiare in automatico ad un altra lingua vicina 
  # nel caso in cui il keymap indicato non dovesse esistere
 ```
-  Settaggio permanente della lingua con startx
+#### Settaggio permanente della lingua con startx
 
 Nel caso non si usasse systemd, possiamo aggiungere il comando "
 setxkbmap it" per aggiungere il layout nel file ".xinitrc", nel 
 caso usassimo "startx" per avviare l'ambiente grafico, la voce va 
 aggiunta prima dell'exec dell'ambiente grafico.
 
-  Settaggio permanente della lingua senza startx e senza systemd
+#### Settaggio permanente della lingua senza startx e senza systemd
 
 In questo caso, ad esempio se abbiamo un window manager che non 
 avviamo con "startx", creiamo uno script per X, situato in "
 etc/X11/xorg.conf.d/00-keyboard.conf" e ci mettiamo:
 
+```conf
 Section "InputClass"         
-
 	Identifier "system-keyboard"
-
 	MatchIsKeyboard "on"   
-
 	Option "XkbLayout" "it,us"         
-
 EndSection
+```
+
 
 ### Character Encoding
-
 
 Ogni file è scritto utilizzando un determinato Character 
 Encoding, cioè un repertorio preciso di caratteri codificato in 
 un certo modo, esistono diversi tipi di character encoding, i più 
 famosi sono:
 
-```sh
- # UTF-8 
-```
-```sh
- # ASCII
-```
-```sh
- # UTF-16
-```
-```sh
- # UTF-32
-```
+* UTF-8 
+* ASCII
+* UTF-16
+* UTF-32
+
 Un programma molto utilizzato per effettuare conversioni di 
 character encoding dei file è "iconv".
 
-### Iconv
 
+### Iconv
 
 Possiamo utilizzare il comando "iconv" per convertire un file con 
 un certa codifica in un'altra:
@@ -17404,8 +17390,9 @@ comando "iconv" possiamo utilizzare:
  # mostra la lista di codifiche dei caratteri 
  # disponibili quando si invoca iconv
 ```
-### Hwclock
 
+
+### Hwclock
 
 Il programma hwclock ha lo scopo di visualizzare o reimpostare il 
 clock hardware di sistema, questo clock è fornito di batteria 
@@ -17435,8 +17422,9 @@ Vediamo alcuni esempi applicativi del programma "hwclock":
  # sincronizza l'orario hardware all'orario di 
  # sistema
 ```
-### NTP (Network Time Protocol)
 
+
+### NTP (Network Time Protocol)
 
 Il protocollo NTP, ha lo scopo di gestire la sincronizzazione 
 dell'orario, attraverso un'architettura client-server, il 
@@ -17460,10 +17448,10 @@ protocollo NTP è installarlo e possiamo farlo con:
 
 ```sh
  apt-get install ntp 
- # installa il protocollo ntp
+ # installa il software per il protocollo ntp
 ```
-Una volta installato, avremo un file di configurazione in "
-/etc/ntp.conf" dove potremo mettere mano alla configurazione di 
+Una volta installato, avremo un file di configurazione in "/etc/ntp.conf"
+dove potremo mettere mano alla configurazione di 
 ntp. Esistono diversi server pubblici per NTP e possiamo 
 aggiungerli al file ntp.conf attraverso righe come:
 
@@ -17502,6 +17490,8 @@ con ntp, attraverso:
  # nuovo al client), jitter (deviazione nel tempo che viene 
  # riportato dal server al client), offset, eccetera
 ```
+
+
 ## Stampare
 
 Per stampare sui sistemi GNU/Linux il programma principale 
@@ -17509,8 +17499,8 @@ utilizzato è CUPS, anche se in passato era molto utilizzato LPD e
 molte distro ancora lo supportano, quindi diamo un'occhiata ad 
 entrambi.
 
-### LPD (Linux Printer Daemon)
 
+### LPD (Linux Printer Daemon)
 
 LPD ha costituito per molti anni un sistema di gestione del 
 sistema di stampa, è utile conoscerlo in quanto il più moderno 
@@ -17578,8 +17568,9 @@ lpr", sono analoghi, differiscono solo per parametri, ad esempio:
  # riabilita una stampante se è stata 
  # disabilitata
 ```
-### CUPS (Common Unix Printing System)
 
+
+### CUPS (Common Unix Printing System)
 
 CUPS è un sistema di stampa per sistemi GNU/Linux caratterizzato 
 da un sistema di gestione via browser, che semplifica il 
@@ -17605,12 +17596,9 @@ la maggior parte dei comandi sono rimasti uguali, rimpiazza LPD
 con un sistema di più semplice gestione. Di default, CUPS è 
 basato su due demoni, che gestiscono il sistema di stampa:
 
-```sh
- # cupsd
-```
-```sh
- # cups-browsed
-```
+* cupsd
+* cups-browsed
+
 Per avviare (o riavviare) il demone di che gestisce il sistema di 
 stampa, che può essere in alcune distro un'operazione necessaria 
 dopo l'installazione, possiamo effettuare:
@@ -17641,28 +17629,24 @@ default), con systemd possiamo usare:
 ```
 Vediamo ora alcuni file di configurazione e directory importanti:
 
-```sh
- # "/etc/cups/cups-browsed.conf": questo file di configurazione 
- # contiene le impostazioni di configurazione del server di 
- # stampa, in questo file, possiamo abilitare o disabilitare 
- # indirizzi ip per cercare/trovare stampanti, possiamo 
- # restringere il range di ip, da cui gli altri ad esempio possono 
- # stampare
-```
-```sh
- # "/etc/cups/cupsd.conf": questo file di configurazione contiene 
- # la porta di configurazione di CUPS e l'indirizzo a cui è 
- # hostato il webserver di configurazione, che di default è "
- # localhost:631"
-```
-```sh
- # "/var/spool/cups": questa directory contiene tutti i file 
- # rappresentanti i Job per cui è stata richiesta una stampa, 
- # finchè questi job non vengono rimossi da qui, una richiesta di 
- # stampa può essere rieseguita
-```
-### Gestione delle Code con CUPS
+* "/etc/cups/cups-browsed.conf": questo file di configurazione 
+  contiene le impostazioni di configurazione del server di 
+  stampa, in questo file, possiamo abilitare o disabilitare 
+  indirizzi ip per cercare/trovare stampanti, possiamo 
+  restringere il range di ip, da cui gli altri ad esempio possono 
+  stampare
 
+* "/etc/cups/cupsd.conf": questo file di configurazione contiene 
+  la porta di configurazione di CUPS e l'indirizzo a cui è 
+  hostato il webserver di configurazione, che di default è "localhost:631"
+
+* "/var/spool/cups": questa directory contiene tutti i file 
+  rappresentanti i Job per cui è stata richiesta una stampa, 
+  finchè questi job non vengono rimossi da qui, una richiesta di 
+  stampa può essere rieseguita
+
+
+### Gestione delle Code con CUPS
 
 Vediamo ora alcuni comandi per gestire le code con CUPS:
 
@@ -17798,12 +17782,12 @@ Other useful utilities on ext filesystems are attributes, which
 are characteristics of files, we can view attributes with 
 
 ```sh
- # lsattr to view attributes
+ lsattr to view attributes
 ```
 or we can change attributes with:
 
 ```sh
- # chattr +i fileName
+ chattr +i fileName
 ```
 the attributes "i" says that now the file is not deletable, there 
 are many flags, and it is recommended to view them by doing a "
@@ -17819,14 +17803,11 @@ separated disk's blocks.
 Nei sistemi unix-like due strumenti molto utilizzati per 
 automatizzare processi sono:
 
-```sh
- # Cron
-```
-```sh
- # AT
-```
-### Cron
+* cron (e anacron per macchine non server)
+* AT
 
+
+### Cron
 
 Cron è uno strumento nato per pianificare processi/operazioni, 
 devo ricordare che esistono diverse gerarchie di configurazione:
@@ -17894,8 +17875,7 @@ eccetera. Solitamente (in alcune distro) sono contenuti già dei
 processi di automatizzazione di default che puntano a determinate 
 directory, vediamo un esempio di file di configurazione globale:
 
-———————————————————--
-
+```conf
 01 * * * * root run-parts /etc/cron.hourly
 
 02 4 * * * root run-parts /etc/cron.daily
@@ -17903,8 +17883,7 @@ directory, vediamo un esempio di file di configurazione globale:
 22 4 * * 0 root run-parts /etc/cron.weekly
 
 42 4 1 * * root run-parts /etc/cron.monthly
-
-———————————————————--
+```
 
 In pratica tutto quello contenuto in queste directory viene 
 inteso come processo da automatizzare, questo grazie all'opzione 
@@ -17941,23 +17920,17 @@ le informazioni fornite dai due file sono in conflitto, inoltre è
 da ricordare che l'utente di root è esente da queste regole, root 
 può sempre tutto.
 
-### Come pianificare le operazioni nei file di crontab
 
+### Come pianificare le operazioni nei file di crontab
 
 La pianificazione di un'operazione è suddivisa su 7 campi:
 
 1. indica i minuti
-
 2. indica le ore
-
 3. indica il giorno del mese
-
 4. indica il mese
-
 5. indica il giorno della settimana
-
 6. indica l'utente con cui eseguire il comando
-
 7. indica il comando da eseguire
 
 Vediamo alcuni esempi (ricorda che il nomeUtente è incluso solo 
@@ -17965,7 +17938,6 @@ nel file "/etc/crontab" quindi nella configurazione globale,
 mentre per le configurazioni locali basta mettere solo il comando 
 dopo aver specificato i primi 5 campi):
 
-————————--
 
 ```sh
  * 2 * * * nomeUtente nomeComando 
@@ -18037,6 +18009,7 @@ successivo all'altro possiamo usare un trucchetto, questo
 trucchetto ci permette di avere una granularità al secondo con 
 cron:
 
+```conf
 */2 * * * * cd /home/user/scripts && bash first.sh
 
 */2 * * * * cd /home/user/scripts && sleep 15 bash second.sh
@@ -18045,6 +18018,7 @@ cron:
 /home/user/logs/log.txt 2>&1
 
 */2 * * * * cd /home/user/scripts && sleep 45 bash fourth.sh
+```
 
 E' utile ricordare che il sistema manda dei messaggi all'utente 
 in /var/mail/$USER. Possiamo assicurarci che cron si sia avviato 
@@ -18052,8 +18026,8 @@ da /var/log/syslog o /var/log/cron, è utile ricordare che
 dobbiamo riavviare il servizio di cron ongi qualvolta cambiamo la 
 configurazione.
 
-### AT
 
+### AT
 
 Il programma "at" ci permette di pianificare operazioni che 
 dovranno avvenire nel futuro, ma a differenza di Cron che 
@@ -18104,60 +18078,59 @@ subito qualche esempio applicativo:
 Vediamo altri esempi possibili autoesplicativi:
 
 ```sh
- # at now 2:30 PM tomorrow
+ at now 2:30 PM tomorrow
 ```
 ```sh
- # at 2:30 PM next month
+ at 2:30 PM next month
 ```
 ```sh
- # at 2:30 PM Fri
+ at 2:30 PM Fri
 ```
 ```sh
- # at 9:00 AM
+ at 9:00 AM
 ```
 ```sh
- # at midnight
+ at midnight
 ```
 ```sh
- # at noon
+ at noon
 ```
 ```sh
- # at 2:30 PM 21.10.14
+ at 2:30 PM 21.10.14
 ```
 ```sh
- # at 2:30 PM 10/21/2014
+ at 2:30 PM 10/21/2014
 ```
 ```sh
- # at 4 PM + 2 days
+ at 4 PM + 2 days
 ```
 ```sh
- # at now + 3 weeks
+ at now + 3 weeks
 ```
 ```sh
- # at now + 4 months
+ at now + 4 months
 ```
 ```sh
- # at next monday
+ at next monday
 ```
 ```sh
- # at now + 5 years
+ at now + 5 years
 ```
+
 Alcuni file importanti sono:
 
-```sh
- /etc/at.deny 
- # tutti gli utenti elencati in questo file non 
- # possono usare at, gli utenti sono separati da un invio
-```
-```sh
- /etc/at.allow 
- # a tutti gli utenti del sistema non è possibile 
- # usare at eccetto a quelli elencati in questo file
-```
+* /etc/at.deny 
+  tutti gli utenti elencati in questo file non 
+  possono usare at, gli utenti sono separati da un invio
+* /etc/at.allow 
+  a tutti gli utenti del sistema non è possibile 
+  usare at eccetto a quelli elencati in questo file
+
 N.B.: Solo uno dei file elencati sopra deve esistere, altrimenti 
 le informazioni fornite dai due file sono in conflitto, inoltre è 
 da ricordare che l'utente di root è esente da queste regole, root 
 può sempre tutto.
+
 
 ## Secure Host
 
@@ -18167,8 +18140,8 @@ può sempre tutto.
 
 ## Accesso Remoto e SSH
 
-### SSH
 
+### SSH
 
 L'accesso remoto ha molteplici vantaggi e utilità, in passato a 
 questo scopo veniva molto utilizzato Telnet, ma siccome il 
@@ -18254,7 +18227,7 @@ nessun messaggio, cioè nemmeno messaggi d'errore, il problema è
 il firewall, dovremo infatti aprire la porta su cui vogliamo 
 servire il servizio ssh.
 
-  Chiavi DSA e RSA
+#### Chiavi DSA e RSA
 
 Un metodo di accesso più semplice è quello di utilizzare chiavi 
 per il login anzichè password degli utenti sulla macchina remota, 
@@ -18315,7 +18288,7 @@ spiegazione dettagliata del funzionamento di SSH, fare
 riferimento a [www.slashroot.in/secure-shell-how-does-ssh-work||Guida ad SSH]
 .
 
-  SSH-Agent
+#### SSH-Agent
 
 E' possibile tenere in memoria le password attraverso ssh-agent, 
 questo è un demone che basilarmente tiene salvate le password in 
@@ -18372,8 +18345,8 @@ configurazione andando a mettere la stringa: "ServerAliveInterval
 Inoltre per chiudere una connessione ssh bloccata possiamo 
 utilizzare il carattere di escape di ssh che è "~.".
 
-### SSH ed X
 
+### SSH ed X
 
 E' possibile utilizzare ssh e poter runnare programmi grafici, 
 per poter effettuare questo, lato server dobbiamo abilitare la 
@@ -18381,7 +18354,7 @@ voce "X11Forwarding yes" nel file "/etc/ssh/sshd_config", mentre
 lato client ci basterà eseguire:
 
 ```sh
- # export DISPLAY=:0.0
+ export DISPLAY=:0.0
 ```
 ```sh
  ssh -X nomeUtente@192.168.1.114 
@@ -18392,8 +18365,8 @@ ora potremo avviare qualsiasi applicazione grafica, quindi ad
 esempio "firefox" o qualsiasi altra cosa, e vedremo una finestra 
 separata aprirsi, lato client ssh.
 
-### SSHFS
 
+### SSHFS
 
 SSHFS è un file system per i sistemi operativi unix-like (Mac OS 
 X, Linux, BSD). Questo file system permette di montare in locale 
@@ -18405,7 +18378,7 @@ implementa il modulo del kernel FUSE. Possiamo installarlo,
 eseguendo:
 
 ```sh
- # sudo apt-get install sshfs fuse
+ sudo apt-get install sshfs fuse
 ```
 poi ci assicuriamo che il modulo fuse sia caricato all'interno 
 del kernel:
@@ -18432,13 +18405,12 @@ con:
  # directory verrà usata per hostare la directory remota
 ```
 ```sh
- # chown root /backup
+ chown root /backup
 ```
 Vediamo il comando per effettuare il mount:
 
 ```sh
- # sshfs -o idmap=user andrew@192.168.0.69:/home/utente_remoto 
-  /mnt/sshfs_home_milano 
+ sshfs -o idmap=user andrew@192.168.0.69:/home/utente_remoto /mnt/sshfs_home_milano 
  # montiamo la directory /etc della 
  # macchina remota all'indirizzo IP indicato nella directory in 
  # /mnt/etc_on_server/, nota che l'opzione -o idmap=user deve 
@@ -18448,17 +18420,12 @@ Vediamo il comando per effettuare il mount:
 Possiamo eventualmente (opzionale) aggiungere la partizione ad 
 fstab, con una voce del tipo:
 
-——————————————————————————--————————————-
+```conf
+sshfs://user@remote.machine.net:/remote/dir /work fuse user,_netdev,reconnect,uid=1000,gid=1000,idmap=user,allow_other 0 0
+```
 
-sshfs#user@remote.machine.net:/remote/dir /work fuse 
-user,_netdev,reconnect,uid=1000,gid=1000,idmap=user,allow_other
-
-0 0
-
-——————————————————————————--————————————-
 
 ### SCP
-
 
 Per copiare file attraverso ssh, possiamo utilizzare il comando "
 scp", la sintassi è questa:
@@ -18469,13 +18436,13 @@ scp", la sintassi è questa:
  # copiamo un file dalla nostra macchina ad un server remoto
 ```
 ```sh
- # scp -r /media/disk/estate_pics/ 
-  mike@192.168.1.1:"/var/www/Estate 2014/" 
+ scp -r /media/disk/estate_pics/ mike@192.168.1.1:"/var/www/Estate 2014/" 
  # in questo caso viene 
  # copiata una directory attraverso il flag "-r"
 ```
-### SFTP
 
+
+### SFTP
 
 Per avere un'interfaccia più comoda per il trasferimento file, 
 possiamo utilizzare il protocollo "sftp", cioè una versione 
@@ -18577,8 +18544,8 @@ ftp, è fortemente sconsigliato per i noti problemi di sicurezza.
 Una valida ed equivalente alternativa (sotto certi aspetti) al 
 protocollo SFTP è il protocollo FTPS.
 
-### Alcuni Trucchi con SSH
 
+### Alcuni Trucchi con SSH
 
 ```sh
  ssh nomeUtente@macchina cat "Videos/Path/To/Video.mp4" | vlc - 
@@ -18588,8 +18555,9 @@ protocollo SFTP è il protocollo FTPS.
  # adeguato lettore di immagini, dobbiamo stare attenti a 
  # specificare bene il percorso 
 ```
-### OpenPGP
 
+
+### OpenPGP
 
 OpenPGP è uno standard Internet per l'interoperabilità dei 
 messaggi protetti tramite crittografia asimmetrica. I due più 
@@ -18600,8 +18568,8 @@ comuni programmi che utilizzano OpenPGP sono:
    PGP Corporation 
  * GNU Privacy Guard (GPG), sua alternativa GPL
 
-### Principio di funzionamento
 
+### Principio di funzionamento
 
 Un utente può generare attraverso PGP una chiave composta da una 
 parte pubblica e una parte privata, lui condivide al mondo la 
@@ -18609,8 +18577,7 @@ parte pubblica, ma deve proteggere e salvaguardare la sua parte
 privata. Riporto una conversazione IRC che spiega qual'è il 
 meccanismo di base di PGP:
 
-——————————————————————————--——————
-
+```text
 <nebbia> can somebody explain me how GPG works ? 
 
 <BasketCase> nebbia: it is the same key pair concept where one 
@@ -18655,14 +18622,12 @@ are signing
 <BasketCase> so, if I make a file, sha256sum it, then encrypt the 
 hash with my private key you only need my public key and the 
 sha256sum tool to verify that I sent you that file
+```
 
-——————————————————————————--——————
+Un video esplicativo, è questo [PGP](https://www.youtube.com/watch?&v=3QnD2c4Xovk||Spiegazione).
 
-Un video esplicativo, è questo [https:#www.youtube.com/watch?&v=3QnD2c4Xovk||Spiegazione PGP]
-.
 
 ### GnuPG su sistemi GNU/Linux
-
 
 Per installare GnuPG, eseguiamo:
 
@@ -18700,15 +18665,12 @@ Vediamo ora alcuni esempi di comandi:
  # importa una chiave pubblica
 ```
 ```sh
- gpg --recv-keys user@mail.net --keyserver hkp:
- # subkeys.pgp.net 
-  
+ gpg --recv-keys user@mail.net --keyserver hkp://subkeys.pgp.net 
  # importa dal sito raccoglitore di chiavi la chiave pubblica 
  # corrispondente alla mail "user@mail.net"
 ```
 ```sh
- # gpg --encrypt --recipient "Nome Destinatario" 
-  nome_file_da_cifrare 
+ gpg --encrypt --recipient "Nome Destinatario" nome_file_da_cifrare 
  # esempio di cifratura di un file
 ```
 ```sh
@@ -18721,28 +18683,29 @@ Vediamo ora alcuni esempi di comandi:
  # rimuove la chiave 
  # privata menzionata
 ```
-Un sito utile per ricercare chiavi pubbliche al momento è 
-[https:#keyserver.pgp.com/vkd/GetWelcomeScreen.event||Chiavi Pubbliche PGP].
 
+Un sito utile per ricercare chiavi pubbliche al momento è 
+[Chiavi Pubbliche PGP](https://keyserver.pgp.com/vkd/GetWelcomeScreen.event)
 
 
 ## Web Server
+
 
 Vediamo qui alcune configurazioni del web server più famoso, cioè 
 "Apache", una volta installato con:
 
 ```sh
- # apt install apache2 
+ apt install apache2 
 ```
 oppure
 
 ```sh
- # yum install httpd
+ yum install httpd
 ```
 dobbiamo abilitare il servizio di apache attraverso ad esempio:
 
 ```sh
- # systemctl start apache2
+ systemctl start apache2
 ```
 una volta abilitato, possiamo leggere i log all'interno di "
 /var/log/apache2/":
@@ -18762,6 +18725,7 @@ Siccome configurazioni diverse possono essere in file diversi è
 bene eseguire dei "grep -nir configurazioneCercata" per cercare 
 le configurazioni.
 
+
 ### Configurazione centralizzata vs Configurazione decentralizzata
 
 Apache mantiene i file di configurazione nella directory /etc/, 
@@ -18773,8 +18737,8 @@ navigazione, questi file potrebbero ad esempio essere utilizzati
 da servizi di hosting quando ci viene fornita solo una directory 
 all'interno di un server. Quindi nel momento in cui abbiamo 
 accesso completo al server le impostazioni che dovremmo mettere 
-nel file .htaccess le andiamo a mettere nelle varie sezioni "
-<Directory>" dei file di ocnfigurazione principali. Ad ogni modo 
+nel file .htaccess le andiamo a mettere nelle varie sezioni `<Directory>`
+dei file di ocnfigurazione principali. Ad ogni modo 
 l'utilizzo dei file ".htaccess" deve essere permesso comunque 
 dalla configurazione principale di Apache (i.e., quella nei file 
 /etc/), l'opzione che disabilita questa impostazione è:
@@ -18794,39 +18758,42 @@ avere:
  # all'interno della directory a cui fa parte questa 
  # configurazione
 ```
+
+
 ### Directory Listing
 
 Basta aggiungere nel file di configurazione di apache in una 
-delle "<Directory>" e facciamo:
+delle `<Directory>` e facciamo:
 
 ```apache
 <Directory "/var/www/html">     
+
 # Show directory listing, and allow symbolic links
 Options Indexes FollowSymLinks       
+
 # With the following option we impose that configuration cannot be overriden with .htaccess files.
 AllowOverride None
+
 # With the following options we controls who can get stuff from this server
 Order allow,deny     
 Allow from all 
 </Directory>
 ```
 
+
 ### Mod Rewrite
 
 
 ### Redirection di qualsiasi richiesta all'interno di una directory
 
-Possiamo all'interno di una configurazione "<Directory>" 
+Possiamo all'interno di una configurazione `<Directory>`
 includere il modulo "mod_rewrite.c" e gestire redirections, ad 
 esempio:
 
 ```apache
 <IfModule mod_rewrite.c>
-
 	RewriteEngine on
-
 	RewriteRule (.*) webroot/ [L]
-
 </IfModule>
 ```
 
@@ -18841,6 +18808,7 @@ rule, il primo parametro è un regular expression e la seconda è
 un indirizzo a cui redirigere, il terzo campo è composto dagli 
 eventuali flag.
 
+
 ### Se un file richiesto non esiste eseguire un determinato script
 
 In questo caso si utilizzano le condizioni "RewriteCond", la 
@@ -18853,20 +18821,15 @@ in questo caso si esegue lo script chiamato "script.php".
 
 ```apache
 <IfModule mod_rewrite.c>
-
 	RewriteEngine on
-
 	RewriteCond %{REQUEST_FILENAME} !-f
-
 	RewriteCond %{REQUEST_FILENAME} !-d 
-
 	RewriteRule ^(.*)$ script.php [PT,L]
-
 </IfModule>
 ```
 
-### Porta del Server
 
+### Porta del Server
 
 Possiamo cercare la porta su cui è in ascolto apache eseguendo 
 nella directory in cui sono contenuti i file di configurazione di 
@@ -18876,14 +18839,16 @@ apache:
  grep -nir listen 
 ```
 Possiamo mettere apache in ascolto su un'altra porta attraverso:
+l'opzione `Listen` che ci permette di bindare Apache ad un indirizzo IP
+e poera specifica. Possiamo ad esempio mettere in ascolto apache
+sulla porta 8000 con il seguente pezzo di configurazione:
 
-* Listen: Allows you to bind Apache to specific IP addresses 
-and/or ports. 
-
+```conf
 Listen 8000
+```
+
 
 ### Virtual Hosts
-
 
 Per impostare virtual host localmente (ad esempio per testare 
 diverse web applications in locale), allora innanzitutto dobbiamo 
@@ -18903,38 +18868,21 @@ dovremo avere una configurazione del tipo:
 
 ```apache
 <VirtualHost *:80>
-
-	#Con ServerName impostiamo il nome del dominio
-
+	# Con ServerName impostiamo il nome del dominio
 	ServerName myfirstwebapp
 
-	
-
-	#Con DocumentRoot impostiamo la directory in cui è contenuta la 
-web app
-
+	# Con DocumentRoot impostiamo la directory in cui è contenuta la web app
 	DocumentRoot /var/www/html/myfirst
-
 </VirtualHost> 
 
-
-
 <VirtualHost *:80>
-
 	ServerName mysecondwebapp
-
 	DocumentRoot /var/www/html/mysecond
-
 </VirtualHost>
 
-
-
 <VirtualHost *:80>
-
 	ServerName mythirdwebapp
-
 	DocumentRoot /var/www/html/mythirdandlast
-
 </VirtualHost> 
 ```
 
@@ -18953,18 +18901,18 @@ the Open Network Computing Remote Procedure Call (ONC RPC)
 system. On a debian machine we can check if we support NFS with:
 
 ```sh
- # grep NFSD /boot/config-`uname -r`
+ grep NFSD /boot/config-`uname -r`
 ```
 more generally with any other distros we should check the kernel 
 configuration file.
 
-### Server-Side
 
+### Server-Side
 
 On the server we install:
 
 ```sh
- # sudo apt-get install nfs-kernel-server
+ sudo apt-get install nfs-kernel-server
 ```
 then we create the directory we want to share, for example:
 
@@ -18976,8 +18924,7 @@ then, we have the table of exports in the file "/etc/exports", in
 this file we add a line with:
 
 ```sh
- # /var/nfsroot <client private 
-  ip>/32(rw,root_squash,subtree_check) 
+ /var/nfsroot <client private ip>/32(rw,root_squash,subtree_check) 
  # where for client private 
  # ip we put the ip address or an entire subnet, notice that since 
  # we put root_squash, in this case the root account on the client 
@@ -18988,7 +18935,7 @@ this file we add a line with:
 we then update the table of exported directories with:
 
 ```sh
- # sudo exportfs -a
+ sudo exportfs -a
 ```
 and we have to be sure of having the daemon started with:
 
@@ -19007,14 +18954,13 @@ anonuid=uid and anongid=gid options allow specifying another fake
 user to be used instead of UID/GID 65534 (which corresponds to 
 user nobody and group nogroup). 
 
-### Example
 
+### Example
 
 Let's see some example of sharing directory:
 
 ```sh
- # mkdir /home/client1; chown nobody:nogroup /home/client1; chmod 
-  755 /home/client1 
+ mkdir /home/client1; chown nobody:nogroup /home/client1; chmod 755 /home/client1 
  # in this case we are sharing a directory the 
  # owner user and owner group should be these ones, if we want the 
  # directory to be writeable by clients, even in this case they 
@@ -19023,13 +18969,13 @@ Let's see some example of sharing directory:
 the following step is adding this directory to the NFS 
 configuration file "/etc/exports" with:
 
-```sh
- # /home/client1 192.168.0.101/32(rw,root_squash,subtree_check) 
-  
- # here we share the directory, we use default options
+```conf
+/home/client1 192.168.0.101/32(rw,root_squash,subtree_check) 
+# here we share the directory, we use default options
 ```
-### Server-Side Options
 
+
+### Server-Side Options
 
 Let's see some of the possible options we can set server-side, 
 these options can be specified in the /etc/exports entry:
@@ -19057,30 +19003,31 @@ these options can be specified in the /etc/exports entry:
  # all clients will wait until their operations are really done. 
  # This can avoid data corruption in the event of a server crash.
 ```
-### Client-Side
 
+
+### Client-Side
 
 On the client side what we do is:
 
 ```sh
- # sudo apt-get install nfs-common
+ sudo apt-get install nfs-common
 ```
 then we create the local directory where we will mount our remote 
 directory with:
 
 ```sh
- # sudo mkdir /mnt/remotenfs 
+ sudo mkdir /mnt/remotenfs 
 ```
 then we add the following line to the /etc/fstab file:
 
-```sh
- # <server private ip>:/var/nfsroot /mnt/remotenfs nfs 
- # rw,async,hard,intr 0 0
+```conf
+<server private ip>:/var/nfsroot /mnt/remotenfs nfs rw,async,hard,intr 0 0
 ```
+
 then we can mount the directory with:
 
 ```sh
- # sudo mount /mnt/remotenfs 
+ sudo mount /mnt/remotenfs 
 ```
 In order to see on which port nfs is listening we do:
 
@@ -19098,8 +19045,9 @@ doing:
  # in this way we show which 
  # directories are shared by the mentioned server IP address
 ```
-### Client-Side Options
 
+
+### Client-Side Options
 
 Let's see some of the possible options we have "Client-Side", 
 these options can be specified using the mount command, or in the 
@@ -19180,8 +19128,8 @@ Ricordiamo che di default bind funziona in modalità "caching-only"
 N.B.: Everytime we want to clear the cache of a DNS server it is 
 sufficient to just restart the relative daemon.
 
-
 ### Configurazione di BIND
+
 
 Per visualizzare dove è presente il file di configurazione di 
 bind ci basterà dare un'occhiata ai file installati col 
@@ -19208,6 +19156,7 @@ controllare la versione di bind utilizzando:
  # verbose rispetto al "-v"
 ```
 DA CONTINUARE
+TODO
 
 
 ## Database Server
@@ -19215,11 +19164,11 @@ DA CONTINUARE
 Esistono diverse applicazioni utilizzabili su GNU/Linux per 
 funzionare da server per database, ma una scelta comune 
 open-source è "MySQL", quindi nelle prossime sezioni tratteremo 
-MySQL, ad ogni modo altri server per database famosi sono "
-Microsoft Database Server", "Oracle Database Server", "Postgres".
+MySQL, ad ogni modo altri server per database famosi sono "Microsoft Database Server",
+"Oracle Database Server", "Postgres".
+
 
 ### MySQL
-
 
 ### Installazione su Red-Hat Based Distro
 
@@ -19370,7 +19319,7 @@ effettuare query. Vediamo alcuni esempi di comandi:
 ```
 
 N.B.: Nota che in SQL, per indicare nomi con caratteri speciali, 
-dobbiamo racchiudere il nome tra apici retroversi ````.
+dobbiamo racchiudere il nome tra apici retroversi \`\`.
 
 ### Gestione Utenti in MySQL
 
@@ -22030,7 +21979,7 @@ Un programma molto utile per gestire l'audio e per capire a volte
 la sorgente di alcuni problemi e' `pavucontrol`.
 
 
-## Tmp Filesystem
+## Filesystem tmp
 
 The cleaning of /tmp is done by the upstart script 
 /etc/init/mounted-tmp.conf. The script is run by upstart 
