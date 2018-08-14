@@ -5838,66 +5838,56 @@ of the lines read up to that point are then used as the standard
 input for a command ad esempio:
 
 ```sh
- # sql=$(cat <<EOF SELECT 
-```
-
+ sql=$(cat <<EOF SELECT 
   foo, bar FROM db WHERE foo='baz'
 
 EOF
-
 )
+```
+
 
 or let's see how to pass this multiline to a file:
 
 ```sh
- # $ cat <<EOF > print.sh
-```
-
+ cat <<EOF > print.sh
   #!/bin/bash echo \$PWD echo $PWD EOF
-
+```
 or we can pass this multiline to a series of command:
 
 ```sh
- # cat <<EOF | grep 'b' | tee b.txt | grep 'r' 
-```
-
+ cat <<EOF | grep 'b' | tee b.txt | grep 'r' 
   foo bar baz 
-
-EOF
+ EOF
+```
 
 vediamo altri esempi:
 
 ```sh
- # tr a-z A-Z << END_TEXT
+ tr a-z A-Z << END_TEXT
+ one two three
+ four five six
+ END_TEXT
 ```
-
-  one two three
-
-four five six
-
-END_TEXT
 
 possiamo anche ad esempio fare in modo che la prima occorrenza 
 della parola specificata interrompa l'input aggiungendo un "-" 
 prima della parola, ad esempio:
 
 ```sh
- # tr a-z A-Z <<- END_TEXT 
+ tr a-z A-Z <<- END_TEXT 
+  one two three four five six END_TEXT
 ```
 
-  one two three four five six END_TEXT
 
 vediamo ora un esempio di "here string", in pratica possiamo 
 specificare stringhe su più linee senza utilizzare una parola 
 specifica come delimitatore:
 
 ```sh
- # tr a-z A-Z <<< ' one 
-```
-
+ tr a-z A-Z <<< ' one 
   two 
-
-three'
+ three'
+```
 
 in pratica vengono usati i singoli apici "'" come delimitatori a 
 differenza delle "heredoc" in cui specificavamo una parola 
@@ -5907,7 +5897,7 @@ Vediamo un altro esempio in cui ad esempio inizializziamo
 contemporanemente più variabili:
 
 ```sh
- # read a b c <<< 'one two three' 
+ read a b c <<< 'one two three' 
 ```
 ora possiamo provare con: 
 
@@ -5916,6 +5906,8 @@ ora possiamo provare con:
  # questo stamperà il valore delle tre variabili e 
  # possiamo notare che a='one', b='two' e c='three'
 ```
+
+
 ### Cat, wc, split, diff e shuf
 
 
@@ -5948,8 +5940,7 @@ Il comando split è utilizzato per spezzare un file in più file:
  # creati 4 file
 ```
 ```sh
- # split -l $[ $(wc -l filename|cut -d" " -f1) * 70 / 100 ] 
-  filename 
+ split -l $[ $(wc -l filename|cut -d" " -f1) * 70 / 100 ] filename 
  # divide il file in base alle righe, in questo caso 
  # vengono prese solo il 70% delle righe, è da notare che non 
  # funziona per percentuali sotto il 50%, i file in output 
@@ -5961,9 +5952,8 @@ contesto, ma possiamo utilizzarlo anche per dividere il numero di
 righe in percentuali al di sotto del 50%.
 
 ```sh
- # csplit xonotic_commands $(( $(wc -l < xonotic_commands) * 2 / 
-  10 + 1)) 
- # ivide il file in base alle righe, in questo caso 
+ csplit xonotic_commands $(( $(wc -l < xonotic_commands) * 2 / 10 + 1)) 
+ # divide il file in base alle righe, in questo caso 
  # vengono prese solo il 70% delle righe, funziona ancheper 
  # percentuali sotto il 50%, nell'esempio viene preso il 20% del 
  # file e salvato in un file e il restante in un altro file, i 
@@ -5974,8 +5964,7 @@ più file:
 
 ```sh
  diff fileA fileB 
- # evidenzia le differenze tra il fileA e il 
- # fileB
+ # evidenzia le differenze tra il fileA e il fileB
 ```
 ```sh
  diff -u fileA fileB 
@@ -5991,8 +5980,9 @@ all'interno di file o csv e dobbiamo analizzarli:
  shuf nomeFile 
  # effettua permutazioni sulle righe del file
 ```
-### Pipes
 
+
+### Pipes
 
 Permettono di usare l'output di un comando come input per un 
 altro comando. Quello che viene preso è l'output inteso come 
@@ -6004,17 +5994,17 @@ contenuto del file relativo allo stdout. Ad esempio:
  # da ls e lo da in pasto a sort che lo ordina, il parametro -f 
  # indica di usare la modalità "case insensitive"
 ```
-### Tee
 
+
+### Tee
 
 Il comando "tee" permette di scrivere sia lo standard output 
 sullo schermo che all'interno di un file.
 
 Ad esempio:
-
 ```sh
- # "ls | tee newfile" it will write the list of files into the 
- # file newfile 
+ "ls | tee newfile" 
+ # it will write the list of files into the file newfile 
 ```
 Un altro esempio potrebbe essere
 
@@ -6028,8 +6018,8 @@ nel fatto che "tee" riesce a stampare in due posti
 contemporaneamente standard output + file, mentre un semplice 
 redirect scrive in un solo posto.
 
-### Cut
 
+### Cut
 
 Spesso accade di ritrovarsi a lavorare con file organizzati per 
 righe o colonne, in questi casi può essere utile utilizzare il 
@@ -6072,8 +6062,9 @@ informazioni da questo tipo di file, esempi di utilizzo, sono:
  # stampa solo i caratteri dal secondo in poi, 
  # elimino quindi il primo carattere
 ```
-### Regular Expressions (o RegEx)
 
+
+### Regular Expressions (o RegEx)
 
 In theoretical computer science and formal language theory, a 
 regular expression (sometimes called a rational expression)[1][2] 
@@ -6094,8 +6085,8 @@ Leggere le regular expression come "cercami il testo che matcha
 questo pattern". Vediamo alcuni costrutti di base per poi 
 arrivare ad esempi auto esplicativi.
 
-### Anchors
 
+### Anchors
 
 Queste sono le anchors:
 
