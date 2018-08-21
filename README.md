@@ -6751,7 +6751,7 @@ Esempi di utilizzo, possono essere:
  # vedere nulla sullo standard output
 ```
 ```sh
- # sed -e 's/\(.*\) \(.*\) \(.*\)/Victor \1 \2 Von \3/' myfile.txt 
+ sed -e 's/\(.*\) \(.*\) \(.*\)/Victor \1 \2 Von \3/' myfile.txt 
   
  # in questo caso definiamo delle regioni di interesse 
  # all'interno del file attraverso delle parentesi backslashate e 
@@ -6763,9 +6763,12 @@ Esempi di utilizzo, possono essere:
  # aggiungiamo all'inizio di ogni riga la stringa "ralph said: "
 ```
 ```sh
- sed -e '1,10s/enchantment/entrapment/g' myfile2.txt 
- # effettua 
- # la sostituzione solo tra la riga 1 e la riga 10
+ sed -e '1,10s/enchantment/entrapment/g' myfile.txt 
+ # effettua la sostituzione solo tra la riga 1 e la riga 10
+```
+```sh
+ sed -e 's/ /\n/g' myfile.txt 
+ # sostituisce tutte le occorrenze di spazi con nuove linee
 ```
 ```sh
  sed -n 5p nomeFile 
@@ -6786,12 +6789,13 @@ Esempi di utilizzo, possono essere:
  # elimina la riga 8 del file menzionato
 ```
 ```sh
- "sed '0,/parttime/s/parttime/promotion/' team 
+ sed '0,/parttime/s/parttime/promotion/' team 
  # sostituisce la 
- # zero-esima occorrenza della parola "parttime" con la parola "
- # promotion" and this means substitute "the zero-th occurrence of 
+ # zero-esima occorrenza della parola "parttime" con la parola "promotion" 
+ # and this means substitute "the zero-th occurrence of 
  # the word parttime with promotion in the file team.
 ```
+
 Per elaborazioni più complesse valgono anche le regular 
 expressions, ad esempio per rimuovere testo "html", possiamo 
 effettuare un:
@@ -6808,8 +6812,7 @@ Ad ogni modo una sostituzione globale di tutte le occorrenze di
 una parola con un'altra è possibile ad esempio attraverso:
 
 ```sh
- # sed 's/wordtochange/wantedword/g' myfile.txt > newfile.txt 
-  
+ sed 's/wordtochange/wantedword/g' myfile.txt > newfile.txt 
  # sostituisce tutte le occorrenze della parola wordtochange con 
  # la parola wantedword, questo avviene grazie all'utilizzo del 
  # flag "-g" che sta per "globally" (o globalmente), nel caso 
@@ -6830,12 +6833,12 @@ possiamo usare sed anche per rinominare tutti i file con spazi
 mettendo degli underscore, ad esempio con:
 
 ```sh
- # ls | while read file; do echo "$file"|sed -e '$/\ /_/g' ; done 
-  
+ ls | while read file; do echo "$file"|sed -e '$/\ /_/g' ; done 
  # sostituisce nei nomi dei file gli spazi con degli underscore
 ```
-### Sed Scripts
 
+
+### Sed Scripts
 
 Vediamo ora esempi di script sed, questi ci permettono una 
 flessibilità maggiore, vediamo ad esempio come effettuare 
