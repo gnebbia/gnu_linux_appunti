@@ -347,6 +347,22 @@ e possiamo utilizzarlo con:
  # visualizza la struttura ad albero della directory 
  # corrente
 ```
+### Il comando `cat`
+
+Per visualizzare uno o piu' file possiamo utilizzare il comando
+cat, vediamo alcuni esempi:
+
+```sh
+ cat nomefile.txt
+ # visualizza in modo concatenato i due file menzionati
+```
+
+```sh
+ cat nomefile1.txt nomefile2.txt
+ # visualizza in modo concatenato i due file menzionati
+```
+
+
 ### Il comando `cp`
 
 Cp è un comando molto versatile utilizzato per copiare 
@@ -555,6 +571,16 @@ applicazione è:
  # visualizza tutte le informazioni per il file "
  # nomeFile"
 ```
+
+```sh
+ stat -c '%A %a %n' /etc/timezone
+ # per avere i permessi di un file in formato ottale,
+ # questo e' molto utile soprattutto in fase di configurazione
+ # di sistema, in quanto col comando ls non e' possibile visualizzare
+ # i permessi in forma ottale
+```
+
+
 ### Il comando `su`
 
 Il comando su è utilizzato per cambiare utente (infatti su sta 
@@ -701,8 +727,7 @@ programmi.
  # in genere non conosciamo il nome del comando che ci serve, 
  # infatti attraverso il flag "-k" posso cercare per parole chiave 
  # (penso stia per "keyword"), ad esempio "man -k sort" mi 
- # cercherà tutti i programmi che hanno nel loro man la parola "
- # sort"
+ # cercherà tutti i programmi che hanno nel loro man la parola "sort"
 ```
 ```sh
  man -k file | search 
@@ -2059,6 +2084,13 @@ Su alcuni filesystem potrebbe non essere possibile effettuare il
 comando setfacl, questo è dovuto al fatto che deve essere 
 attivata un'opzione sul filesystem su cui vogliamo applicare i 
 permessi ACL. 
+
+```sh
+ getfacl -R /some/path > permissions.txt
+ setfacl --restore=permissions.txt
+ # questo e' utile per salvare i permessi di un file
+ # e poi ripristinarli in un secondo momento
+```
 
 Consultare le man page di getfacl e setfacl per ulteriori 
 informazioni molto ben dettagliate.
@@ -3958,6 +3990,40 @@ sloggare e riloggare oppure eseguire:
 ```sh
  source .bashrc
 ```
+
+### Shortcut per Bash e altre shell
+
+
+* `CTRL+A` # move to beginning of line
+* `CTRL+B` # moves backward one character
+* `CTRL+C` # halts the current command
+* `CTRL+D` # deletes one character backward or logs out of current session, it is similar to exit
+* `CTRL+E` # moves to end of line
+* `CTRL+F` # moves forward one character
+* `CTRL+G` # aborts the current editing command and ring the terminal bell
+* `CTRL+J` # same as RETURN
+* `CTRL+K` # deletes from the cursor to end of line
+* `CTRL+L` # clears screen 
+* `CTRL+M` # same as RETURN
+* `CTRL+N` # next line in command history
+* `CTRL+O` # same as RETURN, then displays next line in history file
+* `CTRL+P` # previous line in command history
+* `CTRL+R` # searches backward
+* `CTRL+S` # searches forward
+* `CTRL+T` # transposes two characters
+* `CTRL+U` # removes backward from cursor to the beginning of line
+* `CTRL+V` # makes the next character typed verbatim
+* `CTRL+W` # removes the word behind the cursor
+* `CTRL+X` # lists the possible filename completions of the current word
+* `CTRL+X CTRL+E` # opens the current line in a text editor
+* `CTRL+Y` # retrieves (yank) last item killed
+* `CTRL+Z` # stops the current command, resume with fg in the foreground or bg in the background
+* `ALT+. ` # cycles through previous arguments
+* `ALT+#`  # useful whenever we want to save the command in history, makes the current command a comment
+* `ALT+f`  # moves forward one word
+* `ALT+b`  # moves backward one word
+* `ALT+d`  # deletes a word
+
 ### Variabili d'ambiente
 
 
@@ -4322,7 +4388,7 @@ e l'hostname con carattere di separazione "@" tutto di colore "
 allora facciamo:
 
 ```sh
- # export PS1='\[\e[0;32m\]\u@\h\[\e[m\]\[\e[0;31m\]\w\[\e[m\]'
+ export PS1='\[\e[0;32m\]\u@\h\[\e[m\]\[\e[0;31m\]\w\[\e[m\]'
 ```
 Per una lista di tutti gli stili/colori disponibili, è 
 consigliato consultare [https:#wiki.archlinux.org/index.php/Color_Bash_Prompt||Guida ai Colori del Prompt di Shell]
@@ -4331,16 +4397,16 @@ consigliato consultare [https:#wiki.archlinux.org/index.php/Color_Bash_Prompt||G
 Vediamo un altro esempio:
 
 ```sh
- # PS1="$HC$FYEL[ $FBLE${debian_chroot:+($debian_chroot)}\u$FYEL: 
- # $FBLE\w $FYEL]\\$ $RS" PS2="$HC$FYEL&gt; $RS"
+  PS1="$HC$FYEL[ $FBLE${debian_chroot:+($debian_chroot)}\u$FYEL: 
+  $FBLE\w $FYEL]\\$ $RS" PS2="$HC$FYEL&gt; $RS"
 ```
 o ancora
 
 ```sh
- # PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\t \[$(tput setaf 
- # 2)\][\[$(tput setaf 3)\]\u\[$(tput setaf 1)\]@\[$(tput setaf 
- # 3)\]\h \[$(tput setaf 6)\]\W\[$(tput setaf 2)\]]\[$(tput setaf 
- # 4)\]\\$ \[$(tput sgr0)\]"
+  PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\t \[$(tput setaf 
+  2)\][\[$(tput setaf 3)\]\u\[$(tput setaf 1)\]@\[$(tput setaf 
+  3)\]\h \[$(tput setaf 6)\]\W\[$(tput setaf 2)\]]\[$(tput setaf 
+  4)\]\\$ \[$(tput sgr0)\]"
 ```
 online esistono diversi Bash PS1 generator per semplificare la 
 procedura di customizzazione.
@@ -4355,12 +4421,12 @@ set" viene utilizzato allo scopo di impostare le opzioni di
 shell. La sintassi del comando è:
 
 ```sh
- # set -o nome-opzione 
+ set -o nome-opzione 
 ```
 o in forma abbreviata:
 
 ```sh
- # set -opzione-abbreviata
+ set -opzione-abbreviata
 ```
 Per disabilitare un'opzione invece si usa la sintassi:
 
@@ -4557,9 +4623,7 @@ inserite all'interno del file .bashrc:
 # Set Proxy 
 
 function nomecomandopersonaleuno() {     
-
 	export {http,https,ftp}_proxy="http:#proxy-server:port" 
-
 }
 ```
 
@@ -4567,9 +4631,7 @@ function nomecomandopersonaleuno() {
 # Unset Proxy 
 
 function nomecomandopersonaledue() {     
-
-unset {http,https,ftp}_proxy 
-
+    unset {http,https,ftp}_proxy 
 }
 ```
 
@@ -4850,8 +4912,8 @@ come un file di testo, i più comuni editor di testo sono "vi" e "
 nano", anche se i standard "de facto" per i power users sono "vi" 
 ed "emacs".
 
-### Vi (Editor di Testo)
 
+### Vi (Editor di Testo)
 
 Vi è un editor di testo molto famoso, posso aprire un file di 
 testo con vi eseguendo:
@@ -4959,10 +5021,8 @@ importanti:
 ```
 
 * Per andare alla prossima ricorrenza schiaccio "n" 
-
 * Per andare alla precedente ricorrenza schiaccio "N" in realtà 
-    posso cercare indietro nel documento anche con "
-    ?parolaDaCercare"
+    posso cercare indietro nel documento anche con "?parolaDaCercare"
 
 ```sh
  # Possiamo effettuare sostituzione di testo, ad esempio per 
@@ -5184,10 +5244,10 @@ presente (o forse no) nella home directory, ad esempio col
 comando:
 
 ```sh
- # echo "syntax on" >> ~/.vimrc
+ echo "syntax on" >> ~/.vimrc
 ```
 ```sh
- # echo "set number" >> ~/.vimrc
+ echo "set number" >> ~/.vimrc
 ```
 ### Vim
 
@@ -5197,7 +5257,7 @@ grafiche se abbiamo l'opzione "+clipboard" attivata quando
 eseguiamo:
 
 ```sh
- # :version
+ :version
 ```
 se questa è presente possiamo copiare attraverso il comando (dopo 
 aver selezionato con la modalità visual):
@@ -5215,7 +5275,7 @@ possiamo anche incollare in modalità insert senza ritornare in "
 normal mode", eseguendo:
 
 ```sh
- # Ctrl+r e poi premendo il registro da cui vogliamo incollare
+ Ctrl+r e poi premendo il registro da cui vogliamo incollare
 ```
 se invece volessimo incollare del codice (ad esempio) preso da un 
 browser o da qualsiasi altra applicazione in xorg, allora a 
@@ -5228,7 +5288,7 @@ questo punto eseguiamo:
 per capire se una modalità è attiva o meno possiamo fare così:
 
 ```sh
- # :set paste?
+ :set paste?
 ```
 oppure:
 
@@ -5269,11 +5329,11 @@ stty -ixon
 
 P.S.: Per navigare i file è molto comodo il plugin "CtrlP"
 
+
 ### Richiamare programmi esterni su blocchi di righe
 
-
-Una volta selezionato un blocco di righe ad esempio con "Shift+V"
-, possiamo applicare comandi esterni come awk, sed o meglio 
+Una volta selezionato un blocco di righe ad esempio con "Shift+V",
+possiamo applicare comandi esterni come awk, sed o meglio 
 ancora perl, andando a modificare il testo, ad esempio una volta 
 selezionato il testo desiderato, possiamo premere ":", e ci verrà 
 mostrata una stringa coi caratteri `'<,'>`, a questo punto 
@@ -5298,8 +5358,8 @@ scritta da noi, possiamo (cercare :h tags, :h ctags, :h cscope,
 :h include-search :help include-search -> 
 http:#vimhelp.appspot.com/tagsrch.txt.html#include-search)
 
-### Editare file con sudo
 
+### Editare file con sudo
 
 Se dovessimo aprire un file senza i permessi necessari per 
 modificarlo con vim, possiamo apportare comunque le modifiche 
@@ -5783,18 +5843,17 @@ cioè il file "/dev/null", viene chiamato così in quanto qualsiasi
 cosa ci finisce viene cancellata; quindi con:
 
 ```sh
- # nomeComando 2> /dev/null
+ nomeComando 2> /dev/null
 ```
 Nel caso volessimo invece redirigere sia lo stdout che lo stderr 
 allora dovremmo utilizzare un comando come
 
 ```sh
- # cat file1 file2 > myfilestdout 2> myfilestderr 
-```
-```sh
+ cat file1 file2 > myfilestdout 2> myfilestderr 
  # il simbolo "2>&1" indica un redirezionamento dello stderr allo 
  # stdout file
 ```
+
 Ad esempio: 
 
 ```sh
@@ -5802,33 +5861,27 @@ Ad esempio:
  # mi fa l'append dello 
  # stderr al file dell'stdout, che in questo caso è mystdout
 ```
-Un'altra possibile opzione è:
 
-```sh
- # il simbolo "&>" che mi permette di redirigere 
- # contemporaneamente stderr e stdout nello stesso file
-```
+Un'altra possibile opzione è utilizzare `&>`
+il simbolo "&>" che mi permette di redirigere 
+contemporaneamente stderr e stdout nello stesso file
 ad esempio:
 
 ```sh
- # cmd &> output.txt
+ cmd &> output.txt
 ```
 vediamo un esempio di redirection dell'input:
 
 ```sh
  myprogram < filename 
- # prende come input il contenuto del file 
- # specificato
+ # prende come input il contenuto del file specificato
 ```
 E' anche possibile inserire i redirection prima del comando e ad 
 esempio eseguire:
 
-```sh
- # > fileOut myCommand arg1 arg2
-```
-```sh
- # < fileName tr -d 'C'
-```
+* `> fileOut myCommand arg1 arg2`
+* `< fileName tr -d 'C'`
+
 vediamo invece ora un esempio di heredoc, in pratica questa è una 
 modalità che ci permette di inserire una stringa multilinea fino 
 ad un delimitatore da noi specificato, This type of redirection 
@@ -5845,13 +5898,13 @@ EOF
 )
 ```
 
-
 or let's see how to pass this multiline to a file:
 
 ```sh
  cat <<EOF > print.sh
   #!/bin/bash echo \$PWD echo $PWD EOF
 ```
+
 or we can pass this multiline to a series of command:
 
 ```sh
@@ -5878,13 +5931,12 @@ prima della parola, ad esempio:
   one two three four five six END_TEXT
 ```
 
-
 vediamo ora un esempio di "here string", in pratica possiamo 
 specificare stringhe su più linee senza utilizzare una parola 
 specifica come delimitatore:
 
 ```sh
- tr a-z A-Z <<< ' one 
+ tr a-z A-Z <<< 'one 
   two 
  three'
 ```
@@ -5899,6 +5951,7 @@ contemporanemente più variabili:
 ```sh
  read a b c <<< 'one two three' 
 ```
+
 ora possiamo provare con: 
 
 ```sh
@@ -5909,7 +5962,6 @@ ora possiamo provare con:
 
 
 ### Cat, wc, split, diff e shuf
-
 
 Il comando cat può essere utilizzato per visualizzare piccoli 
 file o concatenare più file. Alcuni esempi di applicazione 
@@ -5972,6 +6024,16 @@ più file:
  # unified, quello utilizzato da git e altri software di 
  # versioning
 ```
+Il comando diff non puo' essere utilizzato per file binari,
+per avere una funzionalita' analoga per file binari possiamo
+utilizzare `xdelta3`.
+
+The standard tools for patching source code are diff and patch. 
+See also diffstat for summary statistics of a diff and sdiff for 
+a side-by-side diff. Note diff -r works for entire directories. 
+Use diff -r tree1 tree2 | diffstat for a summary of changes.
+Use vimdiff to compare and edit files.
+
 Il comando shuf è utilizzato per randomizzare le righe di un 
 file, questo può essere utile quando lavoriamo con dati 
 all'interno di file o csv e dobbiamo analizzarli:
@@ -7789,6 +7851,13 @@ applicativo:
  # tutti i file che hanno la parola "test" all'interno del loro 
  # nome
 ```
+
+E' importante ricordare che esiste su diversi sistemi operativi
+il limite dei 128K con messaggio di error "Agument list too long",
+questo errore e' comune quando con delle wildcards matchano un 
+grosso numero di file, quando questo accade dobbiamo
+utilizzare xargs e find.
+
 #### Sort
 
 Sort è un programma utilizzato per riordinare i risultati sullo 
@@ -7821,6 +7890,21 @@ standard output
  # separatore il carattere "," attraverso il flag "-t" e il 
  # riordinamento avviene in funzione della colonna 1 e della 
  # colonna 3 sul file chiamato "test.txt"
+```
+
+La maggior parte delle volte vogliamo avere solo le linee uniche
+per fare questo possiamo utilizzare:
+
+```sh
+ sort -u test.txt
+ # visualizza il file escludendo le linee ripetute
+```
+
+Vediamo altri esempi di utilizzo di sort:
+```sh
+ sort a b | uniq > c   # c is a union b
+ sort a b | uniq -d > c   # c is a intersect b
+ sort a b b | uniq -u > c   # c is set difference a - b
 ```
 
 
@@ -7927,8 +8011,7 @@ ridondanti, utilizziamo il comando "uniq", ad esempio:
 
 ```sh
  cat file.txt | sort | uniq -u 
- # oppure possiamo utilizzare "
- # sort -u"
+ # oppure possiamo utilizzare "sort -u"
 ```
 
 #### Fmt
@@ -8071,6 +8154,14 @@ directory su (o da) server remoti, ad esempio:
  rsync -av gng@andromeda:/home/gng/mySourceFolder /home/marco/BackupServer/
 ```
 
+### Visualizzare file compressi
+
+Per poter visualizzare file di testo compressi possiamo utilizzare
+le utility: zcat, zless, zmore e zgrep.
+
+### File Binari
+
+For binary files, use hd, hexdump or xxd for simple hex dumps and bvi, hexedit or biew for binary editing.
 
 ## Processi
 
@@ -9683,14 +9774,13 @@ Vediamo alcune opzioni famose da lanciare con il kernel:
  panic= 
  # definisce il comportamento da assumere quando avviene 
  # un kernel panic, le opzioni sono:
+ # * 0: (opzione di default) non succede nulla, al video rimane 
+ #    mostrato il kernel panic
+ # * 7: (o qualsiasi altro numero positivo) aspetta 7 secondi 
+ #    prima di riavviarsi
+ # * -5: (o qualsiasi altro numero negativo) si riavvia 
+ #    immediatamente
 ```
-
-* 0: (opzione di default) non succede nulla, al video rimane 
-    mostrato il kernel panic
-* 7: (o qualsiasi altro numero positivo) aspetta 7 secondi 
-    prima di riavviarsi
-* -5: (o qualsiasi altro numero negativo) si riavvia 
-    immediatamente
 
 ```sh
  rootdelay= 
@@ -9710,10 +9800,10 @@ Vediamo alcune opzioni famose da lanciare con il kernel:
 ```
 
 ```sh 
-dmesg | grep -iA5 "calibrating"
-# una volta visto il valore 
-# qui, possiamo andarlo ad impostare nell'opzione in modo da 
-# risparmiare tempo
+ dmesg | grep -iA5 "calibrating"
+ # una volta visto il valore 
+ # qui, possiamo andarlo ad impostare nell'opzione in modo da 
+ # risparmiare tempo
 ```
 
 N.B.(Jiffies): The x86 family processors send an interrupt every 
@@ -14608,8 +14698,8 @@ la sua normale procedura.
 
 ### Informazioni sul DNS e Traceroute
 
-#### Traceroute
 
+#### Traceroute
 
 Per poter visualizzare i vari host attraversati per arrivare ad 
 un certo percorso di rete, possiamo utilizzare traceroute:
@@ -14769,7 +14859,7 @@ Nel caso non avessimo i permessi di root, possiamo eseguire:
  # esegue un traceroute più semplice 
  # senza permessi di root
 ```
-
+un'altra alternativa piu' completa di traceroute e' `mtr`.
 
 #### DNS
 
@@ -16114,7 +16204,7 @@ rete (legati ad esempio alla congestione della rete). Possiamo
 installare wireshark attraverso:
 
 ```sh
- # sudo apt-get install wireshark
+ sudo apt-get install wireshark
 ```
 Una volta installato, abbiamo bisogno di impostare l'interfaccia 
 di rete utilizzata in modalità "promiscua", questo ci permetterà 
@@ -16146,10 +16236,9 @@ di wireshark.
 Un display filter utile per fare detection di arp poisoning è:
 
 ```sh
- # arp.duplicate-address-detected
+ arp.duplicate-address-detected
 ```
 ### Tcpdump
-
 
 Tcpdump costituisce un'ottima alternativa a wireshark, molto più 
 frequente tra chi si occupa di sicurezza informatica, essendo un 
@@ -16230,7 +16319,7 @@ del comando:
  # pacchetti "-X" ma cattura solo 10 pacchetti grazie al flag "-c"
 ```
 ```sh
- # tcpdump -i wlan0 -vvv -tttt -nn -e -X -w capture_file.pcap 
+ tcpdump -i wlan0 -vvv -tttt -nn -e -X -w capture_file.pcap 
   
  # esegue una scansione, salvando anche informazioni su header 
  # ethernet "-e" e sul contenuto "-X" in un file ".pcap" grazie al 
@@ -16360,6 +16449,12 @@ sospettosa e probabilmente ci troviamo in una situazione di ARP
 cache poisoning. In genere se questo comportamento è associato 
 all'indirizzo di un gateway allora MOLTO probabilmente siamo in 
 una situazione di ARP cache poisoning.
+
+Altri tool per monitorare il traffico di rete in stile top o htop,
+sono:
+* iftop 
+* nethogs 
+
 
 ### Eseguire tcpdump e tante altre utility senza permessi di root
 
@@ -16968,7 +17063,6 @@ possiamo aprire un calendario con:
 
 ### Localtime
 
-
 Il localtime è localizzato in "/etc/localtime", questo 
 costituisce un link o una copia di un file in un'altra directory, 
 in quest'altra directory troviamo la lista dei vari timezone che 
@@ -17013,21 +17107,16 @@ Vediamo altri comandi utili:
 E' da notare che la directory "/usr/share/zoneinfo" è molto 
 importante, ha diverse funzioni:
 
-```sh
- # a directory and text based "database" of all available known 
- # timezones throughout the world ◦
-```
-```sh
- # used by a large number of applications and local system 
- # utilities to get information about timezones, times in other 
- # zones, zone information in large zone settings, etc ◦
-```
-```sh
- # used by localtime to provide information as part of its call 
- # back response to system time calls
-```
-### Timezone
+* a directory and text based "database" of all available known 
+  timezones throughout the world ◦
+* used by a large number of applications and local system 
+  utilities to get information about timezones, times in other 
+  zones, zone information in large zone settings, etc ◦
+* used by localtime to provide information as part of its call 
+  back response to system time calls
 
+
+### Timezone
 
 Il timezone invece identifica la nostra posizione nel mondo e 
 quindi le ore di differenza rispetto all'orario universale, 
@@ -17082,8 +17171,9 @@ Nei sistemi Debian based possiamo invece effettuare:
  # viene indicato dalla procedura tzselect, questo caso, il 
  # timezone è applicato all'intero sistema
 ```
-### Lingua dei pacchetti e locale
 
+
+### Lingua dei pacchetti e locale
 
 Il sistema "Locale" costituisce un sottoinsieme dell'ambiente 
 dell'utente che definisce la lingua dell'utente, la sua nazione e 
@@ -17097,58 +17187,33 @@ formattate mentre "LC_NUMERIC" può essere usato per cambiare il
 separatore decimale (punto o virgola).Vediamo ora una lista delle 
 variabili del sistema "Locale":
 
-```sh
- # LC_CTYPE Character classification and case conversion. Also 
- # indicates the language which should be used with XIM.
-```
-```sh
- # LC_NUMERIC Non-monetary numeric formats. 
-```
-```sh
- # LC_TIME Date and time formats. 
-```
-```sh
- # LC_COLLATE Collation order used for comparing and sorting. 
-```
-```sh
- # LC_MONETARY Monetary formats. 
-```
-```sh
- # LC_MESSAGES Formats of informative and diagnostic messages and 
- # interactive responses (also for graphical user interfaces). 
-```
-```sh
- # LC_PAPER Paper format. 
-```
-```sh
- # LC_NAME 
-```
-```sh
- # LC_ADDRESS 
-```
-```sh
- # LC_TELEPHONE 
-```
-```sh
- # LC_MEASUREMENT 
-```
-```sh
- # LC_IDENTIFICATION 
-```
+* `LC_CTYPE` Character classification and case conversion. Also 
+  indicates the language which should be used with XIM.
+* `LC_NUMERIC` Non-monetary numeric formats. 
+* `LC_TIME` Date and time formats. 
+* `LC_COLLATE` Collation order used for comparing and sorting. 
+* `LC_MONETARY` Monetary formats. 
+* `LC_MESSAGES` Formats of informative and diagnostic messages and 
+  interactive responses (also for graphical user interfaces). 
+* `LC_PAPER` Paper format. 
+* `LC_NAME` 
+* `LC_ADDRESS`
+* `LC_TELEPHONE`
+* `LC_MEASUREMENT`
+* `LC_IDENTIFICATION`
+
 Esistono inoltre altre due variabili che modificano il valore di 
 molte delle variabili che abbiamo elencato:
 
-```sh
- # LANG: Its value is used to set the value of all LC_* variables 
- # which are not explicitely set (those already set are not 
- # changed). Also, any LC_* variable can be modified after setting 
- # LANG. 
-```
-```sh
- # LC_ALL: Il suo valore sovrascriverà quello di tutte le 
- # variabili LC_* (ma non di LANG). Dopo aver impostato LC_ALL, 
- # tutte le modifiche a qualsiasi variabile LC_* non è permessa.
-```
+* `LANG`: Its value is used to set the value of all LC_* variables 
+  which are not explicitely set (those already set are not 
+  changed). Also, any LC_* variable can be modified after setting 
+  LANG. 
+
+* `LC_ALL`: Il suo valore sovrascriverà quello di tutte le 
+  variabili LC_* (ma non di LANG). Dopo aver impostato LC_ALL, 
+  tutte le modifiche a qualsiasi variabile LC_* non è permessa.
+
 In generale, è raccomandato lasciare LC_ALL non settata, e 
 settare invece la variabile LANG, e poi cambiare manualmente nel 
 caso fosse necessario le altre variabili LC_. Per visualizzare le 
@@ -18859,6 +18924,14 @@ dovremo avere una configurazione del tipo:
 la configurazione è identica per siti web hostati sullo stesso 
 webserver, ricordiamo che i virtual host sono supportati dalla 
 versione 1.1 dell'HTTP.
+
+### Debugging di Apache
+
+E' possibile effettuare benchmark e debugging attraverso il
+programma `ab`.
+E' possibile effettuare debugging in modo piu' avanzato utilizzando
+il programma `siege`.
+
 
 
 ## NFS
@@ -23194,7 +23267,7 @@ ha diversi binding per vari linguaggi di programmazione.
 * audio (utile pavucontrol)
 * sysctl (used mostly on bsd systems, even for laptop features 
 * such as lid closing/opening events)
-* strace, ftrace, ltrace
+* strace, ftrace, ltrace, stap, perf, sysdig
 * bash scripting
 * tun/tap
 * setterm 
@@ -23210,6 +23283,18 @@ ha diversi binding per vari linguaggi di programmazione.
 * imagemagick, convert or compare:
 * compare image1.jpg image2.jpg #gives us the difference 
     between images
+
+* rename files
+```sh
+# Full rename of filenames, directories, and contents foo -> bar:
+repren --full --preserve-case --from foo --to bar .
+# Recover backup files whatever.bak -> whatever:
+repren --renames --from '(.*)\.bak' --to '\1' *.bak
+# Same as above, using rename, if available:
+rename 's/\.bak$//' *.bak
+# be careful with rename, its function changes from distribution
+# to distribution
+```
 
 ## Miscellaneous
 
