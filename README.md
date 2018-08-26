@@ -347,14 +347,23 @@ e possiamo utilizzarlo con:
  # visualizza la struttura ad albero della directory 
  # corrente
 ```
-### Il comando `cat`
+### I comandi `cat` e `tac`
 
 Per visualizzare uno o piu' file possiamo utilizzare il comando
 cat, vediamo alcuni esempi:
 
 ```sh
+ cat file1.txt file2.txt file3.txt > result.txt
+ # stampa i tre file menzionati e
+ # salva il risultato in result.txt
+```
+
+```sh
  cat nomefile.txt
  # visualizza in modo concatenato i due file menzionati
+ # anche se l'utilizzo per visualizzare a schermo il contenuto
+ # e' comunemente accettato, in genere viene preferito un pager
+ # come less
 ```
 
 ```sh
@@ -362,6 +371,69 @@ cat, vediamo alcuni esempi:
  # visualizza in modo concatenato i due file menzionati
 ```
 
+Il comando cat molte volte viene abusato, infatti si vedono
+spesso in giro casi di:
+```sh
+ cat file.txt | grep 'ciao'
+ # DA EVITARE
+```
+al posto di:
+
+```sh
+grep 'ciao' file.txt
+```
+oppure 
+```sh
+ cat file.txt | command arg1 arg2 arg3
+ # DA EVITARE
+```
+al posto di:
+
+```sh
+command arg1 arg2 arg3 < file.txt
+```
+
+Vediamo altri esempi di utilizzo di cat:
+
+```sh
+ cat >test2
+ # permette di creare un file con quello che inseriamo
+ # a tastiera (quindi dallo standard input)
+ # possiamo concludere premendo ctrl+d
+```
+```sh
+ cat -n test.txt
+ # visualizza l'output con le linee numerate
+```
+
+```sh
+ cat -e test.txt
+ # visualizza il simbolo $ per indicare un fine riga
+ # questo e' utile per visualizzare trailing space
+ # ad esempio
+```
+```sh
+ cat -T test.txt
+ # visualizza il simbolo ^I per indicare un carattere TAB
+```
+
+```sh
+ cat -v test.txt
+ # visualizza a schermo anche caratteri non printable
+```
+
+Un'altro comando utile, quando vogliamo
+ottenere un file con le linee capovolte,
+cioe' l'ultima sara' la prima e la prima l'ultima
+e' `tac`.
+Questo comando e' identico cat in quanto utilizzo,
+quindi:
+
+```sh
+ tac file1.txt file2.txt file3.txt > result.txt
+ # stampa al contrario i tre file menzionati e
+ # salva il risultato in result.txt
+```
 
 ### Il comando `cp`
 
