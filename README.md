@@ -6219,6 +6219,47 @@ Leggere le regular expression come "cercami il testo che matcha
 questo pattern". Vediamo alcuni costrutti di base per poi 
 arrivare ad esempi auto esplicativi.
 
+Innanzitutto e' importante distinguere tra due tipologie principali
+di sintassi utilizzate da programmi *NIX come sed, grep, awk, perl eccetera:
+* POSIX Basic Regular Expression (BRE)
+* POSIX Extended Regular Expression (ERE)
+* Perl Compatible Regular Expression (PCRE)
+
+La sintassi PCRE e' simile ad ERE ma ha delle feature aggiuntive
+come lookaround, lookaheads e qualche shortcut, ad esempio
+l'utilizzo di `\w` per indicare una parola eccetera.
+
+Quello che cambia nella sintassi e' che nelle regex
+basic i seguenti caratteri:
+* `{}`
+* `()`
+* `+`
+* `|`
+* `?`
+
+devono essere escapati (e.g., \(something\)) per poter assumere la
+loro funzionalita' come da regex.
+Mentre nella versione extended se si escapano assumono solo un significato
+di semplice carattere. Quindi in un programma che utilizza le regex 
+nella versione 'extended' la sequenza `\(` assume il significato
+del semplice carattere `(`.
+
+Questo e' molto importante, in quanto quando usiamo uno strumento e'
+utile capire quale sintassi per regex utilizza. In base a quella
+di conseguenza costruire le nostre regex.
+
+Per fare qualche esempio:
+* grep, di default usa la sintassi *basic*, a meno che non venga specializzato il flag `-E`
+* egrep, usa la sintassi *extended*
+* vim, usa la sintassi *basic*, di default ma usando \v in una ricerca o
+    sostituzione passa alla versione extended, in realta' e' un po' piu'
+    complicato di cosi' in quanto vim ha 4 modalita', consultare :help magic per
+    dettagli
+* sed, di default usa la sintassi *basic*, ma specificando `-r` o `-E` utilizza la versione *extended*
+* awk, di default usa una sintassi che e' un superset della versione *extended*
+* bash, di default usa la versione *extended*
+* perl, utilizza simile a quella *extended* ma con feature aggiuntive chiamata *pcre*
+
 
 ### Anchors
 
