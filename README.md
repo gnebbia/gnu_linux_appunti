@@ -6579,8 +6579,9 @@ the second word in a sentence, but we'll ignore that for now.)
  # stringa che inizia per "b", finisce per "t" e contiene solo un 
  # carattere nel mezzo che può essere o "a" o "l" o "u"
 ```
-### Grep, Egrep ed Fgrep
 
+
+### Grep, Egrep ed Fgrep
 
 Grep è un programma utilizzato generalmente per ricercare testo o 
 pattern specifici, per utilizzare le regular expressions, 
@@ -6776,7 +6777,6 @@ così come scritta senza interpretare caratteri come ".", "|", "$"
 ```
 ### Sed
 
-
 Sed è una utility sui sistemi GNU/Linux utilizzata per effettuare 
 elaborazioni su file di testo, questa utility fa uso di un 
 linguaggio di programmazione compatto per effettuare le proprie 
@@ -6800,28 +6800,32 @@ luogo, le tre più comunemente usate. Esse sono:
 * `p`->print (visualizza allo stdout), 
 * `d`->delete (cancella)
 * `s`->substitute (sostituisce)
+* `=`->print number line (stampa il numero di riga)
+* `y`->translate (opera in modo simile a `tr` effettua sostituzione di caratteri)
+* `N`-> go to next line (va alla riga successiva, molto utile negli script) 
 
 Esempi di utilizzo, possono essere:
 
 ```sh
- sed -e '1d' /etc/services | more 
+ sed -e '1d' /etc/services | less 
  # elimina la prima riga, il "-e" indica di eseguire un comando, 
- # anche se nel caso venisse usato un solo comando possiamo ometterlo
+ # anche se nel caso abbiamo intenzione di usare un solo comando 
+ # anche possiamo ometterlo
 ```
 ```sh
- sed -e '1,10d' /etc/services | more 
+ sed -e '1,10d' /etc/services | less 
  # elimina le righe dalla 1 
  # alla 10 nel file menzionato
 ```
 ```sh
- sed -e '1,10p' nomeFile | more 
+ sed -e '1,10p' nomeFile | less 
  # in questo caso vengono 
  # stampate le righe dalla 1 alla 10, quindi dall'inizio del file
  # fino alla decima riga, le righe ogni volta che vengono
  # incontrate vengono ristampate
 ```
 ```sh
- sed -n -e '1,10p' nomeFile | more 
+ sed -n -e '1,10p' nomeFile | less 
  # in questo caso vengono 
  # stampate tutte le righe dalla 1 alla 10, 
  # usiamo il flag "-n" indica di non ristampare le righe per evitare
@@ -6832,7 +6836,7 @@ Esempi di utilizzo, possono essere:
  # stampa solo la terza riga del file
 ```
 ```sh
- sed -n -e '/BEGIN/,/END/p' /my/test/file | more 
+ sed -n -e '/BEGIN/,/END/p' /my/test/file | less 
  # stampa il 
  # file dalla riga che contiene "BEGIN" fino alla riga che 
  # contiene "END"
@@ -6853,8 +6857,8 @@ Esempi di utilizzo, possono essere:
 ```
 ```sh
  sed 's/male/malissimo/g' mioFile 
- # stampa a schermo (cioè 
- # standard output) il file "mioFile" con la parola malissimo al 
+ # stampa a schermo (cioè standard output) il file 
+ # "mioFile" con la parola malissimo al 
  # posto della parola male vengono effettuate tutte le 
  # sostituzioni possibili nota che le sostituzioni non vanno a 
  # sovrascrivere il file, e non viene salvato nemmeno un nuovo 
@@ -6886,7 +6890,6 @@ Esempi di utilizzo, possono essere:
 ```
 ```sh
  sed -e 's/\(.*\) \(.*\) \(.*\)/Victor \1 \2 Von \3/' myfile.txt 
-  
  # in questo caso definiamo delle regioni di interesse 
  # all'interno del file attraverso delle parentesi backslashate e 
  # ci riferiamo a queste regioni con dei numeri backslashati
@@ -6905,7 +6908,7 @@ Esempi di utilizzo, possono essere:
  # sostituisce tutte le occorrenze di spazi con nuove linee
 ```
 ```sh
- sed -n 5p nomeFile 
+ sed -n '5p' nomeFile 
  # stampa la riga 5 del file menzionato
 ```
 ```sh
@@ -6929,6 +6932,21 @@ Esempi di utilizzo, possono essere:
  # and this means substitute "the zero-th occurrence of 
  # the word parttime with promotion in the file team.
 ```
+
+```sh
+ sed '/0x[0-9a-zA-Z]*/ y/abcdef/ABCDEF' file
+ # sostituisce ogni occorrenza di un numero esadecimale
+ # scritto in minuscolo con un numero esadecimale
+ # scritto in maiuscolo
+```
+
+```sh
+ sed -n '/PATTERN/ =' file
+ # stampa il numero di riga attraverso il comando '='
+ # quando viene matchato il pattern menzionato
+```
+
+
 
 Per elaborazioni più complesse valgono anche le regular 
 expressions, ad esempio per rimuovere testo "html", possiamo 
@@ -6963,6 +6981,29 @@ un'istruzione tipo:
  # definito dalla serie di comandi in mycommands.sed sul file 
  # menzionato "myfile.txt"
 ```
+
+Esistono anche negazioni dei comandi p, d, attraverso la notazione
+!p e !d.
+Ad esempio:
+
+```sh
+ sed -n '1,10 p' file
+ # prints from line 1 to 10
+ sed -n '11,$ !p' file
+ # does not print from line 11 to end of file
+ sed '1,10 !d'  file 
+ # does not delete from line 1 to line 10
+ sed '11,$ d' file
+ # deletes from line 11 to end of file
+```
+
+Un altro comando e' `q` che sta per quit, e puo' essere utilizzato
+in modo simile a head, come:
+```sh
+ sed -ne '11 q' file
+ # prints the first 10 lines, since it quits on 11
+```
+
 possiamo usare sed anche per rinominare tutti i file con spazi 
 mettendo degli underscore, ad esempio con:
 
@@ -7006,27 +7047,82 @@ riga 1 e la riga che inizia per "END" oppure se questa non si
 trova, le modifiche vanno fino a fine file, notare il comando p 
 alla fine che stampa le righe.
 
-  Append, Insert and Change
+Vediamo un altro esempio che stampa tutto il contenuto di un file
+tra BEGIN ed END, senza stampare le stringhe BEGIN ed END:
+
+```sh
+ sed -ne '/BEGIN/,/END/{/BEGIN/ b; /END/ b; p}' file.txt 
+ # prende il testo tra BEGIN ed END,
+ # poi inizia uno script in oneline, utilizzando i punti e virgola
+ # comme terminatori di istruzione
+ # poi salta la linea con BEGIN e quella con END e poi stampa
+ # tutte le altre righe
+```
+
+
+```sed
+/skip3/ {
+           N
+           N
+           s/skip3\n.*\n.*/# 3 lines deleted/
+}
+# se viene matchata la stringa 'skip3'
+# vengono saltate due linee e viene effettuata la sostituzione
+```
+
+```sed
+/ONE/ {
+    N
+    /TWO/{
+    i\
+    inserted a text
+    }
+}
+# in questo case se viene matchata la stringa 'ONE' su una riga
+# e la lina successiva e' TWO, allora viene inserito del testo
+# prima del blocco di linee ONE TWO con scritto 'inserted a text'
+# ovviamente possiamo inserire testo in append con a\
+```
+
+
+### Append, Insert and Change in Sed
 
 Ora che scriviamo script possiamo utilizzare ulteriori features 
 di sed. Possiamo aggiungere una riga prima di ogni altra riga del 
 file (o quelle specificate dall'address)attraverso:
-
+```sed
 i\ 
-
 This line will be inserted before each line
+```
 
 Possiamo oppure mettere in append determinate stringhe con:
-
+```sed
 a\ 
-
 insert this line after each line.  Thanks! :)
+```
 
 Oppure possiamo cambiare completamente le linee con:
 
+```sed
 c\ 
-
 You're history, original line! Muhahaha!
+```
+
+Let's see a simple script:
+
+```sh
+#!/bin/sh
+sed '
+/WORD/ {
+i\
+Add this line before
+a\
+Add this line after
+c\
+Change the line to this one
+}'
+
+```
 
 Let's see a more complex script:
 
@@ -7052,12 +7148,10 @@ s/[[:cntrl:]]#g
 }
 ```
 
-### Common Sed Commands Vademecum
 
+### Other Sed Examples
 
-## sed
-
-> Run replacements based on regular expressions.
+Run replacements based on regular expressions.
 
 - Replace the first occurrence of a string in a file, and print 
 the result:
@@ -7076,27 +7170,26 @@ sed -r 's/{{regex}}/{{replace}}/g' {{filename}}
 - Replace all occurrences of a string in a file, overwriting the 
 file (i.e. in-place):
 
-```sed
+```sh
 sed -i 's/{{find}}/{{replace}}/g' {{filename}}
 ```
 
 - Replace only on lines matching the line pattern:
 
-```sed
+```sh
 sed '/{{line_pattern}}/s/{{find}}/{{replace}}/' {{filename}}
 ```
 
 - Apply multiple find-replace expressions to a file:
 
-```sed
-sed -e 's/{{find}}/{{replace}}/' -e 's/{{find}}/{{replace}}/' 
-{{filename}}
+```sh
+sed -e 's/{{find}}/{{replace}}/' -e 's/{{find}}/{{replace}}/' {{filename}}
 ```
 
 - Replace separator / by any other character not used in the find 
 or replace patterns, e.g., #:
 
-```sed
+```sh
 sed 's#{{find}}#{{replace}}#' {{filename}}
 ```
 
@@ -7110,9 +7203,8 @@ sed 's#{{find}}#{{replace}}#' {{filename}}
 ```
 ```sh
  awk -F "#" '{print $1 $NF}' 
- # le colonne vengono divise dal 
-  separatore "
- # " e viene stampata la prima colonna, e l'ultima 
+ # le colonne vengono divise dal separatore "#" 
+ # e viene stampata la prima colonna, e l'ultima 
  # colonna
 ```
 ```sh
@@ -7142,10 +7234,12 @@ sed 's#{{find}}#{{replace}}#' {{filename}}
  # stampa il tezo campo della quinta 
  # riga
 ```
+
+
 ## Gestione dei File su GNU/Linux
 
-### Tipologie di File
 
+### Tipologie di File
 
 Nei sistemi GNU/Linux esistono diverse tipologie di file, uno 
 schema può essere visionato nella tabella sottostante:
