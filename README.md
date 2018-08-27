@@ -8063,7 +8063,22 @@ E' importante ricordare che esiste su diversi sistemi operativi
 il limite dei 128K con messaggio di error "Agument list too long",
 questo errore e' comune quando con delle wildcards matchano un 
 grosso numero di file, quando questo accade dobbiamo
-utilizzare xargs e find.
+utilizzare xargs e find o printf.
+
+Esempio:
+
+```sh
+printf '%s\0' finalplain* | xargs -0 rm
+```
+
+Un altro esempio:
+
+```sh
+printf '%s\0' /usr/include/sys/*.h | \
+xargs -0 grep foo /dev/null
+```
+
+
 
 #### Sort
 
@@ -9486,6 +9501,13 @@ directory "/var/log" contiene i log di sistema.
  # tempo reale, ogni 3 secondi, utilizzato ad esempio con "
  # /proc/net/wireless" per monitorare la qualità del segnale wifi
 ```
+
+```sh
+ head -n 1000 inputfile > output1
+ tail -n +1001 inputfile > output2
+ # questo splitta un file
+```
+
 
 Un file per vedere i login è "/var/log/secure" sulle RedHat based 
 mentre sulle Debian based è "var/log/auth.log". Per vedere i 
@@ -13391,8 +13413,10 @@ used to manage monitor configurations, let's see some examples:
  # imposta la risoluzione 
  # indicata per il monitor indicato
 ```
-the structure of the xrandr command is usually "xrandr --output 
-<monitorInterface> --option1 <value> --option2 <value> ... ...".
+the structure of the xrandr command is usually 
+```sh
+xrandr --output <monitorInterface> --option1 <value> --option2 <value> ... ..."
+```
 
 Let's see other examples:
 
@@ -13458,6 +13482,52 @@ esistono due schede video, una integrata ed un'altra esterna, in
 questo caso, dobbiamo assicurarci di aver installato bumblebee o 
 che comunque entrambe le schede video funzionino correttamente e 
 che i driver vengano caricati senza errori.
+
+
+#### Impostare una risoluzione personalizzata
+
+Per poter creare una risoluzione personalizzata, ad esempio
+se non compare all'interno della lista di quelle rilevate 
+(anche se solitamente non e' proprio una buona idea) possiamo
+provare a forzarla.
+
+Ad esempio se volessimo forzare la modalita' 1680x1050 @ 60 Hz
+prima dobbiamo generare la linee di configurazione per questa
+modalita' e possiamo farlo attraverso:
+
+```sh
+ cvt 1680 1050 60
+ # genera la configurazione per la risoluzione 1680x1050 a 60 Hz
+```
+
+Questo fornira' un output del tipo:
+```text
+1680x1050 59.95 Hz (CVT 1.76MA) hsync: 65.29 kHz; pclk: 146.25 MHz
+Modeline "1680x1050_60.00"  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync
+```
+
+Ora possiamo utilizzare questo output per segnalare a xrandr
+la nuova modalita' con:
+
+```sh
+ xrandr --newmode "1680x1050_60.00"  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync
+ # crea la nuova modalita' per xrandr
+```
+
+a questo punto non ci basta che settarla con:
+```sh
+xrandr --addmode VGA-0 1680x1050_60.00
+```
+
+
+The changes are lost after reboot, to set up the resolution persistently, 
+create the file `~/.xprofile` with the content:
+
+```sh
+#!/bin/sh
+xrandr --newmode "1680x1050_60.00"  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync
+xrandr --addmode VGA-0 1680x1050_60.00
+```
 
 
 ### DPMS
@@ -23155,7 +23225,7 @@ prima di lanciargli comandi, ad esempio:
 google-chrome & xdotool search --sync --onlyvisible --class "google-chrome"x-terminal-emulator
 ```
 
-### Snippet di Codice Utili
+### Snippet di Codice Utili con xdotool
 
 ```sh
 # === Check per super-user (i.e., sei root ?) ===
@@ -23167,6 +23237,16 @@ else
 	echo "Root user"
 fi
 ```
+### Fare screenshot da terminale
+
+```sh
+ import namefile.jpg
+ # ci permette di selezionare un'area rettangolare
+ # in questo caso salviamo un file jpeg
+ # cambiando il nome del file in namefile.png
+ # il file in output sara' del formato png
+```
+
 
 ## Linux per Applicazioni Embedded
 
@@ -23501,6 +23581,23 @@ repren --renames --from '(.*)\.bak' --to '\1' *.bak
 rename 's/\.bak$//' *.bak
 # be careful with rename, its function changes from distribution
 # to distribution
+```
+
+* nginx configuration e.g., this is useful:
+
+nginx to act as a deployment proxy for random wsgi or other web server:
+```nginx
+server {
+  listen 80;
+  server_name example.org;
+  access_log  /var/log/nginx/example.log;
+
+  location / {
+      proxy_pass http://127.0.0.1:8000;
+      proxy_set_header Host $host;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+}
 ```
 
 ## Miscellaneous
