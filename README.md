@@ -6223,7 +6223,11 @@ Innanzitutto e' importante distinguere tra due tipologie principali
 di sintassi utilizzate da programmi *NIX come sed, grep, awk, perl eccetera:
 * POSIX Basic Regular Expression (BRE)
 * POSIX Extended Regular Expression (ERE)
+* Emacs/Elisp Regular Expressions (EMACS)
+* Vim Regular Expressions (VIM)
 * Perl Compatible Regular Expression (PCRE)
+* Perl 6 Regular Expression (PSIX)
+
 
 La sintassi PCRE e' simile ad ERE ma ha delle feature aggiuntive
 come lookaround, lookaheads e qualche shortcut, ad esempio
@@ -6251,14 +6255,16 @@ di conseguenza costruire le nostre regex.
 Per fare qualche esempio:
 * grep, di default usa la sintassi *basic*, a meno che non venga specializzato il flag `-E`
 * egrep, usa la sintassi *extended*
-* vim, usa la sintassi *basic*, di default ma usando \v in una ricerca o
-    sostituzione passa alla versione extended, in realta' e' un po' piu'
-    complicato di cosi' in quanto vim ha 4 modalita', consultare :help magic per
-    dettagli
+* vim, usa la sintassi *vim* che assomiglia alla *basic*, di default ma 
+  usando \v in una ricerca o sostituzione passa alla versione extended, 
+  in realta' e' un po' piu' complicato di cosi' in quanto vim ha 4 modalita',
+  consultare :help magic per dettagli, a volte si parla di vim regex come 
+  formato per indicare lo le opzioni di default utilizzate da vim
 * sed, di default usa la sintassi *basic*, ma specificando `-r` o `-E` utilizza la versione *extended*
 * awk, di default usa una sintassi che e' un superset della versione *extended*
 * bash, di default usa la versione *extended*
 * perl, utilizza simile a quella *extended* ma con feature aggiuntive chiamata *pcre*
+* python, ruby, .NET, powershell e molti altri, utilizzano *pcre*
 
 
 ### Anchors
@@ -6273,6 +6279,7 @@ Queste sono le anchors:
  $ 
  # indica la fine di una stringa o di una linea
 ```
+
 ### Quantifiers
 
 
@@ -6621,6 +6628,105 @@ the second word in a sentence, but we'll ignore that for now.)
  # carattere nel mezzo che può essere o "a" o "l" o "u"
 ```
 
+### Regexes: Note Aggiuntive
+
+Ricorda che scrivere regex significa scrivere programmi, infatti 
+i motori di regex sono delle macchine basate su stack (stack-based machine)
+in cui ogni carattere corrisponde ad un comando `/a/` o sequenze
+di comandi `/abc/`.
+Nelle regex abbiamo la possibilita' di creare dei cicli, ad esempio
+ogni qualvolta utilizziamo il meta-carattere `*` (e altri meta-caratteri)
+Ricorda di usare il meno possibile la combinazione `.*`.
+Per avere regex piu' veloci possiamo:
+
+* **Regexes are Code**
+* Quando abbiamo alternative, utilizzare prima quelle piu' probabili
+* Dove possibile, utilizzare **extended froamtting**, questo formato prevede 
+  che lo spazio non sia un comando, e rende le regex leggibili, debuggabli, 
+  comprensibili e manutenibili. Ove possibile utilizzare sempre questo formato.
+  In perl ad esempio per poter utilizzare questa modallita' basta mettere in
+  append alla regex la lettera 'x', quindi `/regex/x`, in altri linguaggi
+  bisogna mettere all'inizio della regex la sequenza `(?x)`.
+  Alcuni dialetti/linguaggi non supportano questa opzione di extended
+  formatting, ad esempio Javascript, in questi linguaggi comunque si puo'
+  truccare il gioco, ad esempio costruendo le regex come concatenazioni di
+  stringhe. Vediamo un esempio in Javascript:
+```javascript
+var numberRegex = new RegExp(
+    "("             +
+         "[+-]"     + //Optional sign
+    ")?"            +
+
+    "("             +
+         "\\d+"     + 
+         "\\.?"     + //Mantissa with leading digit
+         "\\d*"     +
+    "|"             + //or
+         "\\."      + 
+         "\\d+"     + //Mantissa with leading dot
+    ")"             +
+    // rest of regex...
+);
+```
+  Anche se generalmente nei vari linguaggi troveremo librerie o moduli che ci
+  permettono di inserire regex in modo pulito, ad esempio in Javascript possiamo
+  utilizzare il modulo XRegExp.
+* Utilizzare il meno possibile la combinazione `.*` dot-star
+  in genere qui e' dove si nascondono problemi di performance,
+  in genere inoltre se proprio abbiamo la necessita' di utilizarlo, faciamolo
+  nella versione non-greedy `.*?`
+* Preferire sempre i quantificatori non-greedy, questo per via del principio
+  "Don't iterate any more than is absolutely necessary"
+* Quando progettiamo regex, dobbiamo pensare in modo imperativo, come se
+  stessimo progettando un algoritmo, quindi prima matcha X poi Y poi Z
+  eccetera, contrariamente al pensiero 'la mia regex deve essere piu' o meno
+  cosi'
+* Tenere in considerazione **Separation** e **Naming** per dare struttura e
+  manutenibilita' alle nostre regex, quindi spezzare le grosse regex in
+  regex piu' piccole, come se stessimo facendo un programma, perche' in
+  realta' e' quello che stiamo facendo.
+* Alcuni dialetti di regex supportano subroutines, quindi possiamo utilizzare
+  le regex recursive. In PCRE possiamo chiamare una subroutine attraverso
+  `(?&SUBROUTINENAME)`, in pratica quindi definiamo dei pattern con nome e li
+  richiamiamo. Nei dialetti in cui sono supportate le subroutine possiamo
+  scrivere regex ricorsive quindi ad esempio definire il concetto di lista o
+  per effettuare match in file/dataset molto incasinati. Vediamo un esempio di
+  ricorsivita' in PCRE:
+```perl
+/(?x) (?&LIST)
+    
+    (?(DEFINE)
+        (?<LIST> < (?&ITEM) (?: , (?&ITEM))*+ > )
+
+        (?<ITEM>  \d++ | (?&LIST) )
+    )
+/
+```
+    Che e' l'equivalente del seguente pseudocodice:
+```perl
+func LIST {
+    match("<");
+    ITEM();
+    loop { match(","); ITEM(); }
+    match(">");
+}
+
+func ITEM {
+    loop { match({"0".."9"}); }
+    or
+    LIST();
+}
+
+func main {
+    LIST();
+}
+```
+  Questo permette di matchare elemente in testi come questo:
+```text
+<1,24,<7,<10,11>,9>,121,23,42>
+```
+
+
 
 ### Grep, Egrep ed Fgrep
 
@@ -6947,6 +7053,14 @@ Esempi di utilizzo, possono essere:
 ```sh
  sed -e 's/ /\n/g' myfile.txt 
  # sostituisce tutte le occorrenze di spazi con nuove linee
+```
+```sh
+ sed -e "s/'//g" myfile.txt 
+ # rimuove tutti gli apici singoli 
+```
+```sh
+ sed -e 's/'\''//g' myfile.txt 
+ # rimuove tutti gli apici singoli
 ```
 ```sh
  sed -n '5p' nomeFile 
