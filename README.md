@@ -205,6 +205,8 @@ manuale, vediamo alcuni esempi:
  # built-in, ad esempio funziona con "cd", "pushd", "popd", 
  # eccetera...
 ```
+
+
 ###  Il comando `cd`
 
 Una volta all'interno del terminale possiamo muoverci all'interno 
@@ -2551,17 +2553,17 @@ Dispositivi che si collegano a porte seriali di tipo RS-232 e
 simili sono speciali tipi di device terminale. Non possiamo fare 
 molto da command-line, in quanto ci sarebbero troppe impostazioni 
 da settare manualmente come il Baud rate o il flow control. 
-Questi device vengono indicati con la nomenclatura "/dev/ttyS*", 
+Questi device vengono indicati con la nomenclatura `/dev/ttyS*`, 
 mentre i dispositivi adattatori seriali USB si presentano con i 
-nomi "/dev/ttyUSB*" e "/dev/ttyACM*".
+nomi `/dev/ttyUSB*` e `/dev/ttyACM*`.
 
 
 ### Porte Parallele
 
 Questi device sono oggigiorno largamente sostituiti dai 
 dispositivi USB, le porte parallele unidirezionali hanno 
-nomenclatura "/dev/lp*", mentre le porte parallele bidirezionali 
-hanno nomenclatura "/dev/parport". Solitamente a questo tipo di 
+nomenclatura `/dev/lp*`, mentre le porte parallele bidirezionali 
+hanno nomenclatura `/dev/parport`. Solitamente a questo tipo di 
 device sono associate stampanti, è utile sapere che possiamo 
 idealmente anche mandare direttamente i file da stampare ad una 
 stampante attraverso un semplice cat, come ad esempio:
@@ -3017,7 +3019,7 @@ Il comando `apt-get` is a high-level package manager for Debian and
 derivatives, and provides a simple way to retrieve and install 
 packages, including dependency resolution, from multiple sources 
 using the command line. Unlike dpkg, apt-get does not work 
-directly with *.deb files, but with the package proper name.
+directly with `*.deb` files, but with the package proper name.
 
 In /etc/apt/sources.list contiene i repository, è sempre meglio 
 installare i programmi esclusivamente dal repository e aggiungere 
@@ -3275,7 +3277,7 @@ programmi compilati.
 ### DPKG (Low Level)
 
 dpkg is a low-level package manager for Debian-based systems. It 
-can install, remove, provide information about and build *.deb 
+can install, remove, provide information about and build `*.deb` 
 packages but it can’t automatically download and install their 
 corresponding dependencies.
 
@@ -6220,7 +6222,7 @@ questo pattern". Vediamo alcuni costrutti di base per poi
 arrivare ad esempi auto esplicativi.
 
 Innanzitutto e' importante distinguere tra due tipologie principali
-di sintassi utilizzate da programmi *NIX come sed, grep, awk, perl eccetera:
+di sintassi utilizzate da programmi `*NIX` come sed, grep, awk, perl eccetera:
 * POSIX Basic Regular Expression (BRE)
 * POSIX Extended Regular Expression (ERE)
 * Emacs/Elisp Regular Expressions (EMACS)
@@ -6443,10 +6445,10 @@ character "\", facciamo un esempio, nel caso volessi effettuare
 il match della stringa "192.168.1.1", allora la mia regular 
 expression sarebbe "192\.168\.1\.1", oppure se volessimo 
 effettuare il match di tutte le stringhe comprese tra parentesi 
-quadre allora dovremo scrivere "\[.*\]".
+quadre allora dovremo scrivere `\[.*\]`.
+
 
 ### Stringhe POSIX
-
 
 ```sh
  # [:upper:] Upper case letters 
@@ -6487,8 +6489,9 @@ quadre allora dovremo scrivere "\[.*\]".
 ```sh
  # [:word:] Digits, letters and underscore
 ```
-### Raggruppamenti
 
+
+### Raggruppamenti
 
 Possiamo effettuare raggruppamenti per poter trattare insiemi di 
 caratteri come se fosse uno solo, attraverso le parentesi tonde, 
@@ -6523,8 +6526,9 @@ carattere di escape + numero", facciamo degli esempi:
  # in questo caso selezioniamo le stringhe 
  # che contengono la stringa "John Smith" e poi "Smith John"
 ```
-### Lookaheads
 
+
+### Lookaheads
 
 With a lookahead we want to look ahead (hence the name) in our 
 string and see if it matches the given pattern, but then 
@@ -6561,8 +6565,8 @@ lookahead, the syntax is "(?=charactersToMatch)" instead of "
 character "!" with the character "=", anche se i lookahead 
 positivi sono meno usati.
 
-### Lookbehinds
 
+### Lookbehinds
 
 Possiamo anche cercare a ritroso attraverso i lookbehinds, anche 
 in questo caso esistono sia lookbehind positive che negative e si 
@@ -6586,8 +6590,9 @@ the second word in a sentence, but we'll ignore that for now.)
  # Now we won't identify Smith Francis but 
  # we will identify Harold Smith. 
 ```
-### Esempi per capire
 
+
+### Esempi per capire
 
 ```sh
  ^\s 
@@ -6910,8 +6915,8 @@ alcuni esempi:
 ```
 Fgrep è una forma di grep utile a cercare stringhe senza tener 
 conto delle regular expression, quindi viene cercata la stringa 
-così come scritta senza interpretare caratteri come ".", "|", "$"
-, "*", eccetera come caratteri speciali, vediamo qualche esempio:
+così come scritta senza interpretare caratteri come `.`, `|`, `$`
+, `*`, eccetera come caratteri speciali, vediamo qualche esempio:
 
 ```sh
  fgrep *hello$ testf 
@@ -6944,12 +6949,12 @@ righe dell'input contenenti l'occorrenza "windows". Di tutte le
 operazioni a disposizione di sed, vengono focalizzate, in primo 
 luogo, le tre più comunemente usate. Esse sono:
 
-* `p`->print (visualizza allo stdout), 
-* `d`->delete (cancella)
-* `s`->substitute (sostituisce)
-* `=`->print number line (stampa il numero di riga)
-* `y`->translate (opera in modo simile a `tr` effettua sostituzione di caratteri)
-* `N`-> go to next line (va alla riga successiva, molto utile negli script) 
+* `p`, print (visualizza allo stdout), 
+* `d`, delete (cancella)
+* `s`, substitute (sostituisce)
+* `=`, print number line (stampa il numero di riga)
+* `y`, translate (opera in modo simile a `tr` effettua sostituzione di caratteri)
+* `N`, go to next line (va alla riga successiva, molto utile negli script) 
 
 Esempi di utilizzo, possono essere:
 
@@ -12767,12 +12772,12 @@ e la montiamo con:
 ### Estendere una partizione logica
 
 Ora immaginiamo di avere quasi riempito il dispositivo /dev/sdb1 
-citato in precedenza che aveva partizione logica /dev/vg1/data_lv 
+citato in precedenza che aveva partizione logica `/dev/vg1/data_lv` 
 ed era all'interno del volume group chiamato "vg1", possiamo 
 estenderlo, immaginiamo di aggiungere una partizione mappata in 
 /dev/sdc1, allora ci basterà identificarla come utilizzabile da 
 LVM come volume fisico, aggiungerlo allo stesso volume group di 
-data_lv e aggiungere spazio a data_lv che verrà in automatico 
+`data_lv` e aggiungere spazio a `data_lv` che verrà in automatico 
 preso dalle partizioni all'interno del volume group, quindi 
 faremo:
 
@@ -12792,7 +12797,7 @@ faremo:
  # disponibili al volume logico chiamato "data_lv" all'interno del 
  # volume group "vg1"
 ```
-possiamo ora ridimensionare la partizione "data_lv" attraverso il 
+possiamo ora ridimensionare la partizione `data_lv` attraverso il 
 comando "resize2fs":
 
 ```sh
@@ -13000,7 +13005,7 @@ is a collection of software that provides a standard look and
 feel. For example, the KDE Plasma Desktop uses the X11 windowing 
 system, the KWin window manager, the Qt widget, the KDE display 
 manager, and the KDE Software Compilation (the many KDE 
-applications such as Kate, Konsole, Phonon, and the many K* 
+applications such as Kate, Konsole, Phonon, and the many KDE 
 applications).
 
 In summary, a desktop environment is the collection or a bundled 
@@ -13140,8 +13145,8 @@ inserire nella voce "allowed_users" la stringa "anybody".
 ### Troubleshooting con X
 
 In genere per fare troubleshooting sugli errori generati da X, 
-possiamo ispezionare i seguenti file: ~/.xsession-errors, 
-/var/log/Xorg.*/var/log/messages.
+possiamo ispezionare i seguenti file: `~/.xsession-errors`, 
+`/var/log/Xorg.*/var/log/messages`.
 
 
 ### Copy & Paste (ossia copia e incolla)
@@ -16895,8 +16900,8 @@ gestione "firewall" per sistemi GNU/Linux. Nei sistemi Debian
 based, esistono delle applicazioni di front-end come ad esempio "
 ufw" non esistono script o eseguibili per lanciare iptables, 
 mentre su distro Red-Hat based esistono degli script nella 
-directory /etc/init.d/, possiamo visualizzarli con: "ls -al 
-/etc/init.d/ip*", e possiamo quindi iniziare il processo con:
+directory `/etc/init.d/`, possiamo visualizzarli con: "ls -al 
+`/etc/init.d/ip*`, e possiamo quindi iniziare il processo con:
 
 ```sh
  sudo service iptables start 
@@ -17572,9 +17577,9 @@ altre particolari opzioni che l'utente preferisce visualizzare
 nella sua personale interfaccia.
 
 Tutte le variabili d'ambiente appartenenti al sistema "Locale" 
-iniziano per "LC_". Ad esempio "LC_TIME" è una variabile del 
+iniziano per `LC_`. Ad esempio `LC_TIME` è una variabile del 
 sistema "locale" che definisce come la data e l'ora sono 
-formattate mentre "LC_NUMERIC" può essere usato per cambiare il 
+formattate mentre `LC_NUMERIC` può essere usato per cambiare il 
 separatore decimale (punto o virgola).Vediamo ora una lista delle 
 variabili del sistema "Locale":
 
@@ -17596,27 +17601,27 @@ variabili del sistema "Locale":
 Esistono inoltre altre due variabili che modificano il valore di 
 molte delle variabili che abbiamo elencato:
 
-* `LANG`: Its value is used to set the value of all LC_* variables 
+* `LANG`: Its value is used to set the value of all `LC_*` variables 
   which are not explicitely set (those already set are not 
-  changed). Also, any LC_* variable can be modified after setting 
+  changed). Also, any `LC_*` variable can be modified after setting 
   LANG. 
 
 * `LC_ALL`: Il suo valore sovrascriverà quello di tutte le 
-  variabili LC_* (ma non di LANG). Dopo aver impostato LC_ALL, 
-  tutte le modifiche a qualsiasi variabile LC_* non è permessa.
+  variabili `LC_*` (ma non di LANG). Dopo aver impostato `LC_ALL`, 
+  tutte le modifiche a qualsiasi variabile `LC_*` non è permessa.
 
-In generale, è raccomandato lasciare LC_ALL non settata, e 
+In generale, è raccomandato lasciare `LC_ALL` non settata, e 
 settare invece la variabile LANG, e poi cambiare manualmente nel 
-caso fosse necessario le altre variabili LC_. Per visualizzare le 
+caso fosse necessario le altre variabili `LC_`. Per visualizzare le 
 opzioni che possiamo assegnare alla variabile LANG, ci basta 
-visualizzare il file "/etc/locale.gen" oppure per LC_ALL il file "
+visualizzare il file "/etc/locale.gen" oppure per `LC_ALL` il file "
 /etc/locale.alias" anche se la presenza di questi file deve 
 sempre essere verificata a differenza della distro. Inoltre 
 questi file contengono la lista delle lingue disponibili, quindi 
 può essere utile consultarli. E' utile ricordare che potrebbe 
 essere necessaria lanciare il comando "locale-gen" una volta 
 effettuata una modifica in uno di questi file. Possiamo cambiare 
-il valore delle variabili LC_ con:
+il valore delle variabili `LC_` con:
 
 ```sh
  export nomeVariabile=valore 
@@ -19223,7 +19228,7 @@ esempio:
 </IfModule>
 ```
 
-in questo caso (.*) significa qualsiasi stringa
+in questo caso `(.*)` significa qualsiasi stringa
 
 in questo caso ad ogni richiesta redirigo alla directory 
 webroot/, il flag "[L]" serve ad indicare che questa è una 
@@ -19381,8 +19386,8 @@ and we have to be sure of having the daemon started with:
 Notice that in order to not give root access to the filesystem to 
 any NFS client, all queries appearing to come from a root user 
 are considered by the server as coming from the nobody user. This 
-behavior corresponds to the root_squash option, and is enabled by 
-default. The no_root_squash option, which disables this behavior, 
+behavior corresponds to the `root_squash` option, and is enabled by 
+default. The n`o_root_squash` option, which disables this behavior, 
 is risky and should only be used in controlled environments. The 
 anonuid=uid and anongid=gid options allow specifying another fake 
 user to be used instead of UID/GID 65534 (which corresponds to 
@@ -20658,7 +20663,7 @@ initramfs image, you will also need to rebuild the kernel. If you
 do want to do this, give the path to the initramfs.cpio file in 
 Initramfs source file(s).
 
-General Setup —> [*] Initial RAM filesystem and RAM disk 
+General Setup —> `[*]` Initial RAM filesystem and RAM disk 
 (initramfs/initrd) support () Initramfs source file(s)
 
 ### Alternative a "make menuconfig"
@@ -23351,6 +23356,7 @@ else
 	echo "Root user"
 fi
 ```
+
 ### Fare screenshot da terminale
 
 ```sh
