@@ -2019,7 +2019,23 @@ quindi con "ls -l", li visualizzo, ad ogni modo è da notare che:
 * il flag 'S' per SGID sostituirà la 'x' nel gruppo di caratteri del gruppo proprietario
 
 
-## Permessi di Default, ossia Umask
+#### Note Aggiuntive sui Permessi
+
+Un caso per me curioso fu quando un file all'interno della mia
+home directory apparteneva a root e aveva i permessi di lettura/scrittura
+solo per root, quindi con un settaggio dei permessi del tipo:
+
+```ls
+-rw-------  root root
+```
+
+la domanda e' posso eliminare questo file pur non essendo root? 
+ricordiamo che il suo path e' `/home/miahome/nomefile`
+la risposta e': molto probabilmente si, perche' e' nella nostra
+home directory e in quella directory abbiamo permessi di scrittura.
+
+
+### Permessi di Default, ossia Umask
 
 Quando un utente crea un file (o una directory) vengono settati 
 dei permessi di default relativi alla possibilità di lettura, 
