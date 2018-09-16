@@ -3264,8 +3264,7 @@ quindi:
  # viene un determinato eseguibile
 ```
 ```sh
- # apt-file search convert | grep -iw "/usr/bin/commandName" 
-  
+ apt-file search convert | grep -iw "/usr/bin/commandName" 
  # cerca a quale pacchetto appartiene il comando col percorso 
  # specificato
 ```
@@ -15394,7 +15393,7 @@ utilizzarlo per aprire dei stream in rete, effettuare chat
 primitive, o addirittura scambiare file, costruire server, 
 effettuare particolari richieste, eccetera.
 
-  Semplice comunicazione su una porta (Chat Primitiva)
+#### Semplice comunicazione su una porta (Chat Primitiva)
 
 Se per esempio volessimo comunicare sulla porta "3333" allora sul 
 server eseguiamo:
@@ -15407,12 +15406,12 @@ server eseguiamo:
 mentre sul client eseguiamo:
 
 ```sh
- # netcat 192.168.1.122 3333
+ netcat 192.168.1.122 3333
 ```
 a questo punto tutto quello che scriviamo da una parte lo vediamo 
 dall'altra.
 
-  Semplice Server Web
+####  Semplice Server Web
 
 Possiamo ad esempio creare un semplice file chiamato myFile.html 
 così strutturato:
@@ -15683,7 +15682,6 @@ basic authentication            curl -u <user>:<password> <url>
 
 post form                       curl -XPOST --form "b=4_1" <url>  
         
-
 cookie                          curl --cookie "PHPSESSID=5ved46gn34dopkjhstrrfgdkk1;" <url> 
 
 cookie files (save & send)      curl -c /tmp/cookie.txt -b /tmp/cookie.txt <url> 
@@ -15692,13 +15690,13 @@ set user-agent                  curl -A "Mozilla" <url>
 
 referer                         curl -H "Referer: https:#www.cnn.com" <url> 
 
-json                         curl -XPOST -H "Content-Type: application/json" -d "[[\"create\",{\"type\":\"trial\",\"name\":\"bug\"}]] <url> 
+json                            curl -XPOST -H "Content-Type: application/json" -d "[[\"create\",{\"type\":\"trial\",\"name\":\"bug\"}]] <url> 
 
 silent                          curl -s <url> 
 
 verbose                         curl -v <url> 
 
-ignore certifikate issues      curl -k <url> 
+ignore certifikate issues       curl -k <url> 
 
 follow redircts                 curl -L <url> 
 
@@ -15784,11 +15782,11 @@ per mandare un file in post ad esempio contenente XML, possiamo
 eseguire:
 
 ```sh
- curl -d @test.txt http:
- # 10.10.10.78/hosts.php
+ curl -d @test.txt http://10.10.10.78/hosts.php
 ```
-### File di networking importanti
 
+
+### File di networking importanti
 
 Vediamo ora una serie di file molto importanti per la 
 configurazione di rete.
@@ -15856,8 +15854,8 @@ options timeout:1
 search yourdomain.local
 ```
 
-#### Il file hosts
 
+#### Il file hosts
 
 Il file "hosts" e collocato nella directory "/etc/hosts", 
 permette di associare ad indirizzi ip dei nomi. Nella maggior 
@@ -15997,8 +15995,8 @@ sistema di risoluzione DNS lento è quello di usare un computer
 come cache DNS, questo può essere fatto con programmi tipo "nscd" 
 o meglio ancora "pdnsd" o "unbound".
 
-#### Il file /etc/services
 
+#### Il file /etc/services
 
 Nel file /etc/services possiamo trovare la lista delle porte più 
 comuni con i vari servizi associati, possiamo ad esempio 
@@ -16017,28 +16015,20 @@ altri esempi di utilizzo possono essere:
  # in questo caso ci viene mostrato su 
  # quale porta per convenzione girerebbe il servizio ssh
 ```
-### Alcune informazioni utili su IPv4
 
+
+### Alcune informazioni utili su IPv4
 
 Esistono alcune convenzioni che vengono seguite nell'assegnazioni 
 di indirizzi in una rete:
 
-```sh
- # 192.168.1.1 "Default gateway"
-```
-```sh
- # 192.168.1.2 "Firewall"
-```
-```sh
- # 192.168.1.5 "DNS/Active Directory/LDAP"
-```
-```sh
- # 192.168.1.100 "SNMP or Monitoring"
-```
-```sh
- # 192.168.1.255 "Network Broadcast" (questo a differenza degli 
- # altri è uno standard)
-```
+* 192.168.1.1 "Default gateway"
+* 192.168.1.2 "Firewall"
+* 192.168.1.5 "DNS/Active Directory/LDAP"
+* 192.168.1.100 "SNMP or Monitoring"
+* 192.168.1.255 "Network Broadcast" (questo a differenza degli altri è uno standard)
+
+
 ## Strumenti per la sicurezza
 
 ### Sicurezza locale della macchina
@@ -16360,8 +16350,8 @@ effettua:
 E' buona norma eseguire periodicamente attraverso il sistema Cron 
 scansioni di determinate directory.
 
-### Rootkit
 
+### Rootkit
 
 Un rootkit, termine letteralmente traducibile in lingua italiana 
 con equipaggiamento da amministratore (in ambiente Unix per 
@@ -16373,8 +16363,8 @@ informatici si sono avvalsi della possibilità di agire come
 rootkit (processo, file, chiave di registro, porta di rete) 
 all'interno del sistema operativo.
 
-#### chkrootkit
 
+#### chkrootkit
 
 Un programma abbastanza comune su sistemi Unix-based è "
 chkrootkit" (Check Rootkit) che permette agli amministratori di 
@@ -16385,8 +16375,9 @@ alcuni esempi:
  sudo chkrootkit 
  # esegue una scansione del sistema
 ```
-### Linux Security Auditing Tool (LSAT)
 
+
+### Linux Security Auditing Tool (LSAT)
 
 Il Linux Security Auditing Tool (LSAT) è uno strumento per la 
 sicurezza molto importante e dovrebbe essere installato sempre, 
@@ -16434,18 +16425,19 @@ Vediamo ora invece alcuni esempi applicativi:
  # inoltre l'output viene salvato in un file html chiamato "
  # output.html"
 ```
-Una lista dei moduli utilizzati è possibile consultare [http:#www.ubuntugeek.com/linux-security-auditing-tool-lsat-post-install-security-auditing-tool.html||Lista Moduli LSAT].
+Una lista dei moduli utilizzati è possibile consultare 
+[http:#www.ubuntugeek.com/linux-security-auditing-tool-lsat-post-install-security-auditing-tool.html||Lista Moduli LSAT].
+
 
 ### Cracking di Password
-
 
 Talvolta è buona norma provare ad effettuare crack delle password 
 degli utenti sul nostro sistema, in modo da capire se possono 
 esserci vulnerabilità, uno strumento molto utilizzato è "John the 
 Ripper", anche se esistono alternative come "hashcat".
 
-### John the Ripper
 
+### John the Ripper
 
 Per installare "John the Ripper", eseguiamo:
 
@@ -16506,11 +16498,10 @@ Se conosciamo un determinato utente, possiamo aggiungere
 determinate parole al file wordlist, in modo da rendere più 
 probabile la scoperta della password. Per altri esempi di 
 utilizzo di "John the Ripper" è consigliata la visualizzazione 
-della pagina web [http:#www.openwall.com/john/doc/EXAMPLES.shtml||John The Ripper: Esempi di Utilizzo]
-.
+della pagina web [http:#www.openwall.com/john/doc/EXAMPLES.shtml||John The Ripper: Esempi di Utilizzo].
+
 
 ### Nmap
-
 
 Il programma "nmap" è utilizzato per effettuare scansioni di rete 
 (network scanning), quindi avere informazioni sulla rete a cui la 
@@ -16590,9 +16581,7 @@ solo 1.5% della totalità delle possibilità):
 ```
 
 * il primo, è in formato human-readable
-
 * il secondo, è in formato facilmente utilizzabile con grep
-
 * il terzo, è in formato xml
 
 ```sh
@@ -16650,6 +16639,8 @@ Un display filter utile per fare detection di arp poisoning è:
 ```sh
  arp.duplicate-address-detected
 ```
+
+
 ### Tcpdump
 
 Tcpdump costituisce un'ottima alternativa a wireshark, molto più 
@@ -16908,6 +16899,7 @@ capabilities a python e a scapy, con:
 un altro esempio è quello di dare capabilities a perl per la 
 cattura di pacchetti eccetera.
 
+
 ### IpTables (Firewall)
 
 Il programma IpTables un'interfaccia per gli amministratori di 
@@ -17040,8 +17032,8 @@ e tanti altri servizi. Una volta effettuate le modifiche,
 dobbiamo riavviare i servizi coinvolti nella modifica, o 
 riavviare semplicemente il sistema.
 
-### Netstat
 
+### Netstat
 
 Il programma netstat è molto utile per monitorare la rete sul 
 nostro sistema. Vediamo alcuni esempi applicativi:
@@ -17329,7 +17321,6 @@ connections once we know what the other columns mean.
 
 ### Iptraf
 
-
 Il programma iptraf costituisce uno strumento utilizzato per 
 monitorare il traffico locale di una macchina, è simile al 
 programma wireshark. Vediamo alcuni esempi:
@@ -17345,10 +17336,11 @@ programma wireshark. Vediamo alcuni esempi:
  # /var/log/iptraf/"
 ```
 
+
 ## Data, Ora e Linuga nei sistemi GNU/Linux
 
-### Date, e cal
 
+### Date, e cal
 
 Il comando date è utilizzato per visualizzare la data e l'ora, 
 vediamo alcuni esempi:
@@ -17470,8 +17462,9 @@ possiamo aprire un calendario con:
  cal -y 1999 
  # visualizza il calendario per l'intero anno 1999
 ```
-### Localtime e Timezone
 
+
+### Localtime e Timezone
 
 ### Localtime
 
@@ -18212,18 +18205,66 @@ all'utente con cui vogliamo utilizzare lo scanner, se il gruppo
 non dovesse esistere, possiamo creare un nostro gruppo e 
 assegnarlo al device, e aggiungere al nostro utente quel gruppo.
 
-### Programmi per Scansione Documenti
 
+### Programmi per Scansione Documenti
 
 Possiamo usare il programma "xscanimage" per scandire 
 un'immagine, questo programma è contenuto solitamente nel 
 pacchetto "sane-frontends". AGGIUNGERE UN MINITUTORIAL A 
 XSCANIMAGE
 
+
+### Gestire documenti pdf
+
+Possiamo convertire documenti di immagini o pdf attraverso il programma
+*convert* presente nel pacchetto imagemagick.
+Il programma **convert** nonostante sia molto utile per convertire immagini non
+fornisce l'approccio ottimale per dividere o unire (split o join) documenti pdf,
+per poter manipolare documenti pdf esistono tantissimi programmi, ma uno di
+questi che nella mia esperienza ho trovato particolarmente comodo e' **pdftk**,
+vediamo alcuni esempi:
+
+
+```sh
+pdftk file1.pdf file2.pdf file3.pdf cat output newfile.pdf
+# joina file1 file2 and file3 in un singolo pdf file chiamato newfile.pdf
+```
+
+```sh
+pdftk newfile.pdf burst
+# crea un file pdf per ogni paginal del file menzionato
+```
+
+```sh
+pdftk A=one.pdf B=two.pdf cat A1-7 B1-5 A8 output combined.pdf
+# unisce i due file andando a specificare quali pagine utilizzare e come
+# combinarle per produrre il file finale
+```
+
+```sh
+pdftk A=one.pdf cat A1-5 A8 A7 output combined.pdf
+# genera un file pdf con le pagine dalla 1 alla 5 poi la 8 e poi la 7 del file
+# one.pdf
+```
+
+```sh
+pdftk A=one.pdf cat A12-end output combined.pdf
+# genera un file pdf solo con le pagine dalla 12 in poi
+# a partire dal file one.pdf
+```
+
+Possiamo anche criptare i file pdf, ad esempio:
+```sh
+pdftk mydoc.pdf output mydoc.128.pdf owner_pw foopass
+# cripta il file mydoc.pdf in un nuovo file chiamato mydoc.128.pdf
+# con password "foopass" senza doppi apici
+```
+
+
 ## Filesystems e Tuning
 
-### Ext Utilities
 
+### Ext Utilities
 
 Other useful utilities on ext filesystems are attributes, which 
 are characteristics of files, we can view attributes with 
@@ -18244,6 +18285,7 @@ flag, which is "A" (very useful for laptops), it is a good idea
 for the Orlov block allocator to set the /home directory with a "
 T" flag, since its subdirectories are not related and can be on 
 separated disk's blocks.
+
 
 ## Automatizzare Processi
 
@@ -18674,6 +18716,7 @@ nessun messaggio, cioè nemmeno messaggi d'errore, il problema è
 il firewall, dovremo infatti aprire la porta su cui vogliamo 
 servire il servizio ssh.
 
+
 #### Chiavi DSA e RSA
 
 Un metodo di accesso più semplice è quello di utilizzare chiavi 
@@ -18732,8 +18775,8 @@ id_rsa.pub che possiede il client. Infatti nel caso lo
 eliminassimo, allora il login sarebbe ancora disponibile ma solo 
 attraverso la password dell'utente, cioè login classico. Per una 
 spiegazione dettagliata del funzionamento di SSH, fare 
-riferimento a [www.slashroot.in/secure-shell-how-does-ssh-work||Guida ad SSH]
-.
+riferimento a [www.slashroot.in/secure-shell-how-does-ssh-work||Guida ad SSH].
+
 
 #### SSH-Agent
 
@@ -19508,50 +19551,23 @@ Let's see some of the possible options we have "Client-Side",
 these options can be specified using the mount command, or in the 
 /etc/fstab entry:
 
-```sh
- # rw: Read/write filesystem. 
-```
-```sh
- # ro: Read-only filesystem. Remote NFS clients can’t modify the 
- # filesystem. 
-```
-```sh
- # hard: Applications using files stored on an NFS will always 
- # wait if the server goes down. User cannot terminate the process 
- # unless the option intr is set.
-```
-```sh
- # soft: Applications using files stored on an NFS will wait a 
- # specified time (using the timeo option) if the server goes 
- # down, and after that, will throw an error.
-```
-```sh
- # intr: Allows user interruption of processes waiting on a NFS 
- # request. 
-```
-```sh
- # timeo=<num>: For use with the soft option. Specify the timeout 
- # for an NFS request. 
-```
-```sh
- # nolock: Disable file locks. Useful with older NFS servers. 
-```
-```sh
- # noexec: Disable execution of binaries or scripts on an NFS 
- # share. 
-```
-```sh
- # nosuid: Prevents users from gaining ownership of files on the 
- # NFS share. 
-```
-```sh
- # rsize=<num>: Sets the read block data size. Defaults to 8192 on 
- # NFSv2 and NFSv3, and 32768 on NFSv4. 
-```
-```sh
- # wsize=<num>: Sets the write block data size. Defaults to 8192 
- # on NFSv2 and NFSv3, and 32768 on NFSv4.
-```
+
+* `rw`: Read/write filesystem. 
+* `ro`: Read-only filesystem. Remote NFS clients can’t modify the filesystem. 
+* `hard`: Applications using files stored on an NFS will always 
+  wait if the server goes down. User cannot terminate the process 
+  unless the option intr is set.
+* `soft`: Applications using files stored on an NFS will wait a 
+  specified time (using the timeo option) if the server goes 
+  down, and after that, will throw an error.
+* `intr`: Allows user interruption of processes waiting on a NFS request. 
+* `timeo=<num>`: For use with the soft option. Specify the timeout for an NFS request. 
+* `nolock`: Disable file locks. Useful with older NFS servers. 
+* `noexec`: Disable execution of binaries or scripts on an NFS share. 
+* `nosuid`: Prevents users from gaining ownership of files on the NFS share. 
+* `rsize=<num>`: Sets the read block data size. Defaults to 8192 on NFSv2 and NFSv3, and 32768 on NFSv4. 
+* `wsize=<num>`: Sets the write block data size. Defaults to 8192 on NFSv2 and NFSv3, and 32768 on NFSv4.
+
 
 ## DNS Server
 
@@ -20185,7 +20201,6 @@ sul kernel che stiamo runnando attraverso:
 
 ### Capire il Kernel
 
-
 Per capire il kernel, uno strumento utile è la documentazione, 
 possiamo installare la documentazione su distro RH-based con:
 
@@ -20216,8 +20231,8 @@ attraverso la directory "/filesystems/proc.txt"; potrebbe essere
 una buona idea creare un'alias alla directory della 
 documentazione se pensiamo di visualizzarla spesso
 
-### Tipi di Kernel e file relativi
 
+### Tipi di Kernel e file relativi
 
 I file relativi al kernel possiamo trovarli all'interno della 
 directory "/boot", ora all'interno di questa directory abbiamo 
@@ -20274,8 +20289,8 @@ disposizione:
  # zImage + 64 Byte di header per U-Boot
 ```
 
-### File associati ad un kernel
 
+### File associati ad un kernel
 
 Ad un kernel solitamente vengono associati alcuni file:
 
@@ -20877,7 +20892,7 @@ se per esempio l'architetturaInteressata in questione è "arm"
 allora eseguiamo:
 
 ```sh
- # make ARCH=arm wii_defconfig
+ make ARCH=arm wii_defconfig
 ```
 una volta scritta la configurazione possiamo continuare con la 
 compilazione.
@@ -20887,7 +20902,7 @@ architettura arm, una volta installata la toolchain di
 compilazione, eseguiamo:
 
 ```sh
- # make -j5 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage 
+ make -j5 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage 
   
  # cross compilo un kernel, ricordiamo che zImage è solo un 
  # esempio, potrei anche non specificare il tipo di immagine, solo 
@@ -20897,12 +20912,12 @@ compilazione, eseguiamo:
 una volta compilato possiamo compilare i moduli con:
 
 ```sh
- # make -j5 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
+ make -j5 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules
 ```
 e poi possiamo installare i moduli andando ad eseguire:
 
 ```sh
- # make -j5 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 
+ make -j5 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- 
  # INSTALL_MOD_PATH=/path/where/i/have/rootfs modules_install 
   
  # questo installerà i module, nella directory specificata, 
@@ -20910,6 +20925,8 @@ e poi possiamo installare i moduli andando ad eseguire:
  # sistema ospite poi ci penserà make a selezionare la directory 
  # giusta dove installare i moduli
 ```
+
+
 ### Pulizia dei Sorgenti del Kernel
 
 
@@ -20984,15 +21001,11 @@ alcuni esempi di applicazione:
 
 In questa sezione ci occuperemo di:
 
-```sh
- # misurare l'utilizzo di risorse
-```
-```sh
- # risolvere problemi relativi all'utilizzo di risorse
-```
-```sh
- # migliorare la gestione delle risorse
-```
+
+1. misurare l'utilizzo di risorse
+2. risolvere problemi relativi all'utilizzo di risorse
+3. migliorare la gestione delle risorse
+
 Strumenti standard per la gestione delle risorse che sono 
 installati sulla maggior parte delle distro di default sono:
 
@@ -21215,6 +21228,41 @@ fondamentali per poter compilare:
  # fondamentali per la compilazione, sulle distro RH-based 
  # eseguiremo invece un "yum groupinstall "Development Tools"
 ```
+
+
+Poi i classici tre comandi in genere per compilare un programma scritto
+in C/C++ sono:
+
+```sh
+./configure
+# genera il makefile
+```
+
+```sh
+make
+# compila il programma
+```
+
+```sh
+make install
+# installa il programma nelle directory di sistema
+```
+
+Nota che possiamo specificare opzioni di compilazione in genere quando eseguiamo
+il comando `./cofigure`, ad esempio se volessimo compilare un determinato
+pacchetto con il supporto per determinate features (e.g., vim con clipboard o
+emacs senza xorg eccetera).
+
+In genere per poter visualizzare le opzioni disponibili ci basta o leggere il
+file di `configure` oppure: 
+
+```sh
+./cofigure --help
+# mostra le opzioni disponibili
+```
+
+
+
 ## Gentoo Linux
 
 Portage is the package manager of gentoo, it is completely 
