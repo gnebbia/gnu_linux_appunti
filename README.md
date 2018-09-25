@@ -325,6 +325,12 @@ esempi di applicazione comprendono:
  # elenca i file, eccetto il file chiamato 
  # nomeFile1
 ```
+```sh
+ls -d */
+# mostra solo le directory nella directory corrente
+```
+
+
 ### Il comando `tree`
 
 Tree costituisce un comando molto utile nel momento in cui 
@@ -339,16 +345,22 @@ punto, non è installato di default, possiamo installarlo con:
 e possiamo utilizzarlo con:
 
 ```sh
- tree nomeDirectory | more 
+ tree nomeDirectory | less
  # visualizza la struttura ad albero 
  # della directory, in un formato comodo da scorrere attraverso il 
- # programma more
+ # programma less
 ```
 ```sh
  tree 
  # visualizza la struttura ad albero della directory 
  # corrente
 ```
+
+```sh
+tree -d -L 1
+# mostra solo le directory nella directory corrente
+```
+
 ### I comandi `cat` e `tac`
 
 Per visualizzare uno o piu' file possiamo utilizzare il comando
