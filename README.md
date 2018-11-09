@@ -15058,6 +15058,14 @@ la qualità di una rete. Vediamo alcuni esempi di ping:
  # stare attenti in quanto potrebbe appesantire un server con 
  # richieste molto frequenti
 ```
+
+```sh
+ ping -b <broadcast_address>
+ # esegue ping su tutti gli host nella sottorete, questo e' un buon metodo
+ # per capire quali sono gli host attivi in una sottorete
+```
+
+
 ```sh
  ping -f -i 2 www.nomesito.com 
  # esegue ping in modalità "flood"
