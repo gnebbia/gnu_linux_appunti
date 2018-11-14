@@ -10733,6 +10733,12 @@ Vediamo subito qualche esempio applicativo con "du":
  # visualizza lo spazio totale occupato 
  # dalla directory nomeDirectory
 ```
+
+```sh
+ du -ch *.log 
+ # visualizza lo spazio totale occupato 
+ # dal set di file indicato con anche la somma
+```
 ```sh
  du -ah nomeDirectory 
  # visualizza l'elenco di tutti i file 
@@ -23785,6 +23791,11 @@ repren --renames --from '(.*)\.bak' --to '\1' *.bak
 rename 's/\.bak$//' *.bak
 # be careful with rename, its function changes from distribution
 # to distribution
+```
+or
+```sh
+# Renames all the *.md files in *.txt files
+rename .md .txt *.md 
 ```
 
 * nginx configuration e.g., this is useful:
