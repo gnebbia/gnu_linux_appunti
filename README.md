@@ -8387,6 +8387,23 @@ ridondanti, utilizziamo il comando "uniq", ad esempio:
 E' possibile formattare il testo attraverso il comando "fmt", per 
 vedere le diverse opzioni possiamo effettuare un "man fmt".
 
+Un applicazione utile di fmt ad esempio e' quando non siamo stati troppo attenti
+nel formattare il nostro file o script ignorando il numero di colonne massimo
+per mantenere una certa leggibilita'.
+
+Ad esempio, per molti linguaggi di programmazione la convenzione e' avere un
+massimo di 80 colonne per ogni riga.
+
+Il comando fmt ci aiuta nel fare questo, ad esempio, nel caso il nostro script
+chiamato "script.c" non rispettasse la convenzione delle 80 colonne possiamo
+fixarlo eseguendo:
+```sh
+fmt -w 80 script.c
+```
+
+Di default, il comando fmt, formatta utilizzando 75 caratteri per riga, quindi
+e' equivalente ad un -w 75.
+
 
 #### Uniq
 
