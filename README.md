@@ -8891,6 +8891,15 @@ secondo momento con:
  # continua il processo interrotto con "
  # -STOP" attraverso il segnale "CONT"
 ```
+
+Questa procedura torna molto utile con processi che durano giorni o in genere
+molto tempo.
+possiamo mostrare i processi stoppati (attraverso l'opzione -STOP con:
+
+```sh
+ps -e -j | grep 'T'
+```
+
 Alcune distro hanno il comando "killall", ad esempio:
 
 ```sh
