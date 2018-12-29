@@ -12114,6 +12114,16 @@ memoria come swap su un sistema:
  # directory; un'alternativa a "dd" sarebbe stata utilizzare "
  # fallocate -l 800M /mnt/swap.swp"
 ```
+
+Un'altro esempio e':
+
+```sh
+dd if=/dev/zero of=/root/myswapfile bs=1M count=1024
+# in questo caso creiamo un file di swap da 1GB
+```
+
+Un'altra alternativa e':
+
 ```sh
  fallocate -l 1k file 
  # crea un file da un 1k
@@ -23887,6 +23897,77 @@ Possiamo cambiare terminale eseguendo:
  export TERM=dumb
 ```
 Per utilizzare i colori utilizzano escape sequences.
+
+Nota che per molti terminal emulator, le impostazioni sono settabili dal file
+`.Xresources`.
+
+### Debug di Applicazioni
+
+
+#### Strace
+Possiamo tracciare le chiamate di sistema eseguite da un processo con strace.
+
+```sh
+strace nome_programma arg1 arg2 
+```
+
+Possiamo vedere quale system call e' piu' lunga/lenta attraverso il seguente
+comando:
+```sh
+trace -r your-program
+# il flag -r stampa i tempi relativi
+```
+
+Possiamo vedere quanto tempo impiega ogni system call attraverso la seguente
+opzione:
+```sh
+strace -T your-program
+# il flag -T stampa i tempi assoluti impiegati da ciascuna system call
+```
+
+Possiamo produrre delle statistiche attraverso:
+```sh
+trace -c nome_proramma arg1 arg2
+# il flag -c produce delle statistiche sulle system call utilizzate
+```
+
+Ad esempio se volessimo tracciare tutte le chiamate di sistema che interagiscono 
+con i file di un programma lanciandolo con:
+```sh
+strace -ff -e trace=file nome_programma arg1 arg2  > log.txt 2>&1 
+# il flag -ff traccia anche i processi forkati, in genere questa e' una 
+# buona idea
+# mentre il flag -e e' usato per specificare dei filtri sulle chiamate di sistema
+# visualizzate
+```
+
+possiamo anche avere la lista dei file acceduti in tempo reale dando in pasto a
+strace un Process ID (PID), questo pero' non terra' traccia dei file aperti in
+passato dal processo. Possiamo farlo con:
+
+```sh
+strace -p <PID>
+```
+
+Un'altra opzione equivalente al comando precedente e' utilizzare lsof, cosi:
+```sh
+lsof -n -p  <PID_of_APP>
+```
+
+Vediamo altri esempi di utilizzo di strace:
+```sh
+strace -e trace=open,read -p 22254 -s 80 -o debug.txt
+# in questo caso tracciamo solo le chiamate di sistema open e read del processo
+# con PID 22254 e come lunghezza massima di stringa d'output concediamo 80
+# caratteri (di default questo parametro e' settato a 32), inoltre l'output e'
+# salvato nel file chiamato "debug.txt"
+```
+
+#### Ltrace
+
+ltrace tracks and records the dynamic (runtime) library calls made by a process
+and the signals received by it. It can also track the system calls made within a
+process. It's usage is similar to strace
 
 
 ## Licenza
