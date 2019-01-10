@@ -4813,6 +4813,11 @@ combinazione"Ctrl+b":
  & 
  # killa la window corrente
 ```
+
+```sh
+ s
+ # mostra lo stato di tutte le window
+```
 ```sh
  , 
  # rinomina la window corrente
@@ -4841,6 +4846,12 @@ per quanto riguarda i pane, abbiamo a disposizione:
  # switcha tra un pane e l'altro
 ```
 ```sh
+ ;
+ # switcha tra il pane corrente e il precedente 
+```
+
+
+```sh
  tasti direzionali 
  # ridimensiona un pane
 ```
@@ -4867,8 +4878,43 @@ per quanto riguarda i pane, abbiamo a disposizione:
 ```
 ```sh
  x 
- # chiude il pane
+ # chiude il pane o una window se e' presente un unico pane
 ```
+```sh
+ $ 
+ # rinomina la corrente sessione tmux
+```
+
+
+Possiamo creare una nuova sessione tmux con:
+
+```sh
+ tmux new -s nome-sessione
+ # crea una nuova sessione con nome "nome-sessione"
+```
+
+```sh
+ tmux ls
+ # elenca le sessioni tmux presenti sul sistema
+```
+
+```sh
+ tmux a -t nome-sessione
+ # si collega alla sessione chiamata "nome-sessione", "a" sta per "attach"
+```
+
+```sh
+  tmux detach
+  # possiamo sconnetterci da una sessione senza terminarla con detach 
+  # un'alternativa e' o "ctrl+b d"
+```
+
+```sh
+  tmux kill-session -t session-name
+  # possiamo terminare una sessione tmux con l'argomento kill-session
+```
+
+
 Inoltre sono disponibili molti comandi, possiamo accedere alla 
 modalità comandi con lo shortcut "Ctrl+b+:", da qui alcuni 
 comandi utili sono:
@@ -14242,6 +14288,10 @@ retrieving da un sito esterno, il modo più semplice al momento è:
  # scarica attraverso curl, l'informazione 
  # fornita dal sito ifconfig.me che fornisce il mio IP esterno
 ```
+in alternativa possiamo eseguire:
+```sh
+ curl ipecho.net/plain
+```
 un altro comando con curl utile da terminale per ricavare 
 informazioni su un IP è:
 
@@ -15362,31 +15412,27 @@ possiamo anche eseguire dei reverse lookups con:
 ```
 ```sh
  dig -t A www.ciao.it 
- # analogo al precedente, ma specifichiamo 
+ # analogo al precedente, ma specifichiamo esplicitamente
  # il tipo di query
 ```
 ```sh
  dig -t MX www.ciao.it 
- # esegue una query di tipo MX
+ # esegue una query di tipo MX per localizzare i server mail
 ```
 ```sh
  dig -t A www.ciao.it +nocomments +noauthority 
  # rimuove 
  # dall'output i commenti e la sezione authority, in genere la 
- # possibilità sono:
 ```
-* +nocomments -- Turn off the comment lines 
-
-* +noauthority -- Turn off the authority section 
-
-* +noadditional -- Turn off the additional section 
-
-* +nostats -- Turn off the stats section 
-
-* +noanswer -- Turn off the answer section (Of course, you 
+In genere i vari switch che possiamo utilizzare con dig per disabilitare o
+abilitare sezioni di output sono:
+* `+nocomments` -- Turn off the comment lines 
+* `+noauthority` -- Turn off the authority section 
+* `+noadditional` -- Turn off the additional section 
+* `+nostats` -- Turn off the stats section 
+* `+noanswer` -- Turn off the answer section (Of course, you 
     wouldn’t want to turn off the answer section)
-
-* +noall - Turn off everything, this is in general used to be 
+* `+noall` - Turn off everything, this is in general used to be 
     coupled with +answer so to only display the answer section
 
 ```sh
@@ -15396,8 +15442,8 @@ possiamo anche eseguire dei reverse lookups con:
 ```
 ```sh
  dig PTR 33.164.60.185.in-addr.arpa 
- # esegue una query di tipo 
- # PTR all'indirizzo IP 33.164.60.185
+ # esegue una query di tipo PTR
+ #  all'indirizzo IP 33.164.60.185
 ```
 ```sh
  dig MX google.com 
@@ -16919,6 +16965,7 @@ Altri tool per monitorare il traffico di rete in stile top o htop,
 sono:
 * iftop 
 * nethogs 
+* bmon
 
 
 ### Eseguire tcpdump e tante altre utility senza permessi di root
@@ -23807,6 +23854,7 @@ ha diversi binding per vari linguaggi di programmazione.
 * to manage screen blanking in pure terminal 
 * environments
 * gcore 
+* fc
 * check the content of the program in memory
 * apt-pinning
 * dget and backporting packages in debian
