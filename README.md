@@ -2483,16 +2483,16 @@ Identifier) per una nomenclatura persistente degli HDD.
 Linux riconosce la maggior parte dei drive ottici come 
 dispositivi SCSI; ad ogni modo se il dispositivo è molto vecchio 
 potrebbe essere riconosciuto come dispositivo PATA. I dispositivi 
-ottici indicati con la nomenclatura "/dev/sr*" che sta per SCSI 
+ottici indicati con la nomenclatura `/dev/sr*` che sta per SCSI 
 read sono di sola lettura, e sono dispositivi ottici da cui 
 possiamo solo leggere; invece i dispositivi su cui possiamo 
-scrivere sono indicati con "/dev/sg*", dove sg sta per SCSI 
+scrivere sono indicati con `/dev/sg*`, dove sg sta per SCSI 
 generic.
 
 
 ### PATA Hard Disk
 
-I device indicati con "/dev/hd*", sono comuni su kernel e 
+I device indicati con `/dev/hd*`, sono comuni su kernel e 
 dispositivi hardware molto vecchi. A volte potrebbe capitare di 
 trovare un HDD SATA riconosciuto come PATA, questo significa che 
 l'HDD SATA sta funzionando in "compatibility mode", questo 
@@ -2511,14 +2511,14 @@ DA FARE
 
 I terminali sono dispositivi utilizzati per spostare caratteri 
 tra un processo utente e un dispositvo di I/O, solitamente per 
-l'output del testo in uno schermo. Possiamo invece definire come "
-pseudoterminali" quei device che emulano i terminali che 
+l'output del testo in uno schermo. Possiamo invece definire come 
+`pseudoterminali` quei device che emulano i terminali che 
 capiscono l'I/O dei veri terminali. Invece di parlare di un vero 
 e proprio hardware in realtà il kernel fa riferimento ad un 
 software, che è costituito dalla shell del isstema operativo. Due 
-comuni terminal devices sono "/dev/tty1" che costituisce la prima 
-console virtuale, e "/dev/pts0" che è il primo pseudoterminale. 
-In pratica, i "/dev/tty*" sono i terminali a cui accedo 
+comuni terminal devices sono `/dev/tty1` che costituisce la prima 
+console virtuale, e `/dev/pts0` che è il primo pseudoterminale. 
+In pratica, i `/dev/tty*` sono i terminali a cui accedo 
 solitamente con la combinazione di tasti "Ctrl+Alt+Fx", dove "Fx" 
 rappresenta uno qualsiasi dei tasti funzione, mentre i terminali "
 pts" rappresentano gli emulatori di terminale. Tutti gli 
