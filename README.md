@@ -591,14 +591,14 @@ Il comando "time" ci fornirà tre risultati:
   altri processi, o il tempo speso da stato "bloccato" (ad 
   esempio se sta aspettando I/O), mentre negli altri due casi 
   spiegati sotto, si tiene conto solo del tempo in esecuzione
-  *The elapsed (real) time between invocation of utility and its 
-  termination.*
+  **The elapsed (real) time between invocation of utility and its 
+  termination.**
 * **user**:
   tempo passato in user-space speso in esecuzione
-  *The User CPU time, equivalent to the sum of the tms\_utime and 
+  **The User CPU time, equivalent to the sum of the tms\_utime and 
   tms_cutime fields returned by the times() function defined in 
   the System Interfaces volume of POSIX.1-2008 for the process 
-  in which utility is executed*
+  in which utility is executed**
 * **sys**:
     tempo passato in kernel space speso in esecuzione
     The System CPU time, equivalent to the sum of the tms_stime 
@@ -12580,7 +12580,7 @@ rilevanti:
 Queste sono solo alcune delle utility presenti, tra l'altro sono 
 state presentate con un numero limitatissimo di esempi, è 
 consigliato guardare il manuali attraverso il comando "man" sulle 
-utility presenti al percorso "/usr/sbin/xfs*" per effettuare 
+utility presenti al percorso `/usr/sbin/xfs*` per effettuare 
 operazioni più complicate.
 
 
