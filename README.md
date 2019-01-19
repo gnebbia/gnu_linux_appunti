@@ -2964,7 +2964,7 @@ variable "$PATH".
 
 Quando vediamo un pacchetto tipo:
 
-*nano-2.2.6-1.i386.rpm*
+`nano-2.2.6-1.i386.rpm`
 
 Allora le informazioni sono separate dai trattini, sto 
 installando il pacchetto chiamato "nano" della versione 2.2.6 
@@ -3382,8 +3382,7 @@ corresponding dependencies.
  # hanno lasciato i loro file di configurazione, MOLTO UTILE
 ```
 ```sh
- # apt-get download package; dpkg -i --force-not-root --root=$HOME 
-  package.deb 
+ apt-get download package; dpkg -i --force-not-root --root=$HOME package.deb 
  # installa un pacchetti a livello utente, molto 
  # utile, nel momento in cui non vogliamo sporcare le directory di 
  # sistema
@@ -5901,8 +5900,8 @@ selezionare un registro con il doppio apice ", inoltre c'è un
 registro speciale chiamato "blackhole" indicato conl'underscore "\_",
 ad esempio nel caso volessimo buttare via una riga senza 
 copiarla, possiamo tagliarla e incollarla nel registro blackhole 
-con: "_dd, mentre per salvare una riga nel registro b, possiamo 
-usare "bdd.
+con: `"_dd`, mentre per salvare una riga nel registro b, possiamo 
+usare `"bdd`.
 
 ### Make e Automatizzare Compilazioni
 
@@ -5941,17 +5940,12 @@ I tre canali di input/output predefiniti sono detti standard
 input, standard output e standard error (talvolta abbreviati 
 rispettivamente in stdin, stdout e stderr). In soldoni:
 
-```sh
- # Tutto quello che viene inserito come input da tastiera 
- # (Standatd Input o stdin)
-```
-```sh
- # L'output del comando/programmo (Standard Output o stdout)
-```
-```sh
- # Degli errori prodotti dal comanda/programma, come ad esempio "
- # file not found" o "permission denied" (Standard Error o stderr)
-```
+* Tutto quello che viene inserito come input da tastiera (Standatd Input o stdin)
+* L'output del comando/programmo (Standard Output o stdout)
+* Degli errori prodotti dal comanda/programma, come ad esempio
+  "file not found" o "permission denied" (Standard Error o stderr)
+
+
 Nei sistemi operativi GNU/Linux si utilizza: 
 
 ```sh
@@ -6479,10 +6473,16 @@ Possiamo anche specificare range, ad esempio:
  # qualsiasi cosa
 ```
 
-* l.*k #qualsiasi cosa fino all'ultima "k" della stringa
+```sh
+ l.*k 
+ #qualsiasi cosa fino all'ultima "k" della stringa
+```
 
-* l.*?k #qualsiasi cosa fino alla successiva"k" , si chiama 
-    notazione lazy
+```sh
+ l.*?k 
+ # qualsiasi cosa fino alla successiva"k" , si chiama 
+ # notazione lazy
+```
 
 ```sh
  [^abc] 
