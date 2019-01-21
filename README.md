@@ -18986,7 +18986,7 @@ Inoltre per chiudere una connessione ssh bloccata possiamo
 utilizzare il carattere di escape di ssh che è "~.".
 
 
-### SSH ed X
+#### SSH ed X
 
 E' possibile utilizzare ssh e poter runnare programmi grafici, 
 per poter effettuare questo, lato server dobbiamo abilitare la 
@@ -19006,7 +19006,25 @@ esempio "firefox" o qualsiasi altra cosa, e vedremo una finestra
 separata aprirsi, lato client ssh.
 
 
-### SSHFS
+#### Check dei Log di SSH
+
+La posizione dei log varia in base alla distro, possiamo trovarli comunque su
+alcune distirbuzioni in:
+
+`/var/log/secure`
+
+nelle distribuzioni utilizzanti systemctl e journalctl possiamo usare:
+
+```sh
+ journalctl -l -u sshd
+ # check dei log ssh attraverso il demone
+```
+puo' essere utile impostare il demone ssh su una porta diversa da quella
+standard 22, per evitare traffico inutile e superfluo di utenti con scopi
+malevoli che provano il bruteforce delle password.
+
+
+#### SSHFS
 
 SSHFS è un file system per i sistemi operativi unix-like (Mac OS 
 X, Linux, BSD). Questo file system permette di montare in locale 
@@ -19065,7 +19083,7 @@ sshfs://user@remote.machine.net:/remote/dir /work fuse user,_netdev,reconnect,ui
 ```
 
 
-### SCP
+#### SCP
 
 Per copiare file attraverso ssh, possiamo utilizzare il comando "
 scp", la sintassi è questa:
@@ -19082,7 +19100,7 @@ scp", la sintassi è questa:
 ```
 
 
-### SFTP
+#### SFTP
 
 Per avere un'interfaccia più comoda per il trasferimento file, 
 possiamo utilizzare il protocollo "sftp", cioè una versione 
@@ -19555,7 +19573,7 @@ more generally with any other distros we should check the kernel
 configuration file.
 
 
-### Server-Side
+#### Server-Side
 
 On the server we install:
 
@@ -19717,6 +19735,30 @@ these options can be specified using the mount command, or in the
 * `nosuid`: Prevents users from gaining ownership of files on the NFS share. 
 * `rsize=<num>`: Sets the read block data size. Defaults to 8192 on NFSv2 and NFSv3, and 32768 on NFSv4. 
 * `wsize=<num>`: Sets the write block data size. Defaults to 8192 on NFSv2 and NFSv3, and 32768 on NFSv4.
+
+## Samba 
+
+Samba can be thought as an alternative to NFS, when we are working in an
+environment comprehending Windows machines.
+
+Samba can be used both to:
+* Access Shared Directories/Printers
+* Act as a Domain Controller (rare application)
+
+Nota che di default Windows puo' condividere directory sia richiedendo
+credenziali di un utente esistente sulla macchina, sia non richiedendole 
+Questa impostazione deve essere settata dal pannello di controllo, nelle voci
+relative alla rete e alle condivisioni.
+Possiamo quindi disabilitare la richiesta di password per gli 
+"share" nelle impostazioni di rete.
+
+
+### Linux come client
+
+```sh
+smbclient
+```
+
 
 
 ## DNS Server
