@@ -16090,20 +16090,27 @@ operativi Unix-Like che fornisce una varietà di sorgenti per
 configurazioni comuni di database e risoluzione di nomi. Il file 
 nsswitch esiste quindi in tutte le distro, localizzato sempre 
 nella stessa posizione cioè "/etc/nsswitch.conf", questo file 
-regola la priorità che hanno le diverse configurazioni di diverse 
-cose, ad esempio l'ordine con cui vengono gestiti i dns, o 
-l'ordine con cui vengono gestiti altri servizi. Generalmente 
-possiamo affermare che configura i name services del sistema 
+regola la priorità che hanno le diverse configurazioni di diversi
+elementi, ad esempio l'ordine con cui vengono gestite le risoluzioni 
+dns, o l'ordine con cui vengono gestiti o acceduti gli account. 
+Generalmente possiamo affermare che configura i name services del sistema 
 operativo. Un' esempio esplicativo di riga potrebbe essere:
 
 ```sh
  hosts: files dns mdns4 
  # questa riga significa: per risolvere i 
- # dns prima guarda il file di configurazione di sistema "
- # /etc/hosts", questo ha la priorità massima, nel caso dovessi 
- # avere problemi allora affidati al servizio dns (trovato "
- # /etc.resolv.conf") e stessa cosa per "mdns4".
+ # dns prima guarda il file di configurazione di sistema ovvero "/etc/hosts", 
+ # questo ha la priorità massima, nel caso dovessi 
+ # avere problemi allora affidati al servizio dns (trovato "/etc.resolv.conf") 
+ # e stessa cosa per "mdns4".
 ```
+Questo file e' importante quando si gestiscono ambienti simili ad active
+directory come LDAP o NIS.
+
+Quindi possiamo ad esempio scegliere con quale priorita' vengono cercati gli
+account, se diamo priorita' ad LDAP, allora a quel punto sara' LDAP il
+responsabile primario degli account.
+
 Un esempio di file di configurazione (con commenti esplicativi) 
 potrebbe essere:
 
@@ -19009,11 +19016,14 @@ separata aprirsi, lato client ssh.
 #### Check dei Log di SSH
 
 La posizione dei log varia in base alla distro, possiamo trovarli comunque su
-alcune distirbuzioni in:
+a seguenti path:
 
-`/var/log/secure`
+* `/var/log/secure`
+* `/var/log/auth`
+* `/var/log/btmp`, keeps track of failed login attempts.
 
-nelle distribuzioni utilizzanti systemctl e journalctl possiamo usare:
+
+oppure nelle distribuzioni utilizzanti systemctl e journalctl possiamo usare:
 
 ```sh
  journalctl -l -u sshd
