@@ -9415,6 +9415,9 @@ costituito dal programma "systemctl", vediamone alcuni esempi:
  # controlla se il servizio foo è 
  # attivo
 ```
+
+
+
 E' da notare che systemd è compatibile con sysVinit, quindi i 
 servizi possono anche essere gestiti attraverso i comandi start, 
 stop, restart ecc... ad esempio:
@@ -9531,6 +9534,59 @@ aggiuntiva che incontriamo sui sistemi UEFI è "loader" questo
 Attraverso i comandi sopracitati, possiamo quindi tenere sotto 
 controllo il sistema, sapendo cosa viene avviato, quando viene 
 avviato e da cosa (quale script, programma) viene avviato.
+
+
+#### Consultare i Servizi Correnti
+
+Possiamo avere una panoramica generale dei servizi presenti sul sistema con:
+
+```sh
+systemctl list-units
+```
+
+Oppure andare nello specifico visualizzando tutte le unita' installate sul
+sistema:
+
+```sh
+systemctl list-unit-files
+```
+
+Possiamo visualizzare la lista di servizi in enabled con:
+
+```sh
+ systemctl list-units --type=service --state=active
+```
+
+Possiamo visualizzare la lista di servizi in running con:
+
+```sh
+ systemctl list-units --type=service --state=running
+```
+
+```sh
+ systemctl list-units --type=service --state=failed 
+```
+
+Possiamo anche applicare filtri con grep, ad esempio:
+
+```sh
+ systemctl list-units | grep -E 'service.*running'
+```
+
+Possiamo visualizzare anche quali sono i servizi che si devono avviare prima di
+un altro servizio con:
+
+```sh
+ systemctl list-dependencies --reverse NetworkManager-wait-online.service 
+ # mostra i servizi che aspettano NetworkManager sia avviato prima di avviarsi
+```
+Oppure possiamo capire di quali unita' o servizi ha bisogno un servizio prima di
+avviarsi con:
+```sh
+ systemctl list-dependencies NetworkManager-wait-online.service 
+ # mostra i servizi che si devono avviare prima di NetworkManager-wait-online
+```
+
 
 #### Creare un servizio per systemd
 
@@ -17113,14 +17169,28 @@ Per isolare completamente un computer dalla rete, eseguiamo:
  # disabilita l'inoltro dei 
  # pacchetti su tutte le porte
 ```
-mentre per abilitare ad esempio la porta "22" per il con TCP, in 
+
+Se volessimo invece bloccare il traffico da uno specifico IP o network, possiamo
+eseguire:
+
+```sh
+ iptables -A INPUT -s 11.22.33.44 -j DROP
+ 
+```
+
+Possiamo anche specificare una interfaccia di rete e una porta specifica con:
+```sh
+ iptables -A INPUT -s 11.22.33.44 -i eth0 -j DROP
+```
+
+mentre per abilitare ad esempio la porta "22" TCP, in 
 ingresso eseguiamo:
 
 ```sh
  iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 ```
 mentre per abilitare il traffico di uscita sulla stessa porta 
-sempre con TCP, eseguiamo:
+con TCP, eseguiamo:
 
 ```sh
  iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
@@ -17147,6 +17217,19 @@ Per cancellare regole facciamo:
 ```sh
  sudo iptables -F 
  # si cancellano tutte le regole
+```
+
+Questo talvolta potrebbe no nbastare se abbiamo impostato delle chain
+aggiuntive ad INPUT/OUTPUT/FORWARD, in quel caso possiamo eseguire
+la seguente sequenza di comandi:
+
+```sh
+iptables --flush
+iptables --table nat --flush
+iptables --table mangle --flush
+iptables --delete-chain
+iptables --table nat --delete-chain
+iptables --table mangle --delete-chain
 ```
 
 
