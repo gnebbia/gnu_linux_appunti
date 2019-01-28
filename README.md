@@ -1274,6 +1274,7 @@ scopo delle principali directory:
       * /proc/meminfo -- informazioni sulla memoria
       * /proc/loadavg -- average system load
       * /proc/version -- current linux version
+      * /proc/maps -- contiene gli indirizzi di memoria usati dal processo
     ∗ Informazioni sui processi attivi sul sistema: sono 
       strutturati secondo directory che prendono il nome 
       dall'identificativo del processo (PID) e contengono:
@@ -15493,6 +15494,32 @@ o per un esame più avanzato sul DNS eseguiamo:
 ```sh
  dig www.example.com
 ```
+
+Possiamo eseguire un whois enumeration per avere alcuni
+dettagli sul dominio con:
+
+```sh
+whois example.com
+```
+
+
+```sh
+ dig a example.com @nameserver
+ # eseguo una query di tipo A utilizzando come nameserver quello indicato
+```
+
+```sh
+ dig mx example.com @nameserver
+ # eseguo una query di tipo MX utilizzando come nameserver quello indicato
+```
+
+```sh
+ dig axfr example.com @nameserver
+ # eseguo un zone transfer, questo non dovrebbe essere possibile su una rete
+ # esterna
+```
+
+
 possiamo anche eseguire dei reverse lookups con:
 
 ```sh
@@ -15573,6 +15600,9 @@ abilitare sezioni di output sono:
  # implementa 
  # uno zone-transfer utilizzando host
 ```
+Possiamo provare uno zone-transfer utilizzando il sito messo a
+disposizione `zonetransfer.me`.
+
 un comando alternativo a "dig" comune agli utenti Microsoft 
 Windows ma disponibile anche per GNU/Linux è nslookup, possiamo 
 in basilare eseguirlo con:
@@ -24192,6 +24222,25 @@ strace -e trace=open,read -p 22254 -s 80 -o debug.txt
 ltrace tracks and records the dynamic (runtime) library calls made by a process
 and the signals received by it. It can also track the system calls made within a
 process. It's usage is similar to strace
+
+
+#### Modificare la memoria di un processo in running
+
+Possiamo modificare il contenuto della memoria di un processo, mentre e' in
+running attraverso questo snippet di codice in C:
+
+```sh
+#include <sys/ptrace.h>
+...
+ptrace(PTRACE_ATTACH, pid, NULL, NULL); 
+// or use PTRACE_SEIZE instead of PTRACE_ATTACH if 
+// you don't want to suspend the process
+
+int data = 4;
+ptrace(PTRACE_POKEDATA, pid, 0x83040, &data);
+```
+
+
 
 
 ## Licenza
