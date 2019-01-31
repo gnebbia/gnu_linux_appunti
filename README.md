@@ -18966,7 +18966,9 @@ Vediamo ora alcuni comandi per eseguire accesso con ssh:
  # farlo prima di eseguire il login eseguiamo:
 ```
 
-* chmod 600 deployment_key.txt
+```sh
+ chmod 600 deployment_key.txt
+```
 
 Una volta eseguito per la prima volta l'accesso, ci verrà chiesto 
 qualora vogliamo salvare la chiave RSA, questa chiava verrà 
@@ -18985,6 +18987,23 @@ NOTA BENE: Nel caso in cui dopo la prova d'accesso non vedo
 nessun messaggio, cioè nemmeno messaggi d'errore, il problema è 
 il firewall, dovremo infatti aprire la porta su cui vogliamo 
 servire il servizio ssh.
+
+
+Possiamo anche effettuare automaticamente un doppio login ssh attraverso un po'
+di configurazione nel file .ssh/config, impostandolo in questo modo:
+
+```txt
+TCPKeepAlive yes
+ServerAliveInterval 30
+
+Host mynestedhost
+User nebbione
+ProxyCommand ssh -q john@reachable.host.it nc %h %p
+```
+A questo punto possiamo raggiungere mynestedhost attraverso un:
+```sh
+ssh -l nomeutente mynestedhost
+```
 
 
 #### Chiavi DSA e RSA
