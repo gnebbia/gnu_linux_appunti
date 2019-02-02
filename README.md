@@ -7781,6 +7781,11 @@ possiamo ricercare anche in funzione di nomi utente o di gruppo
  # fare attenzione a questi file
 ```
 
+Possiamo anche usare find per trovare i file duplicati con:
+```sh
+find -type f -exec md5sum '{}' ';' | sort | uniq --all-repeated=separate -w 33
+```
+
 ### Locate
 
 Locate è un programma che crea un indice dei file salvati sul 
