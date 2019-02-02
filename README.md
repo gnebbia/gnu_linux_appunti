@@ -20317,6 +20317,12 @@ possiamo usare:
  CREATE TABLE Orders ( O_Id int NOT NULL, OrderNo int NOT NULL, P_Id int, PRIMARY KEY (O_Id), FOREIGN KEY (P_Id) REFERENCES Persons(P_Id) );
 ```
 
+Possiamo anche leggere file di sistema con mysql (se abbiamo i permessi
+necessari) con:
+```sh
+select load_file("/etc/file_to_read.txt");
+```
+
 
 ### Backup Database
 
@@ -20503,6 +20509,31 @@ eseguiamo:
 ```sql
  dropuser nomeUtenteDaRimuovere
 ```
+
+#### Exploring a Postgresql Database
+
+Una volta connessi ad un database postgresql ad esempio col comando:
+```sh
+psql -U username -p 5432 -W 
+ # il flag -U e' per lo username
+ # il flag -p e' per la porta, in questo caso 5432
+ # il flag -W e' per usare una password per fare login
+```
+Possiamo esplorare i vari database presenti con i seguenti comandi:
+```sh
+ \list # mostra la lista dei database presenti
+ \c [DATABASE] # si connette al database menzionato
+ \d # elenca le tabelle presenti nel database corrente
+```
+
+Possiamo anche leggere un file di sistema con postgresql attraverso la seguente
+sequenza di comandi:
+```sh
+ CREATE TABLE demo(t text);
+ COPY demo from '[FILENAME]';
+ SELECT * FROM demo;
+```
+
 
 ## Kernel
 
