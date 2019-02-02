@@ -15621,8 +15621,24 @@ diversi, questo è dovuto al fatto che dig utilizza lo stub
 resolver del Sistema Operativo mentre nslookup ne implementa uno 
 tutto suo.
 
-Per ottenere informazioni dns su un dominio che non conosciamo 
-possiamo usare "dnsdumpster.com"
+Il programma nslookup comunque fornisce una riga di comando tutta sua, ad
+esempio nel caso volessimo avere informazioni sul dominio ebay.it,
+possiamo procedere con i seguenti comandi:
+```sh
+nslookup
+set querytype=any
+ebay.com
+```
+
+oppure possiamo fare query piu' specifiche come ad esempio:
+```sh
+nslookup
+set querytype=A
+ebay.com
+```
+
+Ad ogni modo per ottenere velocemente informazioni dns su un dominio 
+che non conosciamo possiamo usare "dnsdumpster.com"
 
 
 ### Netcat
