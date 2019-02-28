@@ -11455,6 +11455,14 @@ supporti la modalità CSM (Compatibility Support Mode) che
 permette di emulare la modalità BIOS, permettendo a sistemi che 
 non supportano UEFI di avviarsi come se avessero BIOS.
 
+I disk con tabella di partizionamento GPT sono comunque oggigiorno piu'
+frequenti, questo perche':
+
+* MBR ha dei limiti da design, ad esempio la massima capacita' supportata per un 
+  e' di 2 TiB, ma oggigiorno dischi di queste dimensioni o maggiori sono
+  abbastanza comuni
+* Microsoft si e' conformato a UEFI, e con UEFI non e' possibile eseguire boot
+  di dischi con partizionamento MBR
 
 ### Schemi di Partizionamento Minimali
 
@@ -11487,7 +11495,7 @@ sector
 
 In questo caso dovremo creare:
 
-* 1 partizione da 1MB marcata come BIOS Boot o bios_grub (a differenza del programma con cui creiamo le partizioni)
+* 1 partizione da 1MB marcata come BIOS Boot o `bios_grub` (a differenza del programma con cui creiamo le partizioni)
 * 1 partizione di root /
 
 non è necessaria una partizione separata di /boot.
@@ -11536,6 +11544,397 @@ di GRUB ormai è tutto supportate però:
 * ext4: overhead maggiore, dovrebbe funzionare sulle versioni più 
   recenti ed alcuni dicono che nonostante abbiamo overhead 
   maggiore, avere ext4 velocizzi il boot
+
+### Altri Esempi Pratici di Partizionamento
+
+#### UEFI+GPT (Option 1: Boot and Home on Different Partitions)
+
+There will be 1.00 MiB of empty space at the beginning of the disk and 1.00 MiB at
+the end of the disk.
+*   /dev/sda1
+    Size: 512 MiB
+    File system: FAT32
+    Flags: boot & esp
+    Code: EF00
+    Label: ESP
+    Mount point: /boot/efi
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    File system: linux-swap
+    Flags: None
+    Code: 8200
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: 512 MiB
+    File system: ext2
+    Flags: None
+    Code: 8300
+    Label: BOOT
+    Mount point: /boot Therefore /boot/grub/ will be on this partition if you use GRUB.
+
+*   /dev/sda4
+    Size: e.g. 64 GiB (128 GiB if the drive is big)
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: ROOT
+    Mount point: / (root)
+
+*   /dev/sda5
+    Size: 1.00 MiB less than the remaining disk space
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: HOME
+    Mount point: /home
+
+
+#### UEFI+GPT (Option 2: Only Home on Different Partition)
+
+You could use this scheme if you are not interested in having /boot on its own
+partition.
+
+There will be 1.00 MiB of empty space at the beginning of the disk and 1.00 MiB at
+the end of the disk.
+*   /dev/sda1
+    Size: 512 MiB
+    File system: FAT32
+    Flags: boot & esp
+    Code: EF00
+    Label: ESP
+    Mount point: /boot/efi
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    File system: linux-swap
+    Flags: None
+    Code: 8200
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: e.g. 64 GiB (128 GiB if the drive is big)
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: ROOT
+    Mount point: / (root)
+
+*   /dev/sda4
+    Size: 1.00 MiB less than the remaining disk space
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: HOME
+    Mount point: /home
+
+
+#### UEFI+GPT (Option 3: Everything on a Single Partition)
+
+You could use this scheme if you are not interested in having /boot and /home on
+their own partitions.
+
+There will be 1.00 MiB of empty space at the beginning of the disk and 1.00 MiB at
+the end of the disk.
+*   /dev/sda1
+    Size: 512 MiB
+    File system: FAT32
+    Flags: boot & esp
+    Code: EF00
+    Label: ESP
+    Mount point: /boot/efi
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    File system: linux-swap
+    Flags: None
+    Code: 8200
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: 1.00 MiB less than the remaining disk space
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: ROOT
+    Mount point: / (root)
+
+
+#### BIOS+GPT (Option 1: Boot and Home on Different Partitions)
+
+You could use this scheme if you are not interested in having /boot and /home on
+their own partitions.
+
+There will be 1.00 MiB of empty space at the beginning of the disk and 1.00 MiB at
+the end of the disk.
+*   /dev/sda1
+    Size: 1 MiB
+    File system: Unformatted
+    Flags: bios_grub
+    Code: EF02
+    Label: Not Applicable
+    Mount point: Not Applicable
+
+*   /dev/sda2
+    Size: 512 MiB
+    File system: ext2
+    Flags: None
+    Code: 8300
+    Label: BOOT
+    Mount point: /boot
+
+*   /dev/sda3
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    File system: linux-swap
+    Flags: None
+    Code: 8200
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda4
+    Size: e.g. 64 GiB (128 GiB if the drive is big)
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: ROOT
+    Mount point: / (root)
+
+*   /dev/sda5
+    Size: 1.00 MiB less than the remaining disk space
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: HOME
+    Mount point: /home
+
+
+#### BIOS+GPT (Option 2: Only Home on a Different Partition)
+
+You could use this scheme if you are not interested in having /boot on its own
+partition.
+
+There will be 1.00 MiB of empty space at the beginning of the disk and 1.00 MiB at
+the end of the disk.
+*   /dev/sda1
+    Size: 1 MiB
+    File system: Unformatted
+    Flags: bios_grub
+    Code: EF02
+    Label: Not Applicable
+    Mount point: Not Applicable
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    File system: linux-swap
+    Flags: None
+    Code: 8200
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: e.g. 64 GiB (128 GiB if the drive is big)
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: ROOT
+    Mount point: / (root) 
+
+*   /dev/sda4
+    Size: 1.00 MiB less than the remaining disk space
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: HOME
+    Mount point: /home
+
+
+#### BIOS+GPT (Option 3: Everything on a Single Partition)
+
+You could use this scheme if you are not interested in having /boot and /home on
+their own partitions.
+
+There will be 1.00 MiB of empty space at the beginning of the disk and 1.00 MiB at
+the end of the disk.
+*   /dev/sda1
+    Size: 1 MiB
+    File system: Unformatted
+    Flags: bios_grub
+    Code: EF02
+    Label: Not Applicable
+    Mount point: Not Applicable
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    File system: linux-swap
+    Flags: None
+    Code: 8200
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: 1.00 MiB less than the remaining disk space
+    File system: ext4
+    Flags: None
+    Code: 8300
+    Label: HOME
+    Mount point: / (root)
+
+
+#### BIOS+MBR (Option 1: Boot and Home on Different Partitions)
+
+You could use this scheme if you are not interested in having /boot and /home on
+their own partitions.
+
+There will be 1.00 MiB of empty space at the beginning of the disk. 
+*   /dev/sda1
+    Size: 512 MiB
+    Type: Primary
+    File system: ext2
+    Flags: boot
+    Label: BOOT
+    Mount point: /boot
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    Type: Primary
+    File system: linux-swap
+    Flags: None
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: e.g. 64 GiB (128 GiB if the drive is big)
+    Type: Primary
+    File system: ext4
+    Flags: None
+    Label: ROOT
+    Mount point: / (root)
+
+*   /dev/sda4
+    Size: remaining disk space
+    Type: Primary
+    File system: ext4
+    Flags: None
+    Label: HOME
+    Mount point: /home
+
+
+#### BIOS+MBR (Option 2: Only Home on a Different Partition)
+
+You could use this scheme if you are not interested in having /boot on its own
+partition.
+
+There will be 1.00 MiB of empty space at the beginning of the disk. 
+*   /dev/sda1
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    Type: Primary
+    File system: linux-swap
+    Flags: None
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda2
+    Size: e.g. 64 GiB (128 GiB if the drive is big)
+    Type: Primary
+    File system: ext4
+    Flags: boot
+    Label: ROOT
+    Mount point: / (root)
+
+*   /dev/sda3
+    Size: remaining disk space
+    Type: Primary
+    File system: ext4
+    Flags: None
+    Label: HOME
+    Mount point: /home
+
+
+#### BIOS+MBR (Option 3: Everything on a Single Partition)
+
+You could use this scheme if you are not interested in having /boot and /home on
+their own partitions.
+
+There will be 1.00 MiB of empty space at the beginning of the disk. 
+*   /dev/sda1
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    Type: Primary
+    File system: linux-swap
+    Flags: None
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda2
+    Size: remaining disk space
+    Type: Primary
+    File system: ext4
+    Flags: boot
+    Label: HOME
+    Mount point: / (root)
+
+
+#### BIOS+MBR (Option 4: More than 4 Partitions)
+
+If you want to have more than four partitions — let’s say you wanted to have a
+separate NTFS partition, for example — you would need to use an Extended
+Partition.
+
+There will be 1.00 MiB of empty space at the beginning of the disk. 
+
+*   /dev/sda1
+    Size: 512 MiB
+    Type: Primary
+    File system: ext2
+    Flags: boot
+    Label: BOOT
+    Mount point: /boot
+
+*   /dev/sda2
+    Size: 16 GiB for a computer with 16 GiB of RAM*
+    Type: Primary
+    File system: linux-swap
+    Flags: None
+    Label: SWAP
+    Mount point: None
+
+*   /dev/sda3
+    Size: Remainder of disk
+    Type: Extended
+    File system: Not applicable
+    Flags: None
+    Label: Not applicable
+    Mount point: Not applicable
+
+*   /dev/sda4
+    Will not exist
+
+*   /dev/sda5
+    Size: e.g. 128GiB
+    Type: Logical
+    File system: ext4
+    Flags: None
+    Label: ROOT
+    Mount point: / (root)
+
+*   /dev/sda6
+    Size: e.g. 256GiB
+    Type: Logical
+    File system: ext4
+    Flags: None
+    Label: HOME
+    Mount point: /home
+
+*   /dev/sda7
+    Size: remaining space on the disk
+    Type: Logical
+    File system: NTFS
+    Flags: None
+    Label: NTFS
+    Mount point: /media/NTFS
 
 
 ### Partizioni Separate vs Partizione Unica
