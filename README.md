@@ -8133,7 +8133,7 @@ mia libreria. Ad esempio:
 1. `mkdir /usr/local/mylibrary` creo una directory e all'interno 
   ci metto la mia libreria
 2. `export LD_LIBRARY_PATH=/usr/local/mylibrary` modifico la 
-  variabile d'ambiente "LD_LIBRARY_PATH" contenente il percorso 
+  variabile d'ambiente `LD_LIBRARY_PATH` contenente il percorso 
   alle librerie accessibile all'utente
 
 N.B.: possiamo anche utilizzare più percorsi, infatti utente 
@@ -8165,7 +8165,7 @@ file or directory", questo avviene in quanto il sistema vuole
 quella specifica libreria, ma per un'altra architettura, nel 
 nostro caso potrebbe ad esempio volere la versione per 
 architettura "i386" di quella libreria, mentre noi abbiamo solo 
-la versione per architettura "x86_64", dobbiamo quindi procedere 
+la versione per architettura `x86_64`, dobbiamo quindi procedere 
 con l'aggiungere i pacchetti per l'architettura "i386" e 
 installare la libreria. SOlitamente su Debian una determinata 
 libreria o pacchetto per un'altra architettura si può installare 
@@ -9774,6 +9774,35 @@ Solitamente i messaggi di boot sono contenuti in
 sistema, possiamo ad esempio visualizzarli con "dmesg" o 
 attraverso il nostro gestore di demoni, in quanto a volte il 
 sistema cancella quei messaggi.
+
+#### Differenze tra firmware BIOS e UEFI
+
+System initialization
+* Under BIOS
+    * System switched on, the power-on self-test (POST) is executed.
+    * After POST, BIOS initializes the necessary system hardware for booting (disk, keyboard controllers etc.).
+    * BIOS launches the first 440 bytes (the Master Boot Record bootstrap code area) of the first disk in the BIOS disk order.
+    * The boot loader's first stage in the MBR boot code then launches its second stage code (if any) from either:
+        * next disk sectors after the MBR, i.e. the so called post-MBR gap (only on a MBR partition table).
+        * a partition's or a partitionless disk's volume boot record (VBR).
+        * the BIOS boot partition (GRUB on BIOS/GPT only).
+    * The actual boot loader is launched.
+    * The boot loader then loads an operating system by either chain-loading or directly loading the operating system kernel.
+
+* Under UEFI
+    * System switched on, the power-on self-test (POST) is executed.
+    * UEFI initializes the hardware required for booting.
+    * Firmware reads the boot entries in the NVRAM to determine which EFI application to launch and 
+      from where (e.g. from which disk and partition).
+      A boot entry could simply be a disk. In this case the firmware looks for an EFI system partition 
+      on that disk and tries to find a EFI application in the fallback boot path 
+      \EFI\BOOT\BOOTX64.EFI (BOOTIA32.EFI on systems with a IA32 (32-bit) UEFI).
+      This is how UEFI bootable removable media work.
+    * Firmware launches the EFI application.
+        * This could be a boot loader or the linux kernel itself using EFISTUB.
+        * It could be some other EFI application such as a UEFI shell or a boot manager like systemd-boot or rEFInd.
+
+If Secure Boot is enabled, the boot process will verify authenticity of the EFI binary by signature. 
 
 
 ### Log
