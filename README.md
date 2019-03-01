@@ -992,6 +992,8 @@ comunque forzare l'aggiornamento eseguendo:
 ```sh
  mandb 
  # Aggiorna il database delle pagine di manuale per apropos
+ # Nota che questo deve essere eseguito con i permessi di root
+ # quindi potrebbe essere opportuno eseguire `sudo mandb`
 ```
 N.B.: A volte se siamo in cerca di esempio e non li troviamo 
 nelle pagine di "man" e di "info", possiamo cercarli all'interno 
@@ -14634,6 +14636,44 @@ specifica (qui basta leggere un attimo con attenzione il file):
 Option "TabButton1" "1"
 ```
 Al riavvio di X, l'opzione prenderà effetto.
+
+#### Gestione dei programmi di default e associazioni
+
+Per associare a specifici tipi di file applicazioni preferite, dobbiamo imparare
+a gestire XDG MIME Applications specification.
+
+We can show what is the specific MIME type associated to a file with:
+```sh
+xdg-mime query filetype photo.jpeg
+# will show us the mime type associated to the file photo.jpeg
+```
+
+Once we know the MIME type string, we can use this string to understand which
+software is associated to this file with:
+```sh
+xdg-mime query default image/jpeg
+# shows the name of the software associated to the mentioned MIME type, 
+# in this case image/jpeg 
+```
+
+In order to open a file with its associated software we can do:
+```sh
+xdg-open filename.ext
+# opens filename.ext with its XDG associated software
+```
+
+The XDG standard is the most common for configuring desktop environments.
+Default applications for each MIME type are stored in mimeapps.list files, which
+can be stored in several locations. They are searched in the following order,
+with earlier associations taking precedence over later ones: 
+
+* `~/.config/mimeapps.list` user overrides
+* `/etc/xdg/mimeapps.list` system-wide overrides
+* `~/.local/share/applications/mimeapps.list` (deprecated) user overrides
+* `/usr/local/share/applications/mimeapps.list` distribution-provided defaults
+* `/usr/share/applications/mimeapps.list` distribution-provided defaults
+
+
 
 
 ### Utility in ambiente senza X
