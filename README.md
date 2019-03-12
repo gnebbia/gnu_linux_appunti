@@ -16105,6 +16105,15 @@ set querytype=A
 ebay.com
 ```
 
+Possiamo risalire al nostro nome hostname e dominio con molti provider 
+attraverso il comando nslookup, infatti eseguendo:
+```sh
+curl ifconfig.me 
+# in questo modo possiamo visualizzare l'indirizzo IP esterno
+nslookup <ip-address>
+# in questo modo otteniamo il nostro hostname e dominio
+```
+
 Ad ogni modo per ottenere velocemente informazioni dns su un dominio 
 che non conosciamo possiamo usare "dnsdumpster.com"
 
@@ -17637,11 +17646,11 @@ cattura di pacchetti eccetera.
 Il programma IpTables un'interfaccia per gli amministratori di 
 sistema vincolata al kernel Linux e costituisce un programma di 
 gestione "firewall" per sistemi GNU/Linux. Nei sistemi Debian 
-based, esistono delle applicazioni di front-end come ad esempio "
-ufw" non esistono script o eseguibili per lanciare iptables, 
+based, esistono delle applicazioni di front-end come ad esempio 
+"ufw" non esistono script o eseguibili per lanciare iptables, 
 mentre su distro Red-Hat based esistono degli script nella 
 directory `/etc/init.d/`, possiamo visualizzarli con: "ls -al 
-`/etc/init.d/ip*`, e possiamo quindi iniziare il processo con:
+`/etc/init.d/ip*`, e possiamo quindi gestire il processo con:
 
 ```sh
  sudo service iptables start 
@@ -17650,6 +17659,7 @@ directory `/etc/init.d/`, possiamo visualizzarli con: "ls -al
 ```sh
  sudo service iptables stop
 ```
+
 Nelle distro Debian-based invece si abilita il firewall 
 attraverso:
 
@@ -17663,14 +17673,148 @@ e si può verificare lo stato del firewall con:
 ```
 inoltre i log di ufw vengono salvati in "/var/log/ifw.log".
 
-Vediamo ora, una volta installato e avviato iptables, alcuni 
-comandi da utilizzare:
+Vediamo ora, una volta installato e avviato iptables, il suo funzionamento e
+come utilizzarlo.
+
+Innanzitutto e' utile sapere che il kernel Linux possiede un framework per il
+packet filtering chiamato netfilter. Questo ci permette di rimuovere/permettere
+o modificare il traffico sia in ingresso che in uscita dal sistem.
+Iptables non e' altro che un'interfaccia per netfilter configurabile attraverso
+regole.
+Nota che alcuni programmi come fail2ban si appoggiano a loro volta su IPtables.
+
+Il meccanismo di packet filtering implementato da iptables e' organizzato in 3
+strutture:
+* Tables, una struttura che ci permette di processare pacchetti in modi
+  specifici
+* Chains, ci permettono di ispezionare traffico in punti diversi della loro vita
+* Targets (o policies), un target decide il destino di un pacchetto, quindi il "cosa fare"
+
+Quando un pacchetto arriva o lascia la macchina (dipendentemente dalla chain),
+iptables prova a matchare le condizioni del pacchetto con le regole all'interno
+della chain, una per una. Se non viene matchata nessuna regola, allora esegue la
+policy di default.
+By default, tutte le chain hanno come default policy quella di permettere
+l'accesso dei pacchetti.
+
+#### Iptables: Tables
+
+Le tabelle permettono di effettuare uno specifico procedimento sui
+pacchetti, in genere gli utenti non creano nuove tabelle, in quanto queste sono
+specificate lato kernel.
+Sui sistemi GNU/Linux moderni esistono 4 tabelle in genere:
+
+* filter table: questa tabella e' quella di default e la piu' utilizzata in
+  genere, permette di effettuare decisioni sui pacchetti e gestire il traffico
+  in genere dei pacchetti
+* mangle table: questa tabella permette di modificare gli header dei pacchetti,
+* nat table: questa tabella permette di effettuare routing dei pacchetti ad host
+  diversi su reti NAT cambiando gli innidirizzi source e destination, in genere
+  viene utilizzata per fornire servizi esterni a processi che non potrebbero
+* raw table: questa tabella implementa uno stateful firewall, quindi permette
+  l'ispezione di pacchetti in funzione del loro stato. Ad esempio potremmo avere
+  politiche specifiche solo per pacchetti di apertura della connessione oppure per
+  pacchetti di un tipo particolare.
+
+In aggiunta, alcuni kernel hanno una tabella aggiuntiva chiamata "security" che
+viene usata da software o meccanismi di sicurezza ed hardening come ad esempio SELinux. 
+Infatti SELinux puo' utilizzare questa tabella per implementare politiche basate
+sui suoi seucirty contexts.
+
+Nota che di default, se nessuna tabella viene specificata (attraverso l'opzione
+"-t"), viene utilizzata la tabella di default "filter".
+
+
+#### Iptables: Chains
+
+Ogni table e' composta di alcune chain di default. Queste chain ci permettono di
+filtrare i pacchetti in vari punti. La lista di chain che iptables fornisce e':
+
+* PREROUTING chain: le regole in questa chain si applicano appena i pacchetti
+    arrivano all'interfaccia di rete, questa chain e' presente nelle tabelle: nat,
+    mangle, raw. 
+* The INPUT chain: le regole in questa chain si applicano appena prima che il
+    pacchetto venga fornito ad un processo locale, questa chain e' presente nelle
+    tabelle: mangle, filter.
+* OUTPUT chain: le regole in questa chain si applicano quando il pacchetto e' in
+    uscita da un processo e sta per arrivare all'interfaccia di rete per essere
+    mandato verso l'esterno. Questa chain e' presente nelle tabelle: raw, mangle,
+    nat e filter.
+* FORWARD chain: le regole in questa chain si applicano se il pacchetto viene
+    solo forwardato dall'host corrente ma non e' destinato all'host. Questa chain
+    e' presente nelle tabelle: mangle, filter.
+* POSTROUTING chain: le regole in questa chain si applicano prima che il pacchetto 
+    venga mandato dall'interfaccia di rete verso l'esterno. Questa chain e'
+    presente nelle tabelle: nat, mangle.
+
+
+#### Iptables: Targets
+
+Chains permettono di filtrare il traffico attraverso regole. Quindi possiamo ad
+esempio aggiungere una regola sulla table "filter" e sulla chain "INPUT" per
+matchare il traffico sulla porta 22, e attraverso i "target" possiamo decidere
+cosa fare una volta che i pacchetti sono stati matchati.
+Quindi i target decidono "l'azione", alcuni target vengono chiamati
+"terminating" in quanto possono decidere il fato del pacchetto in esame
+immediatamente quindi senza controllare altre regole.
+I terminating target piu' comunemente utilizzati sono:
+
+* ACCEPT: accetta il pacchetto
+* DROP: droppa il pacchetto, sembrera' che il sistema non esiste nemmeno
+* REJECT: fa un "reject" del pacchetto, chiudendo quindi la connessione con un
+  "connection reset" in caso di protocollo TCP o con un "destination host unreachable" nel caso
+  di protocollo UDP o ICMP 
+
+Ad ogni modo pero' esistono anche non-terminating targets, cioe' target che
+nonostante vengano eseguiti, iptables continua ad eseguire controlli sul match
+di altre regole.
+Un esempio di questi non-terminating targets e' "LOG" che permette di loggare
+pacchetti specifici nei log del kernel. 
+
+
+#### Iptables: Esempi
+
+Nota che iptables e' composto da due interfacce command line, una omonima
+`iptables` e l'altra utilizzata per IPv6 chiamata `ip6tables`, ad ogni modo le
+i concetti e le opzioni da riga di comando per questi comandi non sono significativamente diversi.
 
 ```sh
  iptables -L 
- # elenca le regole presenti sul firewall, in 
+ # elenca le regole presenti sul firewall sulla tabella "filter", in 
  # output, in input e in forwarding
 ```
+Possiamo mostrare le regole anche con i numeri identificativi con:
+
+```sh
+ iptables -L --line-numbers
+ # elenca le regole presenti sul firewall sulla tabella "filter", in 
+ # output, in input e in forwarding
+ # anche mostrando il numero identificativo per ogni regola
+```
+
+In genere per ogni IP iptables prova anche ad effettuare un DNS lookup, questo
+potrebbe rallentare il tutto, per evitare queste query DNS possiamo utilizzare
+il flag -n, ad esempio:
+
+```sh
+ iptables -L -n --line-numbers
+```
+
+Possiamo mostrare le regole sulle altre tabelle selezionando le apposite tabelle
+col flag -t, ad esempio:
+
+```sh
+ iptables -t mangle -L -n --line-numbers 
+ # visualizziamo le regole attive sulla tabella "mangle"
+```
+Possiamo anche selezionare l'interfaccia con "-i", ad esempio:
+
+```sh
+ iptables -i lo -t mangle -L -n --line-numbers 
+ # in questo caso selezioniamo l'interfaccia di loopback
+```
+
+
 Per isolare completamente un computer dalla rete, eseguiamo:
 
 ```sh
@@ -17688,6 +17832,19 @@ Per isolare completamente un computer dalla rete, eseguiamo:
  # disabilita l'inoltro dei 
  # pacchetti su tutte le porte
 ```
+
+Possiamo eliminare le regole con:
+* Specificando l'intera regola
+* Specificando l'id della regola
+Ad esempio:
+```sh
+ iptables -D INPUT -s 221.194.47.0/24 -j REJECT
+```
+oppure:
+```sh
+ iptables -D INPUT 2
+```
+
 
 Se volessimo invece bloccare il traffico da uno specifico IP o network, possiamo
 eseguire:
@@ -17738,7 +17895,7 @@ Per cancellare regole facciamo:
  # si cancellano tutte le regole
 ```
 
-Questo talvolta potrebbe no nbastare se abbiamo impostato delle chain
+Questo talvolta potrebbe non bastare se abbiamo impostato delle chain
 aggiuntive ad INPUT/OUTPUT/FORWARD, in quel caso possiamo eseguire
 la seguente sequenza di comandi:
 
@@ -17750,6 +17907,75 @@ iptables --delete-chain
 iptables --table nat --delete-chain
 iptables --table mangle --delete-chain
 ```
+
+
+##### Bloccare un IP
+
+Per bloccare il traffico proveniente dall'IP 1.1.1.1 facciamo
+```sh
+iptables -t filter -A INPUT -s 1.1.1.1 -j REJECT
+```
+Siccome la tabella "filter" e' quella di default, questo comando e' analogo a:
+
+```sh
+iptables -A INPUT -s 1.1.1.1 -j REJECT
+```
+
+Possiamo anche utilizzare la notazione CIDR per indicare set di IP con:
+```sh
+iptables -A INPUT -s 1.1.1.1/24 -j REJECT
+```
+
+Possiamo anche bloccare solo il traffico in uscita verso uno specifico IP con:
+
+```sh
+iptables -A OUTPUT -d 1.1.1.1 -j DROP
+```
+
+##### Whitelisting di Singoli IP
+
+E' utile ricordare che le regole piu' in alto sono quelle che hanno precedenza.
+Possiamo utilizzare l'inserimento delle regole per effettuare whitelisting, ad
+esempio se stiamo bloccando tutto il traffico in input dalla rete 59.45.175.0/24
+ma vogliamo accettare il traffico dell'indirizzo 59.45.175.10, allora possiamo
+inserire come regola al primo posto quella relativa all'accettare il traffico da
+questo IP, in questo modo:
+
+```sh
+ iptables -I INPUT 1 -s 59.45.175.10 -j ACCEPT
+```
+
+##### Bloccare Protocolli
+
+Per quanto possa essere inutile, possiamo in principio bloccare tutto il 
+traffico TCP attraverso:
+```sh
+ iptables -A INPUT -p tcp -j DROP
+```
+
+Nel momento in cui volessimo bloccare traffico specifico, ad esempio su porte
+specifiche dobbiamo caricare i moduli con "-m", vediamo un esempio di blocco del
+traffico tcp sulla porta 22, come tentativo di bloccare accessi SSH:
+
+```sh 
+ iptables -A INPUT -p tcp -m tcp --dport 22 -s 59.45.175.0/24 -j DROP
+ # ora blocchiamo tutto il traffico TCP che ha come destinazione la porta 22
+ # nel range di IP menzionato
+```
+
+Possiamo anche specificare piu' porte caricando il modulo "multiport", ad esempio:
+```sh
+iptables -A INPUT -p tcp -m multiport --dports 22,5901 -s 59.45.175.0/24 -j DROP
+```
+
+Un altro modulo molto importante e' il "connection tracking", che ci permette di
+comunicare con host in blacklist nel momento in cui siamo noi ad iniziare la
+comunicazione.
+
+Una guida molto ben fatta su IPtables si puo' trovare qui:
+[IPtables Tutorial](https://www.booleanworld.com/depth-guide-iptables-linux-firewall/)
+
+
 
 
 ### Hosts Deny e Hosts Allow (Deprecati)
