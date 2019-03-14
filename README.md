@@ -19649,6 +19649,13 @@ Vediamo ora alcuni comandi per eseguire accesso con ssh:
  ssh nomeUtente@192.168.1.100 
  # analogo al comando precedente
 ```
+
+```sh
+ ssh -p 4444 nomeUtente@192.168.1.100 
+ # analogo al comando precedente
+ # ma si connette ad un server ssh sulla porta 4444
+```
+
 ```sh
  ssh -l nomeUtente -v 192.168.1.100 
  # esegue ssh in modalità 
@@ -19685,23 +19692,61 @@ Vediamo ora alcuni comandi per eseguire accesso con ssh:
  chmod 600 deployment_key.txt
 ```
 
+### SSH: Il file `known_hosts`
+
+Il file `known_hosts` e' presente lato client SSH e contiene le chiavi pubbliche
+dei server a cui il client si collega.
 Una volta eseguito per la prima volta l'accesso, ci verrà chiesto 
-qualora vogliamo salvare la chiave RSA, questa chiava verrà 
-salvata in un file e ci permetterà di verificare le successive 
-connessioni alla macchina. Dopo il primo utilizzo di ssh, 
-troveremo nella directory home una directory chiamata ".ssh/", in 
-questa directory esisterà un file chiamato "known_hosts", che 
-conterrà le chiavi per verificare le connessioni alle varie 
-macchine per cui siamo già stati collegati almeno una volta; nel 
-caso dovessimo avere problemi a connetterci ad una macchina a cui 
+se vogliamo salvare la chiave pubblica del server, questa chiava verrà 
+salvata in un file chiamamto `known_hosts` e ci permetterà di verificare 
+le successive connessioni alla macchina. Dopo il primo utilizzo di ssh, 
+troveremo nella nostra home directory una directory chiamata ".ssh/", in 
+questa directory sara' presente il file `known_hosts`, che 
+conterrà le chiavi pubbliche dei server a cui ci siamo connessi.
+Nel caso dovessimo avere problemi a connetterci ad una macchina a cui 
 siamo stati collegati in passato, allora la soluzione è 
-cancellare il file "known_hosts" o cancellare la voce 
+cancellare il file `known_hosts` o cancellare la voce 
 corrispettiva alla macchina.
 
+Se abbiamo la chiave pubblica del server nel file `known_hosts`, ma ad un nostro
+tentativo di connessione otteniamo un messaggio di errore relativo alle chiavi,
+i motivi possono essere molteplici:
+
+1. La chiave del sever e' cambiata per qualche motivo, ad esempio una
+   reinstallazione del sistema operativo o un aggiornamento di ssh o 
+   una rigenerazione delle chiavi
+2. L'hostname o l'indirizzo IP a cui ci stiamo connettendo ora appartengono ad
+   un altro server, questo potrebbe avvenire in ambienti con DHCP o in ogni
+   scenario in cui vengono riassegnati gli indirizzi
+3. Siamo vittime di un attacco Man-In-The-Middle, questo e' l'attacco principale
+   da cui il check delle chiavi cerca di proteggerci, quindi qualcuno che fa
+   spoofing dell'identita' del server
+
 NOTA BENE: Nel caso in cui dopo la prova d'accesso non vedo 
-nessun messaggio, cioè nemmeno messaggi d'errore, il problema è 
-il firewall, dovremo infatti aprire la porta su cui vogliamo 
+nessun messaggio, cioè nemmeno messaggi d'errore, il problema potrebbe
+essere il firewall, dovremo infatti aprire la porta su cui vogliamo 
 servire il servizio ssh.
+
+
+### SSH: Il file `authorized_keys`
+
+Il file `authorized_keys` presente sulle macchine che fanno da server ssh e
+contenuto nella sottodirectory `.ssh/` contenuta nella home directory,
+contiene le chiavi pubbliche delle macchine a cui e' stato dato il permesso di
+connettersi attraverso l'autenticazione via chiave.
+
+Come abbiamo visto esistono diverse modalita' per effettuare login attraverso
+ssh, le principali sono:
+* Basato su Password Authentication
+* Basato su Public Key Authentication, che e' un approccio piu' sicuro in quanto 
+
+Il file `authorized_keys` conterra' le chiavi pubbliche corrispondenti alle
+macchine che possono fare l'accesso in ssh attraverso questo meccanismo di
+crittografia a chiave pubblica
+
+
+
+### SSH: Configurazioni Utili
 
 
 Possiamo anche effettuare automaticamente un doppio login ssh attraverso un po'
@@ -19752,8 +19797,7 @@ Se avessimo voluto creare una chiave rsa, avremmo fatto:
 Una volta generate le chiavi, eseguiamo:
 
 ```sh
- # ssh-copy-id nomeUtenteConCuiCiVogliamoConnettere@192.168.1.195 
-  
+ ssh-copy-id nomeUtenteConCuiCiVogliamoConnettere@192.168.1.195 
  # copia le chiavi generate e presenti sull'account da cui viene 
  # eseguito il comando, (è possibile usare il flag "-i" per 
  # specificare file diversi da quello di default), se l'utente ha 
@@ -19775,11 +19819,73 @@ Una volta eseguito il login, possiamo notare sulla macchina
 remota la generazione di un file chiamato "authorized keys" nella 
 directory dell'utente ssh ".ssh/", questo file regola gli accessi 
 attraverso le chiavi, o meglio contiene la chiave pubblica 
-id_rsa.pub che possiede il client. Infatti nel caso lo 
+`id_rsa.pub` che possiede il client. Infatti nel caso lo 
 eliminassimo, allora il login sarebbe ancora disponibile ma solo 
 attraverso la password dell'utente, cioè login classico. Per una 
 spiegazione dettagliata del funzionamento di SSH, fare 
 riferimento a [www.slashroot.in/secure-shell-how-does-ssh-work||Guida ad SSH].
+
+#### Password Authentication vs Public Key Authentication
+
+There are pro's and con's for either pw or key-based authentication.
+
+In some cases, for example, key-based authentication is less secure
+than password authentication. In other cases, its pw-based that's less
+secure. In some cases, one is more convenient, in others, less.
+
+It all boils down to this: When you do key-based authentication, you
+must secure your key with a passphrase. Unless you don't have ssh-agent
+running that frees you from entering your passphrase every time,
+you've gained nothing in terms of convenience. Security is disputable:
+the attack vector now shifted from the server to YOU, or your account,
+or your personal machine, (...) - those may or may not be easier to break.
+
+Think outside of the box when deciding this. Whether you gain or loose
+in terms of security depends on the rest of your environment and other
+measures.
+
+edit: Oh, just saw that you're talking about a home server. I was in
+the same situation, "password" or "USB stick with key on it" always
+with me? I went for the former but changed the SSH listening port to
+something different than 22. That stops all those lame script kiddies
+brute forcing whole network ranges.
+
+
+Another reason is:
+
+
+If your SSH service allows password based authentication, then
+your Internet connected SSH server will be hammered day and night by
+bot-nets trying to guess user-names and passwords. The bot net needs no
+information, it can just try popular names and popular passwords. There's
+an awful lot of people named john with a password of qwerty123. Apart
+from anything else this clogs your logs.
+
+If your SSH service only allows public-key authentication, an attacker
+needs a copy of a private key corresponding to a public key stored on
+the server. They can't just make random attacks, they have to have prior
+knowledge of your users and have to be able to steal a private key from
+the PC of an authorized user of your SSH server.
+
+The fact that private keys are often protected by a long pass-phrase is
+of secondary significance.
+
+Update:
+
+As comments point out, and as I have experienced, moving your SSH service
+from port 22 to a high numbered port makes a dramatic difference in the
+number of unauthorized login attempts appearing in your logs. This is
+worth doing but I do regard it as a form of security by obscurity (a false
+sense of security) - sooner or later bot-nets will implement slow stealthy
+port-scanning or you will be deliberately targeted. Better to be prepared.
+
+I always use a long pass-phrase to protect my private key, I guess this
+is of particular importance on mobile devices that could more easily be
+lost or stolen.
+
+REFERENCES: 
+[authentication methods comparison](https://serverfault.com/questions/334448/why-is-ssh-password-authentication-a-security-risk)
+[authentication methods comparison 2](https://superuser.com/questions/303358/why-is-ssh-key-authentication-better-than-password-authentication)
 
 
 #### SSH-Agent
@@ -19834,7 +19940,7 @@ una configurazione utile lato client, se non volessimo che la
 connessione cadesse con un server ssh, è quella di configurare 
 l'invio periodico di pacchetti null, possiamo effettuare questa 
 configurazione andando a mettere la stringa: "ServerAliveInterval 
-10" all'interno di /etc/ssh/ssh_config o /etc/ssh_config.
+10" all'interno di `/etc/ssh/ssh_config` o `/etc/ssh_config`.
 
 Inoltre per chiudere una connessione ssh bloccata possiamo 
 utilizzare il carattere di escape di ssh che è "~.".
@@ -19844,7 +19950,7 @@ utilizzare il carattere di escape di ssh che è "~.".
 
 E' possibile utilizzare ssh e poter runnare programmi grafici, 
 per poter effettuare questo, lato server dobbiamo abilitare la 
-voce "X11Forwarding yes" nel file "/etc/ssh/sshd_config", mentre 
+voce "X11Forwarding yes" nel file `/etc/ssh/sshd_config`, mentre 
 lato client ci basterà eseguire:
 
 ```sh
