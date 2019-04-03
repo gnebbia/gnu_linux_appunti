@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US" xml:lang="en-US">
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>SSH Cheat Sheet | pentestmonkey</title>
+<link rel="stylesheet" href="http://pentestmonkey.net/wp-content/themes/baza-noclegowa/style.css" type="text/css" media="screen" />
+<link rel="pingback" href="http://pentestmonkey.net/xmlrpc.php" />
+<link rel="alternate" type="application/rss+xml" title="pentestmonkey &raquo; Feed" href="http://pentestmonkey.net/feed" />
+<link rel="alternate" type="application/rss+xml" title="pentestmonkey &raquo; Comments Feed" href="http://pentestmonkey.net/comments/feed" />
+<script type='text/javascript' src='http://pentestmonkey.net/wp-includes/js/l10n.js?ver=20101110'></script>
+<script type='text/javascript' src='http://pentestmonkey.net/wp-includes/js/jquery/jquery.js?ver=1.6.1'></script>
+<script type='text/javascript' src='http://pentestmonkey.net/wp-content/themes/baza-noclegowa/js/jquery.ddmenu.js?ver=3.2.1'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://pentestmonkey.net/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://pentestmonkey.net/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='pentestmonkey' href='http://pentestmonkey.net' />
+<link rel='start' title='A Penetration Testing Site' href='http://pentestmonkey.net/site-news/a-penetration-testing-site' />
+<link rel='prev' title='Exploiting A Tricky SQL Injection With sqlmap' href='http://pentestmonkey.net/blog/exploiting-a-tricky-sql-injection-with-sqlmap' />
+<link rel='next' title='&#8220;Hackers for Charity&#8221; Needs You' href='http://pentestmonkey.net/blog/hackers-for-charity-needs-you' />
+<meta name="generator" content="WordPress 3.2.1" />
+<link rel='canonical' href='http://pentestmonkey.net/cheat-sheet/ssh-cheat-sheet' />
+<link rel='shortlink' href='http://pentestmonkey.net/?p=194' />
+<!--[if lte IE 7]><link href="http://pentestmonkey.net/wp-content/themes/baza-noclegowa/ie.css" rel="stylesheet" media="screen" type="text/css" /><![endif]-->	
+<!--[if IE 6]><script src="http://pentestmonkey.net/wp-content/themes/baza-noclegowa/js/DD_belatedPNG.js"></script><![endif]-->
+</head>
+<body class="single single-post postid-194 single-format-standard">
+	<div class="all-page">
+		
+		<div class="container">
+			
+			<!-- HEADER -->
+			<div id="header">
+			    <div class="website-name"><a href="http://pentestmonkey.net/">pentestmonkey</a></div>
+				<div class="slogan">Taking the monkey work out of pentesting</div>
+			</div>
+			<!-- /HEADER -->
+
+			<!-- main NAVIGATION -->
+			<div id="mainNav">
+				<div class="wrap">
+    <div class="menu-cheat-sheets-container"><ul id="menu-cheat-sheets" class="menu"><li id="menu-item-133" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-133"><a href="http://pentestmonkey.net/category/site-news"><span>Site News</span></a></li>
+<li id="menu-item-130" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-130"><a href="http://pentestmonkey.net/category/blog"><span>Blog</span></a></li>
+<li id="menu-item-136" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-136"><a href="http://pentestmonkey.net/category/tools"><span>Tools</span></a></li>
+<li id="menu-item-137" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-137"><a href="http://pentestmonkey.net/category/yaptest"><span>Yaptest</span></a></li>
+<li id="menu-item-134" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-134"><a href="http://pentestmonkey.net/category/cheat-sheet"><span>Cheat Sheets</span></a></li>
+<li id="menu-item-135" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-135"><a href="http://pentestmonkey.net/category/contact"><span>Contact</span></a></li>
+</ul></div>				</div>
+			</div>
+			<!-- /main NAVIGATION -->
+			<div class="clear"></div>
+
+
+			<!-- CONTENT -->
+			<div id="content">
+
+	<!-- Start: Left Panel -->
+	<div class="content">
+
+	
+		<div class="post-194 post type-post status-publish format-standard hentry category-cheat-sheet tag-pentest tag-ssh" id="post-194">
+			<h1>SSH Cheat Sheet</h1>
+
+			<div class="entryContent">
+				<p>SSH has several features that are useful during pentesting and auditing.  This page aims to remind us of the syntax for the most useful features.</p>
+<p>NB: This page does not attempt to replace the <a href="http://www.openssh.org/manual.html">man page</a> for pentesters, only to supplement it with some pertinent examples.</p>
+<h2>SOCKS Proxy</h2>
+<p>Set up a SOCKS proxy on 127.0.0.1:1080 that lets you pivot through the remote host (10.0.0.1):</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -D 127.0.0.1:1080 10.0.0.1</pre>
+<p><strong>~/.ssh/config:</strong></p>
+<pre>Host 10.0.0.1
+DynamicForward 127.0.0.1:1080</pre>
+<p><strong></strong>You can then use tsocks or similar to use non-SOCKS-aware tools on hosts accessible from 10.0.0.1:</p>
+<pre>tsocks rdesktop 10.0.0.2</pre>
+<h2>Local Forwarding</h2>
+<p>Make services on the remote network accessible to your host via a local listener.</p>
+<p>NB: Remember that you need to be root to bind to TCP port &lt;1024.  Higher ports are used in the examples below.</p>
+<h3>Example 1</h3>
+<p>The service running on the remote host on TCP port 1521 is accessible by connecting to 10521 on the SSH client system.</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -L 127.0.0.1:10521:127.0.0.1:1521 user@10.0.0.1</pre>
+<p><strong>~/.ssh/config:</strong></p>
+<pre>LocalForward 127.0.0.1:10521 127.0.0.1:1521</pre>
+<h3>Example 2</h3>
+<p>Same thing, but other hosts on the same network as the SSH client can also connect to the remote service (can be insecure).</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -L 0.0.0.0:10521:127.0.0.1:1521 10.0.0.1</pre>
+<p><strong>~/.ssh/config:</strong></p>
+<pre>LocalForward 0.0.0.0:10521 127.0.0.1:1521</pre>
+<h3>Example 3</h3>
+<p>In this example, 10.0.0.99 is a host that&#8217;s accessible from the SSH server.  We can access the service it&#8217;s running on TCP port 1521 by connecting to 10521 on the SSH client.</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -L 127.0.0.1:10521:10.0.0.99:1521 10.0.0.1</pre>
+<p><strong></strong><strong>~/.ssh/config:</strong></p>
+<pre>LocalForward 127.0.0.1:10521 10.0.0.99:1521</pre>
+<h2>Remote Forwarding</h2>
+<p>Make services on your local system / local network accessible to the remote host via a remote listener.  This sounds like an odd thing to want to do, but perhaps you want to expose a services that lets you download your tools.</p>
+<p>NB: Remember that you need to be root to bind to TCP port &lt;1024.  Higher ports are used in the examples below.</p>
+<h3>Example 1</h3>
+<p>The SSH server will be able to access TCP port 80 on the SSH client by connecting to 127.0.0.1:8000 on the SSH server.</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -R 127.0.0.1:8000:127.0.0.1:80 10.0.0.1</pre>
+<p><strong></strong><strong>~/.ssh/config:</strong></p>
+<pre>RemoteForward 127.0.0.1:8000 127.0.0.1:80</pre>
+<h3>Example 2</h3>
+<p>The SSH server will be able to access TCP port 80 on 172.16.0.99 (a host accessible from the SSH client) by connecting to 127.0.0.1:8000 on the SSH server.</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -R 127.0.0.1:8000:172.16.0.99:80 10.0.0.1</pre>
+<p><strong></strong><strong>~/.ssh/config:</strong></p>
+<pre>RemoteForward 127.0.0.1:8000 172.16.0.99:80</pre>
+<h3>Example 3</h3>
+<p>The SSH server will be able to access TCP port 80 on 172.16.0.99 (a host accessible from the SSH client) by connecting to TCP port 8000 on the SSH server.  Any other hosts able to connect to TCP port 8000 on the SSH server will also be able to access 172.16.0.99:80.  This can sometimes be insecure.</p>
+<p><strong>Command line:</strong></p>
+<pre>ssh -R 0.0.0.0:8000:172.16.0.99:80 10.0.0.1</pre>
+<p><strong></strong><strong>~/.ssh/config:</strong></p>
+<pre>RemoteForward 0.0.0.0:8000 172.16.0.99:80</pre>
+<h2>Configuration Files</h2>
+<h3>~/.ssh/config</h3>
+<p>It&#8217;s sometimes easier to configure options on your SSH client system in ~/.ssh/config for hosts you use a lot rather than having to type out long command lines.</p>
+<p>Using ~/.ssh/config also makes it easier to use other tools that use SSH (e.g. scp and rsync).  It&#8217;s possible to tell other tools that SSH listens on a different port, but it&#8217;s a pain.</p>
+<pre>Host 10.0.0.1
+Port 2222
+User ptm
+ForwardX11 yes
+DynamicForward 127.0.0.1:1080
+RemoteForward 80 127.0.0.1:8000
+LocalForward 1521 10.0.0.99:1521</pre>
+<p>The above lines are explained more fully in the other subsection on this page.</p>
+<h3>~/.ssh/authozied_keys</h3>
+<p>During a pentest or audit, you might want to add an authorized_keys file to let you log in using an SSH key.</p>
+<p>The authorized_keys file lives in a user&#8217;s home directory on the SSH server.  It holds the public keys of the users allowed to log into that user&#8217;s account.</p>
+<p>Generate a public/private key pair like this:</p>
+<pre>ssh-keygen -f mykey
+cat mykey.pub # you can copy this to authorized_keys</pre>
+<p>If you want to shortest possible key (because your arbitrary-file-write vector is limited), do this:</p>
+<pre>ssh-keygen -f mykey -t rsa -b 768
+cat mykey.pub # copy to authorized_key.  Omit the trailing user@host if you need a shorter key.</pre>
+<p>Connect to the target system like this (you need to know the username of the user you added an authorized key for):</p>
+<pre>ssh -i mykey user@10.0.0.1</pre>
+<p>Caveat: The authorized_keys file might not work if it&#8217;s writable by other users.  If you already have shell access you can &#8220;chmod 600 ~/.ssh/authorized_keys&#8221;.  However, if you&#8217;re remotely exploiting an arbitrary file-write vulnerability and happen to have a weak umask, you may have problems.</p>
+<h2>X11 Forwarding</h2>
+<p>If your SSH client is also an X-Server then you can launch X-clients (e.g. Firefox) inside your SSH session and display them on your X-Server.  This works well with from Linux X-Servers and from <a href="http://www.cygwin.com/">cygwin</a>&#8216;s X-server on Windows.</p>
+<h3>Command Line:</h3>
+<pre>SSH -X 10.0.0.1
+SSH -Y 10.0.0.1 # less secure alternative - but faster</pre>
+<h3>~/.ssh/config:</h3>
+<pre>ForwardX11 yes
+ForwardX11Trusted yes # less secure alternative - but faster</pre>
+<h2>SSH Agents</h2>
+<p>SSH agents can be used to hold your private SSH keys in memory.  The agent will then authenticate you to any hosts that trust your SSH key.</p>
+<p>This has the following advantages:</p>
+<ul>
+<li>You don&#8217;t have to keep entering your passphrase (if you chose to encrypt your private key)</li>
+<li>But you still get to store your private SSH key in an encrypted format on disk.</li>
+</ul>
+<p>Using an SSH agent is probably more secure than storing your key in cleartext, but agents can be hijacked.</p>
+<h3>Using an SSH Agent</h3>
+<p>First start your agent:</p>
+<pre>eval `ssh-agent`</pre>
+<p>Then add your keys to it &#8211; you&#8217;ll need to enter your passphrase for any encrypted keys:</p>
+<pre>ssh-add ~/dir/mykey</pre>
+<h3>Hijacking SSH Agents</h3>
+<p>If you see SSH agents running on a pentest (process called &#8220;ssh-agent&#8221;), you might be able to use it to authenticate you to other hosts &#8211; or other accounts on that host.  Check out ~/.ssh/known_hosts for some ideas of where you might be able to connect to.</p>
+<p>You can use any agents running under the account you compromised.  If you&#8217;re root you can use any SSH agent.</p>
+<p>SSH agents listen on a unix socket.  You need to figure where this is for each agent (e.g. /tmp/ssh-tqiEl28473/agent.28473). You can then use the agent like this:</p>
+<pre>export  SSH_AUTH_SOCK=/tmp/ssh-tqiEl28473/agent.28473
+ssh-add -l # lists the keys loaded into the agent
+ssh user@host # will authenticate you if server trusts key in agent</pre>
+<p>This command illustrates how you could inspect the environment of every ssh-agent process on a Linux system.  It should yield a list of unix sockets for SSH agents.</p>
+<pre>ps auxeww | grep ssh-agent | grep SSH_AUTH_SOCK | sed 's/.*SSH_AUTH_SOCK=//' | cut -f 1 -d ' '</pre>
+<h3>Agent Forwarding</h3>
+<p>If you enable SSH agent forwarding then you&#8217;ll be able to carry on using the SSH agent on your SSH client during your session on the SSH server.  This is potentially insecure because so will anyone else who is root on the SSH server you&#8217;re connected to.  Avoid using this feature with any keys you care about.</p>
+                <div class="clear"></div>
+								<p>Tags: <a href="http://pentestmonkey.net/tag/pentest" rel="tag">pentest</a>, <a href="http://pentestmonkey.net/tag/ssh" rel="tag">ssh</a></p>				<p>Posted in <a href="http://pentestmonkey.net/category/cheat-sheet" title="View all posts in Cheat Sheets" rel="category tag">Cheat Sheets</a></p>
+				
+			</div>
+		</div>
+
+	
+<!-- You can start editing here. -->
+
+
+			<!-- If comments are closed. -->
+	
+<p></p>
+<br />
+
+
+
+
+
+	
+	</div>
+				<!-- sidebar -->
+				<div class="sideBar">
+					
+					<div class="nav">
+						<div class="bFrameT"><i></i></div>
+	<form method="get" id="searchform" action="http://pentestmonkey.net/" class="searchForm">
+	<p><input type="text" value="" name="s" id="s" class="field" />
+	<input type="image" src="http://pentestmonkey.net/wp-content/themes/baza-noclegowa/images/search.gif" alt="" title="Search" id="searchsubmit" class="btn" /></p>
+</form>
+<h3><span>Categories</span></h3>		<ul>
+	<li class="cat-item cat-item-5"><a href="http://pentestmonkey.net/category/blog" title="View all posts filed under Blog">Blog</a> (78)
+</li>
+	<li class="cat-item cat-item-39"><a href="http://pentestmonkey.net/category/cheat-sheet" title="View all posts filed under Cheat Sheets">Cheat Sheets</a> (10)
+<ul class='children'>
+	<li class="cat-item cat-item-40"><a href="http://pentestmonkey.net/category/cheat-sheet/shells" title="View all posts filed under Shells">Shells</a> (1)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://pentestmonkey.net/category/cheat-sheet/sql-injection" title="View all posts filed under SQL Injection">SQL Injection</a> (7)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-7"><a href="http://pentestmonkey.net/category/contact" title="View all posts filed under Contact">Contact</a> (2)
+</li>
+	<li class="cat-item cat-item-3"><a href="http://pentestmonkey.net/category/site-news" title="View all posts filed under Site News">Site News</a> (3)
+</li>
+	<li class="cat-item cat-item-4"><a href="http://pentestmonkey.net/category/tools" title="View all posts filed under Tools">Tools</a> (17)
+<ul class='children'>
+	<li class="cat-item cat-item-14"><a href="http://pentestmonkey.net/category/tools/audit" title="View all posts filed under Audit">Audit</a> (3)
+</li>
+	<li class="cat-item cat-item-16"><a href="http://pentestmonkey.net/category/tools/misc" title="View all posts filed under Misc">Misc</a> (7)
+</li>
+	<li class="cat-item cat-item-13"><a href="http://pentestmonkey.net/category/tools/user-enumeration" title="View all posts filed under User Enumeration">User Enumeration</a> (4)
+</li>
+	<li class="cat-item cat-item-15"><a href="http://pentestmonkey.net/category/tools/web-shells" title="View all posts filed under Web Shells">Web Shells</a> (3)
+</li>
+</ul>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://pentestmonkey.net/category/uncategorized" title="View all posts filed under Uncategorized">Uncategorized</a> (3)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://pentestmonkey.net/category/yaptest" title="View all posts filed under Yaptest">Yaptest</a> (15)
+<ul class='children'>
+	<li class="cat-item cat-item-12"><a href="http://pentestmonkey.net/category/yaptest/front-end" title="View all posts filed under Front End">Front End</a> (1)
+</li>
+	<li class="cat-item cat-item-9"><a href="http://pentestmonkey.net/category/yaptest/installing" title="View all posts filed under Installing">Installing</a> (2)
+</li>
+	<li class="cat-item cat-item-11"><a href="http://pentestmonkey.net/category/yaptest/overview" title="View all posts filed under Overview">Overview</a> (2)
+</li>
+	<li class="cat-item cat-item-10"><a href="http://pentestmonkey.net/category/yaptest/using" title="View all posts filed under Using">Using</a> (8)
+</li>
+</ul>
+</li>
+		</ul>
+<h3><span> <a href="/rss/" class="mainlevel-nav" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon16x16.png" alt="" style="vertical-align:middle;border:0"/></a>&nbsp;<a href="/rss/" class="mainlevel-nav" rel="alternate" type="application/rss+xml">RSS Feed</a></p> <link rel="alternate" type="application/rss+xml" title="Pentestmonkey RSS Feed" href="/rss/" /> </span></h3>
+			
+						<div class="bFrameB"><i></i></div>
+					</div>
+					
+				</div>
+				<!-- /sidebar -->
+	
+				</div>
+				<!-- /content -->
+				
+			</div>
+			<!-- /CONTENT -->	
+			
+		
+		<!-- bottom NAVIGATION -->
+		<div id="bottomNav">
+		</div>
+		<!-- /bottom NAVIGATION -->
+		
+		<!-- FOOTER -->
+		<div id="footer">
+         <div class="menu"></div>
+			
+			
+		</div>
+		<!-- /FOOTER -->
+	</div>
+		
+
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-2082472-1";
+urchinTracker();
+</script>
+
+</body>
+</html>

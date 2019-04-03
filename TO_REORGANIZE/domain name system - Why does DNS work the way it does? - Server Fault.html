@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html itemscope="" itemtype="http://schema.org/QAPage" class="html__responsive"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+        <title>domain name system - Why does DNS work the way it does? - Server Fault</title>
+        <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/serverfault/img/favicon.ico?v=b7dd95e61b8b">
+        <link rel="apple-touch-icon image_src" href="https://cdn.sstatic.net/Sites/serverfault/img/apple-touch-icon.png?v=6c3100d858bb">
+        <link rel="search" type="application/opensearchdescription+xml" title="Server Fault" href="https://serverfault.com/opensearch.xml">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+
+
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does">
+        <meta property="og:site_name" content="Server Fault">
+        <meta property="og:image" itemprop="image primaryImageOfPage" content="https://cdn.sstatic.net/Sites/serverfault/img/apple-touch-icon@2.png?v=9b1f48ae296b">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:domain" content="serverfault.com">
+        <meta name="twitter:site" content="@ServerFault">
+        <meta name="twitter:creator" content="@ServerFault">
+        <meta name="twitter:title" property="og:title" itemprop="name" content="Why does DNS work the way it does?">
+        <meta name="twitter:description" property="og:description" itemprop="description" content="This is a Canonical Question about DNS (Domain Name Service).
+If my understanding of the DNS system is correct, the .com registry holds a table that maps domains (www.example.com) to DNS servers.
+...">
+        <script async="" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/quant.js"></script><script async="" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/beacon.js"></script><script async="" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/analytics.js"></script><script src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/jquery.js"></script><style>[href^="http://www.faceporn.net/free?"],
+#content > #center > .dose > .dosesingle,
+#content > #right > .dose > .dosesingle,
+#dfp-tlb
+{display:none !important;}</style>
+        <script src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/stub.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/stacks.css">
+    <link rel="stylesheet" type="text/css" href="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/primary.css">
+
+    
+            <link rel="alternate" type="application/atom+xml" title="Feed for question 'Why does DNS work the way it does?'" href="https://serverfault.com/feeds/question/355887">
+            <meta name="twitter:app:country" content="US">
+            <meta name="twitter:app:name:iphone" content="Stack Exchange iOS">
+            <meta name="twitter:app:id:iphone" content="871299723">
+            <meta name="twitter:app:url:iphone" content="se-zaphod://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does">
+            <meta name="twitter:app:name:ipad" content="Stack Exchange iOS">
+            <meta name="twitter:app:id:ipad" content="871299723">
+            <meta name="twitter:app:url:ipad" content="se-zaphod://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does">
+            <meta name="twitter:app:name:googleplay" content="Stack Exchange Android">
+            <meta name="twitter:app:url:googleplay" content="http://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does">
+            <meta name="twitter:app:id:googleplay" content="com.stackexchange.marvin">
+        <script>
+
+            StackExchange.ready(function () {
+                
+                StackExchange.using("postValidation", function () {
+                    StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+                });
+
+                
+                StackExchange.question.init({showAnswerHelp:true,totalCommentCount:2,shownCommentCount:2,highlightColor:'#F3F1D9',backgroundColor:'#FFF',questionId:355887});
+
+                styleCode();
+
+                    StackExchange.realtime.subscribeToQuestion('2', '355887');
+                                                    StackExchange.using("gps", function () { StackExchange.gps.trackOutboundClicks('#content', '.post-text'); });
+
+            });
+        </script>
+            <style>
+            .js-toggle-container {
+                display: inline-flex !important;
+            }
+        </style>
+        <script>
+            StackExchange.ready(function () {
+                $(".js-time-machine-button").click(function (e) {
+                    e.preventDefault();
+
+                    if ($.cookie("tm2019") !== null) {
+                        $.cookie("tm2019", null, { path: '/', expires: -1 });
+                        $.cookie("tm2019d", null, { path: '/', expires: -1 });
+                    } else {
+                        $.cookie("tm2019", "1", { path: '/', expires: 2 });
+                    }
+
+                    window.location.reload(false); 
+                })
+            })
+        </script>
+    
+        
+        
+        
+        
+        
+        
+
+
+        <script>
+        StackExchange.ready(function () {
+            StackExchange.realtime.init('wss://qa.sockets.stackexchange.com');
+                StackExchange.realtime.subscribeToReputationNotifications('2');
+        StackExchange.realtime.subscribeToTopBarNotifications('2');
+        });
+    </script>
+    <script>
+        StackExchange.init({"locale":"en","serverTime":1554211361,"routeName":"Questions/Show","stackAuthUrl":"https://stackauth.com","networkMetaHostname":"meta.stackexchange.com","site":{"name":"Server Fault","description":"Q&A for system and network administrators","isNoticesTabEnabled":true,"enableNewTagCreationWarning":true,"insertSpaceAfterNameTabCompletion":false,"id":2,"childUrl":"https://meta.serverfault.com","enableSocialMediaInSharePopup":true,"protocol":"https"},"user":{"fkey":"f25f9baec0afe3087e6cd34f8c69e22019914d38f02e86a0d3535069bd64fc99","tid":"22d28067-e3fd-98d0-ac61-6b7c92196365","rep":0,"isAnonymous":true,"isAnonymousNetworkWide":true,"ab":{"inline_signup_hero":{"v":"d","g":1}}},"realtime":{"newest":true,"active":true,"tagged":true,"staleDisconnectIntervalInHours":0},"events":{"postType":{"question":1},"postEditionSection":{"title":1,"body":2,"tags":3}},"story":{"minCompleteBodyLength":75,"likedTagsMaxLength":300,"dislikedTagsMaxLength":300},"jobPreferences":{"maxNumDeveloperRoles":2,"maxNumIndustries":4},"svgIconPath":"https://cdn.sstatic.net/Img/svg-icons","svgIconHash":"6e41a6bc8765"}, {"userProfile":{},"userMessaging":{},"tags":{},"snippets":{"renderDomain":"stacksnippets.net"},"slack":{"sidebarAdDismissCookie":"slack-sidebar-ad"},"site":{"allowImageUploads":true,"enableUserHovercards":true,"styleCode":true,"enableImgurHttps":true,"forceHttpsImages":true},"paths":{},"monitoring":{"clientTimingsAbsoluteTimeout":30000,"clientTimingsDebounceTimeout":1000},"mentions":{"maxNumUsersInDropdown":50},"markdown":{"asteriskIntraWordEmphasis":true},"flags":{"allowRetractingFlags":true},"comments":{},"accounts":{"currentPasswordRequiredForChangingStackIdPassword":true}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"74e3dc654d85","js/moderator.en.js":"8438388edd94","js/pseudomoderator.en.js":"7174c408dffe","js/full-anon.en.js":"bf151cd57072","js/full.en.js":"a813fedad01b","js/wmd.en.js":"5c1c84ce6513","js/mobile.en.js":"30ceeb5f5bf6","js/help.en.js":"8179f44b2f78","js/tageditor.en.js":"7bcc5d4b110f","js/tageditornew.en.js":"248874fd2b35","js/inline-tag-editing.en.js":"4271bb0a29f4","js/revisions.en.js":"297d702fb157","js/review.en.js":"fc30731b0c68","js/tagsuggestions.en.js":"1b1fef557065","js/post-validation.en.js":"fc17d24b9d5f","js/explore-qlist.en.js":"fdeebc5008d7","js/events.en.js":"00759806f24f","js/keyboard-shortcuts.en.js":"d7338cc385ca","js/external-editor.en.js":"2b7327372e32","js/adops.en.js":"22a9bd59b1e9","js/begin-edit-event.en.js":"3238dd301e69","js/stacks-polyfills.en.js":"71146c0ec32e"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    <noscript id="noscript-css"><style>body,.top-bar{margin-top:1.9em}</style></noscript>
+    <script async="" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/full-anon.js"></script><link rel="stylesheet" href="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/clc.css" type="text/css"><script async="" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/post-validation.js"></script><script async="" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/external-editor.js"></script></head>
+        <body class="question-page unified-theme">
+    <div id="notify-container"></div>
+    <div id="custom-header"></div>
+
+
+
+
+<header class="top-bar js-top-bar top-bar__network _fixed">
+    <div class="-container">
+        <div class="-main">
+                <a href="#" class="left-sidebar-toggle p0 ai-center jc-center js-left-sidebar-toggle"><span class="ps-relative"></span></a>
+                            <a href="#" class="-logo js-gps-track js-network-logo network-logo" data-gps-track="stack_exchange_popup.show">
+                    <svg aria-hidden="true" class="svg-icon native iconLogoSEAlternativeSm" width="107" height="15" viewBox="0 0 107 15"><g><path d="M48.41 11.93l-1.96-3.2-1.04 1.16v2.04h-1.42V2.18h1.42v6.01L48.14 5h1.72l-2.44 2.7 2.74 4.22h-1.75zm-7.06.08c-1.59 0-3.14-.96-3.14-3.56s1.55-3.54 3.14-3.54c.97 0 1.65.27 2.31.97l-.97.93c-.44-.48-.79-.66-1.34-.66s-1 .22-1.3.62c-.31.38-.42.87-.42 1.68 0 .81.1 1.32.41 1.7.3.4.76.62 1.3.62.56 0 .9-.18 1.35-.66l.97.92c-.66.7-1.34.98-2.31.98zm-5.66-3.15h-1.65c-.83 0-1.26.37-1.26 1s.4.99 1.3.99c.53 0 .93-.04 1.3-.4.22-.2.31-.53.31-1.03v-.56zm.03 3.07v-.63c-.51.5-1 .71-1.87.71-.87 0-1.46-.2-1.89-.63a2.1 2.1 0 0 1-.55-1.49c0-1.16.82-2 2.42-2h1.86v-.5c0-.87-.44-1.3-1.54-1.3-.77 0-1.15.18-1.54.68l-.92-.86c.66-.77 1.35-1 2.52-1 1.93 0 2.9.8 2.9 2.38v4.64h-1.39zm-5.9 0c-1.32 0-1.93-.93-1.93-1.93V6.18h-.8V5.1h.8V3h1.41v2.1h1.36v1.07H29.3v3.75c0 .5.25.81.78.81h.58v1.2h-.85zm-6.33.08c-1.48 0-2.55-.34-3.49-1.28l1-.98c.72.72 1.51.94 2.52.94 1.3 0 2.04-.55 2.04-1.5 0-.42-.13-.78-.39-1.01-.25-.23-.5-.33-1.08-.41l-1.16-.17a3.4 3.4 0 0 1-1.88-.78 2.4 2.4 0 0 1-.72-1.86c0-1.7 1.25-2.86 3.3-2.86 1.3 0 2.22.33 3.07 1.1l-.96.94a2.92 2.92 0 0 0-2.15-.75c-1.16 0-1.8.65-1.8 1.52 0 .35.1.67.37.9.25.22.65.38 1.11.45l1.12.17c.92.13 1.43.35 1.85.72.54.47.8 1.17.8 2 0 1.8-1.48 2.86-3.55 2.86z" fill="#FFF"></path><path d="M104.15 7.09c-.19-.42-.58-.74-1.18-.74s-1 .32-1.19.74c-.1.25-.15.44-.16.75h2.7c-.02-.3-.06-.5-.17-.75zm-2.53 1.96c0 .9.56 1.57 1.55 1.57.78 0 1.16-.21 1.61-.66l1.08 1.04a3.4 3.4 0 0 1-2.7 1.11c-1.68 0-3.29-.76-3.29-3.62 0-2.3 1.26-3.6 3.1-3.6 1.98 0 3.1 1.44 3.1 3.37v.79h-4.45zm-5.48-2.57C95.1 6.48 95 7.37 95 8.3c0 .94.1 1.85 1.15 1.85 1.05 0 1.18-.91 1.18-1.85 0-.93-.13-1.82-1.18-1.82zm-.17 8.22c-1.1 0-1.84-.21-2.58-.92l1.1-1.11c.4.38.8.54 1.4.54 1.06 0 1.43-.74 1.43-1.46v-.72c-.47.51-1 .7-1.7.7-.69 0-1.29-.23-1.68-.62-.67-.66-.73-1.57-.73-2.8 0-1.24.06-2.13.73-2.8.4-.39 1-.62 1.7-.62.75 0 1.24.2 1.73.75v-.67h1.72v6.8c0 1.7-1.21 2.93-3.12 2.93zm-5.76-2.67V7.76c0-.96-.61-1.28-1.17-1.28-.56 0-1.18.32-1.18 1.28v4.27h-1.78V4.97h1.73v.65a2.44 2.44 0 0 1 1.78-.73c.7 0 1.28.23 1.67.62.58.57.73 1.24.73 2v4.52H90.2zm-7.1-2.98h-1.4c-.64 0-1 .3-1 .8 0 .49.33.81 1.02.81.5 0 .8-.04 1.12-.34.2-.17.26-.46.26-.89v-.38zm.04 2.98v-.6c-.48.47-.93.67-1.74.67-.8 0-1.4-.2-1.82-.62-.38-.4-.58-.97-.58-1.59 0-1.12.77-2.05 2.42-2.05h1.68V7.5c0-.77-.38-1.11-1.32-1.11-.68 0-1 .16-1.37.58l-1.13-1.1c.7-.75 1.38-.97 2.57-.97 1.99 0 3.02.84 3.02 2.5v4.64h-1.73zm-6.92 0v-4.3c0-.94-.6-1.25-1.16-1.25-.56 0-1.15.32-1.15 1.24v4.31h-1.77V2.38h1.77v3.24a2.35 2.35 0 0 1 1.7-.73c1.56 0 2.38 1.08 2.38 2.57v4.57h-1.77zm-6.97.08c-1.42 0-3.18-.76-3.18-3.62 0-2.85 1.76-3.6 3.18-3.6.98 0 1.72.3 2.34.95l-1.2 1.2c-.36-.4-.68-.56-1.14-.56-.42 0-.75.14-1.01.46-.27.33-.4.8-.4 1.55s.13 1.24.4 1.58c.26.3.59.46 1 .46.47 0 .79-.17 1.15-.56l1.2 1.18c-.62.65-1.36.96-2.34.96zm-5.53-.08l-1.3-2.11-1.3 2.11H59l2.45-3.6-2.35-3.46h2.12L62.42 7l1.21-2.02h2.13L63.4 8.43l2.46 3.6h-2.13zm-11.75 0V2.06h6.6V3.8h-4.65v2.33h3.96v1.74h-3.96v2.42h4.65v1.74h-6.6z" fill="#2F96E8"></path><path d="M2 1h8a2 2 0 0 1 2 2H0c0-1.1.9-2 2-2z" fill="#8FD8F7"></path><path d="M10 12l-3 3v-3H2a2 2 0 0 1-2-2h12a2 2 0 0 1-2 2z" fill="#155397"></path><path fill="#46A2D9" d="M0 4h12v2H0z"></path><path fill="#2D6DB5" d="M0 7h12v2H0z"></path></g></svg>
+                </a>
+                <div class="topbar-dialog network-logo-dialog js-network-logo-dialog dno">
+                    <div class="dialog-content">
+                        <h4 class="bold">Stack Exchange Network</h4>
+                        <p>
+                            Stack Exchange network consists of 175 Q&amp;A communities including <a href="https://stackoverflow.com/">Stack Overflow</a>, the largest, most trusted online community for developers to learn, share their knowledge, and build their careers.
+                        </p>
+                        <a class="btn-secondary" href="https://stackexchange.com/" data-gps-track="stack_exchange_popup.click">Visit Stack Exchange</a>
+                        <a class="icon-close js-close-button"><svg aria-hidden="true" class="svg-icon iconClear" width="18" height="18" viewBox="0 0 18 18"><path d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"></path></svg></a>
+                    </div>
+                </div>
+
+
+
+        </div>
+
+            <form id="search" action="/search" method="get" class="searchbar js-searchbar " autocomplete="off" role="search">
+                    <div class="ps-relative">
+                        <input name="q" type="text" placeholder="Search on Server Fault…" autocomplete="off" maxlength="240" class="s-input js-search-field ">
+                        <button type="submit" aria-label="Search…" class="s-btn s-btn__primary s-btn__icon btn-topbar-primary js-search-submit"><svg aria-hidden="true" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"></path></svg></button>
+                    </div>
+            </form>
+
+        
+
+
+
+
+
+
+<ol class="-secondary js-secondary-topbar-links drop-icons-responsively user-logged-out the-js-is-handling-responsiveness">
+        <li class="-item searchbar-trigger js-searchbar-trigger"><a href="#" class="-link"><svg aria-hidden="true" class="svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M12.86 11.32L18 16.5 16.5 18l-5.18-5.14v-.35a7 7 0 1 1 1.19-1.19h.35zM7 12A5 5 0 1 0 7 2a5 5 0 0 0 0 10z"></path></svg></a></li>
+                <li class="-item inbox-button-item" data-remove-order="1">
+        <a href="https://stackexchange.com/users/?tab=inbox" class="-link js-inbox-button" title="Recent inbox messages">
+            <svg aria-hidden="true" class="svg-icon iconInbox" width="20" height="18" viewBox="0 0 20 18"><path d="M15.19 1H4.63c-.85 0-1.6.54-1.85 1.35L0 10.79V15c0 1.1.9 2 2 2h16a2 2 0 0 0 2-2v-4.21l-2.87-8.44A2 2 0 0 0 15.19 1zm-.28 10l-2 2h-6l-2-2H1.96L4.4 3.68A1 1 0 0 1 5.35 3h9.12a1 1 0 0 1 .95.68L17.86 11h-2.95z"></path></svg>
+            <span class="indicator-badge js-unread-count _important" style="display: none;"></span>
+        </a>
+    </li>
+    <li class="-item achievements-button-item" data-remove-order="2">
+        <a href="https://stackexchange.com/users/?tab=reputation" class="-link js-achievements-button" title="Recent achievements: reputation, badges, and privileges earned" data-unread-class="_highlighted-positive">
+            <svg aria-hidden="true" class="svg-icon iconAchievements" width="18" height="18" viewBox="0 0 18 18"><path d="M15 2V1H3v1H0v4c0 1.6 1.4 3 3 3v1c.4 1.5 3 2.6 5 3v2H5s-1 1.5-1 2h10c0-.4-1-2-1-2h-3v-2c2-.4 4.6-1.5 5-3V9c1.6-.2 3-1.4 3-3V2h-3zM3 7c-.5 0-1-.5-1-1V4h1v3zm8.4 2.5L9 8 6.6 9.4l1-2.7L5 5h3l1-2.7L10 5h2.8l-2.3 1.8 1 2.7h-.1zM16 6c0 .5-.5 1-1 1V4h1v2z"></path></svg>
+            <span class="indicator-badge js-unread-count _positive" style="display: none;"></span>
+        </a>
+    </li>
+
+    <li class="-item help-button-item"><a href="#" class="-link js-help-button" title="Help Center and other resources">
+        <svg aria-hidden="true" class="svg-icon iconHelp" width="18" height="18" viewBox="0 0 18 18"><path d="M9 1a8 8 0 1 0 0 16A8 8 0 0 0 9 1zm.81 12.13c-.02.71-.55 1.15-1.24 1.13-.66-.02-1.17-.49-1.15-1.2.02-.72.56-1.18 1.22-1.16.7.03 1.2.51 1.17 1.23zM11.77 8a5.8 5.8 0 0 1-1.02.91l-.53.37c-.26.2-.42.43-.5.69a4 4 0 0 0-.09.75c0 .05-.03.16-.18.16H7.88c-.16 0-.18-.1-.18-.15.03-.66.12-1.21.4-1.66a5.29 5.29 0 0 1 1.43-1.22c.16-.12.28-.25.38-.39a1.34 1.34 0 0 0 .02-1.71c-.24-.31-.51-.46-1.03-.46-.51 0-.8.26-1.02.6-.21.33-.18.73-.18 1.1H5.75c0-1.38.35-2.25 1.1-2.76.52-.35 1.17-.5 1.93-.5 1 0 1.79.18 2.49.71.64.5.98 1.18.98 2.12 0 .57-.2 1.05-.48 1.44z"></path></svg>
+    </a></li>
+
+    <li class="-item site-switcher-item">
+        <a href="https://stackexchange.com/" class="-link js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 175 Stack Exchange sites">
+            <svg aria-hidden="true" class="svg-icon iconStackExchange" width="18" height="18" viewBox="0 0 18 18"><path d="M1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 0 0 2-2v-2H1v2zM15 1H3a2 2 0 0 0-2 2v2h16V3a2 2 0 0 0-2-2zM1 6h16v4H1V6z"></path></svg>
+        </a>
+    </li>
+
+            <li class="-ctas">
+                        <a href="https://serverfault.com/users/login?ssrc=head&amp;returnurl=https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does" class="login-link s-btn btn-topbar-clear py8" rel="nofollow">Log In</a>
+                        <a href="https://serverfault.com/users/signup?ssrc=head&amp;returnurl=https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does" class="login-link s-btn s-btn__primary py8 btn-topbar-primary" rel="nofollow" data-ga="[&quot;sign up&quot;,&quot;Sign Up Navigation&quot;,&quot;Header&quot;,null,null]">Sign Up</a>
+
+            </li>
+
+    <li class="-dialog-container js-topbar-dialog-corral">
+
+
+    <div class="topbar-dialog siteSwitcher-dialog dno">
+        <div class="header">
+            <h3><a href="https://serverfault.com/">current community</a>
+            </h3>
+        </div>
+        <div class="modal-content current-site-container">
+            <ul class="current-site">
+                    <li class="grid">
+                            <div class="fl1">
+            <a href="https://serverfault.com/" class="current-site-link site-link js-gps-track grid gs8 gsx" data-id="2" data-gps-track="site_switcher.click({ item_type:3 })">
+        <div class="favicon favicon-serverfault site-icon grid--cell" title="Server Fault"></div>
+        <span class="grid--cell fl1">
+            Server Fault
+        </span>
+    </a>
+
+    </div>
+    <div class="related-links">
+            <a href="https://serverfault.com/help" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:14 })">help</a>
+                    <a href="https://chat.stackexchange.com/?tab=site&amp;host=serverfault.com" class="js-gps-track" data-gps-track="site_switcher.click({ item_type:6 })">chat</a>
+            </div>
+
+                    </li>
+                    <li class="related-site grid">
+                            <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                            <a href="https://meta.serverfault.com/" class="site-link js-gps-track grid gs8 gsx" data-id="78" data-gps-track="site.switch({ target_site:78, item_type:3 }),site_switcher.click({ item_type:4 })">
+        <div class="favicon favicon-serverfaultmeta site-icon grid--cell" title="Meta Server Fault"></div>
+        <span class="grid--cell fl1">
+            Meta Server Fault
+        </span>
+    </a>
+
+                    </li>
+            </ul>
+        </div>
+
+        <div class="header" id="your-communities-header">
+            <h3>
+your communities            </h3>
+
+        </div>
+        <div class="modal-content" id="your-communities-section">
+
+                <div class="call-to-login">
+<a href="https://serverfault.com/users/signup?ssrc=site_switcher&amp;returnurl=https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does" class="login-link js-gps-track" data-gps-track="site_switcher.click({ item_type:10 })">Sign up</a> or <a href="https://serverfault.com/users/login?ssrc=site_switcher&amp;returnurl=https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does" class="login-link js-gps-track" data-gps-track="site_switcher.click({ item_type:11 })">log in</a> to customize your list.
+                </div>
+        </div>
+
+        <div class="header">
+            <h3><a href="https://stackexchange.com/sites">more stack exchange communities</a>
+            </h3>
+            <a href="https://stackoverflow.blog/" class="fr">company blog</a>
+        </div>
+        <div class="modal-content">
+                <div class="child-content"></div>
+        </div>        
+    </div>
+            <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="https://serverfault.com/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="https://serverfault.com/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                        <li>
+                            <a href="https://meta.serverfault.com/" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                                Meta
+                                <span class="item-summary">
+                                    Discuss the workings and policies of this site
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://stackoverflow.com/company/about" class="js-gps-track" data-gps-track="help_popup.click({ item_type:6 })">
+                                About Us
+                                <span class="item-summary">
+                                    Learn more about Stack Overflow the company
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.stackoverflowbusiness.com/?ref=topbar_help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:7 })">
+                                Business
+                                <span class="item-summary">
+                                    Learn more about hiring developers or posting ads with us
+                                </span>
+                            </a>
+                        </li>
+            </ul>
+        </div>
+    </div>
+                    <div class="topbar-dialog leftnav-dialog js-leftnav-dialog dno">
+                <div class="left-sidebar js-unpinned-left-sidebar" data-can-be="left-sidebar" data-is-here-when="sm"></div>
+            </div>
+    </li>
+</ol>
+
+    </div>
+</header>
+    <div id="js-gdpr-consent-banner" class="p16 bg-black-700 ff-sans fc-white ps-fixed b0 l0 r0 z-banner" role="banner" aria-hidden="false">
+        <div class="wmx8 mx-auto grid jc-center" role="alertdialog" aria-describedby="notice-message">
+            <div class="grid--cell mr12" aria-label="notice-message">
+                <p class="mb0 lh-lg">
+                    By using our site, you acknowledge that you have read and understand our <a class="s-link s-link__inherit td-underline fc-white" target="_blank" href="https://stackoverflow.com/legal/cookie-policy">Cookie Policy</a>, <a class="s-link s-link__inherit td-underline fc-white" target="_blank" href="https://stackoverflow.com/legal/privacy-policy">Privacy Policy</a>, and our <a class="s-link s-link__inherit td-underline fc-white" target="_blank" href="https://stackoverflow.com/legal/terms-of-service/public">Terms of Service</a>.
+                </p>
+            </div>
+            <a class="grid--cell fc-white js-notice-close" aria-label="notice-dismiss">
+                <svg aria-hidden="true" class="svg-icon m0 iconClear" width="18" height="18" viewBox="0 0 18 18"><path d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"></path></svg>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        StackExchange.ready(function () { StackExchange.topbar.init({ observeSize: true }); });
+        StackExchange.scrollPadding.setPaddingTop(50, 10);     </script>
+
+
+
+
+
+
+
+
+<aside class="s-hero s-hero__dark js-dismissable-hero" role="region" aria-hidden="false">
+    <div class="s-hero--container s-hero--circle grid fs-body2 wmx12 md:fd-column ai-center ps-relative sm:pt64" aria-labeledby="banner-title" aria-describedby="banner-message">
+            <div class="js-dismiss">
+                <a class="ps-absolute t16 r16 p8 fc-white" title="Click to hide"><svg aria-hidden="true" class="svg-icon m0 iconClear" width="18" height="18" viewBox="0 0 18 18"><path d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"></path></svg></a>
+            </div>
+        <div class="grid--cell4 mr32 md:mr0 md:mb32 md:ta-center">
+            <div class="mb16 wmx4 mx-auto">
+                Server Fault is a question and answer site for system 
+and network administrators. Join them; it only takes a minute:
+
+            </div>
+            <a href="https://serverfault.com/users/signup?ssrc=hero&amp;returnurl=https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does" class="s-btn s-btn__filled s-btn__inverted d-inline-block">Sign up</a>
+        </div>
+        <div class="grid--cell fl1">
+            <div class="mb16 ta-center fw-bold sm:mb0">Here's how it works:</div>
+            <div class="grid grid__allcells4 ta-center sm:fd-column">
+                <div class="grid--cell">
+                    <svg class="sm:d-none" width="49" height="72" viewBox="0 0 49 72">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M12.3004115,66 L10.9897119,62.8735157 C10.6872428,62.1675354 4.03292181,46.1316968 2.01646091,40.2821456 C1.00823045,37.35737 0.302469136,34.3317401 0,31.2052558 C0,24.7505786 2.62139918,18.5984644 7.15843621,14.0600195 C11.7962963,9.52157463 18.0473251,7.00021636 24.5,7.00021636 C37.936226,6.944219 48.8890725,17.7652019 49,31.2052558 C49,37.659933 46.4794239,43.8120472 41.8415638,48.3504921 C37.2037037,52.888937 30.9526749,55.4102952 24.5,55.4102952 C22.382716,55.4102952 20.1646091,55.1077323 18.1481481,54.5026063 L12.3004115,66 Z M24.399177,10.0258463 C18.7530864,10.0258463 13.308642,12.2446416 9.27572016,16.2788148 C5.24279835,20.2121337 3.02469136,25.5574133 3.02469136,31.2052558 C3.42798354,34.0291771 4.03292181,36.752244 4.94032922,39.3744566 C6.35185185,43.6103385 10.3847737,53.5949173 12.5020576,58.6376338 L16.6358025,50.468433 L18.0473251,51.1744133 C20.063786,51.981248 22.281893,52.3846653 24.5,52.3846653 C30.1460905,52.3846653 35.590535,50.16587 39.6234568,46.1316968 C43.6563786,42.1983779 45.8744856,36.8530983 45.8744856,31.2052558 C45.7736626,19.4052991 36.1954733,9.92499196 24.399177,10.0258463 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M27.5439494,36.1794872 C28.2513593,35.4615385 28.7566521,34.5384615 29.0598277,33.6153846 C29.6527244,31.7220962 29.7226323,29.7000378 29.2619448,27.7692308 C29.0598277,26.9487179 28.6555935,26.1282051 28.1503008,25.4102564 C27.645008,24.6923077 26.9375981,24.0769231 26.2301883,23.6666667 C24.4339194,22.8295749 22.3671782,22.8295749 20.5709093,23.6666667 C19.7624409,24.0769231 19.1560896,24.6923077 18.6507968,25.4102564 C18.1455041,26.1282051 17.7412698,26.9487179 17.5391527,27.7692308 C17.1389975,29.5238152 17.1389975,31.3479797 17.5391527,33.1025641 C17.7412698,33.9230769 18.1455041,34.7435897 18.6507968,35.4615385 C19.1560896,36.1794872 19.8634995,36.7948718 20.5709093,37.2051282 C21.4804363,37.6153846 22.3899633,37.8205128 23.4005488,37.8205128 C24.2090172,37.8205128 25.0174856,37.6153846 25.8259541,37.3076923 L23.9058416,35.6666667 L25.1185442,34.2307692 L27.5439494,36.1794872 Z M27.7460666,38.7435897 C26.4323054,39.4615385 25.0174856,39.7692308 23.5016073,39.7692308 C22.1878462,39.7692308 20.9751435,39.5641026 19.7624409,39.0512821 C18.7518554,38.5384615 17.8423284,37.8205128 17.1349185,37 C15.6476822,35.1560186 14.8910258,32.8156639 15.0126889,30.4358974 C15.0126889,29.2051282 15.214806,27.974359 15.5179817,26.8461538 C15.8211573,25.7179487 16.4275087,24.7948718 17.1349185,23.8717949 C17.8423284,22.9487179 18.7518554,22.3333333 19.7624409,21.8205128 C20.9751435,21.3076923 22.1878462,21 23.5016073,21 C24.8153685,21 26.0280712,21.3076923 27.2407738,21.8205128 C28.2513593,22.3333333 29.1608863,23.0512821 29.8682962,23.8717949 C31.3841744,25.7179487 32.0915843,28.0769231 31.9905258,30.4358974 C31.9905258,31.7692308 31.7884087,33.1025641 31.2831159,34.3333333 C30.8788817,35.5641026 30.1714718,36.6923077 29.2619448,37.6153846 L31.5862916,39.4615385 L30.3735889,41 L27.7460666,38.7435897 Z"></path>
+                        </g>
+                    </svg>
+                    <div>Anybody can ask a question</div>
+                </div>
+                <div class="grid--cell">
+                    <svg class="sm:d-none" width="50" height="72" viewBox="0 0 50 72">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M40.6128764,30.1613416 C39.5925368,30.4633412 38.4701634,30.6646742 37.3477899,30.6646742 C34.0284004,30.6382717 30.8571885,29.3049419 28.5388649,26.960979 C26.2205413,24.6170161 24.9471558,21.4565938 25.0016816,18.1820252 C25.1037156,11.3367016 30.715583,5.90070932 37.6538917,6.00137584 C44.4901666,6.10204237 50,11.5380347 50,18.2826918 C49.7959321,19.8933562 49.4898302,21.403354 48.9796605,22.9133519 C47.9593209,25.9333476 44.4901666,34.087336 44.3881326,34.3893356 L43.6738949,36 L40.6128764,30.1613416 Z M26.328123,18.3833583 C26.430157,24.3226832 31.3277867,29.1546764 37.3477899,29.1546764 C38.4701634,29.1546764 39.5925368,28.9533433 40.6128764,28.5506772 L41.327114,28.2486777 L43.469827,32.3760051 C44.5922005,29.7586755 46.6328796,24.7253493 47.3471172,22.6113523 C47.857287,21.3026875 48.1633889,19.8933562 48.3674568,18.4840248 C48.2654228,12.5446999 43.3677931,7.71270675 37.3477899,7.71270675 C34.4791678,7.65880322 31.7063844,8.73165221 29.6396832,10.6951374 C27.572982,12.6586227 26.3817375,15.3518286 26.328123,18.1820252 L26.328123,18.3833583 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M38.6128764,13 L43.2044042,24.3785311 L41.469827,24.3785311 L40.2454196,20.9849341 L35.3477899,20.9849341 L34.0213485,24.3785311 L32.4908392,24.3785311 L36.9803331,13 L38.6128764,13 Z M39.7352498,19.6873823 L37.7966047,14.3973635 L35.8579597,19.6873823 L39.7352498,19.6873823 Z M38.6128764,60.2109228 C37.5925368,60.5103578 36.4701634,60.7099812 35.3477899,60.7099812 C32.0284004,60.6838029 28.8571885,59.3617955 26.5388649,57.0377373 C24.2205413,54.7136791 22.9471558,51.5800947 23.0016816,48.3333333 C23.1037156,41.5461394 28.715583,36.1563089 35.6538917,36.2561205 C42.4901666,36.3559322 48,41.7457627 48,48.433145 C47.7959321,50.0301318 47.4898302,51.527307 46.9796605,53.0244821 C45.9593209,56.0188324 42.4901666,64.1035782 42.3881326,64.4030132 L41.6738949,66 L38.6128764,60.2109228 Z M24.2260891,48.433145 C24.328123,54.3220339 29.2257527,59.1129944 35.2457559,59.1129944 C36.3681294,59.1129944 37.4905029,58.913371 38.5108424,58.5141243 L39.2250801,58.2146893 L41.3677931,62.306968 C42.4901666,59.7118644 44.5308456,54.7212806 45.2450833,52.6252354 C45.755253,51.3276836 46.0613549,49.9303202 46.2654228,48.5329567 C46.1633889,42.6440678 41.2657591,37.8531073 35.2457559,37.8531073 C29.2257527,37.7532957 24.328123,42.4444444 24.2260891,48.3333333 L24.2260891,48.433145 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M36.2857143 43L41 54 39.2190476 54 37.9619048 50.7192982 32.9333333 50.7192982 31.5714286 54 30 54 34.6095238 43 36.2857143 43zM37.3333333 49.4649123L35.3428571 44.3508772 33.352381 49.4649123 37.3333333 49.4649123zM15.6128764 41.1613416C14.5925368 41.4633412 13.4701634 41.6646742 12.3477899 41.6646742 9.02840044 41.6382717 5.85718848 40.3049419 3.53886491 37.960979 1.22054134 35.6170161-.0528442254 32.4565938.00168163683 29.1820252.103715589 22.3367016 5.71558298 16.9007093 12.6538917 17.0013758 19.4901666 17.1020424 25 22.5380347 25 29.2826918 24.7959321 30.8933562 24.4898302 32.403354 23.9796605 33.9133519 22.9593209 36.9333476 19.4901666 45.087336 19.3881326 45.3893356L18.6738949 47 15.6128764 41.1613416zM1.32812302 29.2826918C1.43015697 35.2220167 6.32778669 40.0540098 12.3477899 40.0540098 13.4701634 40.0540098 14.5925368 39.8526768 15.6128764 39.4500107L16.327114 39.1480111 18.469827 43.2753386C19.5922005 40.658009 21.6328796 35.6246828 22.3471172 33.5106858 22.857287 32.202021 23.1633889 30.7926896 23.3674568 29.3833583 23.3674568 23.3433669 18.469827 18.5113737 12.3477899 18.5113737 6.22575274 18.5113737 1.32812302 23.2427003 1.32812302 29.2826918z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M13.3301887,24 L18,35 L16.2358491,35 L14.990566,31.7192982 L10.009434,31.7192982 L8.66037736,35 L7,35 L11.5660377,24 L13.3301887,24 Z M14.4716981,30.4649123 L12.5,25.3508772 L10.5283019,30.4649123 L14.4716981,30.4649123 Z"></path>
+                        </g>
+                    </svg>
+                    <div>Anybody can answer</div>
+                </div>
+                <div class="grid--cell">
+                    <svg class="sm:d-none" width="68" height="72" viewBox="0 0 68 72">
+                        <g fill="none" fill-rule="evenodd">
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M60.8750018,54.5578408 C60.0833353,54.8539848 59.1927106,54.9526994 58.4010441,54.9526994 C53.1675688,54.8983153 48.9639814,50.6317155 49.0002327,45.4109683 C49.036484,40.1902212 53.2989171,35.9821177 58.5326454,36.0000571 C63.7663738,36.0179966 67.999716,40.2552208 68,45.4760932 C67.9010417,46.660669 67.6041668,47.8452448 67.2083335,49.0298206 C66.4166671,51.3002575 63.8437511,57.6179949 63.7447927,57.8154242 L63.2500012,59 L60.8750018,54.5578408 Z M49.9895879,45.4760932 C49.9895879,50.1156817 53.7500036,53.7681237 58.4010441,53.7681237 C59.2916689,53.7681237 60.0833353,53.669409 60.8750018,53.2745504 L61.3697933,52.9784065 L62.9531263,56.1372752 C63.7447927,54.1629823 65.3281257,50.2143963 65.9218755,48.634962 C66.3177088,47.6478155 66.5156254,46.5619544 66.713542,45.4760932 C66.713542,40.8365048 62.9531263,37.1840628 58.3020858,37.1840628 C53.7500036,37.1840628 49.9895879,40.8365048 49.9895879,45.4760932 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M59.4255118,41 L63,49.8429487 L61.672333,49.8429487 L60.6510506,47.1602564 L56.7701778,47.1602564 L55.7488955,49.8429487 L54.5233567,49.8429487 L58.0978448,41 L59.4255118,41 Z M60.2425377,46.1666667 L58.7106142,41.9935897 L57.1786907,46.1666667 L60.2425377,46.1666667 Z M50.2339709,69.4166667 C48.0885365,69.9899443 45.7960837,69.3007049 44.3571673,67.6497711 C42.9182509,65.9988374 42.5940569,63.6858797 43.5260817,61.7204024 C44.4581065,59.7549252 46.477173,58.4936935 48.7020474,58.4871795 C51.8680226,58.4871795 54.4212284,60.9711538 54.4212284,64.0512821 C54.3191002,64.7467949 54.1148437,65.4423077 53.9105873,66.1378205 C53.3999461,67.4294872 51.8680226,71.1057692 51.7658944,71.3044872 L51.4595097,72 L50.2339709,69.4166667 Z M43.7998922,64.150641 C43.7998922,66.8333333 46.0467133,68.9198718 48.7020474,68.9198718 L48.8041756,68.9198718 C49.3148168,68.9198718 49.8254579,68.8205128 50.3360991,68.6217949 L50.6424838,68.4230769 L51.5616379,70.3108974 C52.0722791,69.1185897 52.9914332,66.8333333 53.2978179,65.9391026 C53.5020743,65.3429487 53.7063308,64.6474359 53.7063308,64.0512821 C53.7063308,61.3685897 51.4595097,59.2820513 48.8041756,59.2820513 L48.7020474,59.2820513 C45.9445851,59.2820513 43.7998922,61.4679487 43.7998922,64.150641 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M48.9766542,61.9017967 L51,67 L50.1906617,67 L49.5836579,65.4313221 L47.3579775,65.4313221 L46.7509738,67 L46.0428027,67 L48.0661486,61.9017967 L48.9766542,61.9017967 Z M49.4824906,64.9411102 L48.571985,62.5880933 L47.6614794,64.9411102 L49.4824906,64.9411102 Z M34.6108988,61.6076696 C34.0038951,61.8037544 33.295724,61.9017967 32.587553,61.9017967 C28.3548103,61.8478184 24.9632891,58.4882713 25.0003001,54.386074 C25.0373111,50.2838767 28.4889304,46.9823148 32.7219999,47.0000713 C36.9550694,47.0178278 40.377068,50.3482225 40.3774344,54.4505766 C40.2762671,55.4310003 40.0739325,56.411424 39.7704307,57.2938053 C39.1634269,59.058568 37.0389138,64.0587289 36.9377465,64.2548136 L36.5330773,65.2352373 L34.6108988,61.6076696 Z M25.8093445,54.3525342 C25.8093445,57.9801019 28.8443632,60.921373 32.587553,60.921373 C33.295724,61.0194154 34.0038951,60.8233307 34.6108988,60.5292036 L35.015568,60.3331188 L36.3307428,62.8822204 C37.0389138,61.3135425 38.2529213,58.274229 38.7587578,56.9016359 C39.0622596,56.1172969 39.2645942,55.2349156 39.3657615,54.3525342 C39.3657615,50.7249665 36.3307428,47.7836954 32.587553,47.7836954 C28.8443632,47.8817378 25.9105118,50.7249665 25.8093445,54.3525342 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M33.2155711,50.9217322 L36,58 L35.0055611,58 L34.21001,55.9064278 L31.2266932,55.9064278 L30.4311421,58 L29.4367032,58 L32.2211321,50.9217322 L33.2155711,50.9217322 Z M33.8122344,55.1088765 L32.6189077,51.8189774 L31.425581,55.1088765 L33.8122344,55.1088765 Z M15.5145585,49.2269357 C14.4206757,49.6257113 13.3267929,49.7254052 12.2329101,49.7254052 C5.47072551,49.6257113 -0.0981323823,44.0428522 0.00131150853,37.2636661 C0.100755399,30.48448 5.66961329,24.9016209 12.4317979,25.0013148 C19.1939824,25.1010087 24.6633964,30.5841739 24.6633964,37.36336 C24.4645087,38.9584626 24.166177,40.5535652 23.5695136,42.0489739 C22.5750747,45.0397913 19.1939824,53.2146922 18.9950947,53.6134678 L18.2989874,55.2085704 L15.5145585,49.2269357 Z M1.39352598,37.36336 C1.39352598,43.3449948 6.26627663,48.1303026 12.2329101,48.1303026 L12.332354,48.1303026 C13.4262368,48.1303026 14.6195635,47.9309148 15.6140024,47.5321391 L16.3101096,47.1333635 L18.3984313,51.3205078 C19.4923141,48.7284661 21.5806358,43.6440765 22.2767431,41.4508104 C22.7739625,40.0550957 23.0722942,38.6593809 23.271182,37.2636661 C23.271182,31.2820313 18.3984313,26.4967235 12.4317979,26.4967235 L12.332354,26.4967235 C6.36572052,26.4967235 1.49296987,31.3817252 1.39352598,37.36336 Z"></path>
+                            <path fill="#FFFFFF" fill-rule="nonzero" d="M13.4166667 32L18 44 16.2685185 44 14.9444444 40.3793103 9.9537037 40.3793103 8.62962963 44 7 44 11.5833333 32 13.4166667 32zM14.4351852 38.9310345L12.5 33.3448276 10.462963 38.9310345 14.4351852 38.9310345zM39.6505583 39.4778919C37.9338445 39.973835 36.1161474 40.2714009 34.2984504 40.2714009 22.9883355 40.1722123 13.8998503 31.0468586 14.0008334 19.9377325 14.1018166 8.82860636 23.3922681-.0983699988 34.7023831.000818627504 45.9115148.100007254 55 9.12617224 55 20.1361098 54.6970505 22.715014 54.1921346 25.1947297 53.2832861 27.6744454 51.6675554 32.534688 46.012498 45.825964 45.7095485 46.4210957L44.5987336 49 39.6505583 39.4778919zM36.0151643 10.9115675L33.0866524 10.9115675 25.714881 29.6582179 28.3404434 29.6582179 30.46109 24.0044662 38.5397435 24.0044662 40.66039 29.6582179 43.4879187 29.6582179 36.0151643 10.9115675zM37.7318781 21.921505L31.2689553 21.921505 34.5004167 13.1929059 34.6013999 13.1929059 37.7318781 21.921505z"></path>
+                        </g>
+                    </svg>
+                    <div>The best answers are voted up and rise to the top</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
+<script>
+    StackExchange.ready(function () {
+        StackExchange.Hero.init("nso", "a");
+
+        var location = 0;
+        if ($("body").hasClass("questions-page")) {
+            location = 1;
+        } else if ($("body").hasClass("question-page")) {
+            location = 1;
+        } else if ($("body").hasClass("faq-page")) {
+            location = 5;
+        } else if ($("body").hasClass("home-page")) {
+            location = 3;
+        }
+
+        $('.js-cta-button').click(function () {
+            StackExchange.using("gps", function () {
+                StackExchange.gps.track("hero.action", { hero_action_type: 'cta', location: location }, true);
+            });
+        });
+
+        // TODO: we should review the class names and whatnot in use here. Older heroes use id selectors, the newer
+        // sticky question hero on SO has a .js-dismiss class instead, but it's apparently not used anywhere... 
+        // It's not great. Ideally we'd have a set of classes in the partials above that would correspond to 
+        // the behaviours we want here in a more clear way. 
+
+        // sticky question-page hero at the bottom of the page on SO
+        $('.js-dismiss').on('click', function () {
+            StackExchange.using("gps", function () {
+                StackExchange.gps.track("hero.action", { hero_action_type: "close", location: location }, true);
+            });
+            StackExchange.Hero.dismiss();
+            $(".js-dismissable-hero").fadeOut("fast");
+        });
+    });
+</script>
+
+        <header class="site-header">
+            <div class="site-header--container">
+                <a class="site-header--link d-flex ai-center fs-headline1 fw-bold" href="https://serverfault.com/">
+                        <img class="h-auto wmx100" src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/logo.svg" alt="Server Fault">
+                </a>
+
+            </div>
+        </header>
+
+    <div class="container">
+
+
+
+
+
+<div id="left-sidebar" data-is-here-when="md lg" class="left-sidebar js-pinned-left-sidebar">
+    <div class="left-sidebar--sticky-container js-sticky-leftnav">
+            <nav role="navigation">
+                <ol class="nav-links">
+                    <li>    </li><li>
+        <a href="https://serverfault.com/" class="pl8 js-gps-track nav-links--link" data-gps-track="top_nav.click({is_current:false, location:2, destination:8})">
+Home        </a>
+    </li>
+
+                    <li>
+                        <ol class="nav-links">
+                                <li class=" youarehere">
+        <a id="nav-questions" href="https://serverfault.com/questions" class="pl8 js-gps-track nav-links--link" data-gps-track="top_nav.click({is_current:true, location:2, destination:1})">
+Questions        </a>
+    </li>
+
+    <li>
+        <a id="nav-tags" href="https://serverfault.com/tags" class="pl8 js-gps-track nav-links--link" data-gps-track="top_nav.click({is_current:false, location:2, destination:2})">
+Tags        </a>
+    </li>
+    <li>
+        <a id="nav-users" href="https://serverfault.com/users" class="pl8 js-gps-track nav-links--link" data-gps-track="top_nav.click({is_current:false, location:2, destination:3})">
+Users        </a>
+    </li>
+    <li>
+        <a id="nav-unanswered" href="https://serverfault.com/unanswered" class="pl8 js-gps-track nav-links--link" data-gps-track="top_nav.click({is_current:false, location:2, destination:5})">
+Unanswered        </a>
+    </li>
+                                                    </ol>
+                    </li>
+                </ol>
+            </nav>
+    </div>
+</div>
+   
+
+        <div id="content" class="">
+
+
+            
+
+
+<div itemprop="mainEntity" itemscope="" itemtype="http://schema.org/Question">
+    <link itemprop="image" href="https://cdn.sstatic.net/Sites/serverfault/img/apple-touch-icon.png?v=6c3100d858bb">
+
+    <div class="inner-content clearfix">
+    
+    
+
+<style>.everyoneloves__top-leaderboard:empty,.everyoneloves__mid-leaderboard:empty,.everyoneloves__bot-mid-leaderboard:empty{                height:90px;width:728px;box-sizing:border-box;
+}</style>
+        <div id="dfp-tlb" class="everyonelovesstackoverflow everyoneloves__top-leaderboard" style="display: none !important;"></div>            <div id="question-header" class="grid">
+                    <h1 itemprop="name" class="grid--cell fs-headline1 fl1 ow-break-word"><a href="https://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does" class="question-hyperlink">Why does DNS work the way it does?</a></h1>
+
+            
+<div class="pl8 aside-cta grid--cell" role="navigation" aria-label="ask new question">
+        <a href="https://serverfault.com/questions/ask" class="d-inline-flex ai-center ws-nowrap s-btn s-btn__primary">
+            Ask Question
+        </a>
+</div>
+
+        </div>
+            <div id="mainbar" role="main" aria-label="question and answers">
+
+            
+
+<div class="question" data-questionid="355887" id="question">
+
+    
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="355887">
+        <button class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This question shows research effort; it is useful and clear" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 26h32L18 10z"></path></svg></button>
+        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="40">40</div>
+        <button class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This question does not show any research effort; it is unclear or not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 10h32L18 26z"></path></svg></button>
+
+        <button class="js-favorite-btn s-btn s-btn__unset c-pointer py8" aria-pressed="false" aria-label="favorite (36)" data-selected-classes="fc-yellow-600">
+            <svg aria-hidden="true" class="svg-icon iconStar" width="18" height="18" viewBox="0 0 18 18"><path d="M9 12.65l-5.29 3.63 1.82-6.15L.44 6.22l6.42-.17L9 0l2.14 6.05 6.42.17-5.1 3.9 1.83 6.16z"></path></svg>
+            <div class="js-favorite-count mt8" data-value="36">36</div>
+        </button>
+
+
+</div>
+
+            </div>
+
+            
+<div class="postcell post-layout--right">
+    
+    <div class="post-text" itemprop="text">
+
+<blockquote>
+  <p>This is a <a href="http://meta.serverfault.com/q/1986">Canonical Question</a> about DNS (Domain Name Service).</p>
+</blockquote>
+
+<p>If my understanding of the DNS system is correct, the .com registry 
+holds a table that maps domains (www.example.com) to DNS servers.</p>
+
+<ol>
+<li><p>What is the advantage? Why not map directly to an IP address?</p></li>
+<li><p>If the only record that needs to change when I am configuring a 
+DNS server to point to a different IP address, is located at the DNS 
+server, why isn't the process instant?</p></li>
+<li><p>If the only reason for the delay are DNS caches, is it possible to bypass them, so I can see what is happening in real time?</p></li>
+</ol>
+    </div>
+
+        <div class="post-taglist grid gs4 gsy fd-column">
+            <div class="grid ps-relative d-block">
+                <a href="https://serverfault.com/questions/tagged/domain-name-system" class="post-tag js-gps-track" title="show questions tagged 'domain-name-system'" rel="tag">domain-name-system</a> 
+            </div>
+        </div>
+
+    <div class="mb0 ">
+        <div class="mt16 pt4 grid gs8 gsy fw-wrap jc-end ai-start">
+            <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="https://serverfault.com/q/355887" title="short permalink to this question" class="short-link" itemprop="url" id="link-post-355887">share</a><span class="lsep">|</span><a href="https://serverfault.com/posts/355887/edit" class="suggest-edit-post" title="">improve this question</a></div>
+            </div>
+
+                <div class="post-signature grid--cell">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="https://serverfault.com/posts/355887/revisions" title="show all edits to this post">edited <span title="2012-09-09 21:08:40Z" class="relativetime">Sep 9 '12 at 21:08</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/50875/gwaldo"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/2f8629fd72eb23d0e3db72474fcd8223.jpg" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://serverfault.com/users/50875/gwaldo">gWaldo</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 10,430" dir="ltr">10.4k</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="34 silver badges"><span class="badge2"></span><span class="badgecount">34</span></span><span title="65 bronze badges"><span class="badge3"></span><span class="badgecount">65</span></span>
+        </div>
+    </div>
+</div>                </div>
+            <div class="post-signature owner grid--cell">
+<div class="user-info ">
+    <div class="user-action-time">
+        asked <span title="2012-02-01 17:24:13Z" class="relativetime">Feb 1 '12 at 17:24</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/109136/sabof"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/8f9adf725fe8c9a24dfd9d69c7f4525f.png" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <a href="https://serverfault.com/users/109136/sabof">sabof</a><span class="d-none" itemprop="name">sabof</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">313</span><span title="4 silver badges"><span class="badge2"></span><span class="badgecount">4</span></span><span title="7 bronze badges"><span class="badge3"></span><span class="badgecount">7</span></span>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+    
+</div>
+                        <div class="special-status post-layout--full">
+    <div class="question-status">
+        <h2>                    <b>migrated</b> from <a href="https://stackoverflow.com/posts/9100312/revisions" title="details-of-dns-system">stackoverflow.com</a> <span dir="ltr"><span title="2012-02-01 17:27:54Z" class="relativetime">Feb 1 '12 at 17:27</span></span>
+</h2>
+        <p>This question came from our site for professional and enthusiast programmers.</p>
+    </div>
+
+
+
+            </div>
+    
+    <div class="post-layout--right">
+	    <div id="comments-355887" class="comments js-comments-container " data-post-id="355887">
+            <ul class="comments-list js-comments-list" data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+    <li id="comment-357139" class="comment js-comment " data-comment-id="357139">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="hot">18</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">To all the people trying to 
+migrate/close this question: Please leave it here. It has a home here, 
+where it can be loved and tenderly cared for. And we can point all "How 
+does DNS Work" questions here as a canonical answer, because this one is
+ extremely well answered.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/7709/mark-henderson" title="61,245 reputation" class="comment-user">Mark Henderson<span class="mod-flair" title="moderator">♦</span></a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357139_355887"><span title="2012-02-01 22:40:19Z" class="relativetime-clean">Feb 1 '12 at 22:40</span></a></span>
+                        <span title="this comment was edited 2 times">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-473569" class="comment js-comment " data-comment-id="473569">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy"><code>You can not able full understand DNS unless you are name Paul Mockapetris, Paul Vixie or Cricket Liu.</code> <a href="https://twitter.com/DEVOPS_BORAT/status/249006925767909376" rel="nofollow noreferrer">twitter.com/DEVOPS_BORAT/status/249006925767909376</a></span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/128858/anthony-hatzopoulos" title="168 reputation" class="comment-user">Anthony Hatzopoulos</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment473569_355887"><span title="2012-10-16 21:14:42Z" class="relativetime-clean">Oct 16 '12 at 21:14</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-355887" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </div>        </div>
+</div>
+
+
+
+            <div id="answers">
+
+                <a name="tab-top"></a>
+                <div id="answers-header">
+                    <div class="subheader answers-subheader">
+                        <h2 data-answercount="4">
+                                4 Answers
+                            <span style="display:none;" itemprop="answerCount">4</span>
+                        </h2>
+                        <div>
+                            
+<div id="tabs">
+        <a href="https://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does?answertab=active#tab-top" data-nav-xhref="" title="Answers with the latest activity first" data-value="active" data-shortcut="A">
+            active</a>
+        <a href="https://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does?answertab=oldest#tab-top" data-nav-xhref="" title="Answers in the order they were provided" data-value="oldest" data-shortcut="O">
+            oldest</a>
+        <a class="youarehere is-selected " href="https://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does?answertab=votes#tab-top" data-nav-xhref="" title="Answers with the highest score first" data-value="votes" data-shortcut="V">
+            votes</a>
+    </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+  
+<a name="355927"></a>
+<div id="answer-355927" class="answer accepted-answer" data-answerid="355927" itemprop="acceptedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="355927">
+        <button class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is useful" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 26h32L18 10z"></path></svg></button>
+        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="87">87</div>
+        <button class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 10h32L18 26z"></path></svg></button>
+
+
+                <div class="js-accepted-answer-indicator grid--item fc-green-500 ta-center p4" title="loading when this answer was accepted..." tabindex="0" role="note" aria-label="accepted"><svg aria-hidden="true" class="svg-icon iconCheckmarkLg" width="36" height="36" viewBox="0 0 36 36"><path d="M6 14l8 8L30 6v8L14 30l-8-8z"></path></svg></div>
+
+</div>
+
+            </div>
+            
+
+<div class="answercell post-layout--right">
+    
+    <div class="post-text" itemprop="text">
+<p>Actually, it's more complicated than that - rather than one "central 
+registry (that) holds a table that maps domains (www.mysite.com) to DNS 
+servers", there are several layers of hierarchy</p>
+
+<p>There's a central registry (the Root Servers) which contain only a 
+small set of entries: the NS (nameserver) records for all the top-level 
+domains - <code>.com</code>, <code>.net</code>, <code>.org</code>, <code>.uk</code>, <code>.us</code>, <code>.au</code>, and so on.</p>
+
+<p>Those servers just contain NS records for the next level down. To pick one example, the nameservers for the <code>.uk</code> domain just has entries for <code>.co.uk</code>, <code>.ac.uk</code>, and the other second-level zones in use in the UK.</p>
+
+<p>Those servers just contain NS records for the next level down - to 
+continue the example, they tell you where to find the NS records for <code>google.co.uk</code>. It's on those servers that you'll finally find a mapping between a hostname like <code>www.google.co.uk</code> and an IP address.</p>
+
+<p>As an extra wrinkle, each layer will also serve up 'glue' records. 
+Each NS record maps a domain to a hostname - for instance, the NS 
+records for <code>.uk</code> list <code>nsa.nic.uk</code> as one of the servers. To get to the next level, we need to find out the NS records for <code>nic.uk</code> are, and they turn out to include <code>nsa.nic.uk</code> as well. So now we need to know the IP of <code>nsa.nic.uk</code>, but to find that out we need to make a query to <code>nsa.nic.uk</code>, but we can't make that query until we know the IP for <code>nsa.nic.uk</code>... </p>
+
+<p>To resolve this quandary, the servers for <code>.uk</code> add the A record for <code>nsa.nic.uk</code> into the <code>ADDITIONAL SECTION</code> of the response (response below trimmed for brevity):</p>
+
+<pre><code>jamezpolley@li101-70:~$dig nic.uk ns
+
+; &lt;&lt;&gt;&gt; DiG 9.7.0-P1 &lt;&lt;&gt;&gt; nic.uk ns
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 21768
+;; flags: qr rd ra; QUERY: 1, ANSWER: 11, AUTHORITY: 0, ADDITIONAL: 14
+
+;; QUESTION SECTION:
+;nic.uk.                IN  NS
+
+;; ANSWER SECTION:
+nic.uk.         172800  IN  NS  nsb.nic.uk.
+nic.uk.         172800  IN  NS  nsa.nic.uk.
+
+;; ADDITIONAL SECTION:
+nsa.nic.uk.     172800  IN  A   156.154.100.3
+nsb.nic.uk.     172800  IN  A   156.154.101.3
+</code></pre>
+
+<p>Without these extra glue records, we'd never be able to find the nameservers for <code>nic.uk.</code> and so we'd never be able to look up any domains hosted there.</p>
+
+<p>To get back to your questions... </p>
+
+<blockquote>
+  <p>a) What is the advantage? Why not map directly to an IP address?</p>
+</blockquote>
+
+<p>For one thing, it allows edits to each individual zone to be distributed. If you want to update the entry for <code>www.mydomain.co.uk</code>, you just need to edit the information on your <code>mydomain.co.uk</code>'s nameserver. There's no need to notify the central <code>.co.uk</code> servers, or the <code>.uk</code>
+ servers, or the root nameservers. If there was only a single central 
+registry that mapped all the levels all the way down the hierarchy that 
+had to be notified about every single change of a DNS entry all the way 
+down the chain, it would be absolutely swamped with traffic.</p>
+
+<p>Before 1982, this was actually how name resolution happened. One 
+central registry was notified about all updates, and they distributed a 
+file called <code>hosts.txt</code> which contained the hostname and IP 
+address of every machine on the internet. A new version of this file was
+ published every few weeks, and every machine on the internet would have
+ to download a new copy. Well before 1982, this was starting to become 
+problematic, and so DNS was invented to provide a more distributed 
+system.</p>
+
+<p>For another thing, this would be a Single Point of Failure - if the 
+single central registry went down, the entire internet would be offline.
+ Having a distributed system means that failures only affect small 
+sections of the internet, not the whole thing.</p>
+
+<p>(To provide extra redundancy, there are actually 13 separate clusters
+ of servers that serve the root zone. Any changes to the top-level 
+domain records have to be pushed to all 13; imagine having to coordinate
+ updating all 13 of them for every single change to any hostname 
+anywhere in the world...)</p>
+
+<blockquote>
+  <p>b) If the only record that needs to change when I am configuring a DNS
+  server to point to a different IP address is located at the DNS
+  server, why isn't the process instant?</p>
+</blockquote>
+
+<p>Because DNS utilises a lot of caching to both speed things up and 
+decrease the load on the NSes. Without caching, every single time you 
+visited <code>google.co.uk</code> your computer would have to go out to the network to look up the servers for <code>.uk</code>, then <code>.co.uk</code>, then <code>.google.co.uk</code>, then <code>www.google.co.uk</code>.
+ Those answers don't actually change much, so looking them up every time
+ is a waste of time and network traffic. Instead, when the NS returns 
+records to your computer, it will include a TTL value, that tells your 
+computer to cache the results for a number of seconds. </p>
+
+<p>For example, the NS records for <code>.uk</code> have a TTL of 172800 seconds - 2 days. Google are even more conservative - the NS records for <code>google.co.uk</code> have a TTL of 4 days. Services which rely on being able to update quickly can choose a much lower TTL - for instance, <code>telegraph.co.uk</code> has a TTL of just 600 seconds on their NS records.</p>
+
+<p>If you want updates to your zone to be near-instant, you can choose 
+to lower your TTL as far down as you like. The lower your set it, the 
+more traffic your servers will see, as clients refresh their records 
+more often. Every time a client has to contact your servers to do a 
+query, this will cause some lag as it's slower than looking up the 
+answer on their local cache, so you'll also want to consider the 
+tradeoff between fast updates and a fast service.</p>
+
+<blockquote>
+  <p>c) If the only reason for the delay are DNS caches, is it possible to
+  bypass them, so I can see what is happening in real time?</p>
+</blockquote>
+
+<p>Yes, this is easy if you're testing manually with <code>dig</code> or similar tools - just tell it which server to contact.</p>
+
+<p>Here's an example of a cached response:</p>
+
+<pre><code>jamezpolley@host:~$dig telegraph.co.uk NS
+
+; &lt;&lt;&gt;&gt; DiG 9.7.0-P1 &lt;&lt;&gt;&gt; telegraph.co.uk NS
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 36675
+;; flags: qr rd ra; QUERY: 1, ANSWER: 8, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;telegraph.co.uk.       IN  NS
+
+;; ANSWER SECTION:
+telegraph.co.uk.    319 IN  NS  ns1-63.akam.net.
+telegraph.co.uk.    319 IN  NS  eur3.akam.net.
+telegraph.co.uk.    319 IN  NS  use2.akam.net.
+telegraph.co.uk.    319 IN  NS  usw2.akam.net.
+telegraph.co.uk.    319 IN  NS  use4.akam.net.
+telegraph.co.uk.    319 IN  NS  use1.akam.net.
+telegraph.co.uk.    319 IN  NS  usc4.akam.net.
+telegraph.co.uk.    319 IN  NS  ns1-224.akam.net.
+
+;; Query time: 0 msec
+;; SERVER: 97.107.133.4#53(97.107.133.4)
+;; WHEN: Thu Feb  2 05:46:02 2012
+;; MSG SIZE  rcvd: 198
+</code></pre>
+
+<p>The flags section here doesn't contain the <code>aa</code> flag, so 
+we can see that this result came from a cache rather than directly from 
+an authoritative source. In fact, we can see that it came from <code>97.107.133.4</code>,
+ which happens to be one of Linode's local DNS resolvers. The fact that 
+the answer was served out of a cache very close to me means that it took
+ 0msec for me to get an answer; but as we'll see in a moment, the price I
+ pay for that speed is that the answer is almost 5 minutes out of date.</p>
+
+<p>To bypass Linode's resolver and go straight to the source, just pick one of those NSes and tell dig to contact it directly:</p>
+
+<pre><code>jamezpolley@li101-70:~$dig @ns1-224.akam.net telegraph.co.uk NS
+
+; &lt;&lt;&gt;&gt; DiG 9.7.0-P1 &lt;&lt;&gt;&gt; @ns1-224.akam.net telegraph.co.uk NS
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 23013
+;; flags: qr aa rd; QUERY: 1, ANSWER: 8, AUTHORITY: 0, ADDITIONAL: 0
+;; WARNING: recursion requested but not available
+
+;; QUESTION SECTION:
+;telegraph.co.uk.       IN  NS
+
+;; ANSWER SECTION:
+telegraph.co.uk.    600 IN  NS  use2.akam.net.
+telegraph.co.uk.    600 IN  NS  eur3.akam.net.
+telegraph.co.uk.    600 IN  NS  use1.akam.net.
+telegraph.co.uk.    600 IN  NS  ns1-63.akam.net.
+telegraph.co.uk.    600 IN  NS  usc4.akam.net.
+telegraph.co.uk.    600 IN  NS  ns1-224.akam.net.
+telegraph.co.uk.    600 IN  NS  usw2.akam.net.
+telegraph.co.uk.    600 IN  NS  use4.akam.net.
+
+;; Query time: 9 msec
+;; SERVER: 193.108.91.224#53(193.108.91.224)
+;; WHEN: Thu Feb  2 05:48:47 2012
+;; MSG SIZE  rcvd: 198
+</code></pre>
+
+<p>You can see that this time, the results were served directly from the source - note the <code>aa</code>
+ flag, which indicates that the results came from an authoritative 
+source. In my earlier example, the results came from my local cache, so 
+they lack the <code>aa</code> flag. I can see that the authoritative 
+source for this domain sets a TTL of 600 seconds. The results I got 
+earlier from a local cache had a TTL of just 319 seconds, which tells me
+ that they'd been sitting in the cache for (600-319) seconds - almost 5 
+minutes - before I saw them.</p>
+
+<p>Although the TTL here is only 600 seconds, some ISPs will attempt to 
+reduce their traffic even further by forcing their DNS resolvers to 
+cache the results for longer - in some cases, for 24 hours or more. It's
+ traditional (in a 
+we-don't-know-if-this-is-really-neccessary-but-let's-be-safe kind of 
+way) to assume that any DNS change you make won't be visible everywhere 
+on the internet for 24-48 hours.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+        <time itemprop="dateCreated" datetime="2012-02-01T18:52:00"></time>
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="https://serverfault.com/a/355927" title="short permalink to this answer" class="short-link" itemprop="url" id="link-post-355927">share</a><span class="lsep">|</span><a href="https://serverfault.com/posts/355927/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="https://serverfault.com/posts/355927/revisions" title="show all edits to this post">edited <span title="2012-02-02 21:25:32Z" class="relativetime">Feb 2 '12 at 21:25</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-02-01 18:52:00Z" class="relativetime">Feb 1 '12 at 18:52</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/10646/james-polley"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/06a0058c9d6dc0eac55c3311a99beeda.png" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <a href="https://serverfault.com/users/10646/james-polley">James Polley</a><span class="d-none" itemprop="name">James Polley</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">2,024</span><span title="14 silver badges"><span class="badge2"></span><span class="badgecount">14</span></span><span title="13 bronze badges"><span class="badge3"></span><span class="badgecount">13</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+    
+</div>
+
+    
+    <div class="post-layout--right">
+	    <div id="comments-355927" class="comments js-comments-container " data-post-id="355927">
+            <ul class="comments-list js-comments-list" data-remaining-comments-count="4" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+    <li id="comment-357255" class="comment js-comment " data-comment-id="357255">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">3</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">+1 That is one awesome explanation. Will definitely bookmark this!</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/28352/trollhorn" title="153 reputation" class="comment-user">Trollhorn</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357255_355927"><span title="2012-02-02 08:30:12Z" class="relativetime-clean">Feb 2 '12 at 8:30</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357294" class="comment js-comment " data-comment-id="357294">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">3</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">The real answer to whether a 
+DNS response came from a cache or not is in the "flags" section of the 
+answer. There's no technical reason why one couldn't set a TTL of, say, 
+319 seconds. Instead, look for the <code>aa</code> (authoritative answer) <code>flag</code> in the response. If <code>aa</code> is present, the answer came directly from an authoritative name server. (If it's missing, the answer <i>may</i> still be fresh; some recursive name servers clear the <code>aa</code> flag before passing on the response to the client resolver.)</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/58408/a-cvn" title="3,247 reputation" class="comment-user">a CVn</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357294_355927"><span title="2012-02-02 10:19:12Z" class="relativetime-clean">Feb 2 '12 at 10:19</span></a></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357357" class="comment js-comment " data-comment-id="357357">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">3</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">You should note that some 
+ISPs will cache DNS records for much longer than the TTL says that they 
+should, so even with very short TTLs you can't guarantee that all at 
+sites visitors will get the correct IP for a day or two after you 
+relocate a site.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/34835/dan-neely" title="627 reputation" class="comment-user">Dan Neely</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357357_355927"><span title="2012-02-02 13:35:56Z" class="relativetime-clean">Feb 2 '12 at 13:35</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-511732" class="comment js-comment " data-comment-id="511732">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">@JamesPolley there's a (minor) error in your explanation with your use of the <code>.uk</code> servers.  Currently the Nominet-managed second level domains are on the same servers as <code>uk.</code>, so a query for <code>example.co.uk</code> to the <code>uk</code> servers will receive a delegation immediately without having to first go through a delegation to the <code>co.uk</code> servers.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/216/alnitak" title="19,297 reputation" class="comment-user">Alnitak</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment511732_355927"><span title="2013-01-07 22:05:51Z" class="relativetime-clean">Jan 7 '13 at 22:05</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-1229471" class="comment js-comment " data-comment-id="1229471">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">Note that dig's <code>+trace</code>
+ option will query your configured nameserver for the root nameservers, 
+so that it can start searching. If your local nameserver is <code>dnsmasq</code> (as on Ubuntu), it doesn't support this, so you'll get an error. Use <code>dig +trace @8.8.8.8 www.example.com</code>. 8.8.8.8 is Google's public DNS service. Use 1.1.1.1 for Cloudflare's equivalent.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/7027/roger-lipscombe" title="798 reputation" class="comment-user">Roger Lipscombe</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment1229471_355927"><span title="2018-12-21 18:11:01Z" class="relativetime-clean">Dec 21 '18 at 18:11</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-355927" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link  dno" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href="#" onclick="">show <b>4</b> more comments</a>
+        </div>         
+    </div>    </div>
+</div>
+<div id="dfp-mlb" class="everyonelovesstackoverflow everyoneloves__mid-leaderboard"></div>
+  
+<a name="355889"></a>
+<div id="answer-355889" class="answer" data-answerid="355889" itemprop="suggestedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="355889">
+        <button class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is useful" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 26h32L18 10z"></path></svg></button>
+        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="9">9</div>
+        <button class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 10h32L18 26z"></path></svg></button>
+
+
+                <div class="js-accepted-answer-indicator grid--item fc-green-500 ta-center p4 d-none" title="loading when this answer was accepted..." tabindex="0" role="note" aria-label="accepted"><svg aria-hidden="true" class="svg-icon iconCheckmarkLg" width="36" height="36" viewBox="0 0 36 36"><path d="M6 14l8 8L30 6v8L14 30l-8-8z"></path></svg></div>
+
+</div>
+
+            </div>
+            
+
+<div class="answercell post-layout--right">
+    
+    <div class="post-text" itemprop="text">
+<p>a) The number of IP --&gt; host name mappings in the world is REALLY 
+big.  This system distributes the responsibility of hosting all the 
+subdomain and MX records and every other DNS record out to the owner of 
+the domain name.  This was pretty much the point of the domain name.  <code>.com</code> is held by one registry where as <code>.uk</code> can be held by another.  Likewise <code>example.com</code> and <code>otherexample.com</code> can be hosted separately so the resources can be distributed.</p>
+
+<p>b)  It's cached, which reduces the number of hits on your DNS host 
+down to a small fraction of what it would be otherwise.  By default 
+records live 2 days in the cache before being discarded.  This can be 
+changed by altering the TTL (time to live) of the record.</p>
+
+<p>c) You can effectively stop records being cached by setting a really short TTL.  This is <strong>NOT</strong>
+ recommend unless you're using it for dynamic DNS.  Caching drops the 
+hits on the DNS server by a lot.  To pick a guessed number out of the 
+air we're talking about knocking off 95% of the requests.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+        <time itemprop="dateCreated" datetime="2012-02-01T17:33:28"></time>
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="https://serverfault.com/a/355889" title="short permalink to this answer" class="short-link" itemprop="url" id="link-post-355889">share</a><span class="lsep">|</span><a href="https://serverfault.com/posts/355889/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="https://serverfault.com/posts/355889/revisions" title="show all edits to this post">edited <span title="2012-02-01 18:03:28Z" class="relativetime">Feb 1 '12 at 18:03</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/2869/joel-coel"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/5ec8a00cda38a288a0e3d1176a47d3b4.jpg" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details">
+        <a href="https://serverfault.com/users/2869/joel-coel">Joel Coel</a>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score 10,693" dir="ltr">10.7k</span><span title="11 gold badges"><span class="badge1"></span><span class="badgecount">11</span></span><span title="50 silver badges"><span class="badge2"></span><span class="badgecount">50</span></span><span title="91 bronze badges"><span class="badge3"></span><span class="badgecount">91</span></span>
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-02-01 17:33:28Z" class="relativetime">Feb 1 '12 at 17:33</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/94158/philip-couling"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/f72d9b8fe02cc534906f89eb22d74cb0.jpg" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <a href="https://serverfault.com/users/94158/philip-couling">Philip Couling</a><span class="d-none" itemprop="name">Philip Couling</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">909</span><span title="9 silver badges"><span class="badge2"></span><span class="badgecount">9</span></span><span title="21 bronze badges"><span class="badge3"></span><span class="badgecount">21</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+    
+</div>
+
+    
+    <div class="post-layout--right">
+	    <div id="comments-355889" class="comments js-comments-container " data-post-id="355889">
+            <ul class="comments-list js-comments-list" data-remaining-comments-count="2" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+    <li id="comment-356984" class="comment js-comment " data-comment-id="356984">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">Regarding 'C', be careful. 
+Set that TTL low enough and your DNS server might get hammered. Not a 
+huge issue if someone other than you is handling DNS.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/66126/publiccert" title="1,040 reputation" class="comment-user">Publiccert</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment356984_355889"><span title="2012-02-01 17:36:13Z" class="relativetime-clean">Feb 1 '12 at 17:36</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-356996" class="comment js-comment " data-comment-id="356996">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">So if it weren't for subdomains, there wouldn't be much of an advantage</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/109136/sabof" title="313 reputation" class="comment-user owner">sabof</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment356996_355889"><span title="2012-02-01 17:47:17Z" class="relativetime-clean">Feb 1 '12 at 17:47</span></a></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357001" class="comment js-comment " data-comment-id="357001">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">4</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">Perhapse, but remeber even <code>yourdomain.com</code> is a subdomain of <code>.com</code>.
+  If it was just one big "hosts file" (as it was before DNS and elves 
+still walked in middle earth) then yes.  You'd just have one big file 
+and everyone would cache that.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/94158/philip-couling" title="909 reputation" class="comment-user">Philip Couling</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357001_355889"><span title="2012-02-01 17:50:00Z" class="relativetime-clean">Feb 1 '12 at 17:50</span></a></span>
+                        <span title="this comment was edited 2 times">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357031" class="comment js-comment " data-comment-id="357031">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">3</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">The DNS namespace <i>was</i> flat, with no delegations, for a long time; and it <i>was</i> implemented as a single list, held in one place. That became unworkable and got replaced by DNS in 1982...</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/10646/james-polley" title="2,024 reputation" class="comment-user">James Polley</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357031_355889"><span title="2012-02-01 18:53:39Z" class="relativetime-clean">Feb 1 '12 at 18:53</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357298" class="comment js-comment " data-comment-id="357298">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">1</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">@mfinni, Well, it's "domain 
+name system", not "distributed name system" or anything like that. Of 
+course it's designed to be distributable, but there's nothing saying 
+that you absolutely <i>have</i> to run it that way. For some small 
+office networks with no global connectivity, having everything in a root
+ zone (or a single TLD such as <code>local</code>) probably makes some limited amount of sense.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/58408/a-cvn" title="3,247 reputation" class="comment-user">a CVn</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357298_355889"><span title="2012-02-02 10:27:41Z" class="relativetime-clean">Feb 2 '12 at 10:27</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-355889" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link  dno" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”."></a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link " title="expand to show all comments on this post" href="#" onclick="">show <b>2</b> more comments</a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="355890"></a>
+<div id="answer-355890" class="answer" data-answerid="355890" itemprop="suggestedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="355890">
+        <button class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is useful" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 26h32L18 10z"></path></svg></button>
+        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="3">3</div>
+        <button class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 10h32L18 26z"></path></svg></button>
+
+
+                <div class="js-accepted-answer-indicator grid--item fc-green-500 ta-center p4 d-none" title="loading when this answer was accepted..." tabindex="0" role="note" aria-label="accepted"><svg aria-hidden="true" class="svg-icon iconCheckmarkLg" width="36" height="36" viewBox="0 0 36 36"><path d="M6 14l8 8L30 6v8L14 30l-8-8z"></path></svg></div>
+
+</div>
+
+            </div>
+            
+
+<div class="answercell post-layout--right">
+    
+    <div class="post-text" itemprop="text">
+<p>If you're on a *nix system, download a copy of Dan Bernstein's djbdns from <a href="http://cr.yp.to/djbdns.html" rel="nofollow noreferrer">http://cr.yp.to/djbdns.html</a> and run his dnstrace program to see how the recursive query system works.  Its very informative.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+        <time itemprop="dateCreated" datetime="2012-02-01T17:37:21"></time>
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="https://serverfault.com/a/355890" title="short permalink to this answer" class="short-link" itemprop="url" id="link-post-355890">share</a><span class="lsep">|</span><a href="https://serverfault.com/posts/355890/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-02-01 17:37:21Z" class="relativetime">Feb 1 '12 at 17:37</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/88188/mikebabcock"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/0915ae53914a9d2251546e558844642f.jpg" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <a href="https://serverfault.com/users/88188/mikebabcock">mikebabcock</a><span class="d-none" itemprop="name">mikebabcock</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">280</span><span title="1 silver badge"><span class="badge2"></span><span class="badgecount">1</span></span><span title="11 bronze badges"><span class="badge3"></span><span class="badgecount">11</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+    
+</div>
+
+    
+    <div class="post-layout--right">
+	    <div id="comments-355890" class="comments js-comments-container " data-post-id="355890">
+            <ul class="comments-list js-comments-list" data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+    <li id="comment-356995" class="comment js-comment " data-comment-id="356995">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">Will it allow me to see the effect of a configuration change instantly?</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/109136/sabof" title="313 reputation" class="comment-user owner">sabof</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment356995_355890"><span title="2012-02-01 17:44:32Z" class="relativetime-clean">Feb 1 '12 at 17:44</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-356998" class="comment js-comment " data-comment-id="356998">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">dnstrace (usually through 
+dnstracesort) gives intense amounts of detail  about the DNS 
+configuration for any domain and query you make.  If the server has made
+ a change, they will show the change and how it has propagated.  They're
+ excellent for tracing propagation errors as well.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/88188/mikebabcock" title="280 reputation" class="comment-user">mikebabcock</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment356998_355890"><span title="2012-02-01 17:48:16Z" class="relativetime-clean">Feb 1 '12 at 17:48</span></a></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-355890" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+
+  
+<a name="355893"></a>
+<div id="answer-355893" class="answer" data-answerid="355893" itemprop="suggestedAnswer" itemscope="" itemtype="http://schema.org/Answer">
+    <div class="post-layout">
+            <div class="votecell post-layout--left">
+                
+
+<div class="js-voting-container grid fd-column ai-stretch gs4 fc-black-200" data-post-id="355893">
+        <button class="js-vote-up-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is useful" aria-pressed="false" aria-label="up vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowUpLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 26h32L18 10z"></path></svg></button>
+        <div class="js-vote-count grid--cell fc-black-500 fs-title grid fd-column ai-center" itemprop="upvoteCount" data-value="3">3</div>
+        <button class="js-vote-down-btn grid--cell s-btn s-btn__unset c-pointer" title="This answer is not useful" aria-pressed="false" aria-label="down vote" data-selected-classes="fc-theme-primary"><svg aria-hidden="true" class="svg-icon m0 iconArrowDownLg" width="36" height="36" viewBox="0 0 36 36"><path d="M2 10h32L18 26z"></path></svg></button>
+
+
+                <div class="js-accepted-answer-indicator grid--item fc-green-500 ta-center p4 d-none" title="loading when this answer was accepted..." tabindex="0" role="note" aria-label="accepted"><svg aria-hidden="true" class="svg-icon iconCheckmarkLg" width="36" height="36" viewBox="0 0 36 36"><path d="M6 14l8 8L30 6v8L14 30l-8-8z"></path></svg></div>
+
+</div>
+
+            </div>
+            
+
+<div class="answercell post-layout--right">
+    
+    <div class="post-text" itemprop="text">
+<p>a)  The number of possible domain names is way too large for one 
+server to handle.  And there's not just .com; there's .net, .org, .se, 
+.info, and any number of others.  Add to that, you can delegate 
+responsibility for a subdomain (which is effectively what <code>com</code> does).  DNS being less centralized makes all that easier to manage.</p>
+
+<p>b)  Machines along the way from the user to you have DNS caches in 
+order to minimize the number of requests needed.  It prevents, for 
+example, spamming the network with requests for the address of 
+"serverfault.com" every time you get a page from SF.  Those servers can 
+even cache "domain doesn't exist" results, which is why it can take a 
+while for even a brand new domain to show up.</p>
+
+<p>c) Although you can disable your cache, there are often other DNS 
+servers between your machine and yourdomain.com's DNS server.  Your 
+ISP's DNS server, for example, will try to cache as much as it can.  The
+ only records that get updated relatively quickly around the net are 
+ones with a short TTL (which basically says "i'm only valid for a few 
+seconds; after that, ask me again for current info").  The reason TTLs 
+are so high, though, is so that the server responsible for the domain 
+can offload some of the work to other servers.  If you had all the net 
+contacting your one or two rinky-dink DNS servers for every hit to your 
+web site, they'd be pretty much unusable the second someone saw your 
+site on /., digg, etc.</p>
+    </div>
+    <div class="grid mb0 fw-wrap ai-start jc-end gs8 gsy">
+        <time itemprop="dateCreated" datetime="2012-02-01T17:41:03"></time>
+    <div class="grid--cell mr16" style="flex: 1 1 100px;">
+<div class="post-menu"><a href="https://serverfault.com/a/355893" title="short permalink to this answer" class="short-link" itemprop="url" id="link-post-355893">share</a><span class="lsep">|</span><a href="https://serverfault.com/posts/355893/edit" class="suggest-edit-post" title="">improve this answer</a></div>                    </div>
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="https://serverfault.com/posts/355893/revisions" title="show all edits to this post">edited <span title="2012-02-02 01:43:35Z" class="relativetime">Feb 2 '12 at 1:43</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        
+        <div class="-flair">
+            
+        </div>
+    </div>
+</div>    </div>
+            
+
+
+    <div class="post-signature grid--cell fl0">
+<div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2012-02-01 17:41:03Z" class="relativetime">Feb 1 '12 at 17:41</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="https://serverfault.com/users/48784/chao"><div class="gravatar-wrapper-32"><img src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/e92a9af9e53cc8e5af575c4b18b34c21.png" alt="" width="32" height="32"></div></a>
+    </div>
+    <div class="user-details" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <a href="https://serverfault.com/users/48784/chao">cHao</a><span class="d-none" itemprop="name">cHao</span>
+        <div class="-flair">
+            <span class="reputation-score" title="reputation score " dir="ltr">393</span><span title="1 gold badge"><span class="badge1"></span><span class="badgecount">1</span></span><span title="2 silver badges"><span class="badge2"></span><span class="badgecount">2</span></span><span title="10 bronze badges"><span class="badge3"></span><span class="badgecount">10</span></span>
+        </div>
+    </div>
+</div>
+
+    </div>
+    </div>
+    
+</div>
+
+    
+    <div class="post-layout--right">
+	    <div id="comments-355893" class="comments js-comments-container " data-post-id="355893">
+            <ul class="comments-list js-comments-list" data-remaining-comments-count="0" data-canpost="false" data-cansee="true" data-comments-unavailable="false" data-addlink-disabled="true">
+
+
+    <li id="comment-357009" class="comment js-comment " data-comment-id="357009">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">Your (c) is wrong.  It's a widespread misunderstanding of DNS.  <a href="http://superuser.com/a/378653/38062">There's no chain of servers — local machine to router to ISP to … — each contacting the next in line.</a>  Requests go from a DNS client (library), through a <i>single</i> resolving proxy DNS server, to zero or more content DNS servers.  Barring the existence of forwarding proxy DNS servers, <b>that's it</b>.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/46453/jdebp" title="3,714 reputation" class="comment-user">JdeBP</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357009_355893"><span title="2012-02-01 18:03:21Z" class="relativetime-clean">Feb 1 '12 at 18:03</span></a></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357024" class="comment js-comment " data-comment-id="357024">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+                    <span title="number of 'useful comment' votes received" class="cool">2</span>
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">@JdeBP: It's a "widespread misunderstanding" because as far as i've seen in the real world, <i>it's largely true</i>.
+  If you get your address via DHCP, as just about everyone does, then 
+you've almost certainly been given the address of a DNS server that 
+you're supposed to use.  Which, in home networks, is almost always the 
+router -- which is basically forwarding to your ISP's DNS.  And in small
+ business networks, is usually the domain controller -- which, again, is
+ usually forwarding to the ISP's DNS.  It's generally at that point that
+ the iterative stuff takes over.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/48784/chao" title="393 reputation" class="comment-user">cHao</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357024_355893"><span title="2012-02-01 18:42:43Z" class="relativetime-clean">Feb 1 '12 at 18:42</span></a></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357180" class="comment js-comment " data-comment-id="357180">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">You need to see more of the 
+real world if you think "largely true" fits at all. I actually mentioned
+ forwarding proxies as the one extra item. However, you're 
+overestimating their use in business networks; and indeed overestimating
+ how many change their domain controllers from the default, which is 
+(after one has removed any root zone) a <i>resolving</i> DNS server 
+using root hints. Your basic error in (c) remains uncorrected. Disabling
+ a cache doesn't magically reveal a cache "behind" it. The DNS simply 
+doesn't work that way. If you aren't misunderstanding it, then you are 
+misrepresenting it.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/46453/jdebp" title="3,714 reputation" class="comment-user">JdeBP</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357180_355893"><span title="2012-02-02 00:44:43Z" class="relativetime-clean">Feb 2 '12 at 0:44</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-357186" class="comment js-comment " data-comment-id="357186">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">The fact is, if you disable 
+the cache on your local machine, you still see the results that are 
+cached by your local network's DNS server.  And if you disable that, 
+you're still likely to have your ISP's cache to worry about.  Whether 
+you accept that as a common case or not, it's the case i've seen just 
+about every time -- which makes it common enough to be well worth 
+mentioning.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/48784/chao" title="393 reputation" class="comment-user">cHao</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment357186_355893"><span title="2012-02-02 01:41:56Z" class="relativetime-clean">Feb 2 '12 at 1:41</span></a></span>
+                        <span title="this comment was edited 1 time">
+                            <svg aria-hidden="true" class="svg-icon va-text-bottom o50 iconPencilSm" width="14" height="14" viewBox="0 0 14 14"><path d="M8.37 3.7L2 10.11V12h1.88l6.37-6.43zM12.23 2.83L11.1 1.71a.5.5 0 0 0-.7 0L9.2 2.86l1.88 1.84 1.14-1.16a.5.5 0 0 0 0-.71z"></path></svg>
+                        </span>
+                                                            </div>
+        </div>
+    </li>
+    <li id="comment-511734" class="comment js-comment " data-comment-id="511734">
+        <div class="js-comment-actions comment-actions">
+            <div class="comment-score js-comment-edit-hide">
+            </div>
+                    </div>
+        <div class="comment-text js-comment-text-and-form">
+            <div class="comment-body js-comment-edit-hide">
+                
+                <span class="comment-copy">@cHao most CPE DNS servers only "forward" and don't cache.</span>
+                
+                    –&nbsp;<a href="https://serverfault.com/users/216/alnitak" title="19,297 reputation" class="comment-user">Alnitak</a>
+                <span class="comment-date" dir="ltr"><a class="comment-link" href="#comment511734_355893"><span title="2013-01-07 22:07:25Z" class="relativetime-clean">Jan 7 '13 at 22:07</span></a></span>
+                                                            </div>
+        </div>
+    </li>
+            </ul>
+	    </div>
+
+        <div id="comments-link-355893" data-rep="50" data-anon="true">
+
+                <a class="js-add-link comments-link disabled-link " title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add a comment</a><span class="js-link-separator dno">&nbsp;|&nbsp;</span>
+            <a class="js-show-link comments-link dno" title="expand to show all comments on this post" href="#" onclick=""></a>
+        </div>         
+    </div>    </div>
+</div>
+                                    <a name="new-answer"></a>
+                        <form id="post-form" action="/questions/355887/answer/submit" method="post" class="post-form">
+                            <input type="hidden" id="post-id" value="355887">
+                            <input type="hidden" id="qualityBanWarningShown" name="qualityBanWarningShown" value="false">
+                            <input type="hidden" name="referrer" value="https://serverfault.com/questions/457171/what-is-the-difference-between-the-ns-records-and-the-glue-records">
+                            <h2 class="space">
+Your Answer                            </h2>
+
+
+
+        
+
+<script>
+    StackExchange.ready(function() {
+        var channelOptions = {
+            tags: "".split(" "),
+            id: "2"
+        };
+        initTagRenderer("".split(" "), "".split(" "), channelOptions);
+       
+        StackExchange.using("externalEditor", function() {
+                // Have to fire editor after snippets, if snippets enabled
+                if (StackExchange.settings.snippets.snippetsEnabled) {
+                    StackExchange.using("snippets", function() {
+                        createEditor();
+                    });
+                }
+                else {
+                    createEditor();
+                }
+            });
+
+            function createEditor() {
+                StackExchange.prepareEditor({
+                    heartbeatType: 'answer',
+                    autoActivateHeartbeat: false,
+                    convertImagesToLinks: true,
+                noModals: true,
+                showLowRepImageUploadWarning: true,
+                reputationToPostImages: 10,
+                bindNavPrevention: true,
+                postfix: "",
+                imageUploader: {
+                    brandingHtml: "Powered by \u003ca class=\"icon-imgur-white\" href=\"https://imgur.com/\"\u003e\u003c/a\u003e",
+                    contentPolicyHtml: "User contributions licensed under \u003ca href=\"https://creativecommons.org/licenses/by-sa/3.0/\"\u003ecc by-sa 3.0 with attribution required\u003c/a\u003e \u003ca href=\"https://stackoverflow.com/legal/content-policy\"\u003e(content policy)\u003c/a\u003e",
+                    allowUrls: true
+                },
+                    onDemand: true,
+                    discardSelector: ".discard-answer"
+                    ,immediatelyShowMarkdownHelp:true
+                    });
+                
+
+        }
+    });
+</script>
+
+
+<div id="post-editor" class="post-editor js-post-editor js-wz-element" data-wz-state="8,16,32,64,128,256">
+
+    <div class="ps-relative"> 
+        <div class="wmd-container mb8">
+            <div id="wmd-button-bar" class="wmd-button-bar btr-sm"><ul id="wmd-button-row" class="wmd-button-row"><li id="wmd-bold-button" class="wmd-button" style="left: 0px;"><span style="background-position: 0px -20px;"></span></li><li id="wmd-italic-button" class="wmd-button" style="left: 25px;"><span style="background-position: -20px -20px;"></span></li><li id="wmd-spacer1" class="wmd-spacer" style="left: 50px;"><span style="background-position: -40px -20px;"></span></li><li id="wmd-link-button" class="wmd-button" style="left: 75px;"><span style="background-position: -40px -20px;"></span></li><li id="wmd-quote-button" class="wmd-button" style="left: 100px;"><span style="background-position: -60px -20px;"></span></li><li id="wmd-code-button" class="wmd-button" style="left: 125px;"><span style="background-position: -80px -20px;"></span></li><li id="wmd-image-button" class="wmd-button" style="left: 150px;"><span style="background-position: -100px -20px;"></span></li><li id="wmd-spacer2" class="wmd-spacer" style="left: 175px;"><span style="background-position: -120px -20px;"></span></li><li id="wmd-olist-button" class="wmd-button" style="left: 200px;"><span style="background-position: -120px -20px;"></span></li><li id="wmd-ulist-button" class="wmd-button" style="left: 225px;"><span style="background-position: -140px -20px;"></span></li><li id="wmd-heading-button" class="wmd-button" style="left: 250px;"><span style="background-position: -160px -20px;"></span></li><li id="wmd-hr-button" class="wmd-button" style="left: 275px;"><span style="background-position: -180px -20px;"></span></li><li id="wmd-spacer3" class="wmd-spacer" style="left: 300px;"><span style="background-position: -200px -20px;"></span></li><li id="wmd-undo-button" class="wmd-button" style="left: 325px;"><span style="background-position: -200px -20px;"></span></li><li id="wmd-redo-button" class="wmd-button" style="left: 350px;"><span style="background-position: -220px -20px;"></span></li><li class="wmd-spacer wmd-spacer-max"></li></ul></div>
+                        <div class="js-stacks-validation">
+                <div class="ps-relative">
+                    <textarea id="wmd-input" class="wmd-input js-wz-element s-input bar0" name="post-text" cols="92" rows="15" tabindex="101" data-wz-state="256" data-min-length=""></textarea>
+                </div>
+                <div class="s-input-message mt4 d-none js-stacks-validation-message"></div>
+            </div>
+        </div>
+    </div>
+
+    <aside class="grid ai-start jc-space-between js-answer-help s-notice s-notice__warning pb0 pr4 pt4 mb8 d-none" role="status" aria-hidden="true">
+    <div class="grid--cell pt8">
+        <p>Thanks for contributing an answer to Server Fault!</p><ul><li>Please be sure to <em>answer the question</em>. Provide details and share your research!</li></ul><p>But <em>avoid</em> …</p><ul><li>Asking for help, clarification, or responding to other answers.</li><li>Making statements based on opinion; back them up with references or personal experience.</li></ul><p>To learn more, see our <a href="https://serverfault.com/help/how-to-answer">tips on writing great answers</a>.</p>
+    </div>
+    <button class="grid--cell js-answer-help-close-btn s-btn s-btn__muted fc-dark">
+        <svg aria-hidden="true" class="svg-icon iconClear" width="18" height="18" viewBox="0 0 18 18"><path d="M15 4.41L13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9z"></path></svg>
+    </button>
+</aside>
+
+
+    <div id="draft-saved" class="draft-saved community-option fl" style="height:24px; display:none;">draft saved</div>
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" type="hidden" value="f25f9baec0afe3087e6cd34f8c69e22019914d38f02e86a0d3535069bd64fc99">
+        <input id="author" name="author" type="text">
+    </div>
+
+
+
+</div>
+
+                            <div class="ps-relative">
+                                
+                                            <div class="form-item new-post-login p0 my16">
+                <div class="grid gs16 md:fd-column new-login-form">
+                    <div class="grid fd-column w50 md:w-auto gsy gs8 jc-space-between new-login-left">
+                        <h3 class="grid--cell fs-title">Sign up or <a id="login-link" href="https://serverfault.com/users/login?ssrc=question_page&amp;returnurl=https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does%23new-answer">log in</a></h3>
+                        <script>
+                            StackExchange.ready(function () {
+                                StackExchange.helpers.onClickDraftSave('#login-link');
+                            });
+                        </script>
+                        <div class="grid--cell ta-center s-btn s-btn__muted s-btn__outlined s-btn__icon google-login" data-ga="[&quot;sign up&quot;,&quot;Sign Up Started - Google&quot;,&quot;New Post&quot;,null,null]">
+                            <svg aria-hidden="true" class="svg-icon native iconGoogle" width="18" height="18" viewBox="0 0 18 18"><g><path d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18z" fill="#4285F4"></path><path d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z" fill="#34A853"></path><path d="M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07z" fill="#FBBC05"></path><path d="M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3z" fill="#EA4335"></path></g></svg> Sign up using Google
+                        </div>
+                        <div class="grid--cell ta-center s-btn s-btn__muted s-btn__icon facebook-login" data-ga="[&quot;sign up&quot;,&quot;Sign Up Started - Facebook&quot;,&quot;New Post&quot;,null,null]">
+                            <svg aria-hidden="true" class="svg-icon iconFacebook" width="18" height="18" viewBox="0 0 18 18"><path d="M1.88 1C1.4 1 1 1.4 1 1.88v14.24c0 .48.4.88.88.88h7.67v-6.2H7.46V8.4h2.09V6.61c0-2.07 1.26-3.2 3.1-3.2.88 0 1.64.07 1.87.1v2.16h-1.29c-1 0-1.19.48-1.19 1.18V8.4h2.39l-.31 2.42h-2.08V17h4.08c.48 0 .88-.4.88-.88V1.88c0-.48-.4-.88-.88-.88H1.88z" fill="#3C5A96"></path></svg> Sign up using Facebook
+                        </div>
+                        <div class="grid--cell ta-center s-btn s-btn__muted s-btn__outlined s-btn__icon stackexchange-login" data-ga="[&quot;sign up&quot;,&quot;Sign Up Navigation&quot;,&quot;New Post&quot;,null,null]">
+                            <svg aria-hidden="true" class="svg-icon native iconLogoGlyphXSm" width="18" height="18" viewBox="0 0 18 18"><g><path fill="#BCBBBB" d="M14 16v-5h2v7H2v-7h2v5z"></path><path d="M5 15v-2h8v2H5zM12.09.72l4.5 6.06-1.2.9-4.51-6.06 1.21-.9zM8.34 4.3l.97-1.16 5.8 4.83-.96 1.16-5.8-4.83zm-1.9 3.36l.64-1.37 6.85 3.19-.63 1.37-6.85-3.2zM5.4 11.39l.38-1.67 7.42 1.48-.22 1.46-7.58-1.27z" fill="#F48024"></path></g></svg> Sign up using Email and Password
+                        </div>
+                    </div>
+                    <input type="hidden" name="use-facebook" class="use-facebook" value="false">
+                    <input type="hidden" name="use-google" class="use-google" value="false">
+                    <input type="button" class="submit-openid" value="Submit" style="display:none">
+                    <div class="grid gsy gs8 fd-column w50 md:w-auto new-login-right form-item p0">
+                                <h3 class="grid--cell fs-title">Post as a guest</h3>
+            <div class="grid--cell">
+                <div class="grid gs4 gsy fd-column">
+                    <label class="s-label" for="display-name">Name</label>
+                    <div class="grid ps-relative">
+                        <input class="s-input" id="display-name" name="display-name" maxlength="30" type="text" tabindex="105" placeholder="">
+                    </div>
+                </div>
+            </div>
+            <div class="grid--cell">
+                <div class="grid gs4 gsy fd-column">
+                    <div class="grid--cell">
+                        <div class="grid gs2 gsy fd-column">
+                            <label class="grid--cell s-label" for="m-address">Email</label>
+                            <p class="grid--cell s-description">Required, but never shown</p>
+                        </div>
+                    </div>
+                    <div class="grid ps-relative">
+                        <input class="s-input" id="m-address" name="m-address" type="text" size="40" tabindex="106" placeholder="">
+                    </div>
+                </div>
+            </div>
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                StackExchange.ready(
+                    function () {
+                        StackExchange.openid.initPostLogin('.new-post-login', 'https%3a%2f%2fserverfault.com%2fquestions%2f355887%2fwhy-does-dns-work-the-way-it-does%23new-answer', 'question_page');
+                    }
+                );
+            </script>
+            <noscript>
+                        <h3 class="grid--cell fs-title">Post as a guest</h3>
+            <div class="grid--cell">
+                <div class="grid gs4 gsy fd-column">
+                    <label class="s-label" for="display-name">Name</label>
+                    <div class="grid ps-relative">
+                        <input class="s-input" id="display-name" name="display-name" maxlength="30" type="text" value="" tabindex="105" placeholder="" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid--cell">
+                <div class="grid gs4 gsy fd-column">
+                    <div class="grid--cell">
+                        <div class="grid gs2 gsy fd-column">
+                            <label class="grid--cell s-label" for="m-address">Email</label>
+                            <p class="grid--cell s-description">Required, but never shown</p>
+                        </div>
+                    </div>
+                    <div class="grid ps-relative">
+                        <input class="s-input" id="m-address" name="m-address" type="text" value="" size="40" tabindex="106" placeholder="" />
+                    </div>
+                </div>
+            </div>
+
+            </noscript>
+
+                            </div>
+
+                                                            <div class="form-submit cbt grid gsx gs4">
+                                    <button id="submit-button" class="grid--cell s-btn s-btn__primary s-btn__icon" type="submit" tabindex="120" autocomplete="off">
+Post Your Answer                                    </button>
+                                    <button class="grid--cell s-btn s-btn__danger discard-answer dno">
+                                        Discard
+                                    </button>
+                                        <p class="privacy-policy-agreement">
+                                            By clicking "Post Your Answer", you agree to our <a href="https://stackoverflow.com/legal/terms-of-service/public" name="tos" target="_blank" class="-link">terms of service</a>, <a href="https://stackoverflow.com/legal/privacy-policy" name="privacy" target="_blank" class="-link">privacy policy</a> and <a href="https://stackoverflow.com/legal/cookie-policy" name="cookie" target="_blank" class="-link">cookie policy</a><input type="hidden" name="legalLinksShown" value="1">
+                                        </p>
+                                </div>
+                        </form>
+
+
+
+                        <h2 class="bottom-notice" data-loc="1">
+Not the answer you're looking for?                            Browse other questions tagged <a href="https://serverfault.com/questions/tagged/domain-name-system" class="post-tag" title="show questions tagged 'domain-name-system'" rel="tag">domain-name-system</a>  or <a href="https://serverfault.com/questions/ask">ask your own question</a>.                        </h2>
+            </div>
+        </div>
+                <div id="sidebar" class="show-votes" role="complementary" aria-label="sidebar">
+                            <div class="module question-stats">
+                    <table id="qinfo">
+                        <tbody><tr>
+                            <td>
+                                <p class="label-key">asked</p>
+                            </td>
+                            <td style="padding-left: 10px">
+                                <p class="label-key" title="2012-02-01 17:24:13Z">
+                                    <b>
+                                        <time itemprop="dateCreated" datetime="2012-02-01T17:24:13">7 years, 2 months ago</time>
+                                    </b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p class="label-key">viewed</p>
+                            </td>
+
+                            <td style="padding-left: 10px">
+                                <p class="label-key">
+<b>5,124 times</b>                                </p>
+                            </td>
+                        </tr>
+                            <tr>
+                                <td>
+                                    <p class="label-key">active</p>
+                                </td>
+                                <td style="padding-left: 10px">
+                                    <p class="label-key"><b><a href="https://serverfault.com/questions/355887/why-does-dns-work-the-way-it-does?lastactivity" class="lastactivity-link" title="2012-09-09 21:08:40Z">6 years, 6 months ago</a></b></p>
+                                </td>
+                            </tr>
+                    </tbody></table>
+                </div>
+            <div class="module community-bulletin" data-tracker="cb=1">
+    <div class="related">
+                <div class="bulletin-title">
+                    Blog
+                </div>
+                <hr>
+    <div class="spacer">
+        <div class="bulletin-item-type">
+                <a href="https://stackoverflow.blog/2019/03/28/the-next-ceo-of-stack-overflow/?cb=1" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Blog&quot;,&quot;https://stackoverflow.blog/2019/03/28/the-next-ceo-of-stack-overflow/&quot;,null,null]">
+<div class="favicon favicon-stackexchangemeta" title="Meta Stack Exchange"></div>                </a>
+        </div>
+        <div class="bulletin-item-content">
+            <a href="https://stackoverflow.blog/2019/03/28/the-next-ceo-of-stack-overflow/?cb=1" class="question-hyperlink" data-ga="[&quot;community bulletin board&quot;,&quot;Blog&quot;,&quot;https://stackoverflow.blog/2019/03/28/the-next-ceo-of-stack-overflow/&quot;,null,null]">The Next CEO of Stack Overflow</a>
+        </div>
+        <br class="cbt">
+    </div>
+    </div>
+</div>
+<div id="dfp-tsb" class="everyonelovesstackoverflow everyoneloves__top-sidebar" data-clc-stalled="true"></div>
+            <div id="hireme"></div>
+<script>;try{(function(a){function b(a){return'string'==typeof a?document.getElementById(a):a}function c(a){return a=b(a),!!a&&'none'===getComputedStyle(a).display}function d(a){return!c(a)}function e(a){return!!a}function f(a){return /^\s*$/.test(b(a).innerHTML)}function g(a){var b=a.style;b.height=b.maxHeight=b.minHeight='auto',b.display='none',[].forEach.call(a.children,g)}function h(a,b){var c;return function(){return a&&(c=a.call(b||this,arguments),a=null),c}}function i(a){var b=document.createElement('script');b.src=a,document.body.appendChild(b)}function j(a){return k([],a)}function k(a,b){return a.push=function(a){return b(),delete this.push,this.push(a)},a}function l(){try{return!new Function('return async()=>{};')}catch(a){return!0}}function m(){return'undefined'!=typeof googletag&&!!googletag.apiReady}function n(){m()||(googletag={cmd:j(A)})}function o(){var a=document.createElement('div');a.className='adsbox',a.id='clc-abd',a.style.position='absolute',a.style.pointerEvents='none',a.innerHTML='&nbsp;',document.body.appendChild(a)}function p(a){var b=a.serviceName,c=a.slot,d=a.lineItemId;try{var e=c.getSlotElementId(),f=[];e||f.push('id=0');var h=document.getElementById(e);if(!e||h?h.hasAttribute('data-clc-stalled')&&f.push('st=1'):f.push('el=0'),0!==f.length)return void B(f.join('&'));-1===x.dh.indexOf(d)?h.setAttribute('data-clc-prefilled','true'):g(h),h.setAttribute('data-clc-ready','true')}catch(a){var i=document.querySelector('#dfp-tsb, #dfp-isb, #clc-tsb');i&&i.setAttribute('data-clc-ready','true'),B('e=1')}}function q(){return Object.keys(F.ids)}function r(a){var b=F.ids[a],c=F.slots[b];'function'==typeof c&&(c=c(a));return{path:'/'+C+'/'+E+'/'+b+'/'+D,sizes:c,zone:b}}function s(a){return!(clc.collapse&&void 0!==clc.collapse[a])||!!clc.collapse[a]}function t(a,b){'dfp-isb'===a&&b.setTargeting('Sidebar',['Inline']),'dfp-tsb'===a&&b.setTargeting('Sidebar',['Right']);var c=r(a),d=c.path,e=c.sizes,f=c.zone,g=googletag.defineSlot(d,e,a);s(f)&&g.setCollapseEmptyDiv(!0,!0),g.addService(b),!1}function u(b){var c=a.dfp&&a.dfp.targeting||{};Object.keys(c).forEach(function(a){b.setTargeting(a,c[a])})}function v(a){var g=a.map(b).filter(e);return{eligible:g.filter(f).filter(d).map(function(a){return a.id}),ineligible:g.filter(c)}}function w(b){if(void 0===b&&(b=q()),!m())return n(),void googletag.cmd.push(function(){return w(b)});var c=v(b),d=c.eligible,e=c.ineligible;if(e.forEach(g),0!==d.length){o(),googletag.destroySlots();var f=googletag.pubads();f.enableSingleRequest(),a.sreEvent||(f.addEventListener('slotRenderEnded',p),a.sreEvent=!0),u(f),d.forEach(function(a){return t(a,f)}),googletag.enableServices(),d.forEach(function(a){googletag.display(a)})}}var x=function(a){for(var b=[],c=1;c<arguments.length;c++)b[c-1]=arguments[c];for(var d,e=0,f=b;e<f.length;e++)for(var g in d=f[e],d)a[g]=d[g];return a}({"lib":"https://cdn.sstatic.net/clc/clc.min.js?v=04d772c81312","style":"https://cdn.sstatic.net/clc/styles/clc.min.css?v=768595a6d237","u":"https://clc.stackoverflow.com/markup.js","wa":true,"kt":2000,"tto":true,"h":"clc.stackoverflow.com","allowed":"^(((talent\\.)?stackoverflow)|(blog\\.codinghorror)|(serverfault|askubuntu)|([^\\.]+\\.stackexchange))\\.com$","wv":true,"al":false,"dh":[4385506061,4386578282,4386579572]},a.options||{}),y=h(function(){var a=x.lib;l()&&(a=a.replace(/(\.min)?\.js(\?v=[0-9a-fA-F]+)?$/,'.ie$1.js$2')),i(a)}),z=a.cmd||[];Array.isArray(z)&&(0<z.length?y():k(z,y));var A=h(function(){i('https://www.googletagservices.com/tag/js/gpt.js')}),B=function(a){new Image().src='https://'+x.h+'/stalled.gif?'+a},C='248424177',D=/^\/tags\//.test(location.pathname)||/^\/questions\/tagged\//.test(location.pathname)?'tag-pages':'question-pages',E=location.hostname;var F={slots:{lb:[[728,90]],mlb:[[728,90]],smlb:[[728,90]],bmlb:[[728,90]],sb:function(a){return'dfp-tsb'===a?[[300,250],[300,600]]:[[300,250]]},"tag-sponsorship":[[730,135]],"mobile-below-question":[[320,50],[300,250]]},ids:{"dfp-tlb":'lb',"dfp-mlb":'mlb',"dfp-smlb":'smlb',"dfp-bmlb":'bmlb',"dfp-tsb":'sb',"dfp-isb":'sb',"dfp-tag":'tag-sponsorship',"dfp-m-aq":'mobile-below-question',"clc-tlb":'lb',"clc-mlb":'mlb',"clc-tsb":'sb'}};(function(){var b=x.al;b&&z.push(function(){return a.load()})})(),n(),a.dfp={load:w},a.options=x,a.cmd=z})(this.clc=this.clc||{})}catch(a){window.console.error(a)}</script>            <script>
+                var clc = clc || {};
+                clc.collapse = { sb: !0,'tag-sponsorship':!0,lb:!1,mlb:!1,smlb:!1,bmlb:!1,'mobile-below-question':!0};
+                clc.cmd = clc.cmd || [];
+                clc.cmd.push(function () { window.clc_request='Ap6_pkhut9YIAAAAAC9uBQADAAAAAgAAAAAUAAAAfGRvbWFpbi1uYW1lLXN5c3RlbXwAeu4V8wDWLlKpfQ'; clc.load(); });
+                                clc.dfp = clc.dfp || {};
+                clc.dfp.targeting = {Registered:['false'],'sf-tag':['domain-name-system']};
+                
+                var googletag = googletag || {};
+                googletag.cmd = googletag.cmd || [];
+                googletag.cmd.push(function () { clc.dfp.load(); });
+            </script>
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+
+<div class="spacer">
+	<a href="https://serverfault.com/q/624266?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">-4</div>
+	</a>
+	<a href="https://serverfault.com/questions/624266/why-do-nameservers-have-their-own-names?noredirect=1&amp;lq=1" class="question-hyperlink">Why do nameservers have their own names?</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/616175?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">3</div>
+	</a>
+	<a href="https://serverfault.com/questions/616175/is-it-acceptable-or-possible-to-use-an-ip-address-as-a-nameserver-entry-for-a?noredirect=1&amp;lq=1" class="question-hyperlink">Is it acceptable (or possible) to use an IP Address as a nameserver entry for a domain name?</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/899654?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">-4</div>
+	</a>
+	<a href="https://serverfault.com/questions/899654/how-does-the-domain-name-system-know-the-authoritative-nameserver-for-my-domain?noredirect=1&amp;lq=1" class="question-hyperlink">How does the domain name system know the authoritative nameserver for my domain name?</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/867782?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="https://serverfault.com/questions/867782/why-do-website-host-handles-dns-to-resolve-servicesmail-domain-com-ftp-etc-ins?noredirect=1&amp;lq=1" class="question-hyperlink">Why do website host handles dns to resolve services(mail.domain.com ftp etc) instead of the domain registry?</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/869711?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">0</div>
+	</a>
+	<a href="https://serverfault.com/questions/869711/are-new-domainnames-propagated-to-dns-servers?noredirect=1&amp;lq=1" class="question-hyperlink">Are new domainnames propagated to DNS servers</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/729025?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">9</div>
+	</a>
+	<a href="https://serverfault.com/questions/729025/what-are-all-the-flags-in-a-dig-response?noredirect=1&amp;lq=1" class="question-hyperlink">What are all the flags in a dig response?</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/457171?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">5</div>
+	</a>
+	<a href="https://serverfault.com/questions/457171/what-is-the-difference-between-the-ns-records-and-the-glue-records?noredirect=1&amp;lq=1" class="question-hyperlink">What is the difference between the NS records and the glue records?</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/470040?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">0</div>
+	</a>
+	<a href="https://serverfault.com/questions/470040/mx-record-pointing-to-hostgator?noredirect=1&amp;lq=1" class="question-hyperlink">MX record pointing to Hostgator</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/560818?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">1</div>
+	</a>
+	<a href="https://serverfault.com/questions/560818/dns-record-change-not-taking-effect?noredirect=1&amp;lq=1" class="question-hyperlink">DNS record change not taking effect</a>
+</div>
+<div class="spacer">
+	<a href="https://serverfault.com/q/443635?lq=1" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">2</div>
+	</a>
+	<a href="https://serverfault.com/questions/443635/how-to-correctly-configure-nameservers?noredirect=1&amp;lq=1" class="question-hyperlink">How to correctly configure nameservers</a>
+</div>					<div class="spacer more">
+				<a href="https://serverfault.com/questions/linked/355887?lq=1">see more linked questions…</a>
+			</div>
+	</div>
+</div>
+
+                <div class="module sidebar-related">
+                    <h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer js-gps-track"><a href="https://serverfault.com/q/178931?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">13</div></a><a href="https://serverfault.com/questions/178931/is-it-possible-to-create-your-own-root-dns-server?rq=1" class="question-hyperlink">Is it possible to create your own root DNS server?</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/210317?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">5</div></a><a href="https://serverfault.com/questions/210317/when-does-the-tld-having-glue-records-for-the-nameservers-save-dns-lookups?rq=1" class="question-hyperlink">When does the TLD having glue records for the nameservers save DNS lookups?</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/374960?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">0</div></a><a href="https://serverfault.com/questions/374960/how-to-verify-dns-change-is-active?rq=1" class="question-hyperlink">How to verify DNS change is active</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/411291?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">0</div></a><a href="https://serverfault.com/questions/411291/multi-domain-dns-configuration-with-route53?rq=1" class="question-hyperlink">Multi-domain DNS configuration with Route53</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/526278?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes answered-accepted default">16</div></a><a href="https://serverfault.com/questions/526278/clarification-of-why-dns-zone-files-require-ns-records?rq=1" class="question-hyperlink">Clarification of why DNS zone files require NS records</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/548349?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">0</div></a><a href="https://serverfault.com/questions/548349/when-dns-doesnt-cache?rq=1" class="question-hyperlink">When DNS doesn't cache</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/623650?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">2</div></a><a href="https://serverfault.com/questions/623650/is-domain-transfer-inherently-safe-for-downtime-when-the-name-servers-remain-the?rq=1" class="question-hyperlink">Is domain-transfer inherently safe for downtime when the name servers remain the same?</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/753153?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">0</div></a><a href="https://serverfault.com/questions/753153/how-do-i-setup-a-subdomain-empty-dns-cname?rq=1" class="question-hyperlink">How do I setup a “subdomain empty” DNS CNAME?</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/801920?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">1</div></a><a href="https://serverfault.com/questions/801920/why-is-dns-lookup-slow-to-specific-domains-only?rq=1" class="question-hyperlink">Why is DNS lookup slow to specific domains only?</a></div><div class="spacer js-gps-track"><a href="https://serverfault.com/q/847395?rq=1" title="Vote score (upvotes - downvotes)"><div class="answer-votes default">0</div></a><a href="https://serverfault.com/questions/847395/setting-up-dns-records-to-always-resolve-to-the-naked-domain-without-www?rq=1" class="question-hyperlink">Setting up DNS Records to Always Resolve to the Naked Domain (without www)</a></div>
+                    </div>
+                </div>
+
+<div id="hot-network-questions" class="module tex2jax_ignore">
+    <h4>
+        <a href="https://stackexchange.com/questions?tab=hot" class="js-gps-track s-link s-link__inherit" data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li>
+                <div class="favicon favicon-physics" title="Physics Stack Exchange"></div><a href="https://physics.stackexchange.com/questions/469869/how-can-a-day-be-of-24-hours" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How can a day be of 24 hours?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="https://stackoverflow.com/questions/55468898/connect-two-third-party-modules-with-const-char-and-char-arguments" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Connect two third party modules with "const char*" and "char*" arguments
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-superuser" title="Super User"></div><a href="https://superuser.com/questions/1420001/is-it-possible-to-create-a-qr-code-using-text" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:3 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is it possible to create a QR code using text?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-physics" title="Physics Stack Exchange"></div><a href="https://physics.stackexchange.com/questions/470053/concerning-the-definitions-of-the-enthalpy-the-helmholtz-free-energy-and-the-gi" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Concerning the definitions of the enthalpy, the Helmholtz free energy and the Gibbs free energy of a system
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-philosophy" title="Philosophy Stack Exchange"></div><a href="https://philosophy.stackexchange.com/questions/61555/what-is-the-difference-between-ntp-and-validity-in-smiths-logic-the-laws-of-t" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:265 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the difference between NTP and validity in Smith's "Logic: The Laws of Truth"?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-mathoverflow" title="MathOverflow"></div><a href="https://mathoverflow.net/questions/326907/finitely-generated-matrix-groups-whose-eigenvalues-are-all-algebraic" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:504 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Finitely generated matrix groups whose eigenvalues are all algebraic
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-blender" title="Blender Stack Exchange"></div><a href="https://blender.stackexchange.com/questions/135956/best-way-to-load-image-from-list-python-script" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:502 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Best way to load image from list python script
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-unix" title="Unix &amp; Linux Stack Exchange"></div><a href="https://unix.stackexchange.com/questions/509915/what-is-the-difference-between-contrib-and-non-free-packages-repositories" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:106 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the difference between 'contrib' and 'non-free' packages repositories?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-dba" title="Database Administrators Stack Exchange"></div><a href="https://dba.stackexchange.com/questions/233674/how-to-find-if-sql-server-backup-is-encrypted-with-tde-without-restoring-the-bac" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:182 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to find if SQL server backup is encrypted with TDE without restoring the backup
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-unix" title="Unix &amp; Linux Stack Exchange"></div><a href="https://unix.stackexchange.com/questions/509995/loop-in-macos-not-working" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:106 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Loop in macOS not working
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="https://security.stackexchange.com/questions/206601/spam-email-via-my-domain-but-spf-record-exists" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Spam email "via" my domain, but SPF record exists
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-rpg" title="Role-playing Games Stack Exchange"></div><a href="https://rpg.stackexchange.com/questions/144329/what-are-the-balance-implications-of-using-passive-arcana-to-identify-spells-for" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:122 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What are the balance implications of using passive Arcana to identify spells for counterspell?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="https://english.stackexchange.com/questions/492092/strange-use-of-whether-than-in-official-text" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Strange use of "whether ... than ..." in official text
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-security" title="Information Security Stack Exchange"></div><a href="https://security.stackexchange.com/questions/206606/can-a-virus-destroy-the-bios-of-a-modern-computer" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:162 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can a virus destroy the BIOS of a modern computer?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-german" title="German Language Stack Exchange"></div><a href="https://german.stackexchange.com/questions/50443/are-multiple-articles-needed-in-genitive-list" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:253 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Are multiple articles needed in genitive list?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="https://stackoverflow.com/questions/55457704/does-int-main-need-a-declaration-on-c" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Does int main() need a declaration on C++?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-aviation" title="Aviation Stack Exchange"></div><a href="https://aviation.stackexchange.com/questions/61852/is-it-ok-to-decorate-a-log-book-cover" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:528 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is it OK to decorate a log book cover?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-puzzling" title="Puzzling Stack Exchange"></div><a href="https://puzzling.stackexchange.com/questions/81283/thats-an-odd-coin-i-wonder-why" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:559 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    That's an odd coin - I wonder why
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-travel" title="Travel Stack Exchange"></div><a href="https://travel.stackexchange.com/questions/134993/how-to-travel-japan-while-expressing-milk" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:273 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to travel Japan while expressing milk?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-writing" title="Writing Stack Exchange"></div><a href="https://writing.stackexchange.com/questions/44254/avoiding-the-not-like-other-girls-trope" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:166 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Avoiding the "not like other girls" trope?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="https://stackoverflow.com/questions/55467246/my-singleton-can-be-called-multiple-times" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    My singleton can be called multiple times
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-travel" title="Travel Stack Exchange"></div><a href="https://travel.stackexchange.com/questions/134980/how-to-coordinate-airplane-tickets" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:273 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to coordinate airplane tickets?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-space" title="Space Exploration Stack Exchange"></div><a href="https://space.stackexchange.com/questions/35235/what-is-required-to-make-gps-signals-available-indoors" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:508 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is required to make GPS signals available indoors?
+                </a>
+
+            </li>
+            <li class="dno js-hidden" style="display: list-item;">
+                <div class="favicon favicon-retrocomputing" title="Retrocomputing Stack Exchange"></div><a href="https://retrocomputing.stackexchange.com/questions/9500/why-did-early-computer-designers-eschew-integers" class="js-gps-track question-hyperlink mb0" data-gps-track="site.switch({ item_type:11, target_site:648 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why did early computer designers eschew integers?
+                </a>
+
+            </li>
+    </ul>
+
+        
+</div>
+
+<div id="feed-link">
+    <a href="https://serverfault.com/feeds/question/355887" title="feed of this question and its answers">
+        <svg aria-hidden="true" class="svg-icon fc-orange-400 iconRss" width="18" height="18" viewBox="0 0 18 18"><path d="M1 3c0-1.1.9-2 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3zm14.5 12C15.5 8.1 9.9 2.5 3 2.5V5a10 10 0 0 1 10 10h2.5zm-5 0A7.5 7.5 0 0 0 3 7.5V10a5 5 0 0 1 5 5h2.5zm-5 0A2.5 2.5 0 0 0 3 12.5V15h2.5z"></path></svg>
+        question feed
+    </a>
+</div>
+        </div>
+    </div>
+<script>StackExchange.ready(function(){$.get('/posts/355887/ivc/e4f5');});</script>
+<noscript><div><img src="/posts/355887/ivc/e4f5" class="dno" alt="" width="0" height="0"></div></noscript><div style="display:none" id="prettify-lang"></div></div>
+
+
+        </div>
+    </div><script src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/clc.js"></script><script src="domain%20name%20system%20-%20Why%20does%20DNS%20work%20the%20way%20it%20does%3F%20-%20Server%20Fault_files/gpt.js"></script>
+
+    <footer id="footer" class="site-footer js-footer" role="contentinfo">
+        <div class="site-footer--container">
+            
+            <nav class="site-footer--nav">
+                    <div class="site-footer--col site-footer--col__visible js-footer-col" data-name="default">
+                        <h5 class="-title"><a href="https://serverfault.com/">Server Fault</a></h5>
+                        <ul class="-list js-primary-footer-links">
+                                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 2 })" href="https://serverfault.com/tour">Tour</a></li>
+                                <li class="-item"><a href="https://serverfault.com/help" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 3 })">Help</a></li>
+                                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 5 })" href="https://chat.stackexchange.com/?tab=site&amp;host=serverfault.com">Chat</a></li>
+                            <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 13 })" href="https://serverfault.com/contact">Contact</a></li>
+                                <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 14 })" href="https://meta.serverfault.com/">Feedback</a></li>
+                                                            <li class="-item"><a onclick='StackExchange.switchMobile("on")' class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 12 })">Mobile</a></li>
+                        <li class="-item"><a class="-link" role="button">Disable Responsiveness</a></li></ul>
+                    </div>
+                <div class="site-footer--col site-footer--col__visible js-footer-col" data-name="default">
+                    <h5 class="-title"><a class="js-gps-track" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">Company</a></h5>
+                    <ul class="-list">
+                                                    <li class="-item"><a href="https://stackoverflow.com/" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 15})">Stack Overflow</a></li>
+                            <li class="-item"><a href="https://www.stackoverflowbusiness.com/" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 19 })">Stack Overflow Business</a></li>
+                            <li class="-item"><a href="https://stackoverflow.com/jobs" class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 17})">Developer Jobs</a></li>
+                                <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 1 })" href="https://stackoverflow.com/company/about">About</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 27 })" href="https://stackoverflow.com/company/press">Press</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 7 })" href="https://stackoverflow.com/legal">Legal</a></li>
+                        <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link: 8 })" href="https://stackoverflow.com/legal/privacy-policy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="site-footer--col site-footer--categories-nav site-footer--col__visible">
+                    <a href="#" class="site-footer--back js-footer-back"><svg aria-hidden="true" class="svg-icon iconArrowLeftAlt" width="18" height="18" viewBox="0 0 18 18"><path d="M10.58 16L12 14.59 6.4 9 12 3.41 10.57 2l-7 7z"></path></svg></a>
+                    <div>
+                        <h5 class="-title"><a href="https://stackexchange.com/">Stack Exchange<br> Network</a></h5>
+                        <ul class="-list">
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Technology">Technology</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Life / Arts">Life / Arts</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Culture / Recreation">Culture / Recreation</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Science">Science</a></li>
+                            <li class="-item"><a href="#" class="-link _expandable js-footer-category-trigger js-gps-track" data-gps-track="footer.click({ location: 2, link: 24 })" data-target="Other">Other</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="site-footer--categories">
+                    <div class="site-footer--col site-footer--category js-footer-col" data-name="Technology">
+        <ul class="-list">
+                <li class="-item"><a href="https://stackoverflow.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                <li class="-item"><a href="https://serverfault.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="system and network administrators">Server Fault</a></li>
+                <li class="-item"><a href="https://superuser.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="computer enthusiasts and power users">Super User</a></li>
+                <li class="-item"><a href="https://webapps.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="power users of web applications">Web Applications</a></li>
+                <li class="-item"><a href="https://askubuntu.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                <li class="-item"><a href="https://webmasters.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="pro webmasters">Webmasters</a></li>
+                <li class="-item"><a href="https://gamedev.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="professional and independent game developers">Game Development</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://tex.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                <li class="-item"><a href="https://softwareengineering.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="professionals, academics, and students working within the systems development life cycle">Software Engineering</a></li>
+                <li class="-item"><a href="https://unix.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="users of Linux, FreeBSD and other Un*x-like operating systems">Unix &amp; Linux</a></li>
+                <li class="-item"><a href="https://apple.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                <li class="-item"><a href="https://wordpress.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="WordPress developers and administrators">WordPress Development</a></li>
+                <li class="-item"><a href="https://gis.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                <li class="-item"><a href="https://electronics.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://android.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                <li class="-item"><a href="https://security.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="information security professionals">Information Security</a></li>
+                <li class="-item"><a href="https://dba.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                <li class="-item"><a href="https://drupal.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="Drupal developers and administrators">Drupal Answers</a></li>
+                <li class="-item"><a href="https://sharepoint.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="SharePoint enthusiasts">SharePoint</a></li>
+                <li class="-item"><a href="https://ux.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="user experience researchers and experts">User Experience</a></li>
+                <li class="-item"><a href="https://mathematica.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="users of Wolfram Mathematica">Mathematica</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://salesforce.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="Salesforce administrators, implementation experts, developers and anybody in-between">Salesforce</a></li>
+                <li class="-item"><a href="https://expressionengine.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="administrators, end users, developers and designers for ExpressionEngine® CMS">ExpressionEngine® Answers</a></li>
+                <li class="-item"><a href="https://pt.stackoverflow.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="programadores profissionais e entusiastas">Stack Overflow em Português</a></li>
+                <li class="-item"><a href="https://blender.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="people who use Blender to create 3D graphics, animations, or games">Blender</a></li>
+                <li class="-item"><a href="https://networkengineering.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="network engineers">Network Engineering</a></li>
+                <li class="-item"><a href="https://crypto.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="software developers, mathematicians and others interested in cryptography">Cryptography</a></li>
+                <li class="-item"><a href="https://codereview.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="peer programmer code reviews">Code Review</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://magento.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="users of the Magento e-Commerce platform">Magento</a></li>
+                <li class="-item"><a href="https://softwarerecs.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="people seeking specific software recommendations">Software Recommendations</a></li>
+                <li class="-item"><a href="https://dsp.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="practitioners of the art and science of signal, image and video processing">Signal Processing</a></li>
+                <li class="-item"><a href="https://emacs.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="those using, extending or developing Emacs">Emacs</a></li>
+                <li class="-item"><a href="https://raspberrypi.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="users and developers of hardware and software for Raspberry Pi">Raspberry Pi</a></li>
+                <li class="-item"><a href="https://ru.stackoverflow.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="программистов">Stack Overflow на русском</a></li>
+                <li class="-item"><a href="https://codegolf.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="programming puzzle enthusiasts and code golfers">Programming Puzzles &amp; Code Golf</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Technology"><ul class="-list">
+                <li class="-item"><a href="https://es.stackoverflow.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="programadores y profesionales de la informática">Stack Overflow en español</a></li>
+                <li class="-item"><a href="https://ethereum.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="users of Ethereum, the decentralized application platform and smart contract enabled blockchain">Ethereum</a></li>
+                <li class="-item"><a href="https://datascience.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="Data science professionals, Machine Learning specialists, and those interested in learning more about the field">Data Science</a></li>
+                <li class="-item"><a href="https://arduino.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="developers of open-source hardware and software that is compatible with Arduino">Arduino</a></li>
+                <li class="-item"><a href="https://bitcoin.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="Bitcoin crypto-currency enthusiasts">Bitcoin</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#technology" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 26 })">
+                        <strong>
+                            more (31)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Life / Arts">
+        <ul class="-list">
+                <li class="-item"><a href="https://photo.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                <li class="-item"><a href="https://scifi.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                <li class="-item"><a href="https://graphicdesign.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="Graphic Design professionals, students, and enthusiasts">Graphic Design</a></li>
+                <li class="-item"><a href="https://movies.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="movie and tv enthusiasts">Movies &amp; TV</a></li>
+                <li class="-item"><a href="https://music.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="musicians, students, and enthusiasts">Music: Practice &amp; Theory</a></li>
+                <li class="-item"><a href="https://worldbuilding.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="writers/artists using science, geography and culture to construct imaginary worlds and settings">Worldbuilding</a></li>
+                <li class="-item"><a href="https://cooking.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Life / Arts"><ul class="-list">
+                <li class="-item"><a href="https://diy.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="contractors and serious DIYers">Home Improvement</a></li>
+                <li class="-item"><a href="https://money.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                <li class="-item"><a href="https://academia.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="academics and those enrolled in higher education">Academia</a></li>
+                <li class="-item"><a href="https://law.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="legal professionals, students, and others with experience or interest in law">Law</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#lifearts" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 26 })">
+                        <strong>
+                            more (15)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Culture / Recreation">
+        <ul class="-list">
+                <li class="-item"><a href="https://english.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                <li class="-item"><a href="https://skeptics.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="scientific skepticism">Skeptics</a></li>
+                <li class="-item"><a href="https://judaism.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                <li class="-item"><a href="https://travel.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="road warriors and seasoned travelers">Travel</a></li>
+                <li class="-item"><a href="https://christianity.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                <li class="-item"><a href="https://ell.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="speakers of other languages learning English">English Language Learners</a></li>
+                <li class="-item"><a href="https://japanese.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="students, teachers, and linguists wanting to discuss the finer points of the Japanese language">Japanese Language</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Culture / Recreation"><ul class="-list">
+                <li class="-item"><a href="https://gaming.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                <li class="-item"><a href="https://bicycles.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                <li class="-item"><a href="https://rpg.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                <li class="-item"><a href="https://anime.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="anime and manga fans">Anime &amp; Manga</a></li>
+                <li class="-item"><a href="https://puzzling.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="those who create, solve, and study puzzles">Puzzling</a></li>
+                <li class="-item"><a href="https://mechanics.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="mechanics and DIY enthusiast owners of cars, trucks, and motorcycles">Motor Vehicle Maintenance &amp; Repair</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#culturerecreation" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 26 })">
+                        <strong>
+                            more (33)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Science">
+        <ul class="-list">
+                <li class="-item"><a href="https://mathoverflow.net/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="professional mathematicians">MathOverflow</a></li>
+                <li class="-item"><a href="https://math.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                <li class="-item"><a href="https://stats.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                <li class="-item"><a href="https://cstheory.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                <li class="-item"><a href="https://physics.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="active researchers, academics and students of physics">Physics</a></li>
+                <li class="-item"><a href="https://chemistry.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="scientists, academics, teachers, and students in the field of chemistry">Chemistry</a></li>
+                <li class="-item"><a href="https://biology.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="biology researchers, academics, and students">Biology</a></li>
+                    </ul></div><div class="site-footer--col site-footer--category js-footer-col" data-name="Science"><ul class="-list">
+                <li class="-item"><a href="https://cs.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="students, researchers and practitioners of computer science">Computer Science</a></li>
+                <li class="-item"><a href="https://philosophy.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="those interested in the study of the fundamental nature of knowledge, reality, and existence">Philosophy</a></li>
+                            <li class="-item">
+                    <a href="https://stackexchange.com/sites#science" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 26 })">
+                        <strong>
+                            more (10)
+                        </strong>
+                    </a>
+                </li>
+        </ul>
+    </div>
+    <div class="site-footer--col site-footer--category js-footer-col" data-name="Other">
+        <ul class="-list">
+                <li class="-item"><a href="https://meta.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                <li class="-item"><a href="https://stackapps.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                <li class="-item"><a href="https://api.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="programmatic interaction with Stack Exchange sites">API</a></li>
+                <li class="-item"><a href="https://data.stackexchange.com/" class="-link js-gps-track" data-gps-track="footer.click({ location: 0, link: 25 })" title="querying Stack Exchange data using SQL">Data</a></li>
+                    </ul>
+    </div>
+                </div>
+            </nav>
+            <div class="site-footer--copyright fs-fine">
+                <ul class="-list">
+                    <li class="-item"><a class="js-gps-track -link" data-gps-track="footer.click({ location: 2, link:4 })" href="http://blog.serverfault.com/?blb=1">Blog</a></li>
+                    <li class="-item"><a href="https://www.facebook.com/officialstackoverflow/" class="-link">Facebook</a></li>
+                    <li class="-item"><a href="https://twitter.com/stackoverflow" class="-link">Twitter</a></li>
+                    <li class="-item"><a href="https://linkedin.com/company/stack-overflow" class="-link">LinkedIn</a></li>
+                </ul>
+
+                <p class="mt-auto mb24">
+site design / logo © 2019 Stack Exchange Inc; user contributions licensed under <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a>
+                            with <a href="https://stackoverflow.blog/2009/06/25/attribution-required/" rel="license">attribution required</a>.
+                    <span id="svnrev">rev&nbsp;2019.4.1.33195</span>
+                </p>
+            </div>
+        </div>
+
+            </footer>
+            <script>StackExchange.ready(function () { StackExchange.responsiveness.addSwitcher(); })</script>
+    <noscript>
+        <div id="noscript-warning">Server Fault works best with JavaScript enabled
+            <img src="https://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno">
+        </div>
+    </noscript>
+
+<script>
+            (function(i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function() { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+            })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+            StackExchange.ready(function () {
+
+                StackExchange.ga.init({
+                    sendTitles: true,
+                    tracker: window.ga,
+                    trackingCodes: [
+                        'UA-108242619-5'
+                    ]
+                });
+
+
+
+                    StackExchange.ga.setDimension('dimension2', '|domain-name-system|');
+
+                    StackExchange.ga.setDimension('dimension3', 'Questions/Show');
+
+
+                StackExchange.ga.trackPageView();
+            });
+            
+/**/
+            
+            var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+            (function() {
+                var ssl = 'https:' == document.location.protocol,
+                    s = document.getElementsByTagName('script')[0],
+                    qc = document.createElement('script');
+                 qc.async = true;
+                    qc.src = (ssl ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+                    s.parentNode.insertBefore(qc, s);
+                    _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+/**/
+                 var sc = document.createElement('script');
+                    sc.async = true;
+                    sc.src = (ssl ? 'https://sb' : 'http://b') + '.scorecardresearch.com/beacon.js';
+                    s.parentNode.insertBefore(sc, s);
+                    _comscore.push({ c1: "2", c2: "17440561" });
+            })();
+            
+
+</script>
+            
+    
+    
+</body></html>

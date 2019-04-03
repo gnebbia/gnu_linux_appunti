@@ -7788,6 +7788,23 @@ Possiamo anche usare find per trovare i file duplicati con:
 find -type f -exec md5sum '{}' ';' | sort | uniq --all-repeated=separate -w 33
 ```
 
+Un modo comune con cui utilizzare find per cercare file utilizzando regex e':
+```sh
+ find . | grep -i 'filename or regex'
+ # in questo modo cerchiamo dalla directory corrente
+```
+o con semplici varianti per selezionare solo file o directory con:
+```sh
+ find . -type f| grep -i 'filename or regex'
+ # in questo modo cerchiamo dalla directory corrente
+ # ma solo i file che non sono directory
+```
+```sh
+ find . -type d | grep -i 'filename or regex'
+ # in questo modo cerchiamo dalla directory corrente
+ # ma solo le directory
+```
+
 ### Locate
 
 Locate è un programma che crea un indice dei file salvati sul 
@@ -8634,6 +8651,22 @@ directory su (o da) server remoti, ad esempio:
  rsync -av gng@andromeda:/home/gng/mySourceFolder /home/marco/BackupServer/
 ```
 
+Possiamo anche utilizzare una porta diversa dalla 22 attraverso un lancio
+leggermente piu' arzigogolato come:
+
+```sh
+ rsync -avzh --delete  -e "ssh -p 2222" output/ user@1.1.1.1:/srv/www/website/
+ # sincronizziamo da locale a remoto
+ # utilizzando la porta 2222
+```
+
+
+```sh
+ rsync -avzh --delete  -e "ssh -p 2222" user@1.1.1.1:/srv/www/website/ output/
+ # sincronizziamo da remoto a locale
+ # utilizzando la porta 2222
+```
+
 ### Visualizzare file compressi
 
 Per poter visualizzare file di testo compressi possiamo utilizzare
@@ -9092,6 +9125,58 @@ alcuni esempi applicativi:
  lsof 
  # elenca i file aperti col relativo proprietario e PID
 ```
+
+```sh
+ lsof -u cindy | wc -l
+ # mostra il numero di file aperti dall'utente "cindy"
+```
+
+```sh
+ lsof -u^cindy | wc -l
+ # mostra il numero di file aperti da tutti eccetto l'utente "cindy"
+ # nota che il carattere '^' e' usato per la negazione
+```
+
+```sh
+ lsof -cpython | head -15
+ # mostra tutti i file aperti dai processi che iniziano per "python"
+ # in questo caso con "head -15" mostriamo i primi 15 file
+```
+
+```sh
+ lsof -cpython -c^python2.7 
+ # mostra tutti i file aperti dai processi che iniziano per "python"
+ # ma che non iniziano per python2.7
+```
+
+```sh
+ lsof +d /usr/bin
+ # mostra tutti i file aperti nella directory e nelle sue top level
+ # directory
+```
+
+```sh
+ lsof -p 1839
+ # mostra tutti i file aperti dal processo 1839
+```
+
+```sh
+ lsof -iUDP
+ # mostra tutte le connessioni UDP attive
+```
+
+```sh
+ lsof -i 6
+ # mostra tutte le connessioni IPv6 attive
+```
+
+```sh
+ lsof -t /var/log/dummy_svc.log
+ # mostra solo i PID dei processi che tengono aperto il file menzionato
+ # questo e' utile soprattutto quando bisogna usare kill o chiudere i processi
+ # che operano (o tengono aperto) su un file
+```
+
 ```sh
  lsof /percorso/nomeFile 
  # mostra il programma che tiene aperto 
@@ -10671,6 +10756,7 @@ Per vedere la versione dell'OS (o ad esempio la distribuzione in uso) ci sono
 più strade:
 
 * analizzare il file /etc/issue, ad esempio "cat /etc/issue"
+* analizzare il file /etc/os-release
 * analizzare il file /proc/version
 * mostrare i file in /etc/ che hanno la parola "release" e analizzarli, "ls /etc/*release*"
 
@@ -12312,6 +12398,35 @@ Per montare un filesystem possiamo effettuare:
  # monta il 
  # dispositivo myDevice con filesystem "ntfs" in "mountDir"
 ```
+
+When talking about mountpoints we can have mountpoints that are:
+* shared,
+* slave, 
+* private, 
+* unbindable 
+
+mount point that is shared may be replicated as many times as needed,
+and each copy will continue to be the exact same. Other mount points
+that appear under a shared mount point in some subdirectory will appear
+in all the other replicated mount points as it is.
+
+A slave mount point is similar to a shared mount point with the small
+exception that the “sharing” of mount point information happens in
+one direction. A mount point that is slave will only receive mount and
+unmount events. Anything that is mounted under this replicated mount
+point will not move towards the original mount point.
+
+A private mount point is exactly what the name implies: private. Mount
+points that appear under a private mount point will not be shown elsewhere
+in the other replicated mount points unless they are explicitly mounted
+there as well.
+
+An unbindable mount point, which by definition is also private, cannot
+be replicated elsewhere through the use of the bind flag of the mount
+system call or command.
+
+
+
 a volte potrebbe capitare che per qualche motivo non mi faccia 
 montare partizioni ntfs, perchè magari il sistema era in 
 ibernazione in windows o per il fast restarting, o per shutdown 
@@ -13234,7 +13349,16 @@ esempi di comandi:
 ```
 
 
-### Criptare Partizioni
+### Criptare Partizioni e File
+
+In genere possiamo criptare:
+* Interi Dischi o Partizioni a livello di "block device", con LUKS
+* Partizioni "stacked" utilizzabili a livello utente e senza la necessita' di
+  avere una partizione a priori, e.g., ecrypt, encfs
+* File, gpg (preferibile), openssl
+
+
+###  Gestire partizioni criptate con LUKS/dm-crypt
 
 E' possibile criptare partizioni (o interi dispositvi di memoria) 
 per aumentare la sicurezza attraverso LUKS (Linux Unified Key 
@@ -13302,7 +13426,7 @@ sola criptata anzichè dover formattare per criptare l'intero
 disco.
 
 
-### Gestire dischi criptati con Bitlocker
+###  Gestire partizioni criptate con Bitlocker
 
 Dato un disco criptato con Bitlocker (tipico software utilizzato 
 su Windows), possiamo accedere utilizzando questi comandi:
@@ -13338,6 +13462,57 @@ operazioni per smontare il disco:
 ```sh
  umount /mnt/tmp
 ```
+
+
+### Criptare Directory
+
+Possiamo cripare directory attraverso l'utilizzo di filesystem particolari che
+non richiedono la formattazione della nostra partizione corrente.
+Questi filesystem vengono detti "stacked filesystem" a differenza di meccanismi
+come LUKS denominati invece "block device". 
+
+Esempi di stacked encrypted filesystem sono:
+* eCryptfs (piu' veloce)
+* EncFS (piu' facile da usare)
+
+Utilizzare filesystem di questo tipo e' molto vantaggioso nel momento in cui
+abbiamo directory da criptare, se invece dobbiamo criptare solo un file singolo
+allora possiamo optare per gpg.
+
+Possiamo trovare un confronto tra i vari schemi di criptazione per partizioni
+qui:
+[Tabella Criptazioni](https://wiki.archlinux.org/index.php/Disk_encryption#Comparison_table)
+
+
+#### EncFS
+
+Per creare una nuova directory criptata chiamata "origin" nella nostra home
+directory utilizzando come partizione criptata un file chiamato ".encrypted"
+possiamo eseguire:
+
+```sh
+encfs ~/.encrypted ~/origin
+```
+Ora possiamo spostare tutti i file che vogliamo criptare all'interno di
+'~/origin'.
+
+Per smontare il filesystem criptato possiamo eseguire:
+```sh
+fusermount -u ~/origin
+```
+Per rimontare una partizionee possiamo semplicemente ripetere il comando di
+creazione, quindi nel momento in cui la prima directory specificata esiste gia'
+ed e' un filesystem valido allora questo viene rimontato.
+
+Possiamo cambiare la password di un volume criptato con:
+```sh
+encfsctl passwd ~/.encrypted
+```
+
+
+### Criptare File con GPG
+
+TODO
 
 
 ### LVM
@@ -14977,14 +15152,13 @@ iproute2", vediamo alcuni comandi d'esempio:
 
 ### Iw
 
-La suite di comandi "iw" gestisce le interfaccie wireless. To 
-connect to an AP you can use iw connect if the connection 
-requires:
+La suite di comandi "iw" gestisce le interfaccie wireless. 
+Per connetterci ad un AP che non utilizza un sistema di autenticazione oppure
+che usa WEP possiamo utilizzare `iw connect`.
+In caso contrario, nel caso in cui il sistema di autenticazione e' WPA/WPA2
+allora dobbiamo fare uso di `wpa_supplicant`. 
 
-No encryption Uses WEP for encryption 
-
-If you need to connect to an AP with WPA or WPA2 encryption 
-requirements then you must use wpa_supplicant. 
+Vediamo alcuni esempi di utilizzo di iw.
 
 ```sh
  iw help 
@@ -15003,18 +15177,18 @@ requirements then you must use wpa_supplicant.
  iw dev 
  # mostra tutte le interfaccie wireless, questo mi 
  # mostrerà alcune informazioni come:
+
+ # * Designated name: phy#1 
+ # 
+ # * Device names: wlan0 
+ # 
+ # * Interface Index: 4. Usually as per connected ports (which can 
+ #     be an USB port). 
+ # 
+ # * Type: Managed. Type specifies the operational mode of the 
+ #     wireless devices. managed means the device is a WiFi station 
+ #     or client that connects to an access point.
 ```
-
-* Designated name: phy#1 
-
-* Device names: wlan0 
-
-* Interface Index: 4. Usually as per connected ports (which can 
-    be an USB port). 
-
-* Type: Managed. Type specifies the operational mode of the 
-    wireless devices. managed means the device is a WiFi station 
-    or client that connects to an access point.
 
 ```sh
  iw dev wlan scan 
@@ -15058,8 +15232,8 @@ requirements then you must use wpa_supplicant.
  # sulla connessione all'access point
 ```
 ```sh
- sudo iw dev wlan0 set power_save on 
- # imposta il power save
+ iw dev wlan0 set power_save on 
+ # imposta il power save su on
 ```
 ```sh
  iw dev wlan0 get power_save 
@@ -15893,13 +16067,20 @@ non si esce, e si passa su altri server esterni per arrivare poi
 infine alla destinazione finale.
 
 A volte il primo indirizzo trovato in un traceroute non 
-corrisponde a quello del gateway, una delle probabili cause è il 
-protocollo (VRRP) Virtual Router Redundancy Protocol, in pratica 
-secondo questo protocollo permette una struttura di rete più 
-robusta, questo è reso possibile dalla creazione di router 
-virtuali, che sono una rappresentazione astratta di un insieme di 
-router, es. master e backup router, che opera come un gruppo. Il 
-default router assegnato ad un host è il router virtuale, non il 
+corrisponde a quello del gateway visto con `route -n`, questa situazione 
+puo' essere spiegata attraverso diverse motivazioni:
+* il primo nodo, potrebbe non alterare il valore TTL lasciandolo a 1 
+  e fare semplicemente forward al nodo successivo
+* il primo nodo potrebbe avere piu' interfacce di rete quindi utilizzare
+  indirizzi IP diversi, quindi ad esempio in route -n vedrei l'indirizzo
+  IP di ingresso mentre con traceroute l'indirizzo in uscita
+* e' presente un meccanismo di VRRP
+
+Il protocollo (VRRP) Virtual Router Redundancy Protocol, permette 
+una struttura di rete più robusta, questo è reso possibile dalla 
+creazione di router virtuali, che sono una rappresentazione astratta 
+di un insieme di router, es. master e backup router, che opera come un gruppo. 
+Il default router assegnato ad un host è il router virtuale, non il 
 router fisico. Se il router fisico che sta attualmente 
 instradando si rompesse, un altro router fisico verrebbe 
 selezionato per rimpiazzarlo. Il router fisico che sta inoltranto 
@@ -15921,6 +16102,7 @@ operating systems and has been ported to Linux.
 Un'alternativa a traceroute più completa è costituita da 
 programmi come "mtr" che forniscono anche statistiche, per capire 
 qual'è il collo di bottiglia su una rete.
+
 
 ##### Motivo per asterischi in traceroute indipendentemente dal protocollo
 
@@ -16002,11 +16184,23 @@ possiamo anche eseguire dei reverse lookups con:
  dig -x 66.11.33.112 
  # esegue un reverse lookup
 ```
+
 ```sh
  dig www.ciao.it 
  # esegue una query di tipo A per l'hostname 
  # menzionato
 ```
+
+Attraverso dig possiamo anche capire chi e' il nostro server DNS, quindi se
+eseguiamo:
+```sh
+ dig google.it | grep SERVER
+ # mostriamo chi e' il server che risponde alle nostre query
+```
+Per capire chi e' il nostro DNS server possiamo anche semplicemente utilizzare
+nslookup.
+
+
 ```sh
  dig -t A www.ciao.it 
  # analogo al precedente, ma specifichiamo esplicitamente
@@ -16088,6 +16282,9 @@ E' da notare che dig ed nslookup potrebbero fornire due output
 diversi, questo è dovuto al fatto che dig utilizza lo stub 
 resolver del Sistema Operativo mentre nslookup ne implementa uno 
 tutto suo.
+
+Conn nslookup dopo aver effettuato una query possiamo anche capire chi e' il
+nostro server DNS all'interno della rete.
 
 Il programma nslookup comunque fornisce una riga di comando tutta sua, ad
 esempio nel caso volessimo avere informazioni sul dominio ebay.it,
@@ -16537,10 +16734,29 @@ su Red-Hat.
 Il file resolv.conf è localizzato in "/etc/resolv.conf", possiamo 
 aggiungere l'indirizzo del server DNS aggiungendo una voce:
 
-```sh
- nameserver 8.8.8.8 
- # abbiamo aggiunto il DNS server 8.8.8.8
+```txt
+nameserver 8.8.8.8 
+# abbiamo aggiunto il DNS server 8.8.8.8
 ```
+
+Un altro esempio tipico di configurazione potrebbe essere questo:
+
+```txt
+nameserver 8.8.8.8
+nameserver 8.8.8.4
+search myowndomain.xyz
+```
+In questo caso diciamo che il nameserver principale e' 8.8.8.8 mentre
+quello secondario e' 8.8.8.4, e poi indichiamo come dominio di
+default di ricerca "myowndomain.xyz", questo significa che di default
+nel momento proviamo a comunicare con una macchina chiamata "pippo"
+automaticamente il nostro resolver provera' a chiamare la macchina
+"pippo.myowndomain.xyz". Questa opzione e' molto utile soprattutto nel
+momento in cui stiamo installando una macchina all'interno di un 
+dominio; in questo caso se provassimo ad accedere col nostro browser 
+ad "http://foo", automaticamente la richiesta avviene a
+"http://foo.myowndomain.xyz".
+
 le modifiche saranno applicate subito, senza necessità di 
 riavviare i servizi di rete, ad ogni modo questa configurazione 
 sarà temporanea, in quanto al prossimo reboot il file resolv.conf 
@@ -16666,6 +16882,19 @@ applicativi:
  # nostro hostname precedente, per effettuare modifiche permanenti 
  # dovremo andare a modificare i file sopracitati
 ```
+
+Possiamo visualizzare anche informazioni aggiuntive su molte distro attrverso il
+comando `hostnamectl`, semplicement eseguiamo:
+```sh
+ hostnamectl
+ # questo ci mostrera' anche se siamo all'interno di una macchina virtuale
+```
+
+Attenzione queste modifiche potrebbero non funzionare se la nostra macchina e'
+virtuale ed e' gestita da un server esterno che si occupa di reimpostare i nomi
+ad ogni reboot.
+
+
 #### Il file nsswitch.conf
 
 
@@ -21355,6 +21584,16 @@ sequenza di comandi:
  SELECT * FROM demo;
 ```
 
+## Gestione delle Password in GNU/Linux
+
+Possiamo gestire le password attraverso dei password manager, i piu' famosi
+sono:
+* KeePassX2 (con GUI)
+* pass (con CLI)
+
+### Gestione delle Password con pass
+
+TODO
 
 ## Kernel
 
@@ -24894,7 +25133,7 @@ The output will show you the current list og reserved GPIO. Una
 libreria molto comoda per gestire il GPIO è "WiringPI", inoltre 
 ha diversi binding per vari linguaggi di programmazione.
 
-## TO ADD
+## TODO 
 
 * cgroups
 * lxc
