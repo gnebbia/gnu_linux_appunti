@@ -9040,6 +9040,24 @@ Alcune distro hanno il comando "killall", ad esempio:
 Nel caso volessi chiudere tutti i programmi legati al mio 
 terminale, mi basta lanciare il comando "exit".
 
+Inoltre spesso capita di lanciare in background processi ad esempio con:
+```sh
+programma1 arg1 arg2 &> /dev/null &
+programma2 arg1 arg2 &> /dev/null &
+```
+
+si ricorda che questi processi possono essere visualizzati col comando:
+```sh
+jobs
+# visualizza i processi in background
+```
+e possiamo eliminarli attraverso l'identificativo mostrato da `jobs` con kill
+utilizzando il simbolo percentuale, ad esempio:
+```sh
+kill %1
+# questo terminera' il processo in background identificato come `1` da jobs
+```
+
 
 ### Nohup
 
