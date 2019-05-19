@@ -4127,8 +4127,8 @@ sloggare e riloggare oppure eseguire:
 * `ALT+b`  # moves backward one word
 * `ALT+d`  # deletes a word
 
-### Variabili d'ambiente
 
+### Variabili d'ambiente
 
 Le variabili d'ambiente ci permettono di memorizzare dati 
 all'interno della nostra shell, quindi il loro valore può variare 
@@ -7510,6 +7510,13 @@ BEGIN { FS=":" }
 
 #search for username: aaronkilik and print account details 
 /aaronkilik/ { print "Username :",$1,"User ID :",$3,"User GID :",$4 }
+```
+
+Una domanda comune ai colloqui di lavoro per amministratori di sistema, e' come
+eliminare le linee duplicate all'interno di un file, questo e' fattibile in awk
+con una sola istruzione:
+```sh
+awk '!seen[$0]++' <filename>
 ```
 
 
@@ -15002,6 +15009,9 @@ pubblici con IPv4.
 Ricorda che l'IPv6 non ha questa distinzione tra indirizzi 
 privati e pubblici.
 
+Questi indirizzi vengono in genere chiamati "non globally-routable" oppure 
+si parla di spazio "non globally routable" (say ULA IPv6 or RFC1918 IPv4).
+
 
 ### Ifconfig
 
@@ -15166,6 +15176,31 @@ iproute2", vediamo alcuni comandi d'esempio:
 ```sh
  # ip monitor all
 ```
+
+
+### ip vs ifconfig
+
+Vediamo una piccola tabella di confronto per i due tool ip ed ifconfig:
+net-tools 			iproute2
+ifconfig 			ip addr, ip link
+ifconfig (interface stats) 	ip -s link
+route 				ip route
+arp 				ip neigh
+netstat 			ss
+netstat -M 			conntrack -L
+netstat -g 			ip maddr
+netstat -i 			ip -s link
+netstat -r 			ip route
+iptunnel 			ip tunnel
+ipmaddr 			ip maddr
+tunctl 				ip tuntap (since iproute-2.6.34)
+(none) for interface rename 	ip link set dev OLDNAME name NEWNAME
+brctl 				bridge (since iproute-3.5.0)
+
+
+Possiamo consultare il link sottostante per una lista di motivi per non usare
+piu' ifconfig ma invece sempre preferire ip o in genere il pacchetto iproute2.
+[ifconfig sucks](http://inai.de/2008/02/19)
 
 
 ### Iw
@@ -16143,6 +16178,17 @@ or maybe they have a firewall preventing them from being sent
 <UncleDrax> or it's being throttled (since responding to ICMP 
 takes CPU a very busy router has other things to do with)
 ```
+In generale qualsiasi host non risponde al pacchetto con TTL=0, a volte
+questo e' disabilitato per diversi motivi, performance, sicurezza eccetera.
+
+Ricordiamo comunque che alcune volte non possiamo determinare chi sono gli host
+dietro gli asterischi `* * *` ed e' comunque doveroso ricordare che bisogna
+prendere con le pinze i risultati di un traceroute.
+Ad esempio alcuni host potrebbero semplicemente non alterare il valore del TTL
+e semplicemente fare un forward del pacchetto (o alterarlo), in questo caso 
+il nodo che non decrementa il TTL non verra' mostrato nei risultati
+del traceroute.
+
 
 ##### Traceroute senza root, ovvero tracepath
 
@@ -16154,6 +16200,22 @@ Nel caso non avessimo i permessi di root, possiamo eseguire:
  # senza permessi di root
 ```
 un'altra alternativa piu' completa di traceroute e' `mtr`.
+
+
+##### Tracerouting Alternativo con `mtr`
+
+Per capire qual'e' il collo di bottiglia su una rete possiamo anche utilizzare
+un tool di tracerouting piu' avanzato chiamato `mtr`.
+
+Ad esempio per visualizzare un traceroute verso `example.com` allora possiamo
+eseguire:
+
+```sh
+mtr www.example.com
+# mtr ci mostrera' statistiche di base sul traffico rispetto ad ogni nodo a
+# partire dalla macchina che esegue il comando fino al target
+```
+
 
 #### DNS
 
@@ -17944,6 +18006,22 @@ policy di default.
 By default, tutte le chain hanno come default policy quella di permettere
 l'accesso dei pacchetti.
 
+E' importante ricordare che comunque iptables e' solo un frontend a quello che
+viene chiamato `netfilter`, infatti netfilter e' necessario per implementare
+firewall su GNU/Linux.
+Netfilter di per se' non contiene utility user-space per gestire il firewall di
+sistema, ma esistono molte opzioni tra cui scegliere come frontend, le piu'
+comuni:
+* iptables (il piu' vecchio), piu' diffuso, ma contiene molte utility user space
+  per fare cose diverse, ad esempio regole per IPv6 vengono gestite con un
+  programma diverso eccetera
+* xtables (non vecchio ma neanche tanto nuovo),
+* nftables (il piu' recente), piu' flessibile, contiene un linguaggio abbastanza
+  complesso ed avanzato per la definizione di regole
+
+Additional material on iptables can be found here:
+[IPTables links and best practices](https://gist.github.com/Thermi/70c9d77dc96523885e81e3f86f59f587)
+
 #### Iptables: Tables
 
 Le tabelle permettono di effettuare uno specifico procedimento sui
@@ -17995,6 +18073,18 @@ filtrare i pacchetti in vari punti. La lista di chain che iptables fornisce e':
     presente nelle tabelle: nat, mangle.
 
 
+
+            PREROUTING  INPUT   FORWARD     OUTPUT  POSTROUTING
+raw         +                               +   
+mangle      +           +       +           +       +
+nat         +           n                   +           +
+filter                  +       +           +   
+security                +       +           +   
+
+n - Older versions of the kernel and iptables donot provide the nat/INPUT
+hook, so always check your documentation. 
+
+
 #### Iptables: Targets
 
 Chains permettono di filtrare il traffico attraverso regole. Quindi possiamo ad
@@ -18024,6 +18114,13 @@ pacchetti specifici nei log del kernel.
 Nota che iptables e' composto da due interfacce command line, una omonima
 `iptables` e l'altra utilizzata per IPv6 chiamata `ip6tables`, ad ogni modo le
 i concetti e le opzioni da riga di comando per questi comandi non sono significativamente diversi.
+
+Ora verranno mostrati alcuni esempi di comandi per mostrare le regole vigenti
+sul sistema, nota che nonostante vengono mostrati comandi con `iptables -L`, in
+realta' non e' una best practice utilizzare questo, in quanto a volte ci
+potrebbe dare del filo da torcere in fase di debugging o troubleshooting.
+Il modo migliore per mostrare le regole vigenti e' usando `iptables-save`, come
+verra' mostrato in seguito.
 
 ```sh
  iptables -L 
@@ -18061,6 +18158,16 @@ Possiamo anche selezionare l'interfaccia con "-i", ad esempio:
  # in questo caso selezioniamo l'interfaccia di loopback
 ```
 
+In generale in realta' un'alternativa piu' efficace nel mostrare le regole e'
+utilizzare  `iptables-save -c`, infatti l'output di `iptables -L` puo' essere
+confusionario o mentire su alcune cose (come le porte su cui realmente opera).
+Inoltre una parte dell'output di `iptables-save` e' in formato comandi, quindi
+facilmente replicabile/salvabile/parsabile/scriptabile.
+
+Per mostrare le regole utilizzando le best practice possiamo utilizzare:
+```sh
+iptables-save -c
+```
 
 Per isolare completamente un computer dalla rete, eseguiamo:
 
@@ -21336,6 +21443,13 @@ Vediamo alcuni comandi per gestire le tabelle:
  -- tuple con id=1 o id=2
 ```
 ```sql
+select * FROM users  where name LIKE '%m%'
+ -- mostra tutti gli utenti che hanno nel loro username
+ -- la lettera `m`
+ -- questa query e' molto utile nel caso di match parziali con
+ -- stringhe
+```
+```sql
  select * from nomeTab order by id asc; 
  -- mostra tutte le tuple 
  -- ordinate in ordine crescente in funzione del campo "id"
@@ -21601,6 +21715,379 @@ sequenza di comandi:
  COPY demo from '[FILENAME]';
  SELECT * FROM demo;
 ```
+
+
+### MongoDB
+
+MongoDB è un database NoSQL orientato ai documenti, che offre alte prestazioni,
+alta disponibilità e facile scalabilità.
+Come con mysql e pgsql, un singolo server mongodb ha in genere più database.
+
+MongoDB works on the concepts of collections and documents.
+MongoDB si basa sui concetti di **collection** e **document**.
+
+Possiamo pensare alle collection come serie di documenti, proprio come le directory e
+i file.
+In particolare:
+* Una **collection** è un gruppo di documenti MongoDB e può essere pensata come una
+  equivalente di una tabella RDBMS. Una collezione esiste all'interno di un singolo database,
+  si noti che, a differenza dei database SQL, le raccolte non impongono uno
+  schema, quindi questo consente una significativa flessibilita'; comunque tipicamente tutti
+  i documenti in una raccolta hanno uno scopo comune o sono correlati in qualche modo
+* Un **documento** è un insieme di coppie valore-chiave. Un documento può essere 
+  pensato simile ad una riga nei database relazionali
+
+
+
+Di default in MongoDB non si ha il concetto di chiavi primaria, quindi ogni documento
+che ottiene creato verrà automaticamente assegnato un campo unico chiamato `_id` che 
+è un 12 numero esadecimale di byte che in realtà assicura l'unicità di ogni documento.
+I 12 bytes di `_id` sono composti in questo modo:
+* 4 byte per il timestamp corrente
+* 3 byte per il machine id
+* 2 byte per il process id del server MongoDB
+* 3 byte rappresentano un valore incrementale
+
+In MongoDB non c'e' nessun concetto di "relazione" tra diverse collection, le
+relazioni tra informazioni sono incorporate all'interno dei subdocument, cioe'
+ogni documento puo' incorporare quanti subdocument vogliamo.
+
+I vantaggi di MongoDB rispetto ad altri database relazionali (RDBMS) sono:
+* Schema-less, una singola collection puo' contenere documenti con schemi differenti, 
+  questo non e' possibile in un database relazionale in genere
+* Non ci sono operazioni di join complesse
+* Alta flessibilita' nel sistema di query ocn un linguaggio simile ad SQL
+* Flessibilita' nelle operazioni di tuning
+* Scalabilita', e' molto piu' semplice scalare un database MongoDB
+* Non e' necessario un mapping o una conversione tra application objects e
+  database objects
+* Permette un accesso velcoe ai dati, caricando in memoria volatile la parte di
+  database con cui stiamo lavorando
+
+
+In genere MongoDB viene utilizzato nei seguenti scenari:
+* Big Data
+* Content Management and Delivery
+* Mobile and Social Infrastructure
+* User Data Management
+* Data Hub
+
+MongoDB supporta diversi tipi di dato, alcuni di questi sono:
+* String, devono essere valide stringhe UTF-8, questo e' il tipo di dat piu'
+  comune
+* Integer, puo' essere 32 o 64 bit
+* Boolean, usato per memorizzare valori booleani
+* Double, usato per memorizzare valori floating point
+* Min/Max Keys, usato per confrontare valori con il piu' piccolo e il piu'
+  grande elemento BSON
+* Arrays, used to store arrays or list or multiple values into one key
+* Timestamp, ctimestamp, usato per memorizzare timestamp e generalmente
+  utilizzato per registrare quando un documento e' stato modificato o aggiunto
+* Object, usato per memorizzare embedded documents
+* Null, e' usato per memorizzare valori nulli
+* Symbol, e' quasi identico al tipo `String` ma viene usato per memorizzare 
+  stringhe appartenenti a lingue che usano simboli particolari
+* Date, questo tipo di dato e' utilizzato per memorizzare date nel formato 
+  UNIX timestamp
+* Object ID, questo tipo di dato e' utilizzato per memorizzare l'ID di un
+  documento
+* Binary Data, questo e' per memorizzare dati di tipo binario
+* Code, questo viene utilizzato per memorizzare pezzi di codice javascript
+  all'interno di un documento
+* Regular Expression, questo viene utilizzato per memorizzare regex
+
+
+#### Basic Operations in mongodb
+
+Una volta avviato il client di mongodb col comando `mongo` possiamo interagire
+col database server per qualsiasi cosa vogliamo. Vediamo di seguito qualche
+esempio di base.
+
+Possiamo visualizzare la version di mongodb eseguendo:
+```mongo
+db.version()
+```
+Possiamo visualizzare statistiche sui database eseguendo
+```mongo
+db.stats()
+# nota che di default mongodb utilizza un database chiamato "test"
+```
+
+Per creare un nuovo database (o switchare su un database nel caso esistesse
+gia') possiamo eseguire:
+```mongo
+use <dbname>
+```
+
+Possiamo controllare il database attualmente selezionato eseguendo:
+```mongo
+db
+```
+
+Possiamo elencare la lista di database presenti eseguendo:
+```mongo
+show dbs
+```
+
+Un database create con `use` non comparira' nella lista a meno che non abbiamo
+inserito almeno un documento.
+Possiamo inserire un documento eseguendo:
+```mongo
+db.movie.insert({"name":"scarface"})
+```
+
+Possiamo eliminare un database eseguendo:
+```mongo
+db.dropDatabase()
+# elimina il corrente database, se non ne abbiamo selezionato esplicitamente uno
+# eliminera' il database chiamato `test`
+```
+
+
+#### Lavorare con le Collection di MongoDB
+
+Possiamo creare una nuova collezione all'interno del database corrente
+eseguendo:
+```mongo
+db.createCollection(name, options)
+# dove `name` e' il nome della collezione mentre `options`
+# e' un documento JSON che rappresenta una serie di opzioni a cui deve aderire
+# la collezione creata, nota ce options e' opzionale
+```
+Possiamo visualizzare le correnti collection all'interno di un database
+eseguendo:
+```sh
+show collections
+# mostra tutte le collections all'interno del database
+```
+
+Vediamo alcune opzioni piu' comunemente utilizzate:
+* Capped (boolean): questo dice se la nostra collezione ha un numero massimo di
+  documenti, una volta superato verra' sovrascritto il documento piu' vecchio,
+  come accade per i log con logrotate in pratica
+* autIndexId (boolean): se e' a vero crea automaticamente un indice sul campo
+  `_id`
+* Size (number): specifica la massima dimensione in byte per una collezione su
+  cui e' stato impostato `Capped`. Se `Capped` e' true, allora dobbiamo
+  obbligatoriamente utilizzare questa opzione
+* Max (number): specifica il massimo numero di documenti in una collezione
+  Capped
+
+
+Vediamo alcuni esempi pratici di creazione di una collection:
+```mongo
+db.createCollection("mycollection")
+```
+
+```mongo
+db.createCollection("mycol", {capped : true, autoIndexId: true, size: 6142800, max: 10000})
+```
+
+E' da notare che e' possibile anche non specificare esplicitamente l'intento di
+creare una collezione, ad esempio MongoDB puo' anche creare collezioni
+automaticamente se inseriamo un documento all'interno di una collezione non
+esistente. Vediamo un esempio pratico:
+```mongo
+db.randomMyABCCollection.insert({"name": "Paolo"})
+# in questo caso anche se la collection `randomMyABCCollection` non esiste
+# verra' creata all'interno del database
+```
+
+Vediamo un inserimento di un documento piu' complesso:
+```mongo
+db.mycol.insert({
+    _id: ObjectId(7df78ae9102c),
+    title: 'mongodb notes',
+    description: 'mongodb is an high performance db'
+    tags: ['mongo', 'database', 'nosql'],
+    liked: 300
+})
+```
+
+Possiamo anche inserire piu' documenti contemporaneamente eseguendo:
+```mongo
+db.mycol.insert([{}, {}, {}, {}, {}])
+# in questo caso stiamo inserendo 5 documenti
+```
+
+Possiamo eliminare una collection, eseguendo:
+```mongo
+db.mycollection.drop()
+```
+
+
+#### Eseguire Query di ricerca in MongoDB
+
+Possiamo effettuare ricerche in un database MongoDB utilizzando il metodo
+`find()` oppure `fineOne()`.
+La differenza e' che `find()` elenca tutte le occorrenze, mentre `findOne()`
+elenca solo una occorrenza.
+
+
+La sintassi di base per una ricerca e':
+```mongo
+db.collectionname.find({})
+# mostrera' tutti i documenti appartenenti ad una collezione in modo non
+# formattato
+```
+
+Possiamo mostrare i documenti in una modalita' formattata, eseguendo:
+```mongo
+db.collectionname.find({}).pretty()
+```
+
+E' da notare che all'interno di queste funzioni di ricerca possiamo specificare
+del filtri per restringere la nostra ricerca, poiché la maggior parte delle 
+volte non vogliamo solo mostrare tutti i documenti in una collezione.
+
+Possiamo quindi fare uso dei **filtri** che ci permettono di dare in pasto un
+documento JSON ai metodi di ricerca per restringere le nostre ricerche.
+Vediamo qualche esempio.
+
+Vediamo un caso di uguaglianza:
+```mongo
+db.movies.find({"title":"Scarface"}).pretty()
+# cerchiamo tutti i documenti con titolo uguale a "Scarface"
+```
+
+Vediamo un caso di non uguaglianza:
+```mongo
+db.movies.find({"title":{$ne:"Scarface"}}).pretty()
+# cerchiamo tutti i documenti con titolo diverso da "Scarface"
+```
+
+
+Vediamo un caso di minore "less than":
+```mongo
+db.movies.find({"reviews":{$lt:50}}).pretty()
+# cerchiamo tutti i documenti che hanno un numero di review minore a 50
+```
+
+Vediamo un caso di minore o uguale "less than or equal":
+```mongo
+db.movies.find({"reviews":{$lte:50}}).pretty()
+# cerchiamo tutti i documenti che hanno un numero di review minore o uguale a 50
+```
+
+Vediamo un caso di maggiore "greater than":
+```mongo
+db.movies.find({"reviews":{$gt:50}}).pretty()
+# cerchiamo tutti i documenti che hanno un numero di review maggiore a 50
+```
+
+Vediamo un caso di maggiore o uguale "greater than or equal":
+```mongo
+db.movies.find({"reviews":{$gte:50}}).pretty()
+# cerchiamo tutti i documenti che hanno un numero di review maggiore o uguale a 50
+```
+
+Possiamo anche utilizzare condizioni piu' complesse con operatori logici,
+vediamo un esempio di AND:
+```mongo
+db.movies.find(
+    {
+        $and: [
+            {key1: "value1"}, {key2: "value2"}
+            ]
+    }
+).pretty()
+```
+Vediamo un altro esempio:
+```mongo
+db.movies.find({$and:[{"reviews":{$gte:50}},{"reviews":{$lte:{100}}]}).pretty()
+# cerchiamo tutti i film che hanno un numero di review maggiore o uguale a 50
+# e minore o uguale a 100
+```
+
+Nota che al posto di $and possiamo anche usare $or.
+
+
+Possiamo anche cercare match parziali con stringhe inserendo una regex nel JSON
+dato in pasto alle funzioni di ricerca, ad esempio:
+
+```mongo
+db.movies.find({"title": /.*m.*/})
+# in questo modo cerchiamo tutti i film che hanno nel titolo una `m`
+```
+
+oppure in maniera piu' sintetica:
+```mongo
+db.movies.find({"title": /m/})
+# in questo modo cerchiamo tutti i film che hanno nel titolo una `m`
+```
+
+Nota che con i metodi di ricerca possiamo anche selezionare solo un subset di
+campi attraverso un secondo argomento alla funzione `find()` o `findOne()`.
+Vediamo un esempio:
+
+```mongo
+db.movies.find({}, {'title':1, _id:0, 'reviews': 0})
+# questo mostrera' tutti i documenti della collection "movies" ma soltanto il
+# campo 'title'
+```
+
+Possiamo anche limitare il numero di record in uscita, attraverso il metodo
+limit().
+Quindi un esempio potrebbe essere:
+```mongo
+db.movies.find()limit(20)
+# in questo caso mostriamo solo 20 risultati in output
+```
+
+
+#### Aggiornare documenti in MongoDB
+
+Possiamo aggiornare un documento in MongoDB attraverso le operazioni di
+`update()` o `save()`. La differenza tra questi due metodi e' che:
+
+* update(), aggiorna i valori all'interno del documento presente
+* save(), rimpiazza l'intero documento esistente con un altro documento passato
+  come argomento
+
+La sintassi di base del metodo update() e':
+```mongo
+db.collectionname.update(SELECTION_CRITERIA, UPDATED_DATA)
+```
+
+Vediamo un esempio pratico:
+```mongo
+db.movies.update({'title': 'Scface'}, {$set: {'title': 'Scarface'}})
+# aggiorniamo il titolo del film, correggendolo solo un'istanza, vedi sotto...
+```
+
+ATTENZIONE di default mongoDB aggiornera' un singolo documento, nel caso
+volessimo aggiornare tutti i documenti che rispettono i criteri di selezione
+dobbiamo specificare un ulteriore parametero, vediamo un esempio:
+```mongo
+db.movies.update({'title': 'Scface'}, {$set: {'title': 'Scarface'}},{multi:true})
+# aggiorniamo il titolo del film, correggendolo in tutti i documenti
+```
+
+Possiamo anche eliminare documenti attraverso il metodo `remove()`, e la
+sintassi di base e':
+```mongo
+db.movies.remove(DELETION_CRITERIA)
+```
+Ad esempio:
+```mongo
+db.movies.remove({'title': 'Scarface'})
+```
+
+#### Ordinare documenti in MongoDB
+
+Possiamo ordinare i documenti in MongoDB all'interno di una collezione
+attraverso il metodo `sort()`, questo metodo accetta un documento per i
+parametri che dovra' contenere la lista di campi su cui effetturare
+l'ordinamento e se bisogna eseguire un ordinamento crescente `1` o un
+ordinamento decrescente `-1`.
+
+Vediamo un esempio:
+```mongo
+db.moveis.find().sort({'reviews':1, 'likes':-1})
+# qui eseguiamo un ordinamento crescente in funzione del campo `reviews`
+# ed un ordinamento descrescente in funzione del campo `likes`
+```
+
 
 ## Gestione delle Password in GNU/Linux
 
