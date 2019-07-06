@@ -7993,6 +7993,13 @@ compressione possono lavorare sepratamente, ad esempio:
  # decomprime il file 
  # nomeFileCompresso.tar.gz
 ```
+possiamo utilizzare gunzip anche per decomprimere dati nel formato
+`zlib` o `deflate` (che comunque usa zlib) che sono comunemente
+utilizzati nel protocollo HTTP eseguendo:
+```sh
+printf "\x1f\x8b\x08\x00\x00\x00\x00\x00"  | cat - pcap_21_extracted_body | gunzip
+```
+
 ```sh
  bzip2 nomeFile.tar 
  # comprime il file nomeFile.tar
