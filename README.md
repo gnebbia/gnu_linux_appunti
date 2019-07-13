@@ -8330,6 +8330,8 @@ applicativo:
  # tutti i file che hanno la parola "test" all'interno del loro 
  # nome
 ```
+xargs in pratica quindi prende come input una lista di linee ed esegue un
+comando per ogni linea.
 
 E' importante ricordare che esiste su diversi sistemi operativi
 il limite dei 128K con messaggio di error "Agument list too long",
@@ -8350,6 +8352,28 @@ printf '%s\0' /usr/include/sys/*.h | \
 xargs -0 grep foo /dev/null
 ```
 
+Vediamo un altro esempio:
+```sh
+echo 'one two three' | xargs mkdir
+```
+
+Per vedere quali comandi vengono effettivamente eseguiti possiamo fare cosi':
+```sh
+echo 'one two three' | xargs -t rm
+# l'opzione -t ci mostra i comandi che vengono eseguiti
+```
+
+Vediamo un altro esempio, ipotizziamo di avere un file di stringhe e vogliamo
+convertire ognuna di queste stringhe in base64, per farlo possiamo usare xargs
+in questo modo:
+
+```sh
+cat file.txt | xargs -n1 -I{} sh -c 'echo {} | base64'
+```
+
+Il programma xargs e' spesso usato in combinazione col programma find, ricorda
+che infatti nonostante find abbia un'opzione chiamata '-exec', in realta' e'
+molto piu' efficiente in termini di tempo utilizzare xargs.
 
 
 #### Sort
