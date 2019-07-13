@@ -4137,7 +4137,7 @@ variabile chiamata "TEST", che rappresenta l'indirizzo di un sito
 web, allora facciamo:
 
 ```sh
- export TEST='http:#linuxacademy.tv' 
+ export TEST='http://linuxacademy.tv' 
  # inizializziamo la 
  # variabile d'ambiente di nome TEST con il valore 
   'http:
@@ -4494,8 +4494,8 @@ allora facciamo:
  export PS1='\[\e[0;32m\]\u@\h\[\e[m\]\[\e[0;31m\]\w\[\e[m\]'
 ```
 Per una lista di tutti gli stili/colori disponibili, è 
-consigliato consultare [https:#wiki.archlinux.org/index.php/Color_Bash_Prompt||Guida ai Colori del Prompt di Shell]
-.
+consigliato consultare.
+[Guida ai Colori del Prompt di Shell](https://wiki.archlinux.org/index.php/Color_Bash_Prompt)
 
 Vediamo un altro esempio:
 
@@ -4514,8 +4514,8 @@ o ancora
 online esistono diversi Bash PS1 generator per semplificare la 
 procedura di customizzazione.
 
-### Opzioni di Shell
 
+### Opzioni di Shell
 
 Le "opzioni di shell", sono impostazioni che possono cambiare il 
 comportamento delle shell (e degli script di shell) in 
@@ -4569,7 +4569,7 @@ Vediamo alcuni esempi:
  # comandi di emacs, questa è abilitata di default
 ```
 Una guida più dettagliata alle opzioni di shell è fornita al link 
-[http:#www.tldp.org/LDP/abs/html/options.html||Guida al comando Set e alle Opzioni di Shell]
+[Guida al comando Set e alle Opzioni di Shell](http://www.tldp.org/LDP/abs/html/options.html)
 
 Vediamo un esempio di file "~/.bashrc" che raggruppa varie comuni 
 e utili configurazioni per la bash:
@@ -4726,7 +4726,7 @@ inserite all'interno del file .bashrc:
 # Set Proxy 
 
 function nomecomandopersonaleuno() {     
-	export {http,https,ftp}_proxy="http:#proxy-server:port" 
+	export {http,https,ftp}_proxy="http://proxy-server:port" 
 }
 ```
 
@@ -5510,7 +5510,7 @@ solo se abbiamo installato "pydoc" e così via.
 Inoltre per cercare ad esempio il prototipo di una funzione 
 scritta da noi, possiamo (cercare :h tags, :h ctags, :h cscope, 
 :h include-search :help include-search -> 
-http:#vimhelp.appspot.com/tagsrch.txt.html#include-search)
+http://vimhelp.appspot.com/tagsrch.txt.html#include-search)
 
 
 ### Editare file con sudo
@@ -5844,7 +5844,7 @@ installare un plugin eseguiamo:
 
 ```sh
  # cd ~/.vim/bundle && git clone 
-  https:#github.com/scrooloose/nerdtree.git 
+  https://github.com/scrooloose/nerdtree.git 
  # in questo caso 
  # stiamo installando l'estensione nerdtree
 ```
@@ -15109,8 +15109,7 @@ nel caso usassimo un proxy socks, possiamo controllare in modo
 veloce il nostro ip esterno attraverso:
 
 ```sh
- curl --socks5 127.0.0.1:9050 http:
- # checkip.amazonaws.com/ 
+ curl --socks5 127.0.0.1:9050 http://checkip.amazonaws.com/ 
 ```
 
 
@@ -16599,7 +16598,7 @@ web, ad esempio:
  # scarica un url ftp, con accesso credenziali
 ```
 ```sh
- wget --user=vivek --password='myPassword' http:#theos.in/protected/area/foo.pdf 
+ wget --user=vivek --password='myPassword' http://theos.in/protected/area/foo.pdf 
  # Scarica un file che ha 
  # bisogno di credenziali su un server per essere scaricato
 ```
@@ -16633,7 +16632,7 @@ easy to use. Here are some examples to show its usage:
  # default esegue il comando HTTP GET
 ```
 ```sh
- curl --request GET 'http:#ciao.it' 
+ curl --request GET 'http://ciao.it' 
  #  questo fa la stessa cosa 
  # del precedente, cioè esegue una richiesta GET alla locazione 
  # indicata
@@ -16641,7 +16640,7 @@ easy to use. Here are some examples to show its usage:
 vediamo altri esempi:
 
 ```sh
- curl --request POST 'http:#www.somedomain.com/' 
+ curl --request POST 'http://www.somedomain.com/' 
  # l'opzione 
  # --request può essere sostituito dal flag -X 
 ```
@@ -16729,7 +16728,7 @@ cookie files (save & send)      curl -c /tmp/cookie.txt -b /tmp/cookie.txt <url>
 
 set user-agent                  curl -A "Mozilla" <url> 
 
-referer                         curl -H "Referer: https:#www.cnn.com" <url> 
+referer                         curl -H "Referer: https://www.cnn.com" <url> 
 
 json                            curl -XPOST -H "Content-Type: application/json" -d "[[\"create\",{\"type\":\"trial\",\"name\":\"bug\"}]] <url> 
 
@@ -17506,7 +17505,7 @@ Vediamo ora invece alcuni esempi applicativi:
  # output.html"
 ```
 Una lista dei moduli utilizzati è possibile consultare 
-[http:#www.ubuntugeek.com/linux-security-auditing-tool-lsat-post-install-security-auditing-tool.html||Lista Moduli LSAT].
+[Lista Moduli LSAT](http://www.ubuntugeek.com/linux-security-auditing-tool-lsat-post-install-security-auditing-tool.html)
 
 
 ### Cracking di Password
@@ -17531,7 +17530,7 @@ cioè prova tutte le parole contenute nella wordlist, john the
 ripper di default senza wordlist non è efficiente in quanto prova 
 solo poche combinazioni con codici alfanumerici. Una wordlist di 
 dimensioni contenute ma comunque abbastanza efficiente può ad 
-esempio essere [http:#download.openwall.net/pub/wordlists/all.gz||Wordlist]
+esempio essere [Wordlist](http://download.openwall.net/pub/wordlists/all.gz)
 . Una volta scaricata la wordlist, nel nostro caso dovremo 
 eseguire per scompattarla:
 
@@ -17578,7 +17577,8 @@ Se conosciamo un determinato utente, possiamo aggiungere
 determinate parole al file wordlist, in modo da rendere più 
 probabile la scoperta della password. Per altri esempi di 
 utilizzo di "John the Ripper" è consigliata la visualizzazione 
-della pagina web [http:#www.openwall.com/john/doc/EXAMPLES.shtml||John The Ripper: Esempi di Utilizzo].
+della pagina web [John The Ripper: Esempi di Utilizzo](http://www.openwall.com/john/doc/EXAMPLES.shtml).
+
 
 
 ### Nmap
@@ -20589,7 +20589,7 @@ meccanismo di base di PGP:
 <BasketCase> nebbia: it is the same key pair concept where one 
 key decrypts what the other encrypts <BasketCase> this is one of 
 the better explanations I have seen: 
-http:#maths.straylight.co.uk/archives/108 
+http://maths.straylight.co.uk/archives/108 
 
 <BasketCase> essentially, if someone wants to send you a secret 
 they encrypt it with your public key. now only you with your 
@@ -20601,7 +20601,7 @@ was made by your private key (this is close to key authentication
 in ssh) 
 
 <BasketCase> ooh, there is a video version of that explanation: 
-http:#www.youtube.com/watch?&v=3QnD2c4Xovk
+http://www.youtube.com/watch?&v=3QnD2c4Xovk
 
 <nebbia> BasketCase i was thinking about what you said... 
 
@@ -23888,7 +23888,7 @@ al mese circa.
 Gentoo permette all'utente di installare pacchetti precompilati, 
 ad esempio possiamo addirittura settare un server ftp dove 
 teniamo i precompilati, supponiamo questo sia al'indirizzo "
-ftp:#buildhost/gentoo", allora a questo punto possiamo impostare 
+ftp://buildhost/gentoo", allora a questo punto possiamo impostare 
 come variabile all'interno di "/etc/portage/make.conf", la 
 stringa:
 
@@ -24231,7 +24231,7 @@ apt-proxy automatically builds a Debian HTTP mirror based on
 requests which pass through the proxy.
 
 For more details, see the apt-proxy homepage at 
-http:#apt-proxy.sourceforge.net/
+http://apt-proxy.sourceforge.net/
 
 Of course, you can get the same benefit if you are already using 
 a standard caching proxy and all your systems are configured to 
@@ -25891,5 +25891,6 @@ ptrace(PTRACE_POKEDATA, pid, 0x83040, &data);
 
 ## Licenza
 
-Il testo completo della licenza può essere trovato qui, [https:#www.gnu.org/licenses/fdl.html||Licenza GFDL].
+Il testo completo della licenza può essere trovato qui,
+[Licenza GFDL](https://www.gnu.org/licenses/fdl.html)
 
