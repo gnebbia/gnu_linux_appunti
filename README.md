@@ -20112,6 +20112,13 @@ tunnel.
 
 In questo caso rendiamo disponibile un servizio remoto sulla nostra macchina.
 
+La notazione per i "forward tunnel" e': 
+`-L indirizzolocale:portalocale:indirizzoremoto:portaremota`
+
+se il primmo indirizzo locale e' localhost (127.0.0.1) allora questo puo' essere
+omesso, quindi e' possibile una notazione del tipo:
+`-L portalocale:indirizzoremoto:portaremota`
+
 Vediamo alcuni esempi:
 ```sh
 ssh -p 22 nemo@192.168.1.220 -L 127.0.0.1:2000:127.0.0.1:2222
@@ -20205,7 +20212,120 @@ john@192.168.1.222:2222,joe@192.168.1.223:22 joe@192.168.1.230
 
 #### SSH: Reverse Tunnel (Remote Port Forwarding)
 
-TODO
+Mentre i tunnel "forward" visti in precedenza servono a portare dei servizi
+remoti in locale tramite un server SSH, i "reverse" tunnel (discussi in questa
+sezione) servono a portare un servizio locale in remoto tramite un server SSH.
+
+La notazione per i "reverse tunnel" e': 
+`-R indirizzoremoto:portaremota:indirizzolocale:portalocale`
+
+se il primo indirizzo remoto e' localhost (127.0.0.1) allora questo puo' essere
+omesso, quindi e' possibile una notazione del tipo:
+`-R portaremota:indirizzolocale:portalocale`
+
+Vediamo un esempio:
+```sh
+ssh -p 22 nemo@192.168.1.220 -R 127.0.0.1:5000:127.0.0.1:5555
+# in questo caso ci rendiamo disponibile sul server SSH alla porta 5000 il
+# servizio che abbiamo sulla nostra porta 5555, quindi in questo scenario se
+# qualcuno su quel server interagira' sulla porta 5000 in realta' stara'
+# interagendo con la porta 5555 della nostra macchina locale
+# in questo caso comunque senza configurazioni aggiuntive
+# solo chi e' sul server remoto potra' interagire con la porta 5000
+# e chiunque altro provera' ad accedere al .220 sulla porta 5000 non avra'
+# risposta, nemmeno noi dalla nostra macchina locale che abbiamo aperto il
+# tunnel, insomma solo accessibile a chi e' gia' su .220
+# Nota che se la porta remota 5000 e' gia' occupata da un'altro servizio allora
+# il forwarding non sara' possibile
+```
+
+Comunque eccetto casi particolare avere un remote port forwarding o reverse
+tunnel che utilizza 127.0.0.1 non e' molto comune (eccetto casi simili a
+scantron), quello che e' piu' comune e' utilizzare un reverse tunnel su
+un'interfaccia non di loopback per rendere disponibile un servizio locale su una
+macchina remota ad altri host e non solo al server sul suo localhost.
+
+Ad ogni modo quindi il vero utilizzo dei reverse tunnel (-R) e' possibile solo
+se nella configurazione del server ssh e' abilitata l'opzione 
+`GatewayPorts clientspecified` in `/etc/ssh/sshd_config`.
+
+
+Vediamo un esempio:
+```sh
+ssh -p 22 user@192.168.1.220 -R 192.168.1.220:5000:127.0.0.1:5555
+# in questo caso ora tutti quelli che accedono alla porta 5000 di .220
+# staranno interagendo con la porta 5555 che ho sul localhost
+```
+
+Vediamo un altro esempio in cui avviene un redirect:
+```sh
+ssh -p 22 user@192.168.1.220 -R 192.168.1.220:443:google.com:443
+# in questo caso chiunque provera' a connettersi al .220 sulla porta 443 sara'
+# reindirizzato sulla porta 443 di google.com e questo avverra' attraverso una
+# richiesta che partira' dal server SSH, che in questo caso e' lo stesso .220
+```
+
+Vediamo un esempio piu' complicato che combina -L (forward tunnel) e -R (reverse
+tunnel):
+```sh
+ssh -p 22 root@192.168.1.220 -L 4450:192.168.1.240:445 \
+-L 135:192.168.1.240:135 \
+-R 192.168.1.220:443:127.0.0.1:4430
+# in questo caso:
+# ci portiamo in localhost:4450 la porta 445 del .240
+# ci portiamo in localhost:135 la porta 135 del .240
+# esponiamo la porta 4430 sul .220 raggiungibile alla porta 443
+```
+
+
+Nota: Da quanto ne so non e' valido mettere indirizzi ip non appartenenti alla
+macchina subito dopo il -R o il -L, cioe' o mettiamo il localhost o un indirizzo IP
+appartenente ad una delle interfacce di rete.
+
+
+#### SSH: Dynamic Tunnel (SOCKS Proxy)
+
+Un'altra feature molto utile di SSH e' quella relativa ai tunnel dinamici,
+questa tipologia di tunnel e' molto utile ogniqualvolta non vogliamo effettuare
+un tunneling su una singola porta specifica, ma abbiamo una porta in localhost
+che appoggiata ad un server SSH agira' da proxy e su cui possiamo redirigere
+qualsiasi tipologia di traffico.
+
+Vediamo un esempio:
+```sh
+ssh -D 127.0.0.1:9050 -N -f user@mexample.com -p2222
+# in questo caso il proxy sara' disponibile sulla porta 5000
+# molte applicazioni possonno essere configurate per usare proxy come
+# ad esempio i browser o altre utility di rete, possiamo navigare
+# con una maggiore sicurezza per quanto riguarda la privacy se ci fidiamo del
+# server SSH
+# anche in questo caso il localhost puo' ossere omesso e potevamo anche solo
+# scrivere:
+# ssh -D 9050 -N -f user@mexample.com -p2222
+```
+
+
+
+Nota che alcune in applicazioni non e' possibile configurare un proxy, in questi
+casi possiamo fare uso di qualche proxifier, uno dei piu' famosi in circolazione
+e' **proxychains**, possiamo trovarlo su diversi sistemi operativi.
+
+Ora vedremo un esempio di utilizzo di proxychains per lanciare nmap, visto che in
+genere nmap non supporta opzioni per configurare un proxy nativamente.
+
+Nota che il proxy (o la lista di proxy) in proxychains puo' essere configurata
+in fondo al suo file di configurazione che e' chiamato `proxychains.conf` ed
+e' generalmente trovato in `/etc/`.
+Una volta installato e configurato se il nostro tunnel SSH sta utilizzando la
+porta 9050 non dovremo fare altro che avere in fondo al file di configurazione
+una voce del tipo: `socks4  127.0.0.1 9050` e possiamo adesso eseguire sotto
+proxy qualsiasi programma, ad esempio, nmap:
+```sh
+proxychains nmap 192.168.1.221 -sT -p 80,443
+# nota che quando nmap viene lanciato con proxy, non e' possibile eseguire
+# scansioni del tipo -sS (half-open) perche' la connessione al proxy deve
+# terminare l'handshake
+```
 
 
 ### SSH: Il file `known_hosts`
