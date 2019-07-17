@@ -20023,6 +20023,7 @@ Per avviare il servizio ssh, una volta installato eseguiamo:
  # nota che in alcune distro, come le Red-Hat based, il servizio è 
  # chiamato sshd
 ```
+
 Vediamo ora alcuni comandi per eseguire accesso con ssh:
 
 ```sh
@@ -20076,6 +20077,136 @@ Vediamo ora alcuni comandi per eseguire accesso con ssh:
 ```sh
  chmod 600 deployment_key.txt
 ```
+
+In genere la configurazione del demone ssh e' gestibile tramite il file presente
+in `/etc/ssh/sshd_config`, alcune configurazioni comuni qui sono:
+* il numero di porta su cui e' in ascolto il demone, `Port 2222`
+* disabilitare l'accesso per l'account root, `PermitRootLogin no`
+* abilitare un flessibile remote forwarding delle porte, `GatewayPorts clientspecified`
+
+Per poter testare la correttezza di un file di configurazione possiamo eseguire:
+```sh
+/usr/sbin/sshd -t
+# testa la correttezza del file di connfigurazione
+```
+
+Ricorda inoltre che da un client ssh e' possibile interagire premendo la
+combinazione di tasti `Shift+~+c`, dopo aver loggato su una macchina, infatti e'
+anche possibile decidere dinamicamente quali porte forwardare.
+
+### SSH: Tunnels
+
+Possiamo creare tre tipi di tunnel con ssh:
+* Forward Tunnel (-L)
+* Reverse Tunnel (-R)
+* Dynamic Tunnel (-D)
+
+
+#### SSH: Forward Tunnel (Local Port Forwarding)
+Questo tipo di tunnel e' utilizzato per avere sulla nostra macchina un servizio
+solo accessibile da una macchina remota, ad esempio, se una macchina remota a
+noi accessibile puo' accedere ad un servizio solo sul suo localhost o
+all'interno di un'altra sottorete non accessibile quindi dalla nostra macchina
+locale direttamente allora e' lo scenario perfetto per utilizzare un forward
+tunnel.
+
+In questo caso rendiamo disponibile un servizio remoto sulla nostra macchina.
+
+Vediamo alcuni esempi:
+```sh
+ssh -p 22 nemo@192.168.1.220 -L 127.0.0.1:2000:127.0.0.1:2222
+# in questo caso apriamo la porta 2000 sulla nostra macchina locale che sara'
+# connessa alla porta 2222 sulla machina remota (che e' anche il server ssh)
+# quindi la notazione e' indirizzolocale:portalocale:indirizzoremoto:portaremota
+# quindi tutto il traffico mandato ora sulla nostra porta 2000 andra' sulla
+# macchina remota alla porta 2222
+# ricorda che la seconda parte di indirizzi (indirizzoremoto:portaremota) sono 
+# relativi alla macchina a cui siamo collegati in SSH
+```
+
+Ipotizziamo ora che la macchina remota abbia una sottorete disponibile su cui
+c'e' un server a cui vogliamo connetterci, questo e' possibile facendo:
+```sh
+ssh -p 22 nemo@192.168.1.220 -L 127.0.0.1:2000:<other_ip>:80
+# in questo caso apriamo la porta 2000 sulla nostra macchina locale che sara'
+# connessa alla porta 80 sulla machina remota accessibile solo al server ssh
+# quindi la notazione e' indirizzolocale:portalocale:indirizzoremoto:portaremota
+# quindi tutto il traffico mandato ora sulla nostra porta 2000 andra' sulla
+# macchina remota alla porta 80
+# tutto il traffico quindi passera attraverso il server ssh .220 per poi
+# arrivare alla macchina remota sulla porta 80
+```
+Ricorda che il primo indirizzo IP puo' anche essere omesso nel caso sia
+127.0.0.1 infatti la notazione portalocale:indirizzoremoto:portaremota e'
+equivalente a localhost:portalocale:indirizzoremoto:portaremota.
+
+Un'altra applicazione classica dei forward tunnel e' quella di accedere a
+pannelli di controllo che per questioni di sicurezza dovrebbero essere
+accessibili solo dai server che le hostane (o al massimo da un numero ristretto
+di macchine specifiche), ad esempio un pannello di
+amministrazione/management/login.
+In genere possiamo infatti limitare l'accesso a specifici path all'interno di
+una web application attraverso configurazioni su web server, e.g., su nginx:
+```txt
+server {
+    # ...
+    # ...
+    # this will require access from 127.0.0.1 through an SSH tunnel to access
+    location /admin {
+        proxy_pass http://127.0.0.1/admin;
+        allow 127.0.0.1;
+    }
+    
+    # this will require access from 127.0.0.1 through an SSH tunnel to access
+    location /super_secret {
+        proxy_pass http://127.0.0.1/super_secret;
+        allow 127.0.0.1;
+    }
+    # ...
+}
+```
+
+anche in questo caso attraverso un forward tunnel possiamo accedere al pannello
+di configurazione eseguendo:
+```sh
+ssh -p joshua@example.com -L 127.0.0.1:3000:127.0.0.1:80
+# ora possiamo accedere all'interfaccia andando su
+# 127.0.0.1:3000
+```
+
+un'alternativa e' semplicemente fare accesso ssh sul server e poi entrare nella
+command line di ssh attraverso la combinazione `shift+~+c` e poi eseguire:
+```ssh
+-L 3000:127.0.0.1:80
+```
+
+
+Inoltra nota che e' possibile impostare anche piu' di un port-forward ad
+esempio:
+```sh
+ssh -p 22 joshua@192.168.1.220 -L 4450:192.168.1.210:445 \
+-L 135:192.168.1.210:135 \
+-L 2636:192.168.1.210:59188
+# in questo caso avremo sulla nostra macchina le porte 4450 135 e 2636
+# disponibili, mappate a delle porte remote appartenenti a una macchina .210
+# il cui accesso e' effettuato tramite .220
+```
+
+Nel caso dovessimo utilizzare piu' di un port forward per collegarci in ssh ad
+una catena di macchine allora l'opzione '-J' puo' tornare utile, vediamo un
+esempio:
+```sh
+ssh -J joshua@192.168.1.220:22,frank@192.168.1.221:2222,\
+john@192.168.1.222:2222,joe@192.168.1.223:22 joe@192.168.1.230
+# in questo caso ci connettiamo alla macchina .230 tramite la lista di macchine 
+# elencate 
+```
+
+
+#### SSH: Reverse Tunnel (Remote Port Forwarding)
+
+TODO
+
 
 ### SSH: Il file `known_hosts`
 
