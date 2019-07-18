@@ -16711,6 +16711,20 @@ il flag `-L` o l'opzione `--location`. Ad esempio:
  # redirection che avviene con dei response code 3XX
 ```
 
+```sh
+ curl -i http://example.com
+ # in questo caso attraverso -i vediamo gli header della risposta e il body
+ # molto utile per mostrare velocemente l'intera risposta comprensiva di header
+```
+
+```sh
+ curl -v http://example.com
+ # in questo caso mostriamo in modo verbose la richiesta (con i suoi header) e
+ # la risposta anche essa comprensiva di header
+```
+
+
+
 Altri esempi:
 
 ```curl
@@ -16823,6 +16837,20 @@ eseguire:
 
 ```sh
  curl -d @test.txt http://10.10.10.78/hosts.php
+```
+
+possiamo mostrare tutti gli header di richiesta e risposta utilizzando un
+semplice:
+```sh
+curl -v http://host.tld
+```
+
+ad ogni modo se questo ci sembra troppo verbose, possiamo anche solo stampare
+l'intera risposta con gli header attraverso:
+```sh
+curl -sD - http://example.com
+# -s evita di stampare le progress bar
+# mentre -D fa il dump degli header su file che in questo case e' lo stdin '-'
 ```
 
 
