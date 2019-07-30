@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+ <title>Sculpting text with regex, grep, sed and awk
+</title>
+
+ <link rel="alternate" type="application/rss+xml" title="RSS" href="http://matt.might.net/articles/feed.rss" />
+
+ <link rel="stylesheet" href="../../css/raised-paper-2.css" /> 
+
+
+ <meta name="viewport" content="width=480, initial-scale=1" />
+ <link rel="stylesheet" media="screen and (max-device-width: 480px)" href="../../css/raised-paper-2-handheld.css" />
+
+ <script type="text/javascript" src="../../matt.might.js"></script>
+ <script type="text/javascript">
+  var ArticleVersion = 2 ;
+ </script>
+ <script>
+ <!--
+  include("article-style.js");
+ //-->
+ </script>
+ <script type="text/javascript" src="../manifest.js"></script>
+ <script type="text/javascript" src="../index-manifest.js"></script>
+
+ <script type="text/javascript">
+ <!--
+//  var Key = "[an error occurred while processing the directive]";
+ var Pathname = location.pathname ;
+ var PathParts = Pathname.split(/\//) ;
+ var Key = PathParts[PathParts.length-1] ;
+ if (Key == "")
+  Key = PathParts[PathParts.length-2] ;
+ //-->
+ </script>
+
+</head>
+
+
+
+<body>
+
+<div id="body">
+
+
+
+
+
+
+
+<div id="abstract-container" class="module">
+<div id="abstract-content" class="fat-content">
+
+ <h1>Sculpting text with regex, grep, sed, awk, emacs and vim
+</h1>
+
+ <div>
+ [<a href="../">article index</a>]
+ [<script>
+       var emailMatt = '<a href="mai'+'lto:matt-blog'+'@'+'migh'+'t.net">email me</a>'
+document.write(emailMatt);
+ //-->
+</script>] 
+ [<a href="http://twitter.com/mattmight">@mattmight</a>]
+ [<a href="../feed.rss">rss</a>]
+ </div>
+
+ <p>
+Unix is an alliance
+of loosely structured text files
+bound together and governed by scripts.
+
+Unix is the United Confederation of Strings:
+</p>
+
+<center>
+<em>The string is a stark data structure and <br />
+everywhere it is passed
+there is much duplication of process. 
+<br />
+It is a perfect vehicle for hiding information.</em> 
+<br /> --Alan Perlis
+</center>
+
+<p>
+Tools built in the Unix tradition excel at
+manipulating strings as data.
+</p>
+
+<p>
+Yet many newer Unix users
+are unaware of the classic tools and their power.
+</p>
+
+
+<p> In this article, I'll provide a functional introduction to four important
+concepts and tools for sculpting text:
+regex, <code>grep</code>, <code>sed</code> and <code>awk</code>.</p>
+
+<p>
+In short:
+</p>
+
+<ul>
+ <li>regex is a language for describing patterns in strings;</li>
+ <li><code>grep</code> filters its input against a pattern;</li>
+ <li><code>sed</code> applies transformation rules to each line; and</li>
+ <li><code>awk</code> manipulates an <i>ad hoc</i> database stored as text, e.g. CSV files.</li>
+</ul>
+
+<p>
+With this functional introduction, my goal is to
+introduce enough of each tool to cover 80%-90% of 
+their niche uses cases.
+</p>
+
+<p>
+Read on for a touch of history, theory and practice.
+</p>
+
+<hr />
+
+<p>
+This post is part of a "Unix fundamentals" series;
+see <a href="http://matt.might.net/articles/basic-unix/">basic Unix</a>, and <a href="http://matt.might.net/articles/settling-into-unix/">settling into Unix</a>
+for more.
+</p>
+
+
+  
+</div> <!-- /#content -->
+</div> <!-- /#content-container -->
+
+
+
+
+  
+<div id="content-container" class="module">
+<div id="article-content">
+
+  <script type="text/javascript">
+<!--
+// Might.enableSyntaxHighlighting("Scala") ;
+//-->
+</script>
+
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+
+
+
+
+
+<h2>Theory: Regular languages</h2>
+
+<p>
+Many tools for searching and sculpting text rely
+on a pattern language known as regular expressions.
+</p>
+
+<p>
+The theory of regular languages
+underpins regular expressions.
+</p>
+
+<p>
+(Caveat: 
+Some modern "regular" expression systems can describe irregular languages,
+which is why the term "regex" is preferred for these systems.)
+</p>
+
+<p>
+Regular languages are a class of formal language equivalent 
+in power to those recognized by deterministic finite automata (DFAs)
+and 
+<a href="http://matt.might.net/articles/implementation-of-nfas-and-regular-expressions-in-java/">nondeterministic finite automata</a> (NFAs).
+</p>
+
+<p>
+[See my post on <a href="http://matt.might.net/articles/implementation-of-nfas-and-regular-expressions-in-java/">converting regular expressions to NFAs</a>.]
+</p>
+
+<p>
+In formal language theory, a language is a set of strings.
+</p>
+
+<p>
+For example, {<code>"foo"</code>} and {<code>"foo"</code>, <code>"foobar"</code>} are formal (if small) languages.
+</p>
+
+<p>
+(Mathematicians don't typically put quotes around a string, preferring to let the fixed-width typewriter font distinguish it as one, but I'm guessing
+that programmers are more comfortable with the quotes around strings.)
+</p>
+
+<p>
+In regular language theory, there are two <em>atomic</em> languages:
+</p>
+
+<ul>
+ <li>$\epsilon$ -- the null language, which contains the string of length zero; and</li>
+ <li>$\emptyset$ -- the empty language, which contains no strings at all.</li>
+</ul>
+
+<p>
+In almost every programming language, the null string is written <code>""</code>.
+</p>
+
+<p>
+Mathematicians are often sloppy with the notation for the null language, using $\epsilon$ to represent
+both the null language, {<code>""</code>}, and the null string, <code>""</code>.
+</p>
+
+<p>
+For each character <code><i>c</i></code> in the alphabet,
+there is a corresponding one-character 
+<em>primitive</em> language, {<code>"<i>c</i>"</code>}.
+</p>
+
+<p>
+(The alphabet is a set of characters, usually denoted $\Sigma$ or $A$.)
+</p>
+
+
+<p>
+Once again, mathematicians are often sloppy in their notation, using the character <code><i>c</i></code>
+to mean the language {<code>"<i>c</i>"</code>}.
+</p>
+
+
+<p>
+Regular languages are those that can be obtained by unrestricted composition of 
+the operations union, concatenation and Kleene star on the atomic and primitive languages:
+</p>
+
+<ul>
+
+ <li>The union of languages $L_1$ and $L_2$, written $L_1 \cup L_2$,  
+ is set union:
+ \[
+  L_1 \cup L_2 = \{ x \mathrel{|} x \in L_1 \text{ or } x \in L_2 \}
+  \text.
+ \]
+ </li>
+
+ <li>
+ The concatenation of two languages $L_1$ and $L_2$, written $L_1 \circ L_2$, 
+ is akin to Cartesian product:
+ \[
+ L_1 \circ L_2 = \{ \mathtt{"}xy\mathtt{"}
+  \mathrel{|}
+  \mathtt{"}x\mathtt{"} \in L_1 \text{ and } \mathtt{"}y\mathtt{"} \in L_2
+ \} 
+ \text.
+ \]
+
+ Concatenation is often written as juxtaposition: $L_1 L_2 = L_1 \circ L_2$.
+ </li>
+
+ <li>
+ The language $L$ to the $n$th power, written $L^n$, is the language 
+ contaning $n$ strings from $L$ concatenated together:
+ \[
+ L^n = 
+ \{ \mathtt{"}x_1\cdots x_n\mathtt{"}
+  \mathrel{|}
+  \mathtt{"}x_i{"} \in L \text{ for all } i \text { between } 1 \text{ and } n
+ \} 
+ \text.
+ \]
+ Of course, $L^0 = \epsilon$.
+ </li>
+
+ <li>
+ The Kleene star (the "possible empty repetition") of a language $L$,
+ written $L^\star$, contains a language concatenated with itself
+ for every possible combination:
+  \[
+  L^\star = \bigcup_{i=0}^\infty\; L^i
+  \text.
+  \]
+ </li> 
+
+</ul>
+
+
+<p>
+For example, the set $((\mathtt{a} \circ \mathtt{b}) \cup \mathtt{c})^*$
+contains strings like 
+<code>""</code>,
+<code>"ab"</code>,
+<code>"c"</code>,
+<code>"abab"</code>,
+<code>"ababc"</code>
+and
+<code>"cab"</code>.
+</p>
+
+<p>
+There are also a few common non-primtive regular operations:
+</p>
+
+<ul>
+
+ <li>
+ The non-empty repetition of a language $L$, written $L^+$,
+ is the same as Kleene star, but at least one copy of $L$ must be
+ matched:
+ \[
+  L^+ = L \circ L^\star
+  \text.
+ \]
+ </li>
+
+ <li>
+ The option of a language $L$, written $L^?$,
+ is either $L$ or the null string:
+ \[
+   L^? = L \cup \epsilon
+ \]
+ </li>
+
+ <li>
+ The bounded repetition of a language $L$,
+ written $L^{[n,m]}$,
+ consists of between $n$ and $m$ occurrences
+ of a language:
+  \[
+  L^\star = \bigcup_{i=n}^m\; L^i
+  \text.
+  \]
+ </li>
+
+
+</ul>
+
+
+<p>
+The theory of regular languages provides algorithms and techniques to answer questions like:
+</p>
+
+<ul>
+ <li>Given a string $s$ and a language $L$, is $s$ in $L$?</li>
+ <li>Given a string $s$ and a language $L$, which substrings of $s$ are in $L$?</li>
+ <li>Given a language $L$, is it regular?</li>
+</ul>
+
+
+
+
+<h2>Regular expressions in code</h2>
+
+<p>
+In code, regular expressions describe matchable patterns over text.
+</p>
+
+<p> They are often used to describe locations in text (e.g. all lines that
+match this pattern) and to transform text (e.g. transform text matching a
+pattern into something different text).  </p>
+
+
+<p> There is no standard for regular expressions in code, but most languages
+employ a dialect from a common ancestor. </p>
+
+<p>
+The three major dialects every programmer should know are:
+</p>
+
+<ul>
+ <li>basic regular expressions (BRE);</li>
+ <li>extended regular expressions (ERE); and </li>
+ <li>Perl-compatible regular expressions (PCRE).</li>
+</ul>
+
+<p>
+Since this article is an introduction, it covers BRE and ERE.
+(PCRE is largely an extension of ERE).
+</p>
+
+<p>
+The notation used in all regular expression 
+implementations is inspired by
+the mathematical formalism.
+</p>
+
+<p> The following table describes a generic regular expression
+pattern language: </p>
+
+<center>
+<table border="1">
+
+ <tr><th>Math </th>                   <th>Pattern </th>      <th>Pattern meaning</th></tr>
+ <tr><td>$\emptyset$</td>             <td>no equivalent</td></tr>
+ <tr><td>$\epsilon$</td>              <td>no character at all</td>   <td>matches <code>""</code></td></tr>
+ <tr><td><code><i>c</i></code></td>   <td><i><code>c</code></i></td> <td>matches <code>"<i>c</i>"</code></td></tr>
+ <tr><td>$L_1 \circ L_2$</td>         <td><i>p1</i><i>p2</i></td>    <td>matches <i>p1</i> then <i>p2</i></td></tr>
+ <tr><td>$L_1 \cup L_2$</td>          <td><i>p1</i><code>|</code><i>p2</i></td>    <td>matches <i>p1</i> or <i>p2</i></td></tr>
+ <tr><td>$L^\star$</td>               <td><i>p</i><code>*</code></td>    <td>matches  <code>""</code> or <i>p</i> repeated</td></tr>
+ <tr><td>$L^+$</td>                   <td><i>p</i><code>+</code></td>    <td>matches <i>p</i> repeated, but not <code>""</code></td></tr>
+ <tr><td>$L^?$</td>                   <td><i>p</i><code>?</code></td>    <td>matches <i>p</i> or <code>""</code></td></tr>
+ <tr><td>$L^n$</td>                   <td><i>p</i><code>{<i>n</i>}</code></td>    <td>matches  <i>p</i> repeated <i>n</i> times</td></tr>
+ <tr><td>$L^{[n,m]}$</td>             <td><i>p</i><code>{<i>n</i>,<i>m</i>}</code></td>    <td>matches  <i>p</i> repeated <i>n</i> to <i>m</i> times</td></tr>
+ <tr><td>$\Sigma$</td>                <td><code>.</code></td>    <td>matches any character</td></tr>
+ <tr><td>$\{c_1,\ldots,c_n\}$</td>    <td><code>[<i>c</i><sub>1</sub>...<i>c<sub>n</sub></i>]</code></td>    <td>matches $c_1$ or $c_2$ or ... or $c_n$</td></tr>
+ <tr><td>$\Sigma - \{c_1,\ldots,c_n\}$</td>    <td><code>[^<i>c</i><sub>1</sub>...<i>c<sub>n</sub></i>]</code></td>    <td>matches 
+ any char but $c_1$ or ... or $c_n$</td></tr>
+ <tr><td>$(L)$</td>                   <td><code>(</code><i>p</i><code>)</code></td>    <td>matches <i>p</i>, remembers submatch</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\</code><i>n</i></td>    <td>matches string from <i>n</i>th submatch </td></tr>
+ <tr><td>no equivalent</td>           <td><code>\b</code></td>    <td>matches a word boundary</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\w</code></td>    <td>matches a word character, e.g., alphanumeric</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\W</code></td>    <td>matches a nonword character, e.g., punctuation</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\s</code></td>    <td>matches a whitespace character, e.g., space, tab, return</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\S</code></td>    <td>matches a non-whitespace character, e.g., alphanumeric, punctuation</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\d</code></td>    <td>matches a digit character, i.e., 0-9</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\D</code></td>    <td>matches a non-digit character, e.g., alphanumeric, punctuation</td></tr>
+ <tr><td>no equivalent</td>           <td><code>^</code></td>     <td>matches start of line/string</td></tr>
+ <tr><td>no equivalent</td>           <td><code>$</code></td>     <td>matches end of line/string</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[<i>c</i><sub>1</sub>-<i>c</i><sub>2</sub>]</code></td>     <td>matches $c_1$ through $c_2$</td></tr>
+
+
+</table>
+</center>
+
+<p>
+Backreferences are numbered by left parentheses: the $n$th 
+left parenthesis denotes the $n$ submatch.
+</p>
+
+<p>
+The sections ahead discussing individual tools will note
+individual differences for dialects like BRE and ERE. 
+</p>
+
+
+<h2>grep: POSIX basic regular expressions</h2>
+
+<p>
+The tool <code>grep</code> can filter a file, line by line, against a 
+pattern. 
+</p>
+
+<p>
+The command <code>grep <i>pattern</i> <i>file</i></code> prints each line of 
+<i>file</i> which contains a match for <i>pattern</i>.
+Given no file, it reads from the standard input.
+</p>
+
+<p>
+The equally useful command <code>grep -v <i>pattern</i> <i>file</i></code> prints 
+each line of the file <i>file</i>
+which does not contain a match for <i>pattern</i>.
+</p>
+
+<p>
+By default, <code>grep</code> uses basic regular expressions (BRE).
+</p>
+
+
+<p>
+BRE differs syntactically in several key ways.
+Specifically, the operators <code>{}</code>, <code>()</code>,
+<code>+</code>, <code>|</code> and <code>?</code> must be escaped with <code>\</code>,
+and many of the character class shortcuts have names instead:
+</p>
+
+
+<center>
+<table border="1">
+
+ <tr><th>Math </th>                   <th>BRE </th>      <th>Pattern meaning</th></tr>
+ <tr><td>$\emptyset$</td>             <td>no equivalent</td></tr>
+ <tr><td>$\epsilon$</td>              <td>no character at all</td>   <td>matches <code>""</code></td></tr>
+ <tr><td><code><i>c</i></code></td>   <td><i><code>c</code></i></td> <td>matches <code>"<i>c</i>"</code></td></tr>
+ <tr><td>$L_1 \circ L_2$</td>         <td><i>p1</i><i>p2</i></td>    <td>matches <i>p1</i> then <i>p2</i></td></tr>
+ <tr><td>$L_1 \cup L_2$</td>          <td><i>p1</i><code>\|</code><i>p2</i></td>    <td>matches <i>p1</i> or <i>p2</i></td></tr>
+ <tr><td>$L^\star$</td>               <td><i>p</i><code>*</code></td>    <td>matches  <code>""</code> or <i>p</i> repeated</td></tr>
+ <tr><td>$L^+$</td>                   <td><i>p</i><code>\+</code></td>    <td>matches <i>p</i> repeated, but not <code>""</code></td></tr>
+ <tr><td>$L^?$</td>                   <td><i>p</i><code>\?</code></td>    <td>matches <i>p</i> or <code>""</code></td></tr>
+ <tr><td>$L^n$</td>                   <td><i>p</i><code>\{<i>n</i>\}</code></td>    <td>matches  <i>p</i> repeated <i>n</i> times</td></tr>
+ <tr><td>$L^{[n,m]}$</td>             <td><i>p</i><code>\{<i>n</i>,<i>m</i>\}</code></td>    <td>matches  <i>p</i> repeated <i>n</i> to <i>m</i> times</td></tr>
+ <tr><td>$\Sigma$</td>                <td><code>.</code></td>    <td>matches any character</td></tr>
+ <tr><td>$\{c_1,\ldots,c_n\}$</td>    <td><code>[<i>c</i><sub>1</sub>...<i>c<sub>n</sub></i>]</code></td>    <td>matches $c_1$ or $c_2$ or ... or $c_n$</td></tr>
+ <tr><td>$\Sigma - \{c_1,\ldots,c_n\}$</td>    <td><code>[^<i>c</i><sub>1</sub>...<i>c<sub>n</sub></i>]</code></td>    <td>matches 
+ any char but $c_1$ or ... or $c_n$</td></tr>
+ <tr><td>$(L)$</td>                   <td><code>\(</code><i>p</i><code>\)</code></td>    <td>matches <i>p</i>, remembers submatch</td></tr>
+ <tr><td>no equivalent</td>           <td><code>\</code><i>n</i></td>    <td>matches string from <i>n</i>th submatch </td></tr>
+ <tr><td>no equivalent</td>           <td><code>\b</code></td>    <td>matches a word boundary</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[[:word:]]</code></td>    <td>matches a word character, e.g., alphanumeric</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[[:space:]]</code></td>    <td>matches a whitespace character, e.g., space, tab, return</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[[:digit:]]</code></td>    <td>matches a digit character, i.e., 0-9</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[[:xdigit:]]</code></td>   <td>matches a hex digit character, i.e., A-F, a-f, 0-9</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[[:upper:]]</code></td>    <td>matches a upperspaced character</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[[:lower:]]</code></td>    <td>matches a lowerspaced character</td></tr>
+ <tr><td>no equivalent</td>           <td><code>^</code></td>     <td>matches start of line/string</td></tr>
+ <tr><td>no equivalent</td>           <td><code>$</code></td>     <td>matches end of line/string</td></tr>
+ <tr><td>no equivalent</td>           <td><code>[<i>c</i><sub>1</sub>-<i>c</i><sub>2</sub>]</code></td>     <td>matches $c_1$ through $c_2$</td></tr>
+
+
+</table>
+</center>
+
+<p>
+A common use case for grep is <code><i>command</i> | grep <i>word</i></code>, which will dump out
+the lines from the output of <i>command</i> containing the word.
+</p>
+
+<p>
+For instance, <code>ps u | grep matt</code> will dump out processes run by the user <code>matt</code> (and possibly a few others that happen to have
+<code>matt</code> on the line).
+</p>
+
+<p>
+A fun way to learn how to use <code>grep</code> is to run it against the dictionary file, <code>/usr/share/dict/words</code>.
+</p>
+
+<p>
+Suppose you're playing the crosswords, and you know a word is seven letters long, with <code>a</code>
+for it second letter and <code>x</code> for the sixth.  Get a hint:
+</p>
+
+<pre>
+ $ grep '^.a...x.$' /usr/share/dict/words
+ cachexy
+ carboxy
+ martext
+ panmixy
+</pre>
+
+<p>
+We can submatch backreferences to print out words that repeat themselves:
+</p>
+
+<pre>
+ $ grep '^\(.*\)\1$' /usr/share/dict/words
+ aa
+ adad
+ akeake
+ anan
+ arar
+ atlatl
+ baba
+ barabara
+ benben
+ beriberi
+ bibi
+ ...
+</pre>
+
+<p>
+The <code>\1</code> refers back to the string matched by the first parenthesized submatch.
+In this case, that's <code>\(.*\)</code>.
+</p>
+
+<p>
+Recall that the $n$th left parenthesis denotes the $n$th submatch.
+</p>
+
+<p>
+(Technically, backreferences break the regularity of grep.)
+</p>
+
+<p>
+We could find strings that consist of a two different repeated strings:
+</p>
+
+<pre>
+ $ grep '^\(.\+\)\1\(.\+\)\2$' /usr/share/dict/words
+ susurr
+</pre>
+
+<p>
+Apparently, there's only one match in my dictionary!
+</p>
+
+<p>
+Using the start-of-line and end-of-line markers were necessary here.
+Without them, we get words that contain a substring that repeats itself:
+</p>
+
+<pre>
+ $ grep '\(.\+\)\1' /usr/share/dict/words
+ aa
+ aal
+ aalii
+ aam
+ aardvark
+ aardwolf
+ abactinally
+ abaff
+ abaissed
+ abandonee 
+</pre>
+
+<p>
+In this case, changing the <code>*</code> to <code>\+</code> also became necessary,
+since <code>.*</code> matches even the null string, which every string trivially contains.
+</p>
+
+<p>
+If you need to find a specific IP address, say 1.10.3.20, in a log file,
+you can do that by escaping the dots:
+</p>
+
+<pre>
+ $ grep '\b1\.10\.3\.20\b' log
+</pre>
+
+<p>
+The word-boundary pattern <code>\b</code> is necessary to
+prevent lines containing text like 
+<code>101.10.3.20</code> from matching.
+</p>
+
+<h3>Useful grep flags</h3>
+
+<ul>
+  <li>
+   <code>-v</code> inverts the match.
+  </li>
+
+  <li>
+   <code>--color</code> colors the matched text.
+  </li>
+
+  <li>
+   <code>-F</code> interprets the pattern as a literal string.
+  </li>
+
+  <li>
+   <code>-H, -h</code> print (or don't print) the matched filename
+  </li>
+
+  <li>
+   <code>-i</code> matches case insensitively.
+  </li>
+
+  <li>
+    <code>-l</code> prints names of files that match instead.
+  </li>
+
+  <li>
+    <code>-n</code> prints the line number.
+  </li>
+
+  <li>
+    <code>-w</code> forces the pattern to match an entire word.
+  </li>
+
+  <li>
+    <code>-x</code> forces patterns to match the whole line.
+  </li>
+
+</ul>
+
+
+
+
+
+
+
+
+
+<h2>egrep: POSIX extended regular expressions</h2>
+
+<p>
+The tool <code>egrep</code> is identical to grep, except that it uses
+POSIX extended regular expressions.
+</p>
+
+<p>
+POSIX extended regular expressions are identical to basic regular expressions, but 
+the operators 
+<code>{}</code>, <code>()</code>,
+<code>+</code>, <code>|</code> and <code>?</code> should not be 
+escaped.
+</p>
+
+<p>
+This change substantially unclutters complex expressions, such as the
+double word example:
+</p>
+
+<pre>
+ $ egrep '^(.*)\1$' /usr/share/dict/words
+ aa
+ adad
+ akeake
+ anan
+ arar
+ atlatl
+ baba
+ barabara
+ ...
+</pre>
+
+
+<p> Consider a search for all words that have an <code>oo</code> at least
+one letter before and <code>ee</code>, or an <code>ee</code> at least one
+character before an <code>oo</code>: </p>
+
+<pre>
+ $ egrep 'oo.+ee|ee.+oo' /usr/share/dict/words 
+ beechwood
+ beechwoods
+ beefwood
+ beetroot
+ beetrooty
+ bloodweed
+ bookkeeper
+ bookkeeping
+ bootee
+ brookweed 
+ ...
+</pre>
+
+<p>
+Consider a search for words that contain between 5 and 7 vowels:
+</p>
+
+<pre>
+$ egrep '^([^aieou]*[aieou]){5,7}[^aieou]*$' /usr/share/dict/words 
+ abacinate
+ abacination
+ abaisance
+ abalienate
+ abalienation
+ abandonable
+ abandonee
+ abarticular
+ abarticulation
+ abastardize
+ ...
+</pre>
+
+<p>
+<b>
+Warning:
+</b>
+Due to strangeness with grep's handling of Unicode, the previous example only worked with
+the environment variable <code>LANG=C</code> set.
+</p>
+
+
+
+<h3>The power of backreferences: Prime-finding</h3>
+
+<p>
+Backreferences, as noted, break the regularity of the pattern language.
+</p>
+
+<p> There's a famous regex which uses backreferences to match composite
+(non-prime) numbers in unary form: </p>
+
+<pre>
+ $^(11+)(\1)+$
+</pre>
+
+<p>
+Thus, <code>egrep -v '^(11+)\1+$'</code> will print out
+only lines of prime length:
+</p>
+
+<pre>
+ $ egrep -v '^(11+)\1+$' &lt;&lt;EOF
+ 11
+ 111
+ 1111
+ 11111
+ 111111
+ 1111111
+ 11111111
+ 111111111
+ 1111111111
+ 11111111111
+ EOF
+ 11
+ 111
+ 11111
+ 1111111
+ 11111111111 
+</pre>
+
+<p>
+Most variants of this reegx use the perl-extended <code>(11+?)</code>
+in place of <code>(11+)</code>.
+</p>
+
+<p>
+The <code>+?</code> means try the minimal match first, which 
+directs the backtracking to be a little more intelligent
+in the order that it searches.
+</p>
+
+<p>
+But, for correctness, minimal-match-first is not necessary.
+</p>
+
+<p>
+If there exists a match at all, then the number is not prime.
+</p>
+
+<p>
+For more discussion of this (and related) regexen and its limits,
+see <a href="http://zmievski.org/2010/08/the-prime-that-wasnt">Andrei Zmievski's write-up</a>.
+</p>
+
+<p>
+According to the lore, <a href="http://www.abigail.be/">Abigail</a>
+created this regex.
+</p>
+
+
+
+
+
+<h2>sed</h2>
+
+<p>
+<code>sed</code> is a "stream editor."
+</p>
+
+<p>
+It reads a file line-by-line, conditionally applying a sequence of operations to each line
+and (possibly) printing the result.
+</p>
+
+<p>
+By default, <code>sed</code> uses POSIX basic regular expression syntax.  
+To use the (more comfortable) extended syntax, supply the flag <code>-E</code>.
+</p>
+
+<p>
+Most <code>sed</code> programs consist a single <code>sed</code> command: substitute.
+</p>
+
+<p>
+For example, to substitute instances of the regular expression <code>[ch]at</code>
+for <code>ball</code>, use:
+</p>
+
+<pre>
+ $ sed 's/[ch]at/ball/g' &lt; in &gt; out
+</pre>
+
+<p>
+A proper <code>sed</code> program is a sequence of <code>sed</code> commands.
+</p>
+
+<p>
+Most <code>sed</code> commands have one of three forms:
+</p>
+
+<ol>
+ <li><i>operation</i> -- apply this operation to the current line.</li>
+
+ <li><i>address</i> <i>operation</i> -- apply this operation to the current line if at the specified address.</li>
+
+ <li><i>address</i><sub>1</sub>,<i>address</i><sub>2</sub> <i>operation</i> -- apply this operation to the current line if between the specified addresses.</li>
+</ol>
+
+
+
+<h3>Numeric addresses</h3>
+
+<p>
+The simplest address is a line number.
+</p>
+
+<p>
+For example, to print the first 12 lines, use <code>sed '12q'</code>.
+The command <code>q</code> quits sed.
+So, this program prints after it hits the 12th line.
+</p>
+
+<p>
+To print only the fourth line, use <code>sed -n '4p'</code>.  
+
+The flag <code>-n</code> suppresses the default printing behavior, while the
+command <code>p</code> prints the line.  </p>
+
+<p>
+For convenience, the address <code>$</code> refers to the last line.
+</p>
+
+
+<h3>Pattern addresses</h3>
+
+<p>
+Addresses can be regular expressions in the form of <code>/<i>pattern</i>/</code>.
+</p>
+
+<p>
+For example, to extract the text between <code>&lt;body&gt;</code> and <code>&lt;/body&gt;</code>
+in a file use the following <code>sed</code> program:
+</p>
+
+<pre>
+#!/usr/bin/sed -E -n -f
+/&lt;body&gt;/,/&lt;\/body&gt;/ p
+</pre>
+
+<p>
+But, this also prints out the body tags.
+</p>
+
+<p>
+A group command <code>{ ... }</code> helps here:
+</p>
+
+
+<pre>
+#!/usr/bin/sed -E -n -f
+/&lt;body&gt;/,/&lt;\/body&gt;/ {
+  /&lt;body&gt;/b
+  /&lt;\/body&gt;/b
+  p
+}
+</pre>
+
+<p>
+In this case, the <code>b</code> command skips to the next line.
+</p>
+
+
+<p>
+But, this will miss text on the same line as the opening and closing tags.
+</p>
+
+<p>
+Using substitute commands to strip out the tags fixes this problem:
+</p>
+
+<pre>
+#!/usr/bin/sed -E -n -f
+/&lt;body&gt;/,/&lt;\/body&gt;/ {
+  s/^.*&lt;body&gt;//
+  s/&lt;\/body&gt;.*$//
+  p
+}
+</pre>
+
+<p>
+But, this breaks 
+in the (rare) case of a body tag being on one line, as in:
+</p>
+
+<pre>
+  &lt;body&gt; hello world &lt;/body&gt;
+</pre>
+
+<p>
+The problem is that ranges cannot start and end on the same line.
+</p>
+
+<p>
+To get around this, add a special case to catch it:
+</p>
+
+<pre>
+ #!/usr/bin/sed -E -n -f
+ /&lt;body&gt;.*&lt;\/body&gt;/ {
+   s/&lt;body&gt;(.*)&lt;\/body&gt;/\1/
+   p
+   q
+ }
+ 
+ /&lt;body&gt;/,/&lt;\/body&gt;/ {
+   s/^.*&lt;body&gt;//
+   s/&lt;\/body&gt;.*$//
+   p
+ }
+</pre>
+
+
+<p>
+But, this script still breaks if there are nested body tags in the document.
+</p>
+
+
+<p>
+If nesting in a pattern matters,
+it's probably time to switch to a formalism
+more powerful than regular languages,
+such as context-free languages.
+</p>
+
+
+
+<h3>Useful operations</h3>
+
+<ul>
+
+ <li>
+ The group operation <code>{ <i>operation</i><sub>1</sub> ; ... ; <i>operation<sub>n</sub></i> }</code>
+ executes all of the specified operations, in order, on the given address.
+ </li>
+
+ <li>
+ The operation <code>s/<i>pattern</i>/<i>replacement</i>/<i>arguments</i></code>
+ replaces instances of <i>pattern</i> with <i>replacement</i>
+ according to the <i>arguments</i>
+ in the current line.
+
+ In the replacement, <code>\<i>n</i></code> stands for the <i>n</i>th submatch,
+ while <code>&amp;</code> represents the entire match.
+ </li>
+
+ <li>
+ The operation <code>b</code> branches to a label, and if none is specified,
+ then <code>sed</code> skips to processing the next line.
+
+ Think of this as a <code>break</code> operation.
+ </li>
+
+ <li>
+ The operation <code>y/<i>from</i>/<i>to</i>/</code>
+ transliterates the characters in <i>from</i> to their corresponding
+ character in <i>to</i>.
+ </li>
+
+ <li>
+ The operation <code>q</code> quits <code>sed</code>.
+ </li>
+
+ <li>
+ The operation <code>d</code> deletes the current line.
+ </li>
+
+ <li>
+ The operation <code>w <i>file</i></code> writes the 
+ current line to the specified file.
+ </li>
+
+</ul>
+
+
+<h3>Common arguments to the substitute operation</h3>
+
+<p>
+The most common argument to the substitute command
+is <code>g</code>, which means "globally" replace
+all matches on the current line, instead of just the first.
+</p>
+
+<p>
+Sometimes, other arguments are useful:
+</p>
+
+<ul>
+  <li><code><i>n</i></code> tells sed to replace the <i>n</i>th match only, instead of the first.</li>
+
+  <li><code>p</code> prints out the result if there is a substitution.</li>
+
+  <li><code>i</code> ignores case during the match.</li>
+
+  <li><code>w <i>file</i></code> writes the current line to <code><i>file</i></code>.</li>
+
+</ul>
+
+
+<h3>Useful flags</h3>
+
+<ul>
+ <li><code>-n</code> suppresses automatic printing of each result; to print a result, use command <code>p</code>.</li>
+
+ <li><code>-f <i>sedfile</i></code> uses <i>sedfile</i> as the sed program.</li>
+</ul>
+
+
+<h3>Examples</h3>
+
+<p>
+Strip comment lines starting with <code>#</code>:
+</p>
+
+<pre>
+ $ sed '/^#/d' 
+</pre>
+
+<p>
+Delete C++-style // comments
+</p>
+
+<pre>
+ $ sed 's/\/\/.*$//'
+</pre>
+
+<p>
+Encrypt with the Caeser cipher:
+</p>
+
+<pre>
+ $ sed 'y/abcdefghijklmnopqrstuvwxyz/defghijklmnopqrstuvwxyzabc/' 
+</pre>
+
+<p>
+Decrypt with the Caesar cipher:
+</p>
+
+<pre>
+ $ sed 'y/defghijklmnopqrstuvwxyzabc/abcdefghijklmnopqrstuvwxyz/' 
+</pre>
+
+<p>
+Change names from "Last, First [Middle/Middle Initial.]" 
+to "First [Middle/Middle Initial.] Last":
+</p>
+
+<pre>
+ $ sed -E 's/([A-Z][a-z]*), ([A-Z][a-z]*( [A-Z][a-z]*[.]?)?)/\2 \1/g'
+ Might, Matthew B.
+ Matthew B. Might
+</pre>
+
+
+<h3>Next steps with sed</h3>
+
+<p>
+<code>sed</code> is much more powerful than this summary alludes.
+</p>
+
+<p> There are label (<code>:</code>) and branching commands (<code>b</code>,
+<code>t</code>) that allow loops, and in theory, arbitrary 
+(Turing-equivalent) computation.  </p>
+
+<p> <code>sed</code> 
+keeps track of both a pattern space (the current line) and
+hold space, and there are commands to manipulate both of them, e.g., 
+<code>g</code>, <code>G</code>, <code>h</code> and <code>H</code>.  </p>
+
+<p>
+That said, you should probably never use these commands!
+</p>
+
+<p> If you find yourself tempted to use these more advanced constructs, it's a
+sign that you want to use a tool like <code>awk</code> or Perl instead.  </p>
+
+
+
+
+
+
+
+<h2>AWK</h2>
+
+<p>
+The  <code>awk</code> command provides a more
+traditional programming language for text processing
+than <code>sed</code>.
+</p>
+
+<p> Those accustomed to seeing only hairy <code>awk</code> one-liners might not
+even realize that AWK is a real programming language.
+
+For example, here's a comprehensible
+AWK program that prints the factorial of each line:
+</p>
+
+<pre>
+#!/usr/bin/awk -f
+
+{ print factorial($0); }
+
+function factorial(n) {
+ if (n == 0) 
+   return 1;
+ else 
+   return n*factorial(n-1);
+}
+</pre>
+
+<p>
+Of course, AWK can be terse and obtuse too.  
+Here's a popular one-liner that prints out the unique lines of a file:
+</p>
+
+<pre>
+awk '!a[$0]++' <i>file</i>
+</pre>
+
+
+<p> The major difference in philosophy between AWK and sed is that AWK
+is <em>record</em>-oriented rather than <em>line</em>-oriented.  </p>
+
+<p>
+Each line of the input to AWK is treated like a delimited record.
+</p>
+
+<p>
+The AWK philosophy melds well with the Unix tradition
+of storing data in <em>ad hoc</em> line-oriented
+databases, e.g., <code>/etc/passwd</code>.
+</p>
+
+
+<p>
+That is, where <code>sed</code> sees a file like this:
+</p>
+
+<pre>
+ <i>line</i><sub>1</sub>
+ <i>line</i><sub>2</sub>
+ <i>line</i><sub>3</sub>
+ ...
+</pre>
+
+<p>
+<code>awk</code> sees a files like this:
+</p>
+
+<pre>
+ <i>record</i><sub>1</sub>
+ <i>record</i><sub>2</sub>
+ <i>record</i><sub>3</sub>
+ ...
+</pre>
+
+<p>
+where each <i>record</i> is:
+</p>
+
+<pre>
+ <i>field</i><sub>1</sub> <i>field</i><sub>2</sub> <i>field</i><sub>3</sub> ...
+</pre>
+
+
+
+
+<p>
+The command line parameter <code>-F <i>regex</i></code> 
+sets the regular expression <i>regex</i> to be the field delimiter.
+</p>
+
+<p>
+For instance, <code>awk -F ","</code> sees each <i>record</i> as:
+</p>
+
+<pre>
+ <i>field</i><sub>1</sub>,<i>field</i><sub>2</sub>,<i>field</i><sub>3</sub>,...
+</pre>
+
+
+
+<p>
+To print out the account name and uid from
+<code>/etc/passwd</code>, use:
+</p>
+
+<pre>
+ $ awk -F : '/^[^#]/ { print $1, $3 }' /etc/passwd
+ nobody -2
+ root 0
+ daemon 1
+ ...
+</pre>
+
+
+
+<h3>AWK programs</h3>
+
+
+<p>
+An AWK program consists of pattern-action pairs:
+</p>
+
+<center>
+ <code><i>pattern</i> { <i>statements</i> }</code>
+</center>
+
+<p>
+followed by an (optional) sequence of function definitions.
+</p>
+
+<p>
+In fact, an action is optional, and a pattern by itself
+is equivalent to:
+</p>
+
+<center>
+ <code><i>pattern</i> { print }</code> 
+</center>
+
+
+<p>
+As each record is read, each pattern is checked in order, and if it matches,
+then the corresponding action is executed.
+</p>
+
+
+<h3>Function definition</h3>
+
+<p>
+The form for function defintion is:
+</p>
+
+<center>
+ <code><b>function</b> <i>name</i>(<i>arg</i><sub>1</sub>,...,<i>arg<sub>n</sub></i>) { <i>statements</i> }</code>
+</center>
+
+<p>
+As in C, a <code>return</code> statement returns the result of the function.
+</p>
+
+
+
+
+
+<h3>Patterns</h3>
+
+<p>
+The most common one-line 
+pattern in AWK is the blank pattern, which 
+matches every line.
+</p>
+
+<p>
+The other pattern forms include:
+</p>
+
+<ul>
+ <li>
+  <code>/<i>regex</i>/</code>, which matches if the <i>regex</i> matches 
+  something on the line;
+ </li>
+
+ <li>
+  <i>expression</i>, which matches if <i>expression</i> is nonzero or non-null;
+ </li>
+
+ <li>
+  <i>p1</i><code>,</code> <i>p2</i>, 
+  which matches all records (inclusive) between <i>p1</i> and <i>p2</i>.
+ </li>
+
+ <li>
+  <code>BEGIN</code>, which matches before the first line read;
+ </li>
+
+ <li>
+  <code>END</code>, which matches after the last line is read;
+ </li>
+</ul>
+
+<p>
+Some implementations of <code>awk</code>, like <code>gawk</code>,
+provide additional patterns:
+</p>
+
+<ul>
+
+ <li>
+  <code>BEGINFILE</code>, which matches before a new file is read; and
+ </li>
+
+ <li>
+  <code>ENDFILE</code>, which matches after a file is read.
+ </li>
+
+</ul>
+
+
+<h3>Expressions</h3>
+
+<p>
+AWK expressions appear in both patterns and in statements.
+</p>
+
+<p>
+A basic AWK expression is either:
+</p>
+
+<ul>
+
+ <li>a special variable, e.g., <code>$1</code> or <code>NF</code>; </li>
+
+ <li>a regular variable, e.g., <code>foo</code></li>
+
+ <li>a string literal, e.g., <code>"foobar"</code>;</li>
+ 
+ <li>a numeric constant, e.g., <code>3</code>, <code>3.1</code>;</li>
+
+ <li>a regex constant, e.g., <code>/foo|bar/</code></li>
+
+</ul>
+
+<p>
+A regex constant can be passed as a first-class value to a function.
+</p>
+
+<p>
+AWK supports a match expression form, <code><i>exp1</i> ~ <i>exp2</i></code>,
+where the assumption is that <code><i>exp1</i></code> will evaluate
+to a string, <code><i>exp2</i></code> will evaluate to a regex,
+and the result of matching is returned.
+</p>
+
+<p>
+A lone regex constant in a conditional is implicitly equivalent to 
+a match against the current record; that is, <code>/<i>regex</i>/</code>
+becomes <code>$0 ~ /<i>regex</i>/</code>.
+</p>
+
+<p>
+For example, to filter lines that contain both <code>foo</code> and <code>bar</code>:
+</p>
+
+<pre>
+ $ awk '/foo/ &amp;&amp; /bar/ { print }'
+</pre>
+
+<p>
+or just:
+</p>
+
+<pre>
+ $ awk '/foo/ &amp;&amp; /bar/'
+</pre>
+
+<p>
+AWK brings the expected C-like arithmetic (like <code>+</code>), comparison (like <code>==</code>) and Boolean operators (like <code>&amp;&amp;</code>).
+</p>
+
+<p>
+As in C, variable assignment is an expression rather than a statement.
+</p>
+
+<p>
+For example, to print account names from <code>/etc/passwd</code> where 
+the account number is <code>500</code>, use:
+</p>
+
+<pre>
+ $ awk -F : '$3 == 500 { print $1 }' /etc/passwd
+</pre>
+
+
+<p>
+String concatenation is simply juxtaposition.
+
+As a result, it may be necessary to surround strings
+to be concatenated with parentheses, e.g., 
+<code>("bar = " bar ".")</code>.
+</p>
+
+<p>
+Abutting a name with parentheses indicates function call;
+for example, the following program 
+  surrounds every line of input with curly braces:
+</p>
+
+<pre>
+#!/usr/bin/awk -f
+
+{ print f($0) }
+
+function f(line) {
+    return ("{" line "}") ;
+}
+</pre>
+
+
+<h4>Arrays</h4>
+
+<p>
+AWK supports both scalars and arrays.
+</p>
+
+<p>
+Arrays in AWK are associative, much like objects in JavaScript.
+</p>
+
+<p>
+To reference an index in an array, use the C-style subcript notation, <code><i>variable-name</i>[<i>index</i>]</code>,
+where <i>index</i> can be any expression that evaluates to a scalar value.
+</p>
+
+<p>
+There is no need to create an array explicitly: just assign into an index in an undefined variable name.
+</p>
+
+<p>
+To check for the existence of an index, use the <code>in</code> operator: <code><i>index</i> in <i>variable-name</i></code>.
+</p>
+
+<p>
+For example, to print the account name with the highest uid run
+the following on <code>/etc/passwd</code>:
+</p>
+
+<pre>
+#!/usr/bin/awk -F : -f
+
+/^#/ { next ; }
+
+{ users[$3] = $1 ; }
+
+END {
+ max = 0 ;
+ for (i in users) {
+  if ((i+0) &gt; (max+0)) 
+   max = i ;
+ }
+ print users[max];
+}
+</pre>
+
+<p>
+The <code>(i+0)</code> and <code>(max+0)</code> is necessary
+to forcibly convert them to numerics.
+Otherwise, <code>&lt;</code> 
+compares them lexically as strings.
+</p>
+
+
+<p>
+Arrays have a split first-/second-class status in AWK.
+</p>
+
+<p>
+Arrays are passed as parameters to procedures by reference.
+</p>
+
+<p>
+But, it is not possible to assign an array to a variable.
+</p>
+
+<pre>
+#!/usr/bin/awk -f
+
+BEGIN {
+  arr[0] = 1 ;
+  print 0, arr[0] ;   # prints 0 1
+  modify_array(arr) ; # ok
+  print 0, arr[0] ;   # prints 0 2
+  brr = arr ;         # error
+  exit ;
+}
+
+function modify_array(array) {
+  for (k in array) {
+    array[k]++ ;
+  }
+}
+</pre>
+
+<p>
+Arrays may not be returned from procedures either.
+</p>
+
+
+<h3>Special variables</h3>
+
+<p>
+There are several special variables in AWK:
+</p>
+
+<center>
+<table border="1">
+ 
+ <tr> <th>Variable</th> <th>Meaning</th></tr>
+
+ <tr> <td><code>$0</code></td> <td>text of the matched record</td> </tr>
+
+ <tr> <td><code>$<i>n</i></code></td> <td>the <i>n</i>th entry in the current record</td> </tr>
+
+ <tr> <td><code>FILENAME</code></td> <td>name of current file</td> </tr>
+
+ <tr> <td><code>NR</code></td> <td>number of records seen thus far</td> </tr>
+
+ <tr> <td><code>FNR</code></td> <td>number of records thus far in this file</td> </tr>
+
+ <tr> <td><code>NF</code></td> <td>number of fields in current record</td> </tr>
+
+ <tr> <td><code>FS</code></td> <td>input field delimiter, defaults to whitespace</td> </tr>
+
+ <tr> <td><code>RS</code></td> <td>record delimiter, defaults to newline</td> </tr>
+
+ <tr> <td><code>OFS</code></td> <td>output field delimiter, defaults to space</td> </tr>
+
+ <tr> <td><code>ORS</code></td> <td>output record delimiter, defaults to newline</td> </tr>
+
+</table>
+</center>
+
+<p>
+These special variables can be used in patterns.
+</p>
+
+<p>
+For instance, one could print the even lines:
+</p>
+
+<pre>
+ $ awk 'NR % 2 == 0 { print }'
+</pre>
+
+
+<p>
+Special variables like <code>OFS</code>
+can also be assigned as the program executes.
+</p>
+
+<p>
+Technically, <code>$<i>n</i></code> is not a variable.
+</p>
+
+<p>
+In fact, <code>$</code> is a special pseudoarray
+applied to the expression on its right.
+</p>
+
+<p>
+For example, <code>$(0)</code> is an expression, as are
+<code>$i</code>  and <code>$(a[i])</code>.
+</p>
+
+<p>
+And, by extension, <code>$NF</code> is the last field.
+</p>
+
+
+<h3>Statements</h3>
+
+<p>
+AWK is a small language,
+with only a handful of 
+forms for statements.
+</p>
+
+<p>
+The man page lists all of them:
+</p>
+
+<pre>
+  <b>if</b> (<i>expression</i>) <i>statement</i> [ <b>else</b> <i>statement</i> ]
+  <b>while</b> (<i>expression</i>) <i>statement</i>
+  <b>for</b> (<i>expression</i>; <i>expression</i>; <i>expression</i>) <i>statement</i>
+  <b>for</b> (<i>var</i> <b>in</b> <i>array</i>) <i>statement</i>
+  <b>do</b> <i>statement</i> <b>while</b> (<i>expression</i>)
+  <b>break</b>
+  <b>continue</b>
+  { [ <i>statement</i> ... ] }
+  <i>expression</i>  
+  <b>print</b> [ <i>expression</i>-list ] [ &gt; <i>expression</i> ]
+  <b>printf</b> <i>format</i> [ , <i>expression</i>-list ] [ &gt; <i>expression</i> ]
+  <b>return</b> [ <i>expression</i> ]
+  <b>next</b>             
+  <b>nextfile</b>
+  <b>delete</b> array[<i>expression</i>]
+  <b>delete</b> array            
+  <b>exit</b> [ <i>expression</i> ] 
+</pre>
+
+<p>
+The most common statement is <code>print</code>,
+which is equivalent to <code>print $0</code>.
+</p>
+
+<p>
+If arguments to <code>print</code> 
+are comma-separated, then they are spliced together 
+with <code>OFS</code>.
+</p>
+
+<p>
+For example:
+</p>
+
+<pre>
+ $ echo foo bar | awk '{ OFS="::" ; print $1, $2 ; exit }'
+ foo::bar
+</pre>
+
+<p>
+Most of these statements should be familiar to 
+programmers, and some look eerily similar to those found
+in JavaScript.
+</p>
+
+<p>
+The <code>delete</code> statement deletes an index
+from an array, or alternately, the entire array.
+</p>
+
+
+<h4>Control statements</h4>
+
+<p> AWK supports C-style control constructs like <code>if</code>,
+<code>for</code> and <code>while</code>.  </p>
+
+<p>
+It also supports a special <code>for</code> form for iterating
+over the keys in an associative array:
+</p>
+
+<center>
+ <code>for (<i>var</i> in <i>array-name</i>) <i>statement</i></code> 
+</center>
+
+<p>
+The control statements <code>next</code> and <code>nextfile</code>
+skip to the next line of input and the next file respectively.
+</p>
+
+
+
+<h3>Built-in functions</h3>
+
+<p>
+AWK comes with a large set of 
+<a href="http://www.gnu.org/software/gawk/manual/gawk.html#Built_002din">built-in functions</a>.
+</p>
+
+<p>
+These are also listed in the AWK man page.
+</p>
+
+<p>
+Perhaps the most useful is
+ <code>gensub(<i>regex</i>, <i>replacement</i>, <i>params</i> [ , <i>input</i> ])</code>,
+ which
+ returns roughly the result of <code>sed</code>'s <code>s/<i>regex</i>/<i>replacement</i>/<i>params</i></code>
+ run on <i>input</i> or <code>$0</code> by default.
+</p>
+
+<p>
+For example, to change C++-style </code>//</code> comments to C-style comments:
+</p>
+
+<pre>
+ $ awk '{ print gensub(/\/\/[ ]?(.*)/, "/* \\1 */", "g" ) }'
+</pre>
+
+
+<p>
+Not all AWK implementations support <code>gensub</code>,
+so you might have to use the specializations
+<code>sub</code> and <code>gsub</code> instead.
+</p>
+
+
+
+
+<h3>Useful flags</h3>
+
+<ul>
+
+ <li><code>-f <i>filename</i></code> uses 
+ the provided file as the AWK program.</li>
+
+ <li>
+ <code>-F <i>regex</i></code> sets
+ the input field separator.</code>
+ </li>
+
+ <li>
+ <code>-v <i>var</i>=<i>value</i></code> sets a global variable.
+ Multiple <code>-v</code> flags are allowed.
+ </li>
+
+</ul>
+
+
+
+<h2>vim and emacs</h2>
+
+<p>
+Text editors in the Unix tradition
+excel at manipulating text.
+</p>
+
+<p>
+If you haven't yet taken the (brief) tutorial for both editors,
+do so at your earliest convenience.
+</p>
+
+
+<p>
+You can apply the knowledge
+from this article inside
+<code>vim</code>
+and <code>emacs</code>,
+which have their own rich 
+regex-based 
+search-and-replace
+systems:
+</p>
+
+ <center>
+ <table border="1">
+
+   <tr> <th>Command</th> <th>vim</th> <th>emacs</th> </tr>
+
+   <tr> <td>search</td>
+        <td><code>/<i>pattern</i></code></td>
+        <td><code>C-M-s <i>pattern</i> RET</code></td>
+   </tr>
+
+   <tr> <td>replace</td>
+        <td><code>:s/<i>pat</i>/<i>new</i>/</code></td>
+        <td><code>M-x replace-regexp RET <i>pat</i> RET <i>new</i> RET </code></td>
+   </tr>
+ </table>
+ </center>
+
+<p>
+Both editors default to a BRE-like syntax. 
+</p>
+
+<p>
+In both, the escape <code>\<i>n</i></code> expands into the <i>n</i>th submatch.
+</p>
+
+<p>
+In emacs, the escape <code>\&amp;</code> expands into the matched text, 
+while just the character <code>&amp;</code> expands into the matched text
+  in vim.
+</p>
+
+
+<p>
+You can also direct both editors to interact with sed and AWK,
+or any other shell command for that matter:
+</p>
+
+ <center>
+ <table border="1">
+
+   <tr> <th>Command</th> <th>vim</th> <th>emacs</th> </tr>
+
+   <tr> <td>insert output of command</td>
+        <td><code>:r!<i>command</i></code></td>
+        <td><code>M-1 M-! <i>command</i></code></td>
+   </tr>
+
+   <tr> <td>pipe selection to command</td>
+        <td><code>:'&lt;'&gt;!<i>command</i></code></td>
+        <td><code>M-1 M-| <i>command</i> RET</code></td>
+   </tr>
+ </table>
+ </center>
+
+
+
+
+
+<h2>Related posts and further reading</h2>
+
+<ul>
+<script>
+RenderTagLinks("unix") ;
+</script>
+
+<li>
+Bruce Barnett's
+<a rel="nofollow" href="http://www.grymoire.com/Unix/Sed.html">classic sed tutorial</a>.
+</li>
+
+<li>
+Bruce Barnett's
+<a rel="nofollow" href="http://www.grymoire.com/Unix/Awk.html">classic AWK tutorial</a>.
+</li>
+
+<li>
+Eric Pement's
+<a rel="nofollow" href="http://www.pement.org/awk/awk1line.txt">AWK one-liners</a>.
+</li>
+
+<li>
+Eric Pement's
+<a rel="nofollow" href="http://sed.sourceforge.net/sed1line.txt">sed one-liners</a>.
+</li>
+
+<li>
+
+<a href="http://www.amazon.com/gp/product/020107981X/ref=as_li_ss_tl?ie=UTF8&tag=ucmbread-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=020107981X">AWK, according to its creators, Aho, Weinberger and Kernighan</a><img src="http://www.assoc-amazon.com/e/ir?t=ucmbread-20&l=as2&o=1&a=020107981X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />:
+
+
+<div class="graphic">
+<a href="http://www.amazon.com/gp/product/020107981X/ref=as_li_ss_il?ie=UTF8&tag=ucmbread-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=020107981X"><img border="0" src="http://ws.assoc-amazon.com/widgets/q?_encoding=UTF8&Format=_SL160_&ASIN=020107981X&MarketPlace=US&ID=AsinImage&WS=1&tag=ucmbread-20&ServiceVersion=20070822" ></a><img src="http://www.assoc-amazon.com/e/ir?t=ucmbread-20&l=as2&o=1&a=020107981X" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+</div>
+</li>
+
+<li>
+O'Reilly's classic, 
+<a href="http://www.amazon.com/gp/product/1565922255/ref=as_li_ss_tl?ie=UTF8&tag=ucmbread-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=1565922255">sed &amp; awk</a><img src="http://www.assoc-amazon.com/e/ir?t=ucmbread-20&l=as2&o=1&a=1565922255" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />:
+<div class="graphic">
+<a href="http://www.amazon.com/gp/product/1565922255/ref=as_li_ss_il?ie=UTF8&tag=ucmbread-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=1565922255"><img border="0" src="http://ws.assoc-amazon.com/widgets/q?_encoding=UTF8&Format=_SL160_&ASIN=1565922255&MarketPlace=US&ID=AsinImage&WS=1&tag=ucmbread-20&ServiceVersion=20070822" ></a><img src="http://www.assoc-amazon.com/e/ir?t=ucmbread-20&l=as2&o=1&a=1565922255" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />
+</div>
+</li>
+
+</ul>
+
+
+
+<script type="text/javascript">
+<!--
+// SyntaxHighlighter.all() ;
+//-->
+</script>
+  
+
+ <hr />
+
+ <div id="footer-links">
+ [<a href="../">article index</a>]
+ [<script>
+       var emailMatt = '<a href="mai'+'lto:matt-blog'+'@'+'migh'+'t.net">email me</a>'
+document.write(emailMatt);
+ //-->
+</script>] 
+ [<a href="http://twitter.com/mattmight">@mattmight</a>]
+ [<a href="../feed.rss">rss</a>]
+ </div>
+
+
+  
+</div> <!-- /#content -->
+</div> <!-- /#content-container -->
+
+
+
+
+
+
+<div id="footer-linode" class="module fat-container">
+ <div class="fat-content"> 
+ <center>
+ matt.might.net is powered by <b><a href="http://www.linode.com/?r=bf5d4e7c8a1af61855b5227279a6744c3bde8a8a">linode</a></b> | 
+   <a href="../legal/">legal information</a>
+ </center>
+ </div>
+</div>
+
+
+
+
+
+
+</div> <!-- /#body -->
+
+
+
+
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-3661244-1");
+pageTracker._trackPageview();
+</script>
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)https://hackertarget.com/ssh-examples-tunnels/ -->
+<html lang="en-US" prefix="og: http://ogp.me/ns#"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<link rel="stylesheet" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" id="ao_optimized_gfonts" href="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/css"><link type="text/css" media="all" href="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/autoptimize_901b6d5c4d353e6b4485f6a89c11e013.css" rel="stylesheet"><title>22 SSH Examples, Practical Tips &amp; Tunnels | HackerTarget.com</title>
+
+<!-- This site is optimized with the Yoast SEO plugin v9.6 - https://yoast.com/wordpress/plugins/seo/ -->
+<meta name="description" content="Bounce through the network with SSH tunnels and proxies. Take your remote system administration skills to the next level with our practical SSH examples.">
+<link rel="canonical" href="https://hackertarget.com/ssh-examples-tunnels/">
+<link rel="publisher" href="https://plus.google.com/100352272338135419967/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="22 SSH Examples, Practical Tips &amp; Tunnels | HackerTarget.com">
+<meta property="og:description" content="Bounce through the network with SSH tunnels and proxies. Take your remote system administration skills to the next level with our practical SSH examples.">
+<meta property="og:url" content="https://hackertarget.com/ssh-examples-tunnels/">
+<meta property="og:site_name" content="HackerTarget.com">
+<meta property="article:tag" content="ssh">
+<meta property="article:tag" content="ssh examples">
+<meta property="article:tag" content="ssh tunnel">
+<meta property="article:tag" content="tutorial">
+<meta property="article:section" content="Tools">
+<meta property="article:published_time" content="2018-12-28T05:50:11+00:00">
+<meta property="article:modified_time" content="2019-05-01T03:42:25+00:00">
+<meta property="og:updated_time" content="2019-05-01T03:42:25+00:00">
+<meta property="og:image" content="https://hackertarget.com/wp-content/uploads/2018/12/ssh-examples-tunnel.png">
+<meta property="og:image:secure_url" content="https://hackertarget.com/wp-content/uploads/2018/12/ssh-examples-tunnel.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:description" content="Bounce through the network with SSH tunnels and proxies. Take your remote system administration skills to the next level with our practical SSH examples.">
+<meta name="twitter:title" content="22 SSH Examples, Practical Tips &amp; Tunnels | HackerTarget.com">
+<meta name="twitter:site" content="@hackertarget">
+<meta name="twitter:image" content="https://hackertarget.com/wp-content/uploads/2018/12/ssh-examples-tunnel.png">
+<meta name="twitter:creator" content="@hackertarget">
+<!-- / Yoast SEO plugin. -->
+
+<link rel="dns-prefetch" href="https://hackertarget.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link href="https://fonts.gstatic.com/" crossorigin="anonymous" rel="preconnect">
+<link rel="alternate" type="application/rss+xml" title="HackerTarget.com » Feed" href="https://hackertarget.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="HackerTarget.com » Comments Feed" href="https://hackertarget.com/comments/feed/">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script async="" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/analytics.js"></script><script type="text/javascript" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/jquery.js"></script><style>[href^="http://www.faceporn.net/free?"],
+[href^="http://www.freefilesdownloader.com/"]
+{display:none !important;}</style>
+
+
+
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-2487671-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+<link rel="apple-touch-icon" href="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/hackertarget-logo-square.png"><meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if lte IE 9]><style type="text/css">.btx-opacity1 { opacity: 1; }</style><![endif]-->		
+			</head>
+
+	
+
+<body class="post-template-default single single-post postid-12397 single-format-standard btx-layout btx-layout--wide btx-layout-responsive btx-layout--topnav btx-layout--topnav-standard btx-layout--fixednav cookies-not-set container-animated" data-scheme="light" data-layout="wide" data-arrow_style="ln-arrow" data-arrow_background="square">
+	
+	<div class="btx-wrapper btx-p-bg-bg">
+
+		
+			
+			<header class="btx-header" data-transparent="" data-height="70">
+				
+															
+<nav class="btx-navbar btx-navbar--standard btx-dark-scheme btx-highlight-default btx-navbar--right btx-navbar--small has-fixed-logo btx-navbar--fixed" data-height="70" data-style="standard" data-fixed="true" data-height_fixed="60" data-transition="default" style="">
+	<div class="btx-container">
+		<div class="btx-navbar-content-wrapper">
+			<div class="btx-navbar-header">
+				<a class="btx-navbar-brand" href="https://hackertarget.com/">
+
+																	<img class="btx-navbar-logo btx-navbar-logo--image" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/online-security.png" alt="logo">
+					
+																	<img class="btx-fixed-nav-logo btx-fixed-nav-logo--default" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/online-security.png" alt="logo">
+									</a>
+			</div>
+
+			
+			<ul id="menu-main-menu" class="btx-navbar-nav btx-menu sf-js-enabled sf-arrows" style="touch-action: pan-y;"><li id="menu-item-10069" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-10069 menu-item-mega-menu"><a href="https://hackertarget.com/vulnerability-scanner/" class="sf-with-ul">Scanners</a><div class="btx-mega-menu btx-s-bg-bg" style="display: none;"><ul><li id="menu-item-5507" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5507 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Network</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4027" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4027"><a title="Online Nmap Port Scanner" href="https://hackertarget.com/nmap-online-port-scanner/">Nmap Port Scanner</a></li><li id="menu-item-4030" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4030"><a title="Have a regular Nmap scans and get alerts on change" href="https://hackertarget.com/scheduled-nmap/">Schedule Nmap Scans</a></li><li id="menu-item-4028" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4028"><a title="OpenVAS Vulnerability Scanner" href="https://hackertarget.com/openvas-scan/">OpenVAS Scanner</a></li><li id="menu-item-8279" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8279"><a href="https://hackertarget.com/openvas-scheduled-scanning/">Schedule OpenVAS Scans</a></li><li id="menu-item-11239" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11239"><a href="https://hackertarget.com/zmap-fast-network-scan/">Zmap Fast Network Scan</a></li></ul></div></li><li id="menu-item-5508" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5508 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Web</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4026" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4026"><a title="Nikto Web Security Scanner" href="https://hackertarget.com/nikto-website-scanner/">Nikto Web Scanner</a></li><li id="menu-item-4039" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4039"><a href="https://hackertarget.com/ssl-check/">SSL / TLS Scan</a></li><li id="menu-item-4031" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4031"><a title="Online SQL injection test" href="https://hackertarget.com/sql-injection-test-online/">SQL Injection Scan</a></li><li id="menu-item-4032" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4032"><a href="https://hackertarget.com/whatweb-scan/">WhatWeb / Wappalyzer</a></li><li id="menu-item-4023" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4023"><a href="https://hackertarget.com/blindelephant-scan/">BlindElephant Scan</a></li></ul></div></li><li id="menu-item-5509" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5509 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">CMS Apps</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4038" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4038"><a title="WordPress Security Scan" href="https://hackertarget.com/wordpress-security-scan/">WordPress Scanner</a></li><li id="menu-item-4025" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4025"><a title="Test Joomla Security" href="https://hackertarget.com/joomla-security-scan/">Joomla Security Scan</a></li><li id="menu-item-4024" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4024"><a title="Test Drupal with this Security Scanner" href="https://hackertarget.com/drupal-security-scan/">Drupal Security Scan</a></li></ul></div></li><li id="menu-item-5510" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5510 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Recon</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-8069" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8069"><a href="https://hackertarget.com/domain-profiler/">Domain Profiler (OSINT)</a></li><li id="menu-item-4040" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4040"><a title="IP address information lookup" href="https://hackertarget.com/server-info/">IP Information Lookup</a></li><li id="menu-item-5511" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5511"><a href="https://hackertarget.com/ip-tools/">Free IP Tools</a></li></ul></div></li></ul></div></li><li id="menu-item-4337" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4337 menu-item-mega-menu"><a title="IP Address and DNS Tools" href="https://hackertarget.com/ip-tools/" class="sf-with-ul">Tools</a><div class="btx-mega-menu btx-s-bg-bg" style="display: none;"><ul><li id="menu-item-5512" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5512 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Network Tests</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4338" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4338"><a title="Online Traceroute tool with MTR" href="https://hackertarget.com/online-traceroute/">Traceroute</a></li><li id="menu-item-4339" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4339"><a title="Run an easy ping test" href="https://hackertarget.com/test-ping/">Test Ping</a></li></ul></div></li><li id="menu-item-5513" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5513 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">DNS Queries</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4355" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4355"><a title="Web based DNS lookup tool" href="https://hackertarget.com/dns-lookup/">DNS lookup</a></li><li id="menu-item-4437" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4437"><a title="DNS reverse lookup on IP or net range" href="https://hackertarget.com/reverse-dns-lookup/">Reverse DNS</a></li><li id="menu-item-7093" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7093"><a title="Find Subdomains" href="https://hackertarget.com/find-dns-host-records/">Find Host Records (Subdomains)</a></li><li id="menu-item-7266" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7266"><a title="Reverse Lookup on Shared DNS" href="https://hackertarget.com/find-shared-dns-servers/">Find Shared DNS Servers</a></li><li id="menu-item-4731" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4731"><a title="Zone Transfer Online Test" href="https://hackertarget.com/zone-transfer/">Zone Transfer</a></li><li id="menu-item-4340" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4340"><a title="Online Whois Lookup Tool" href="https://hackertarget.com/whois-lookup/">Whois Lookup</a></li></ul></div></li><li id="menu-item-5514" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5514 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">IP Address</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4369" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4369"><a title="GeoIP location finder" href="https://hackertarget.com/geoip-ip-location-lookup/">GeoIP Lookup</a></li><li id="menu-item-4483" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4483"><a title="Reverse IP to get shared hosting" href="https://hackertarget.com/reverse-ip-lookup/">Reverse IP Lookup</a></li><li id="menu-item-8536" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8536"><a href="https://hackertarget.com/tcp-port-scan/">TCP Port Scan</a></li><li id="menu-item-8534" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8534"><a href="https://hackertarget.com/udp-port-scan/">UDP Port Scan</a></li><li id="menu-item-7063" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7063"><a title="Find Subnet by CIDR or Mask" href="https://hackertarget.com/subnet-lookup-online/">Subnet Lookup</a></li><li id="menu-item-12375" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12375"><a title="Autonomous System Lookup (IP / AS)" href="https://hackertarget.com/as-ip-lookup/">ASN Lookup</a></li></ul></div></li><li id="menu-item-5515" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5515 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Web Tools</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4375" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4375"><a title="Download HTTP Headers" href="https://hackertarget.com/http-header-check/">HTTP Headers</a></li><li id="menu-item-4376" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4376"><a title="Extract all links from Page" href="https://hackertarget.com/extract-links/">Extract Page Links</a></li><li id="menu-item-13772" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13772"><a href="https://hackertarget.com/reverse-analytics-search/">Reverse Analytics Search</a></li></ul></div></li></ul></div></li><li id="menu-item-5655" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5655 menu-item-mega-menu"><a href="https://hackertarget.com/research/" class="sf-with-ul">Research</a><div class="btx-mega-menu btx-s-bg-bg" style="display: none;"><ul><li id="menu-item-4036" class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-has-children menu-item-4036 btx-col-6 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/blog/">Blog</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-4796" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4796"><a href="https://hackertarget.com/research/#tutorial">Tutorials &amp; Cheat Sheets</a></li><li id="menu-item-5528" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5528"><a href="https://hackertarget.com/category/tools/">Open Source Tools</a></li><li id="menu-item-5529" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5529"><a href="https://hackertarget.com/blog/">Latest Posts</a></li><li id="menu-item-5537" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5537"><a href="https://hackertarget.com/research/">Research</a></li></ul></div></li><li id="menu-item-5530" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5530 btx-col-6 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Most Popular</a></div><ul class="sub-menu btx-s-bg-bg"><li id="menu-item-5534" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5534"><a title="Attack sources to Cowrie Honeypot mapped in this analysis" href="https://hackertarget.com/cowrie-honeypot-analysis-24hrs/">Cowrie Honeypot Analysis</a></li><li id="menu-item-5536" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5536"><a title="Secure WordPress by Understanding how to attack it" href="https://hackertarget.com/attacking-wordpress/">Attacking WordPress</a></li><li id="menu-item-5532" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5532"><a title="A list of cutting edge penetration tools" href="https://hackertarget.com/11-offensive-security-tools/">Offensive Security Tools for Sysadmins</a></li><li id="menu-item-5531" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5531"><a title="A comparison of Nessus, OpenVAS and Nexpose" href="https://hackertarget.com/nessus-openvas-nexpose-vs-metasploitable/">Nessus, OpenVAS and NexPose vs Metasploitable</a></li><li id="menu-item-5533" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5533"><a title="Wireshark Tutorial &amp; Tips to Master Network Analysis" href="https://hackertarget.com/wireshark-tutorial-and-cheat-sheet/">Wireshark Tutorial and Cheat Sheet</a></li></ul></div></li></ul></div></li><li id="menu-item-10313" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-10313"><a class="sf-with-ul">Services</a><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li id="menu-item-10312" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10312"><a href="https://hackertarget.com/attack-surface-assessment/">Attack Surface Assessment</a></li><li id="menu-item-10311" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10311"><a href="https://hackertarget.com/external-vulnerability-assessment/">Vulnerability Assessment</a></li><li id="menu-item-10406" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10406"><a href="https://hackertarget.com/wordpress-assessment/">WordPress Assessment</a></li></ul></li><li id="menu-item-4035" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4035"><a href="https://hackertarget.com/about/" class="sf-with-ul">About</a><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li id="menu-item-12708" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12708"><a href="https://hackertarget.com/use-cases/">Use Cases &amp; More Info</a></li></ul></li><li id="menu-item-9615" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9615"><a href="https://hackertarget.com/contact/"><i class="twf twf-envelope-o"></i></a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" style="background-color: #01807e;"><a href="https://hackertarget.com/scan-membership/">PRICING</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" style="background-color: #555;"><a href="https://hackertarget.com/wp-login.php">LOG IN</a></li></ul>
+					</div>
+	</div>
+</nav>
+										<div class="btx-header-widgets btx-left-alignment btx-dark-scheme btx-header-widgets--fixed">
+						<div class="btx-header-widgets-content">
+							<div class="btx-container">
+								<div class="btx-row">
+
+																			<div class="btx-header-widgets-column btx-p-border-border btx-col-3">
+																							<div class="btx-widgets">
+													<ul class="btx-widgets-list">
+														<li id="text-32" class="widget widget_text">			<div class="textwidget"><p style="font-size: 11px; line-height: 12px; color: #fff;"><b>Subscribe</b> to the low volume list for updates.<br><!-- MailChimp for WordPress v2.3.16 - https://wordpress.org/plugins/mailchimp-for-wp/ --></p><div id="mc4wp-form-1" class="form mc4wp-form"><form method="post"><p>
+	<input type="email" id="mc4wp_email" name="EMAIL" placeholder="Your email address" required="">
+</p>
+
+<p>
+	<input type="submit" value="Sign up" class="btn btn-success">
+</p><div style="position: absolute; left: -5000px;"><input type="text" name="_mc4wp_ho_f85090411ef16c9c020c5d6187f4917e" value="" tabindex="-1" autocomplete="off"></div><input type="hidden" name="_mc4wp_timestamp" value="1563417145"><input type="hidden" name="_mc4wp_form_id" value="0"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-1"><input type="hidden" name="_mc4wp_form_submit" value="1"><input type="hidden" name="_mc4wp_form_nonce" value="a206712cdf"></form></div><!-- / MailChimp for WordPress Plugin -->
+<p></p></div>
+		</li>
+													</ul>
+												</div>
+																					</div>
+																			<div class="btx-header-widgets-column btx-p-border-border btx-col-3">
+																					</div>
+																			<div class="btx-header-widgets-column btx-p-border-border btx-col-3">
+																					</div>
+																			<div class="btx-header-widgets-column btx-p-border-border btx-col-3">
+																					</div>
+																	</div>
+							</div>
+						</div>
+					</div>
+													
+<nav class="btx-navbar--mobile btx-navbar--mobile--full btx-navbar--minimal btx-navbar--minimal--full btx-dark-scheme has-fixed-logo btx-navbar--fixed" data-height="60" data-fixed="true" data-transition="default" style="">
+	<div class="btx-container">
+		<div class="btx-navbar-content-wrapper">
+			<div class="btx-navbar-header">
+				<a class="btx-navbar-brand" href="https://hackertarget.com/">
+
+																	<img class="btx-navbar-logo btx-navbar-logo--image" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/hackertarget-logo-square.png" alt="logo">
+					
+																	<img class="btx-fixed-nav-logo btx-fixed-nav-logo--default" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/online-security.png" alt="logo">
+									</a>
+			</div>
+
+			
+							<a class="btx-collapsed-button" href="https://hackertarget.com/ssh-examples-tunnels/#" data-target=".btx-collapsed-menu">
+					<span class="btx-lines"></span>
+				</a>
+									<div class="btx-collapsed-menu btx-collapsed-menu--full btx-p-bg-bg">
+						<div class="btx-collapsed-menu-inner">
+							<ul id="menu-main-menu-1" class="btx-navbar-nav btx-menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-10069 menu-item-mega-menu"><a href="https://hackertarget.com/vulnerability-scanner/">Scanners</a><div class="btx-mega-menu btx-s-bg-bg" style="display: none;"><ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5507 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Network</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4027"><a title="Online Nmap Port Scanner" href="https://hackertarget.com/nmap-online-port-scanner/">Nmap Port Scanner</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4030"><a title="Have a regular Nmap scans and get alerts on change" href="https://hackertarget.com/scheduled-nmap/">Schedule Nmap Scans</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4028"><a title="OpenVAS Vulnerability Scanner" href="https://hackertarget.com/openvas-scan/">OpenVAS Scanner</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8279"><a href="https://hackertarget.com/openvas-scheduled-scanning/">Schedule OpenVAS Scans</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-11239"><a href="https://hackertarget.com/zmap-fast-network-scan/">Zmap Fast Network Scan</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5508 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Web</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4026"><a title="Nikto Web Security Scanner" href="https://hackertarget.com/nikto-website-scanner/">Nikto Web Scanner</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4039"><a href="https://hackertarget.com/ssl-check/">SSL / TLS Scan</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4031"><a title="Online SQL injection test" href="https://hackertarget.com/sql-injection-test-online/">SQL Injection Scan</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4032"><a href="https://hackertarget.com/whatweb-scan/">WhatWeb / Wappalyzer</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4023"><a href="https://hackertarget.com/blindelephant-scan/">BlindElephant Scan</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5509 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">CMS Apps</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4038"><a title="WordPress Security Scan" href="https://hackertarget.com/wordpress-security-scan/">WordPress Scanner</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4025"><a title="Test Joomla Security" href="https://hackertarget.com/joomla-security-scan/">Joomla Security Scan</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4024"><a title="Test Drupal with this Security Scanner" href="https://hackertarget.com/drupal-security-scan/">Drupal Security Scan</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5510 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Recon</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8069"><a href="https://hackertarget.com/domain-profiler/">Domain Profiler (OSINT)</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4040"><a title="IP address information lookup" href="https://hackertarget.com/server-info/">IP Information Lookup</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5511"><a href="https://hackertarget.com/ip-tools/">Free IP Tools</a></li></ul></div></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-4337 menu-item-mega-menu"><a title="IP Address and DNS Tools" href="https://hackertarget.com/ip-tools/">Tools</a><div class="btx-mega-menu btx-s-bg-bg" style="display: none;"><ul><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5512 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Network Tests</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4338"><a title="Online Traceroute tool with MTR" href="https://hackertarget.com/online-traceroute/">Traceroute</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4339"><a title="Run an easy ping test" href="https://hackertarget.com/test-ping/">Test Ping</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5513 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">DNS Queries</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4355"><a title="Web based DNS lookup tool" href="https://hackertarget.com/dns-lookup/">DNS lookup</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4437"><a title="DNS reverse lookup on IP or net range" href="https://hackertarget.com/reverse-dns-lookup/">Reverse DNS</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7093"><a title="Find Subdomains" href="https://hackertarget.com/find-dns-host-records/">Find Host Records (Subdomains)</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7266"><a title="Reverse Lookup on Shared DNS" href="https://hackertarget.com/find-shared-dns-servers/">Find Shared DNS Servers</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-4731"><a title="Zone Transfer Online Test" href="https://hackertarget.com/zone-transfer/">Zone Transfer</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4340"><a title="Online Whois Lookup Tool" href="https://hackertarget.com/whois-lookup/">Whois Lookup</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5514 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">IP Address</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4369"><a title="GeoIP location finder" href="https://hackertarget.com/geoip-ip-location-lookup/">GeoIP Lookup</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4483"><a title="Reverse IP to get shared hosting" href="https://hackertarget.com/reverse-ip-lookup/">Reverse IP Lookup</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8536"><a href="https://hackertarget.com/tcp-port-scan/">TCP Port Scan</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8534"><a href="https://hackertarget.com/udp-port-scan/">UDP Port Scan</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-7063"><a title="Find Subnet by CIDR or Mask" href="https://hackertarget.com/subnet-lookup-online/">Subnet Lookup</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12375"><a title="Autonomous System Lookup (IP / AS)" href="https://hackertarget.com/as-ip-lookup/">ASN Lookup</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5515 btx-col-3 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Web Tools</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4375"><a title="Download HTTP Headers" href="https://hackertarget.com/http-header-check/">HTTP Headers</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4376"><a title="Extract all links from Page" href="https://hackertarget.com/extract-links/">Extract Page Links</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-13772"><a href="https://hackertarget.com/reverse-analytics-search/">Reverse Analytics Search</a></li></ul></div></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5655 menu-item-mega-menu"><a href="https://hackertarget.com/research/">Research</a><div class="btx-mega-menu btx-s-bg-bg" style="display: none;"><ul><li class="menu-item menu-item-type-post_type menu-item-object-page current_page_parent menu-item-has-children menu-item-4036 btx-col-6 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/blog/">Blog</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-4796"><a href="https://hackertarget.com/research/#tutorial">Tutorials &amp; Cheat Sheets</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5528"><a href="https://hackertarget.com/category/tools/">Open Source Tools</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5529"><a href="https://hackertarget.com/blog/">Latest Posts</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5537"><a href="https://hackertarget.com/research/">Research</a></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5530 btx-col-6 btx-p-border-border"><div class="btx-mega-menu-item menu-item-has-children"><div class="btx-mega-menu-title"><a href="https://hackertarget.com/ssh-examples-tunnels/#">Most Popular</a></div><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5534"><a title="Attack sources to Cowrie Honeypot mapped in this analysis" href="https://hackertarget.com/cowrie-honeypot-analysis-24hrs/">Cowrie Honeypot Analysis</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5536"><a title="Secure WordPress by Understanding how to attack it" href="https://hackertarget.com/attacking-wordpress/">Attacking WordPress</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5532"><a title="A list of cutting edge penetration tools" href="https://hackertarget.com/11-offensive-security-tools/">Offensive Security Tools for Sysadmins</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5531"><a title="A comparison of Nessus, OpenVAS and Nexpose" href="https://hackertarget.com/nessus-openvas-nexpose-vs-metasploitable/">Nessus, OpenVAS and NexPose vs Metasploitable</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5533"><a title="Wireshark Tutorial &amp; Tips to Master Network Analysis" href="https://hackertarget.com/wireshark-tutorial-and-cheat-sheet/">Wireshark Tutorial and Cheat Sheet</a></li></ul></div></li></ul></div></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-10313"><a>Services</a><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10312"><a href="https://hackertarget.com/attack-surface-assessment/">Attack Surface Assessment</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10311"><a href="https://hackertarget.com/external-vulnerability-assessment/">Vulnerability Assessment</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-10406"><a href="https://hackertarget.com/wordpress-assessment/">WordPress Assessment</a></li></ul></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-4035"><a href="https://hackertarget.com/about/">About</a><ul class="sub-menu btx-s-bg-bg" style="display: none;"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-12708"><a href="https://hackertarget.com/use-cases/">Use Cases &amp; More Info</a></li></ul></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-9615"><a href="https://hackertarget.com/contact/"><i class="twf twf-envelope-o"></i></a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" style="background-color: #01807e;"><a href="https://hackertarget.com/scan-membership/">PRICING</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page" style="background-color: #555;"><a href="https://hackertarget.com/wp-login.php">LOG IN</a></li></ul>						</div>
+					</div>
+									</div>
+	</div>
+</nav>
+							</header>
+
+		
+		
+			<main class="btx-content btx-content--no-header" id="main">
+			<article id="post-12397" class="btx-content-wrapper post-12397 post type-post status-publish format-standard hentry category-tools tag-ssh tag-ssh-examples tag-ssh-tunnel tag-tutorial">
+				<div class="btx-post btx-post--standard btx-post--no-sidebar btx-post-format--standard btx-post-featured--none">
+
+											<!--Non fullwidth size media Breadcrumb begins here-->
+						
+					
+					<div class="btx-container js-dynamic-navbar">
+						
+						<div class="btx-main btx-main--single">
+							<div class="btx-main-wrapper">
+																	<!--Post Title (overlap layout and full layout not standard post format)-->
+									<div class="btx-post-headline">
+										<div class="btx-post-meta"><span class="btx-post-category btx-post-category--plain"><a class="btx-p-text-color" href="https://hackertarget.com/category/tools/" title="Tools">Tools</a></span><span class="btx-post-date post-date date updated">December 28, 2018</span></div><h1 class="btx-post-title post-title entry-title">SSH Examples, Tips &amp; Tunnels</h1>									</div>
+								
+								
+								<!--Begin Main Post Part-->
+								<div class="btx-post-body">
+									<!--Content Part-->
+																												<div class="btx-post-content">
+											<p><img src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/ssh-examples-tunnel.png" alt="SSH examples, tips and tunnels" style="float: right; padding-left: 20px; padding-bottom: 10px; width: 320px;">Practical <a href="https://en.wikipedia.org/wiki/Secure_Shell">SSH</a> examples to take your <strong>remote system admin</strong> game to the next level. Commands and tips to not only use <code>SSH</code> but master ways to move around the network. </p>
+<p>Knowing a few <code>ssh</code> tricks will benefit any <strong>system administrator</strong>, <strong>network engineer</strong> or <strong>security professional</strong>.</p>
+<div style="clear:both;"></div>
+<div class="alert alert-info" style="font-size: 0.9em; align:" center;"="">
+<h2 style="font-size: 18px; margin-top: 15px;">Practical SSH examples</h2>
+<div class="btx-col-6"><a href="https://hackertarget.com/ssh-examples-tunnels/#proxy-socks-ssh">1. SSH Socks Proxy</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-tunnel-forward">2. SSH Tunnel (Port Forward)</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-tunnel-secondary">3. SSH Tunnel to Secondary Host</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-tunnel-reverse">4. Reverse SSH Tunnel</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-tunnel-reverse-proxy">5. SSH Reverse Proxy</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-vpn">6. Establish VPN over SSH</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-copy-key">7. Copy your SSH key (ssh-copy-id)</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#remote-command">8. Run Command Remotely (non-interactive)</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#remote-packet-capture">9. Remote Packet Capture &amp; View in Wireshark</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-copy-folder">10. SSH Copy Folder from Local to Remote</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#remote-x11-forwarding">11. Remote GUI Applications with SSH x11 Forwarding</a></div>
+<div class="btx-col-6"><a href="https://hackertarget.com/ssh-examples-tunnels/#rsync-ssh">12. Copy files remotely with rsync and SSH</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-tor">13. SSH over Tor Network</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-ec2">14. SSH to EC2 instance</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-vim">15. Edit text files with VIM over ssh/scp</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#sshfs">16. Mount remote SSH as local folder with SSHFS</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-multiplex">17. SSH Multiplex using ControlPath</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#stream-video">18. Stream Video over SSH</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#2FA">19. Two Factor Authentication</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-jump">20. Bouncing through jump hosts with SSH and -J</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-iptables">21. Block SSH Brute Force Attempts with iptables</a><br>
+<a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-escape">22. SSH Escape to Modify Port Forwarding</a></div>
+<p>&nbsp;</p></div>
+<p style="padding: 10px; background-color: #f9f9f9; border: 1px solid #d9d9d9;"><i class="twf twf-lightbulb" style="padding-right: 6px; font-size: 1.2em;"></i> Even if you are an experienced <strong>*nix guru</strong> there are a couple of examples further down that are only available in later versions of <a href="https://www.openssh.com/releasenotes.html">OpenSSH</a>. Take a look at <a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-jump">Proxy Jump <strong>-J</strong></a> and <a href="https://hackertarget.com/ssh-examples-tunnels/#ssh-tunnel-reverse-proxy">reverse dynamic forwarding <strong>-R</strong></a>.</p>
+<h2>First The Basics</h2>
+<h4>Breaking down the SSH Command Line</h4>
+<p>The following <code>ssh</code> example command uses common parameters often seen when connecting to a remote <code>SSH</code> server.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh <span style="font-weight: 700; color: brown;">-v</span> <span style="font-weight: 700; color: green;">-p 22</span> <span style="font-weight: 700; color: orange;">-C</span> <span style="font-weight: 700; color: red;">neo@<span class="pre-blue">remoteserver</span></span></pre>
+<p><span style="font-weight: 700; color: brown;">-v</span> :  Print debug information, particularly helpful when debugging an authentication problem. Can be used multiple times to print additional information.<br>
+<span style="font-weight: 700; color: green;">-p 22</span> : Specify which <strong>port to connect to</strong> on the remote SSH server. <strong>22</strong> is not required as this is the default, but if any other port is listening connect to it using the <code>-p</code> parameter. The listening port is configured in the <code>sshd_config</code> file using the <code>Port 2222</code> format.<br>
+<span style="font-weight: 700; color: orange;">-C</span> : Compression is enabled on the connection using this parameter. If you are using the terminal over a slow link or viewing lots of text this can speed up the connection as it will compress the data transferred on the fly.<br>
+<span style="font-weight: 700; color: red;">neo@</span> : The string before the <strong>@</strong> symbol denotes the username to authenticate with against the remote server. Leaving out the <strong>user@</strong> will default to using the username of the account you are currently logged in to (~$ whoami). User can also be specified with the <code>-l</code> parameter.<br>
+<span class="pre-blue">remoteserver</span> : The hostname that the <code>ssh</code> is connecting to, this can be a fully qualified domain name, an IP address or any host in your local machines hosts file. To connect to a host that resolves to both <strong>IPv4</strong> and <strong>IPv6</strong> you can specify add a parameter <code>-4</code> or <code>-6</code> to the command line so it resolves correctly.</p>
+<p>Each of the above a parameters are optional apart from the <span class="pre-blue">remoteserver</span>.</p>
+<h4>Using a Configuration File</h4>
+<p>While many users are familiar with the <code>sshd_config</code> file, there is also a client configuration file for the <code>ssh</code> command. This defaults to <code>~/.ssh/config</code> but can also be specified as a parameter with the <code>-F</code> option.</p>
+<pre>Host remoteserver
+     HostName remoteserver.thematrix.io
+     User neo
+     Port 2112
+     IdentityFile /home/test/.ssh/remoteserver.private_key
+
+Host *
+     Port 2222</pre>
+<p>In the above <strong>example ssh configuration</strong> file you can see that there are two Host entries. The first is a specific host entry with <strong>Port 2112</strong> configured, as well as a custom IdentifyFile and username. The second is a wildcard value of <strong>*</strong> that will match all hosts. Note that <strong>the first configuration option found will be used</strong>, so the most specific should be at the top of the configuration. More information is found in the man page (<code>man ssh_config</code>).</p>
+<p>The configuration file can save a lot of typing by including advanced configuration shortcuts any time a connection is made to particular hosts.</p>
+<h4>Copy Files over SSH with SCP</h4>
+<p>The <code>ssh</code> client comes with two other very handy tools for moving files around over an <strong>encrypted ssh connection</strong>. The commands are <code>scp</code> and <code>sftp</code>, see the examples below for basic usage. Note that many parameters for the <code>ssh</code> can be applied to these commands also.</p>
+<pre><span style="color: #686868;">localhost:~$</span> scp <span class="pre-blue">mypic.png</span> <span style="font-weight: 700; color: red;">neo@<span class="pre-blue">remoteserver</span><span style="font-weight: 700; color: orange;">:/media/data/mypic_2.png</span></span></pre>
+<p>In this example the file <strong>mypic.png</strong> was copied to the <strong>remoteserver</strong> to file system location <strong>/media/data</strong> and was renamed to <strong>mypic_2.png</strong>.</p>
+<p>Don't forget <strong>the difference in the port parameter</strong>. This is a gotcha that hits everyone using <code>scp</code> on the command line. The port parameter is <code>-P</code> not <code>-p</code> as it is in the <code>ssh</code> client.!. You will forget, but don't worry everyone does.</p>
+<p>For those familiar with command line <code>ftp</code>, many of the commands are similar when using <code>sftp</code>. You can <strong>push</strong>, <strong>put</strong> and <strong>ls</strong> to your hearts desire.</p>
+<pre>sftp <span style="font-weight: 700; color: red;">neo@<span class="pre-blue">remoteserver</span></span></pre>
+<h2>Practical Examples</h2>
+<p>In many of these examples we could achieve the result using a number of methods. As in all our <a href="https://hackertarget.com/research/#tutorial">tutorials</a> and example command sheets, the focus is practical examples that get the job done.</p>
+<p><a id="proxy-socks-ssh"></a></p>
+<h3>1. Proxy Traffic over SSH using SOCKS</h3>
+<p>The SSH Proxy feature has been placed at number 1 for good reason. It is more powerful than many users realise giving you access to any system that the remote server can reach, using almost any application. The <code>ssh</code> client can tunnel traffic over the connection using a <strong>SOCKS</strong> proxy server with a quick one liner. A key thing to understand is that traffic to the remote systems will have a source of the remote server. For example in a web server log file.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh -D 8888 user@remoteserver
+
+<span style="color: #686868;">localhost:~$</span> netstat -pan | grep 8888
+tcp        0      0 127.0.0.1:8888       0.0.0.0:*               LISTEN      23880/ssh</pre>
+<p>Here we start the socks proxy server running on TCP port 8888, the second command checks that the port is now listening. The <code>127.0.0.1</code> indicates the service is running on localhost only. We can use a slightly different command to listen on all interfaces including ethernet or wifi, this will allow other applications (browsers or other) on our network to connect to the <strong>ssh socks proxy</strong> service.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh -D 0.0.0.0:8888 user@remoteserver</pre>
+<p>Now we can configure our browser to connect to the socks proxy. In Firefox select <strong>preferences</strong> | <strong>general</strong> | <strong>network settings</strong>. Add the IP address and the port for the browser to connect to.</p>
+<p><img src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/ssh-socks-proxy.png" alt="SSH Socks Proxy with DNS"></p>
+<p>Note the option at the bottom of the form to <strong>force browser DNS requests to also go over the socks proxy</strong>. If you are using the proxy to encrypt your web traffic on the local network you will definitely want to select this option so the DNS requests are also tunnelled over the SSH connection.</p>
+<h5>Enable Socks Proxy on Chrome</h5>
+<p>Using a command line parameter when launching Chrome will use the <strong>socks proxy</strong> and also <strong>tunnel DNS</strong> requests from the browser over the socks5 proxy. Trust but verify, use <a href="https://hackertarget.com/tcpdump-examples/">tcpdump</a> (tcpdump not port 22) to confirm the DNS requests are no longer visible.</p>
+<pre><span style="color: #686868;">localhost:~$</span> google-chrome --proxy-server="socks5://192.168.1.10:8888"</pre>
+<h5>Using other applications with the Proxy</h5>
+<p>Keep in mind that there are many other applications that can utilise a <strong>socks proxy</strong>. A web browser is simply the most popular. Some applications will have configuration options for use of the proxy. Others may need some help by using a helper program that talks the socks protocol. An example of this is <a href="https://github.com/haad/proxychains">proxychains</a>. Using this tool we can for example use Microsoft RDP over the socks proxy.</p>
+<pre><span style="color: #686868;">localhost:~$</span> proxychains rdesktop $RemoteWindowsServer</pre>
+<p>The configuration options for the socks proxy are set in the proxychains configuration file.</p>
+<div class="alert alert-success">Hot Tip: Using remote desktop from Linux to Windows? Try the <a href="https://github.com/FreeRDP/FreeRDP">FreeRDP</a> client. A more modern implementation than <code>rdesktop</code> with much smoother interaction.</div>
+<h5>Use Case for the SSH Socks Proxy</h5>
+<p>You are in a cafe or hotel having to use the somewhat sketchy WIFI. From our Laptop we run the <code>ssh</code> proxy locally and establish an <code>ssh</code> tunnel into our home network using a our local Rasberry Pi. Using the browser or other applications configured for the SOCKS proxy we can access any network services on our home network or browse to the Internet via our Home Network Connection. Everything between our Laptop and the Home Server (across the WIFI and Internet to home) is encrypted in the SSH tunnel.</p>
+<p><a id="ssh-tunnel-forward"></a></p>
+<h3>2. SSH Tunnel (port forward)</h3>
+<p>In its simplest form an SSH tunnel opens a port on your local system that connects through to another port at the other end of the tunnel. </p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh  <span class="pre-blue">-L</span> <span style="font-weight: 700; color: red;">9999:</span><span style="font-weight: 700; color: brown;">127.0.0.1</span><span style="font-weight: 700; color: green;">:80</span> user@remoteserver</pre>
+<p>Lets break down the <span class="pre-blue">-L</span> parameter. Think of <span class="pre-blue">-L</span> as the Local listening side. So in our example above the port <span style="font-weight: 700; color: red;">9999</span> is listening on localhost and port forwards through to port <span style="font-weight: 700; color: green;">80</span> on <strong>remoteserver</strong>, note that the <span style="font-weight: 700; color: brown;">127.0.0.1</span> refers to localhost on the remote server!</p>
+<p>Lets take it up a notch. In this following example the port that is listening can be connected to from other hosts on the local network.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh  <span class="pre-blue">-L 0.0.0.0:9999:127.0.0.1:80</span> user@remoteserver</pre>
+<p>In these examples the port we are connecting is a listening web server. It could also be a proxy server or any other TCP service.</p>
+<p><a id="ssh-tunnel-secondary"></a></p>
+<h3>3. SSH Tunnel Forward to Secondary Remote host</h3>
+<p>We can use the same options seen above to have the tunnel connect to <strong>another service running on a secondary system</strong> from the remote server.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh  <span class="pre-blue">-L 0.0.0.0:9999:10.10.10.10:80</span> user@remoteserver</pre>
+<p>In this example we are forwarding the tunnel from <strong>remoteserver</strong> to the web server running on 10.10.10.10. The traffic from <strong>remoteserver</strong> -&gt; <strong>10.10.10.10</strong> is <strong>no longer within the ssh tunnel</strong>. The web server on <strong>10.10.10.10</strong> will see <strong>remoteserver</strong> as the source of the web requests.</p>
+<p><a id="ssh-tunnel-reverse"></a></p>
+<h3>4. SSH Reverse Tunnel</h3>
+<p>In this scenario we want to setup a listening port on the remote server that will connect back to a local port on our localhost (or other system).</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh -v <span style="font-weight: 700; color: red;">-R 0.0.0.0:1999:127.0.0.1:902 192.168.1.100</span> user@remoteserver</pre>
+<p>With this ssh session established a connection to the <strong>remoteserver</strong> port <strong>1999</strong> will be forwarded to port <strong>902</strong> on our local client.</p>
+<p><a id="ssh-tunnel-reverse-proxy"></a></p>
+<h3>5. SSH Reverse Proxy</h3>
+<p>In this case we are establishing a SOCKS proxy with our ssh connection, however the proxy is listening at the remote server end. With connections to that remote socks proxy now emerging from the tunnel as traffic originating from our localhost. <strong>Requires OpenSSH version 7.6+</strong>.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh -v <span style="font-weight: 700; color: red;">-R 0.0.0.0:1999 192.168.1.100</span> user@remoteserver</pre>
+<h5>Troubleshooting Remote SSH Tunnels</h5>
+<p>If you are having trouble getting the remote SSH options to work, check with <code>netstat</code> which interface the listening port is attached too. Even though we have specified <strong>0.0.0.0</strong> in the above examples, if <strong>GatewayPorts</strong> is set to no in the <strong>sshd_config</strong> then the listener will only bind to <strong>localhost</strong> (127.0.0.1).</p>
+<div class="alert alert-danger"><strong>Security Warning</strong><br>
+Note that when you are opening tunnels and socks proxies you may be exposing internal network resources to <span style="font-weight: 700;">untrusted networks</span> (like the Internet!). This can be a serious security risk so ensure you understand what is listening and what it has access too.</div>
+<p><a id="ssh-vpn" class=""></a></p>
+<h3>6. Establish a VPN over SSH</h3>
+<p>A common term amongst offensive security folks (pentesters / red teams / etc), is to pivot into a network. Once you have a connection established on one system that system becomes a gateway point for further access to the network. This is known as pivoting and enables lateral movement through the network.</p>
+<p>We can use the SSH proxy for this and <strong>proxychains</strong>, however there are some limitations. For example we cannot use raw sockets, so <a href="https://hackertarget.com/nmap-online-port-scanner/">Nmap</a> <code>SYN</code> scans cannot be used to port scan the Internal network.</p>
+<p>Using this more advanced VPN option we move the connectivity down to <strong>layer 3</strong>. We can then route traffic through the tunnel using standard network routing.</p>
+<p>This technique uses <code>ssh</code>, <code>iptables</code>, <code>tun interfaces</code> and routing.</p>
+<p>First we need these options set in the <code>sshd_config</code>. Since we are making interface changes on the remote system and the client system, we will <strong>need root privileges on both sides</strong>.</p>
+<pre>PermitRootLogin yes
+PermitTunnel yes</pre>
+<p>Then we will establish our <code>ssh</code> connection using the parameter that requests <code>tun</code> devices be initialised.</p>
+<pre><span style="color: #686868;">localhost:~#</span> ssh -v <span style="font-weight: 700; color: red;">-w any</span> root@remoteserver</pre>
+<p>Now you should have a <code>tun</code> device when you show interfaces (<code># ip a</code>). Next step is to add IP addresses to the tunnel interfaces.</p>
+<p>SSH Client Side:</p>
+<pre>localhost:~# ip addr add 10.10.10.2/32 peer 10.10.10.10 dev tun0
+localhost:~# ip tun0 up</pre>
+<p>SSH Server Side:</p>
+<pre>remoteserver:~# ip addr add 10.10.10.10/32 peer 10.10.10.2 dev tun0
+remoteserver:~# ip tun0 up</pre>
+<p>Now we should have a direct route to the other host (<code>route -n</code> and <code>ping 10.10.10.10</code>).</p>
+<p>It is now possible to route any subnet through the other side host. </p>
+<pre>localhost:~# route add -net 10.10.10.0 netmask 255.255.255.0 dev tun0</pre>
+<p>On the remote side we need to enable <code>ip_forward</code> and <code>iptables</code>.</p>
+<pre>remoteserver:~# echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+remoteserver:~# iptables -t nat -A POSTROUTING -s 10.10.10.2 -o enp7s0 -j MASQUERADE</pre>
+<p>Boom! <strong>Layer three VPN through an SSH tunnel</strong>. Now that's winning.</p>
+<p>Any trouble, try <a href="https://hackertarget.com/tcpdump-examples/">tcpdump</a> and <code>ping</code> to see where its broken. Since we are playing at layer 3 our <code>icmp</code> packets should be jumping through that tunnel.</p>
+<p><a id="ssh-copy-key"></a></p>
+<h3>7. Copy your SSH key (ssh-copy-id)</h3>
+<p>There are multiple ways to achieve this however this command is a shortcut that saves time. What does it actually do? This command replicates what you can also do manually. Copying the <code>~/.ssh/id_rsa.pub</code> (or the default) key from your system and adds it to an <code>~/.ssh/authorized_keys</code> file on the remote server.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh-copy-id user@remoteserver</pre>
+<p><a id="remote-command"></a></p>
+<h3>8. Run Command Remotely (non-interactive)</h3>
+<p>The <code>ssh</code> command can be chained to other commands for the usual piping fun. Add the command you want to run on the remote host as a final parameter in quotes.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh remoteserver <span class="pre-blue">"cat /var/log/nginx/access.log"</span> | grep badstuff.php</pre>
+<p>In this example the <code>grep</code> is being performed on the local system after the log file has been pushed across the <code>ssh</code> session. If the file is large it would be more efficient to run the <code>grep</code> on the remote side by enclosing the pipe and <code>grep</code> in the double quotes.</p>
+<p>Another example performs the same function as the <code>ssh-copy-id</code> short cut in Tip 7.</p>
+<pre><span style="color: #686868;">localhost:~$</span> cat ~/.ssh/id_rsa.pub | ssh remoteserver 'cat &gt;&gt; .ssh/authorized_keys'</pre>
+<p><a id="remote-packet-capture"></a></p>
+<h3>9. Remote Packet Capture &amp; View in Wireshark</h3>
+<p>I grabbed this one from our <a href="https://hackertarget.com/tcpdump-examples/">tcpdump examples</a>. Use it for a remote packet capture with the results feeding directly into your local Wireshark GUI.</p>
+<pre><span style="color: #686868;">:~$</span> ssh root@remoteserver 'tcpdump -c 1000 -nn -w - not port 22' | wireshark -k -i -</pre>
+<p><a id="ssh-copy-folder"></a></p>
+<h3>10. SSH Copy Folder from Local to Remote</h3>
+<p>A neat trick that compresses a folder using <code>bzip2</code> (that's the -j in the <code>tar</code> command), then extracts the <code>bzip2</code> stream on the other side creating a duplicate of the folder on the remote server.</p>
+<pre><span style="color: #686868;">localhost:~$</span> tar -cvj /datafolder | ssh remoteserver "tar -xj -C /datafolder"</pre>
+<p><strong>Copy remote folder to local tar archive</strong></p>
+<p>To go the other way, copying a remote folder to a local archive. Handy for quick backups of remote resources.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh user@remoteserver "tar -jcf - /path/to/backup" &gt; dir.tar.bz2</pre>
+<p><a id="ssh-x11-forwarding"></a></p>
+<h3>11. Remote GUI Applications with SSH x11 Forwarding</h3>
+<p>If the client and remote server both have X installed. It is possible to run a GUI command remotely, with the Window appearing on your local desktop. This feature has been around since the beginning of time, but can still be very useful. Run a remote web browser or even the VMWawre Workstation console as I do in this example.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh -X remoteserver vmware</pre>
+<p>Requires <code>X11Forwarding yes</code> in the <code>sshd_config</code>.</p>
+<p><a id="rsync-ssh"></a></p>
+<h3>12. Copy files remotely with rsync and SSH</h3>
+<p>Using the <code>rsync</code> has many advantages over <code>scp</code>, if periodically need to backup a directory, large numbers of files or very large files it should be used. It has the ability to recover from failed transfers and only copy differences between two locations saving bandwidth and time.</p>
+<p>The example here uses <code>gzip</code> compression (-z) and archive mode (-a) that includes recursive copy.</p>
+<pre><span style="color: #686868;">:~$</span> rsync -az /home/testuser/data remoteserver:backup/</pre>
+<p><a id="ssh-tor"></a></p>
+<h3>13. SSH over Tor Network</h3>
+<p>The anonymised <strong>Tor Network</strong> can tunnel SSH traffic by using the <code>torsocks</code> command. The following command will proxy the <code>ssh</code> connection through the Tor network. </p>
+<pre><span style="color: #686868;">localhost:~$</span> <span class="pre-blue">torsocks</span> ssh myuntracableuser@remoteserver</pre>
+<p><a href="https://github.com/dgoulet/torsocks">Torsocks</a> will use the <strong>localhost</strong> port <strong>9050</strong> to proxy traffic. As always when using <code>tor</code> serious consideration must be taken to understand what traffic is being tunnelled and other <strong>operational security</strong> (opsec) concerns. <strong>Where are your DNS requests going</strong>?</p>
+<p><a id="ssh-ec2"></a></p>
+<h3>14. SSH to EC2 instance</h3>
+<p>When using SSH to connect to your EC2 instance within Amazon you will need to use a private key. Download the key (extension .pem) from your Amazon EC2 control panel and change the permissions (<code>chmod 400 my-ec2-ssh-key.pem</code>. Keep this key somewhere safe or put it in your <code>~/.ssh/</code> folder.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh <span class="pre-blue">-i</span> ~/.ssh/my-ec2-key.pem ubuntu@my-ec2-public</pre>
+<p>The <span class="pre-blue">-i</span> parameter tells the <code>ssh</code> client to use this key. This would be an ideal example of where to use the <code>~/.ssh/config</code> to configure the use of the key automatically when connecting to the ec2 host.</p>
+<pre>Host my-ec2-public
+   Hostname ec2???.compute-1.amazonaws.com
+   User ubuntu
+   IdentityFile ~/.ssh/my-ec2-key.pem</pre>
+<p><a id="ssh-vim"></a></p>
+<h3>15. Edit text files with VIM over ssh/scp</h3>
+<p>For all those <code>vim</code> users out there, this one can save some time. Using <code>vim</code> we can edit files over <code>scp</code> with one command. Using this method creates a file in <code>/tmp</code> on the local system and then copies it back once we write the file in <code>vim</code>.</p>
+<pre><span style="color: #686868;">localhost:~$</span> vim <span class="pre-blue">scp://user@remoteserver//etc/hosts</span></pre>
+<p>Note the format is slightly different to regular <code>scp</code>. After the host we have a double <code>//</code>. This references the absolute path. A single slash will have a path that is relative to the users home directory.</p>
+<pre>**warning** (netrw) cannot determine method (format: protocol://[user@]hostname[:port]/[path])</pre>
+<p>If you see this error, double check the format of your command. It usually means there is a syntax error.</p>
+<p><a id="sshfs"></a></p>
+<h3>16. Mount remote SSH location as local folder with SSHFS</h3>
+<p>Using <code>sshfs</code> - an <code>ssh</code> filesystem client, we can mount a local directory to a remote location with all file interaction taking place over the encrypted <code>ssh</code> session.</p>
+<pre><span style="color: #686868;">localhost:~$</span> apt install sshfs</pre>
+<p>On Ubuntu and Debian based system we install the <code>sshfs</code> package and then mount the remote location.</p>
+<pre><span style="color: #686868;">localhost:~$</span> sshfs user@remoteserver:/media/data ~/data/</pre>
+<p><a id="ssh-multiplex"></a></p>
+<h3>17. SSH Multiplex using ControlPath</h3>
+<p>By default when you have an existing connection to a remote server with <code>ssh</code>, a second connection using <code>ssh</code> or <code>scp</code> will establish a new session with the overhead of authentication. Using the <code>ControlPath</code> options we can have the existing session be used for all subsequent connections. This will speed things up significantly. It is noticeable even on a local network but even more so when connecting to remote resources.</p>
+<pre>Host remoteserver
+        HostName remoteserver.example.org
+        ControlMaster auto
+        ControlPath ~/.ssh/control/%r@%h:%p
+        ControlPersist 10m</pre>
+<p><strong>ControlPath</strong> denotes a socket that is checked by new connections to see if there is an existing <code>ssh</code> session that can be used. The <strong>ControlPersist</strong> option above means even after you exit the terminal, the existing session will remain open for 10 minutes, so if you were to reconnect within that time you would use that existing socket. See the <code>ssh_config</code> <code>man</code> page for more information.</p>
+<p><a id="stream-video"></a></p>
+<h3>18. Stream Video over SSH using VLC + SFTP</h3>
+<p>Long time users of <code>ssh</code> and <code>vlc</code> (Video Lan Client) are not always of aware of this handy option for when you need to watch video over the network. Using the <code>vlc</code> option to File | Open Network Stream one can enter the location as a an <code>sftp://</code> location. A prompt will appear for authentication details if password is required.</p>
+<pre>sftp://remoteserver//media/uploads/myvideo.mkv</pre>
+<p><a id="2FA"></a></p>
+<h3>19. Two Factor Authentication</h3>
+<p>Most readers will understand the value in using <strong>Two Factor Authentication</strong>, the same benefits that apply to your banking or Google Account can be applied to your SSH service.</p>
+<p>Of course <code>ssh</code> comes with a form of Two Factor capability included, that being a passphrase and an SSH key. An advantage of using a hardware based token or the <a href="https://hackertarget.com/ssh-two-factor-google-authenticator/">Google Authenticator App</a> is the fact that they are generally coming from a second physical device.</p>
+<p>See our 8 minute guide to getting started with <a href="https://hackertarget.com/ssh-two-factor-google-authenticator/">Google Authenticator and SSH</a>.</p>
+<p><a id="ssh-jump"></a></p>
+<h3>20. Bouncing through jump hosts with ssh and -J</h3>
+<p>When network segmentation means you are jumping through multiple <code>ssh</code> hosts to get to a final destination network or host, this jump host shortcut might be just what you need. <strong>Requires OpenSSH version 7.3+</strong>.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ssh -J host1,host2,host3 user@host4.internal</pre>
+<p>A key thing to understand here is that this is not the same as <code>ssh host1</code> then <code>user@host1:~$ ssh host2</code>, the <code>-J</code> jump parameter uses forwarding trickery so that the <strong>localhost</strong> is establishing the session with the next host in the chain. So our <strong>localhost</strong> is authenticating with <strong>host4</strong> in the above example; meaning our <strong>localhost keys</strong> are used and the session from <strong>localhost</strong> to <strong>host4</strong> is <strong>encrypted end to end</strong>.</p>
+<p>To use this ability in the <code>ssh_config</code> use the <strong>ProxyJump</strong> configuration option. If you regularly have to jump through multiple hosts; use the config file and your alias to <code>host4</code> will save you a lot of time.</p>
+<p><a id="ssh-iptables"></a></p>
+<h3>21. Block SSH Brute Force Attempts with iptables</h3>
+<p>Anyone who has managed an <strong>SSH</strong> service on the Internet, and viewed the logs will be aware of the amount of SSH <strong>brute force attempts</strong> that take place every hour of every day. An immediate way to reduce the noise in your logs is to move SSH to a port other than <strong>22</strong>. Make the change in the <code>sshd_config</code> file using the <strong>Port ##</strong> configuration option.</p>
+<p>Using <code>iptables</code> we can also block attempts to connect to the port from sources that reach a certain threshold. A way to do this is to use <a href="https://hackertarget.com/enable-ossec-active-response/">OSSEC</a>, as this not only blocks SSH but will also perform a bunch of other host based intrusion detection functions (HIDS).</p>
+<p><a id="ssh-escape"></a></p>
+<h3>22. Modify Port Forwarding within a session with ~C</h3>
+<p>And our final <code>ssh</code> example is for modifying port forwarding on the fly within an existing <code>ssh</code> session. Picture this example scenario. You are deep in a network; perhaps you have jumped through half a dozen jump hosts and need a local port on your workstation forwarded to Microsoft SMB on the old Windows 2003 system you spotted (ms08-67 anyone?).</p>
+<p>After hitting <code>enter</code> try typing <code>~C</code> in your terminal. This a control escape sequence within the session that allows to make changes to the existing connection.</p>
+<pre><span style="color: #686868;">localhost:~$</span> ~C
+ssh&gt; <span class="pre-blue">-h</span>
+Commands:
+      -L[bind_address:]port:host:hostport    Request local forward
+      -R[bind_address:]port:host:hostport    Request remote forward
+      -D[bind_address:]port                  Request dynamic forward
+      -KL[bind_address:]port                 Cancel local forward
+      -KR[bind_address:]port                 Cancel remote forward
+      -KD[bind_address:]port                 Cancel dynamic forward
+ssh&gt; <span class="pre-blue">-L 1445:remote-win2k3:445</span>
+Forwarding port.</pre>
+<p>You can see here we have forwarded our local port <span class="pre-blue">1445</span> to the <strong>Windows 2003</strong> host we found on the internal network. Now launch <code>msfconsole</code> and we are good to go (assuming you were planning on <strong>exploiting that host</strong>).</p>
+<h2>Wrapping Up</h2>
+<p>These <code>ssh</code> examples, tips and commands are intended to give you a starting point; additional detail on each of the commands and capabilities is available using the <code>man</code> pages (<code>man ssh</code>, <code>man ssh_config</code>, <code>man sshd_config</code>).</p>
+<p>Being able to reach out and run commands on systems anywhere in the world has always fascinated me. By developing your skills with tools such as <code>ssh</code> you will become more productive and effective at whatever game you play.</p>
+<p>Thanks for reading and if you have any comments or suggestions please drop me a note using the contact form. Have fun!</p>
+<div class="btx-section js-dynamic-navbar btx-p-border-border btx-dark-scheme" data-index="6" data-scheme="dark">
+<div class="btx-background" data-type="image" data-parallaxspeed="2" data-contentfade="" data-mobileparallax="">
+<div class="btx-background-wrapper" style="height: 406.8px; transform: translateY(-170.969px);">
+<div class="btx-background-inner" style="background-image:url(/wp-content/uploads/2018/03/datacenter.jpg); background-size:cover; background-position:center center; background-repeat:repeat;"></div>
+</div>
+<div class="btx-background-overlay btx-p-bg-bg" style="background-color:#1d1d1d; opacity:0.9;"></div>
+</div>
+<div class="btx-section-wrapper">
+<div class="btx-container">
+<div class="btx-row btx-row--main">
+<div class="btx-col-12">
+<div class="btx-item js-item-action btx-action btx-action--inline btx-left-align btx-s-bg-bg btx-p-border-border btx-action--left" style="padding-top:0px; padding-right:0px; padding-left:0px; padding-bottom:0px; background-color:transparent;">
+<div class="btx-action-body" style="width:64%;">
+<div class="btx-action-title btx-s-text-color btx-primary-font"><span style="color: rgb(255, 255, 255);">Know Your Attack Surface</span></div>
+<div class="btx-action-subtitle"><span style="color: rgb(137, 137, 137);">From OSINT to Vulnerability Identification</span></div>
+</div>
+<div class="btx-action-button">
+<div class="btx-button btx-button--fill btx-button-hover--brand btx-button-size--medium btx-button-color--brand"><a class="btnx" href="https://hackertarget.com/use-cases/" style="border-radius:2px; border-width:1px;">USE CASES &amp; MORE INFO</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+																					</div>
+									
+																	</div>
+
+																	<!--Post Navigation-->
+									
+
+	<div class="btx-item js-item-navigation btx-navigation btx-navigation--bar btx-p-border-border with-top-border with-bottom-border">
+
+									<div class="btx-navigation-previous">
+					<a href="https://hackertarget.com/ssh-two-factor-google-authenticator/" rel="prev"><i class="twf twf-ln-arrow-left"></i><div class="btx-navigation-content">
+						 <span class="btx-navigation-label">Previous</span>
+						 <span class="btx-navigation-title btx-s-text-color">Two factor (2FA) SSH with Google Authenticator</span>
+					 </div></a>				</div>
+			
+							<div class="btx-navigation-next">
+					<a href="https://hackertarget.com/install-openvas-gvm-on-kali/" rel="next"><div class="btx-navigation-content">
+						 <span class="btx-navigation-label">Next</span>
+						 <span class="btx-navigation-title btx-s-text-color">Install OpenVAS (GVM) on Kali 2019</span>
+					 </div><i class="twf twf-ln-arrow-right"></i></a>				</div>
+					
+		
+	</div>
+								
+																	<!--Related Post-->
+									
+
+	
+			<div class="btx-relatedpost btx-relatedpost--grid">
+			<div class="btx-relatedpost-heading">
+								<div class="btx-heading btx-heading--default btx-heading--plain btx-s-text-border"><h3 class="btx-heading-text ">Related Posts</h3></div>			</div>
+
+																			
+									<div class="btx-row">
+				
+				
+	<div class="btx-relatedpost-entry btx-col-3">
+		<a href="https://hackertarget.com/wpscan-added-to-wordpress-security-scan/" class="btx-relatedpost-entry-inner">
+			
+							<div class="btx-entry-content">
+											<h4 class="btx-entry-title btx-s-text-color btx-secondary-font">WPScan added to WordPress Security Scan</h4>
+					
+											<div class="btx-entry-date">May 15, 2012</div>
+									</div>
+					</a>
+	</div>
+
+				
+																			
+				
+				
+	<div class="btx-relatedpost-entry btx-col-3">
+		<a href="https://hackertarget.com/defending-wordpress-ossec/" class="btx-relatedpost-entry-inner">
+			
+							<div class="btx-entry-content">
+											<h4 class="btx-entry-title btx-s-text-color btx-secondary-font">Defending WordPress with OSSEC</h4>
+					
+											<div class="btx-entry-date">October 30, 2013</div>
+									</div>
+					</a>
+	</div>
+
+				
+																			
+				
+				
+	<div class="btx-relatedpost-entry btx-col-3">
+		<a href="https://hackertarget.com/install-splunk-ubuntu-in-5-mins/" class="btx-relatedpost-entry-inner">
+			
+							<div class="btx-entry-content">
+											<h4 class="btx-entry-title btx-s-text-color btx-secondary-font">Install Splunk on Ubuntu in 5 mins</h4>
+					
+											<div class="btx-entry-date">February 2, 2013</div>
+									</div>
+					</a>
+	</div>
+
+				
+																			
+				
+				
+	<div class="btx-relatedpost-entry btx-col-3">
+		<a href="https://hackertarget.com/wpscan-install-ubuntu/" class="btx-relatedpost-entry-inner">
+			
+							<div class="btx-entry-content">
+											<h4 class="btx-entry-title btx-s-text-color btx-secondary-font">WPScan Install on Ubuntu</h4>
+					
+											<div class="btx-entry-date">November 6, 2013</div>
+									</div>
+					</a>
+	</div>
+
+									</div>
+				
+								</div>
+									
+																	<!--Comment-->
+																								</div>
+						</div>
+
+											</div>
+				</div>
+			</article>
+		</main>
+	
+
+
+			<footer class="btx-footer btx-dark-scheme type-footer-bottombar">
+
+									<div class="btx-footer-widgets btx-left-align">
+						<div class="btx-container">
+							<div class="btx-footer-widgets-content">
+								<div class="btx-row">
+
+																														<div class="btx-footer-column btx-p-border-border btx-col-4">
+												<div class="btx-widgets">
+													<ul class="btx-widgets-list">
+														<li id="text-31" class="widget widget_text"><div class="btx-heading btx-heading--default btx-heading--plain btx-s-text-border"><h3 class="btx-heading-text ">About</h3></div>			<div class="textwidget"><span style="font-size: 16px; margin-right: 50px; ">From attack surface discovery to vulnerability identification, we host tools to make the job of securing your systems easier.</span><br><a href="https://hackertarget.com/scan-membership/"><span class="label label-danger">Membership</span></a> <a href="https://hackertarget.com/use-cases/"><span class="label label-default">Learn More</span></a>
+
+</div>
+		</li>
+													</ul>
+												</div>
+											</div>
+																																								<div class="btx-footer-column btx-p-border-border btx-col-4">
+												<div class="btx-widgets">
+													<ul class="btx-widgets-list">
+														<li id="bateaux_widget_social-2" class="widget btx-widget btx-widget-social"><div class="btx-heading btx-heading--default btx-heading--plain btx-s-text-border"><h3 class="btx-heading-text ">Connect</h3></div><div class="btx-social"><div class="btx-social-inner"><a href="https://www.facebook.com/hackertarget" class="btx-social-item btx-social-facebook" target="_blank"><span class="btx-icon btx-icon--with-hover btx-icon--plain btx-icon--hover-plain btx-icon--large"><span class="btx-icon-normal btx-icon-plain btx-p-text-color"><i class="twf twf-facebook"></i></span><span class="btx-icon-hover btx-icon-plain btx-p-brand-color"><i class="twf twf-facebook"></i></span></span></a><a href="https://www.twitter.com/hackertarget" class="btx-social-item btx-social-twitter" target="_blank"><span class="btx-icon btx-icon--with-hover btx-icon--plain btx-icon--hover-plain btx-icon--large"><span class="btx-icon-normal btx-icon-plain btx-p-text-color"><i class="twf twf-twitter"></i></span><span class="btx-icon-hover btx-icon-plain btx-p-brand-color"><i class="twf twf-twitter"></i></span></span></a><a href="mailto:https://hackertarget.com/contact/" class="btx-social-item btx-social-email"><span class="btx-icon btx-icon--with-hover btx-icon--plain btx-icon--hover-plain btx-icon--large"><span class="btx-icon-normal btx-icon-plain btx-p-text-color"><i class="twf twf-envelope"></i></span><span class="btx-icon-hover btx-icon-plain btx-p-brand-color"><i class="twf twf-envelope"></i></span></span></a></div></div></li>
+													</ul>
+												</div>
+											</div>
+																																								<div class="btx-footer-column btx-p-border-border btx-col-4">
+												<div class="btx-widgets">
+													<ul class="btx-widgets-list">
+														<li id="text-37" class="widget widget_text"><div class="btx-heading btx-heading--default btx-heading--plain btx-s-text-border"><h3 class="btx-heading-text ">Mailing List</h3></div>			<div class="textwidget"><span style="line-height: 22px; font-size: 14px; font-weight: bold;">Subscribe to the low volume list</span><br>
+<span style="font-size: 10px;">Security news, site updates and more.</span><br>
+<!-- MailChimp for WordPress v2.3.16 - https://wordpress.org/plugins/mailchimp-for-wp/ --><div id="mc4wp-form-2" class="form mc4wp-form"><form method="post"><p>
+	<input type="email" id="mc4wp_email" name="EMAIL" placeholder="Your email address" required="">
+</p>
+
+<p>
+	<input type="submit" value="Sign up" class="btn btn-success">
+</p><div style="position: absolute; left: -5000px;"><input type="text" name="_mc4wp_ho_f85090411ef16c9c020c5d6187f4917e" value="" tabindex="-1" autocomplete="off"></div><input type="hidden" name="_mc4wp_timestamp" value="1563417145"><input type="hidden" name="_mc4wp_form_id" value="0"><input type="hidden" name="_mc4wp_form_element_id" value="mc4wp-form-2"><input type="hidden" name="_mc4wp_form_submit" value="1"><input type="hidden" name="_mc4wp_form_nonce" value="a206712cdf"></form></div><!-- / MailChimp for WordPress Plugin --></div>
+		</li>
+													</ul>
+												</div>
+											</div>
+																			
+								</div>
+							</div>
+						</div>
+					</div>
+				
+									<div class="btx-bottombar btx-p-border-border">
+						<div class="btx-container">
+<div class="btx-bottombar-content btx-p-border-border">
+	<div class="btx-widgets left">
+   		<div class="widget btx-widget-text">© 2019 Hacker Target Pty Ltd - ACN 600827263 | <a href="https://hackertarget.com/terms/" style="color: #fff;">Terms of Use</a> &amp; <a href="https://hackertarget.com/privacy-policy/" style="color: #fff;">Privacy Policy</a> | Powered by Open Source Software</div>
+	</div>
+	<div class="btx-widgets right">
+ 		<div class="widget btx-widget-social">
+			<div class="btx-social btx-social--plain">
+				<div class="btx-social-inner">
+					<a href="https://www.facebook.com/hackertarget" class="btx-social-item btx-social-facebook" target="_blank"><span class="btx-icon btx-icon--with-hover btx-icon--plain btx-icon--hover-plain btx-icon--small"><span class="btx-icon-normal btx-icon-plain btx-p-text-color"><i class="twf twf-facebook"></i></span><span class="btx-icon-hover btx-icon-plain btx-p-brand-color"><i class="twf twf-facebook"></i></span></span></a><a href="https://www.twitter.com/hackertarget" class="btx-social-item btx-social-twitter" target="_blank"><span class="btx-icon btx-icon--with-hover btx-icon--plain btx-icon--hover-plain btx-icon--small"><span class="btx-icon-normal btx-icon-plain btx-p-text-color"><i class="twf twf-twitter"></i></span><span class="btx-icon-hover btx-icon-plain btx-p-brand-color"><i class="twf twf-twitter"></i></span></span></a><a href="https://hackertarget.com/contact/" class="btx-social-item btx-social-email"><span class="btx-icon btx-icon--with-hover btx-icon--plain btx-icon--hover-plain btx-icon--small"><span class="btx-icon-normal btx-icon-plain btx-p-text-color"><i class="twf twf-envelope"></i></span><span class="btx-icon-hover btx-icon-plain btx-p-brand-color"><i class="twf twf-envelope"></i></span></span></a>														</div>
+													</div>
+												</div>
+											
+										</div>
+																																		
+							</div>
+						</div>
+					</div>
+				
+			</footer>
+
+		</div>
+		
+
+
+
+
+
+
+
+
+
+
+
+
+                			            
+                        
+		
+			<div id="cookie-notice" role="banner" class="cn-bottom" style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0); visibility: visible;"><div class="cookie-notice-container"><span id="cn-notice-text">We use cookies to ensure that we give you the best experience on our site. If you continue to use this site we assume that you accept this.</span><a href="https://hackertarget.com/ssh-examples-tunnels/#" id="cn-accept-cookie" data-cookie-set="accept" class="cn-set-cookie cn-button button">Ok</a>
+				</div>
+				
+			</div>	<script type="text/javascript" defer="" src="./22 SSH Examples, Practical Tips &amp; Tunnels _ HackerTarget.com_files/autoptimize_dd1750715ded828a5b0c55a1c0ec8c2a.js"></script><script data-cfasync="false">!function(t){"use strict";t.loadCSS||(t.loadCSS=function(){});var e=loadCSS.relpreload={};if(e.support=function(){var e;try{e=t.document.createElement("link").relList.supports("preload")}catch(t){e=!1}return function(){return e}}(),e.bindMediaToggle=function(t){function e(){t.media=a}var a=t.media||"all";t.addEventListener?t.addEventListener("load",e):t.attachEvent&&t.attachEvent("onload",e),setTimeout(function(){t.rel="stylesheet",t.media="only x"}),setTimeout(e,3e3)},e.poly=function(){if(!e.support())for(var a=t.document.getElementsByTagName("link"),n=0;n<a.length;n++){var o=a[n];"preload"!==o.rel||"style"!==o.getAttribute("as")||o.getAttribute("data-loadcss")||(o.setAttribute("data-loadcss",!0),e.bindMediaToggle(o))}},!e.support()){e.poly();var a=t.setInterval(e.poly,500);t.addEventListener?t.addEventListener("load",function(){e.poly(),t.clearInterval(a)}):t.attachEvent&&t.attachEvent("onload",function(){e.poly(),t.clearInterval(a)})}"undefined"!=typeof exports?exports.loadCSS=loadCSS:t.loadCSS=loadCSS}("undefined"!=typeof global?global:this);</script>
+</body></html>

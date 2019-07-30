@@ -2152,53 +2152,48 @@ Per impostare dei permessi ACL eseguiamo:
 
 ```sh
  setfacl -m -u:nomeUtente:rwx nomeFile 
- # imposta i diritti per 
- # l'utente chiamato nomeUtente abilitando lettura, scrittura ed 
- # esecuzione sul file menzionato
+ # imposta i diritti per  l'utente chiamato nomeUtente abilitando 
+ # lettura, scrittura ed esecuzione sul file menzionato
 ```
 ```sh
  setfacl -R -m u:username:rwx /path/to/directory 
- # imposta i 
- # diritti per l'utente chiamato username su una directory, 
+ # imposta i diritti per l'utente chiamato username su una directory, 
  # infatti il flag "-R" è utilizzato per applicare ricorsivamente 
  # i permessi sulle directory
 ```
 ```sh
  setfacl -m g:groupname:r-x /path/to/filename 
- # imposta i 
- # diritti per il gruppo chiamato groupname abilitando lettura ed 
- # esecuzione sul file menzionato
+ # imposta i diritti per il gruppo chiamato groupname abilitando 
+ # lettura ed esecuzione sul file menzionato
 ```
 ```sh
  setfacl -m:user1:- /path/to/file 
- # nega tutti i permessi 
- # (lettura, scrittura ed esecuzione) per l'utente chiamato user1 
- # sul file menzionato
+ # nega tutti i permessi (lettura, scrittura ed esecuzione) per l'utente
+ # chiamato user1 sul file menzionato
 ```
 ```sh
  setfacl -x u:username /path/to/file 
- # elimina la entry ACL 
- # relativa all'utente menzionato
+ # elimina la entry ACL relativa all'utente menzionato
 ```
 ```sh
  setfacl -b nomeFile 
- # elimina tutti i permessi ACL applicati al 
- # file menzionato
+ # elimina tutti i permessi ACL applicati al file menzionato
 ```
+
 Su alcuni filesystem potrebbe non essere possibile effettuare il 
 comando setfacl, questo è dovuto al fatto che deve essere 
 attivata un'opzione sul filesystem su cui vogliamo applicare i 
 permessi ACL. 
 
 ```sh
- getfacl -R /some/path > permissions.txt
- setfacl --restore=permissions.txt
+ getfacl -R /some/path > permissions.txt setfacl --restore=permissions.txt
  # questo e' utile per salvare i permessi di un file
  # e poi ripristinarli in un secondo momento
 ```
 
 Consultare le man page di getfacl e setfacl per ulteriori 
 informazioni molto ben dettagliate.
+
 
 ### Sulla mia partizione è possibile usare il sistema di permessi ACL ?
 
@@ -2356,6 +2351,15 @@ che fanno uso di random:
  randpw(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo;} 
  # here we define a function
 ```
+```sh
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1
+```
+
+il mio metodo preferito e' invece:
+```sh
+strings /dev/urandom | grep -o '[[:alnum:]]' | head -n 30 | tr -d '\n'; echo
+```
+
 
 
 ### Create /dev/random and /dev/urandom if absent
@@ -2368,16 +2372,23 @@ them, remind that:
 * Minor Device number of /dev/urandom -- 1 
 * Major Device number of /dev/urandom -- 9
 
-STEP1: Creating character file with mode/permission as 644 # 
+STEP1: Creating character file with mode/permission as 644:
+```sh
 mknod -m 644 /dev/random 1 8
+```
 
-STEP2: Creating character file with mode/permission as 644 # 
+STEP2: Creating character file with mode/permission as 644:
+```sh
 mknod -m 644 /dev/urandom 1 9
+```
 
-STEP3: Changing ownership & group of created devices to ‘root’ # 
+STEP3: Changing ownership & group of created devices to 'root':
+```sh
 chown root:root /dev/random /dev/urandom
+```
 
 STEP4: Done
+
 
 
 ### Il filesystem sysfs
@@ -2394,18 +2405,16 @@ diversi reboot.
 Per fornire una visione uniforma dei dispositivi collegati in 
 funzione dei loro effettivi attributi, il kernel linux offre 
 l'interfaccia denominata "sysfs" attraverso un filesystem di file 
-e directory. La directory base che contiene i device è "
-/sys/devices". Facciamo un esempio, il device /dev/sda potrebbe 
-risiedere all'indirizzo "
-/sys/devices/pci0000:00/0000:00:1f.2/host0/target0:0:0/0:0:0:0/block/sda"
-, anche se l'indirizzo non è molto user-friendly, questi due file 
+e directory. La directory base che contiene i device è "/sys/devices".
+Facciamo un esempio, il device /dev/sda potrebbe risiedere all'indirizzo
+"/sys/devices/pci0000:00/0000:00:1f.2/host0/target0:0:0/0:0:0:0/block/sda",
+anche se l'indirizzo non è molto user-friendly, questi due file 
 hanno scopi diversi, in quanto il primo è utilizzato per fornire 
 un'interfaccia al device per i processi utente, mentre il secondo 
 è utilizzato per visualizzare informazioni e gestire il device. 
 All'interno della directory del device possiamo trovare 
-all'interno del file "dev" il major e il minor number ad esempio "
-8:0" starà ad indicare un major number = a 8 ed un minor number = 
-a 0.
+all'interno del file "dev" il major e il minor number ad esempio "8:0" starà 
+ad indicare un major number = a 8 ed un minor number = a 0.
 
 E' molto utile sapere che nella directory sys, ci sono molti 
 shortcut, ad esempio "/sys/block" sarà la directory contenente 
@@ -2418,8 +2427,7 @@ possiamo effettuare un:
 
 ```sh
  ls -l /sys/block 
- # mostra i percorsi reali dei vari block 
- # device presenti sul sistema
+ # mostra i percorsi reali dei vari block device presenti sul sistema
 ```
 Può essere difficile trovare la posizione di un determinato 
 device che vediamo in /dev all'interno del filesystem sysfs. 
@@ -2428,10 +2436,10 @@ mostrare il path e vari attributi, ad esempio:
 
 ```sh
  udevadm info --query=all --name=/dev/sda 
- # mostra il percorso 
- # completo del device /dev/sda all'interno di sysfs con relative 
- # informazioni
+ # mostra il percorso completo del device /dev/sda all'interno di sysfs
+ # con relative informazioni
 ```
+
 
 ### Hard Disks
 
@@ -2460,17 +2468,16 @@ comunicare, per quanto riguarda gli Hard Disk SATA, la questione
 protocollo SCSI per comunicare con loro. Per elencare i 
 dispositivi SCSI e visualizzare informazioni su di essi, 
 bisognerebbe navigare nel sysfs, ma per fortuna esistono 
-programmi che fanno questo per noi, uno dei più famosi è "lsscsi"
-.
+programmi che fanno questo per noi, uno dei più famosi è "lsscsi".
 
 ```sh
  lsscsi 
- # mostra le periferiche SCSI, la prima colonna 
- # identifica l'indirizzo della periferica all'interno del 
- # sistema, la seconda identifica il tipo di dispositivo, le 
- # successive informazioni del produttore e l'ultima indica il 
- # percorso al device file
+ # mostra le periferiche SCSI, la prima colonna identifica l'indirizzo 
+ # della periferica all'interno del # sistema, la seconda identifica il 
+ # tipo di dispositivo, le successive informazioni del produttore e 
+ # l'ultima indica il percorso al device file
 ```
+
 Tradizionalmente la nomenclatura dell'hardware ha spesso causato 
 problemi, per via del fatto che se ho tre HDD, "/dev/sda", "/dev/sdb"
 ed "/dev/sdc", e mi si spacca un HDD, ad esempio 
@@ -2842,11 +2849,10 @@ eseguendo:
  # relativi node files creati all'interno della directory "/dev", una volta
 ```
 
-dobbiamo ricordarci che se abbiamo il percorso in /dev a 
-disposizione allora useremo nel comando "udevadm info" l'opzione `--name`
-e specificheremo il percorso in "/dev", mentre se abbiamo 
-solo il percorso in "/sys" all-ora non dobbiamo mettere l'opzione 
-`--name`.
+dobbiamo ricordarci che se abbiamo il percorso in "/dev" a disposizione allora useremo
+nel comando "udevadm info" l'opzione `--name` e specificheremo il percorso in 
+"/dev", mentre se abbiamo solo il percorso in "/sys" all-ora non dobbiamo mettere
+l'opzione `--name`.
 
 
 ### udevadm
@@ -2862,16 +2868,14 @@ Vediamo alcuni esempi:
 
 ```sh
  udevadm info --query=all --name=/dev/sda 
- # mostra tutte le 
- # informazioni, gli attributi e le regole per il device file 
- # /dev/sda
+ # mostra tutte le informazioni, gli attributi e le regole per il device
+ # file /dev/sda
 ```
 ```sh
  udevadm monitor 
- # monitora i vari eventi, qui vedremo la 
- # sezione "kernel" che rappresenta i messaggi che arrivano dal 
- # kernel e la sezione "udev" relativa a quello che udev invia ai 
- # vari processi
+ # monitora i vari eventi, qui vedremo la sezione "kernel" che rappresenta i
+ # messaggi che arrivano dal kernel e la sezione "udev" relativa a quello 
+ # che udev invia ai vari processi
 ```
 ```sh
  udevadm monitor --kernel 
@@ -2883,11 +2887,11 @@ Vediamo alcuni esempi:
 ```
 ```sh
  udevadm monitor --property 
- # mostra informazioni aggiuntive sui 
- # vari messaggi come ad esempio gli attributi, questo mi permette 
- # anche di visualizzare i file che vengono creati in /dev quando 
- # inserisco un nuovo device nel computer
+ # mostra informazioni aggiuntive sui vari messaggi come ad esempio gli
+ # attributi, questo mi permette anche di visualizzare i file che vengono
+ # creati in /dev quando inserisco un nuovo device nel computer
 ```
+
 C'è molto da sapere su udev, ad esempio possiamo anche filtrare i 
 messaggi per device, inoltre è utile sapere che il D-Bus (Desktop 
 Bus) system utilizzato per l'interprocess communication (IPC) ha 
@@ -2921,10 +2925,12 @@ pacchetti (o delle installazioni più in generale).
         pacchetto binario esiste.
 
 Comandi comuni a tutte le distro per avere delle informazioni sui 
-programmi installati sono whereis e which. N.B.: E' possibile 
-convertire un pacchetto ".rpm" in ".deb" o viceversa attraverso 
-un programma chiamato alien. Un comodo reference per vedere le 
-differenze tra un package manager e l'altro è 
+programmi installati sono whereis e which.
+N.B.: E' possibile convertire un pacchetto ".rpm" in ".deb" o viceversa
+attraverso un programma chiamato alien.
+
+N.B.2: Un comodo reference per vedere le differenze tra un package manager
+e l'altro è:
 [Differenze principali tra Package Manager](https://wiki.archlinux.org/index.php/Pacman_Rosetta).
 
 
@@ -2939,8 +2945,7 @@ installati nelle loro directory.
 
 ```sh
  whereis apache2 
- # mi fornisce tutte le locazioni riguardanti il 
- # pacchetto apache2
+ # mi fornisce tutte le locazioni riguardanti il pacchetto apache2
 ```
 
 
@@ -2961,6 +2966,7 @@ in tutto il filesystem. We have to understand that we can run
 programs without "./programName" but only with "programName" if 
 the program is located in one of the positions of the shell 
 variable "$PATH".
+
 
 ### Informazioni generali sui pacchetti
 
@@ -3925,20 +3931,20 @@ attive solo al prossimo login degli utenti.
 Per le Shell di Login la shell Bash cerca di eseguire nell'ordine 
 sottocitato i seguenti file:
 
-1. /etc/profile
-2. ~/.bash_profile
-3. ~/.bash_login
-4. ~/.profile
+1. `/etc/profile`
+2. `~/.bash_profile`
+3. `~/.bash_login`
+4. `~/.profile`
 
 e quando esce o si effettua il logout prova ad eseguire:
 
-1. ~/.bash_logout
+1. `~/.bash_logout`
 
 Per le Shell non di Login, la shell Bash cerca di eseguire 
 nell'ordine sottocitato i seguenti file:
 
-1. /etc/bash.bashrc
-2. ~/.bashrc
+1. `/etc/bash.bashrc`
+2. `~/.bashrc`
 
 ### Shell di Login o Shell di Non Login ?
 
@@ -3951,12 +3957,13 @@ di login quando usiamo una shell Bash, possiamo usare il comando:
  # mostra video un messaggio mostrando se la shell in 
  # utilizzo è di login o non di login
 ```
-oppure
 
+oppure:
 ```sh
  shopt | grep login_shell 
  # mostrerà le variabili della shell
 ```
+
 oppure ancora possiamo eseguire:
 
 ```sh
@@ -4069,10 +4076,10 @@ Vediamo alcuni utili shortcut della Bash shell ora:
 ```
 ```sh
  some command|xsel --clipboard 
- # copia l'output del comando nella 
- # clipboard di sistema pronto per essere incollato, utile quanto 
- # ad esempio vogliamo utilizzare servizi di paste online
+ # copia l'output del comando nella clipboard di sistema pronto per essere 
+ # incollato, utile quanto ad esempio vogliamo utilizzare servizi di paste online
 ```
+
 ```sh
  \nomeComando 
  # utile per fare in modo di utilizzare il comando 
@@ -4347,148 +4354,58 @@ come possiamo notare, esistono dei codici come "\u" o "\h" che
 indicano variabili che possiamo mostrare nel prompt, elenchiamo 
 alcuni esempi:
 
-```sh
- # \a : an ASCII bell character (07)
-```
-```sh
- # \d : the date in "Weekday Month Date" format (e.g., "Tue May 
- # 26") 
-```
-```sh
- # \D{format} : the format is passed to strftime(3) and the result 
- # is inserted into the prompt string; an empty format results in 
- # a locale-specific time representation. The braces are required 
-```
-```sh
- # \e : an ASCII escape character (033) 
-```
-```sh
- # \h : the hostname up to the first '.'
-```
-```sh
- # \H : the hostname 
-```
-```sh
- # \j : the number of jobs currently managed by the shell
-```
-```sh
- # \l : the basename of the shell?s terminal device name 
-```
-```sh
- # \n : newline 
-```
-```sh
- # \r : carriage return 
-```
-```sh
- # \s : the name of the shell, the basename of $0 (the portion 
- # following the final slash) 
-```
-```sh
- # \t : the current time in 24-hour HH:MM:SS format 
-```
-```sh
- # \T : the current time in 12-hour HH:MM:SS format 
-```
-```sh
- # \@ : the current time in 12-hour am/pm format
-```
-```sh
- # \A : the current time in 24-hour HH:MM format 
-```
-```sh
- # \u : the username of the current user 
-```
-```sh
- # \v : the version of bash (e.g., 2.00) 
-```
-```sh
- # \V : the release of bash, version + patch level (e.g., 2.00.0) 
-```
-```sh
- # \w : the current working directory, with $HOME abbreviated with 
- # a tilde 
-```
-```sh
- # \W : the basename of the current working directory, with $HOME 
- # abbreviated with a tilde 
-```
-```sh
- # \! : the history number of this command 
-```
-```sh
- \
- #  : the command number of this command 
-```
-```sh
- \$ : if the effective UID is 0, a 
- # , otherwise a $ 
-```
-```sh
- # \nnn : the character corresponding to the octal number nnn 
-```
-```sh
- # \\ : a backslash 
-```
-```sh
- # \[ : begin a sequence of non-printing characters, which could 
- # be used to embed a terminal control sequence into the prompt 
-```
-```sh
- # \] : end a sequence of non-printing characters 
-```
-```sh
- \u 
- # nomeutente
-```
-```sh
- \h 
- # hostname
-```
-```sh
- \w 
- # directory corrente
-```
-```sh
- \@ 
- # ora corrente con indicazione AM/PM
-```
-```sh
- \t 
- # ora corrente con indicazione dei secondi
-```
-```sh
- \j 
- # numero di job in esecuzione
-```
-```sh
- \d 
- # data corrente
-```
-```sh
- \$ 
- # mostra il simbolo "$" se l'utente corrente non è root 
-  mentre in caso contrario mostra il simbolo "
- # "
-```
+* `\a`, an ASCII bell character (07)
+* `\d`, the date in "Weekday Month Date" format (e.g., "Tue May 26") 
+* `\D{format}`, the format is passed to strftime(3) and the result 
+    is inserted into the prompt string; an empty format results in 
+    a locale-specific time representation. The braces are required 
+* `\e`, an ASCII escape character (033) 
+* `\h`, the hostname up to the first '.'
+* `\H`, the hostname 
+* `\j`, the number of jobs currently managed by the shell
+* `\l`, the basename of the shell?s terminal device name 
+* `\n`, newline 
+* `\r`, carriage return 
+* `\s`, the name of the shell, the basename of $0 (the portion following the final slash) 
+* `\t`, the current time in 24-hour HH:MM:SS format 
+* `\T`, the current time in 12-hour HH:MM:SS format 
+* `\@, t`he current time in 12-hour am/pm format
+* `\A`, the current time in 24-hour HH:MM format 
+* `\u`, the username of the current user 
+* `\v`, the version of bash (e.g., 2.00) 
+* `\V`, the release of bash, version + patch level (e.g., 2.00.0) 
+* `\w`, the current working directory, with $HOME abbreviated with a tilde 
+* `\W`, the basename of the current working directory, with $HOME abbreviated 
+    with a tilde 
+* `\!`, the history number of this command 
+* `\`  : the command number of this command 
+* `\$`, if the effective UID is 0, a `#` , otherwise a `$`
+* `\nnn`, the character corresponding to the octal number nnn 
+* `\\`, a backslash 
+* `\[`, begin a sequence of non-printing characters, which could 
+    be used to embed a terminal control sequence into the prompt 
+* `\]`, end a sequence of non-printing characters 
+* `\u`, nomeutente
+* `\h`, hostname
+* `\w`, directory corrente
+* `\@, o`ra corrente con indicazione AM/PM
+* `\t`, ora corrente con indicazione dei secondi
+* `\j`, numero di job in esecuzione
+* `\d`, data corrente
+* `\$, m`ostra il simbolo "$" se l'utente corrente non è root 
+    mentre in caso contrario mostra il simbolo "#"
+
 Per poter modificare i colori o gli stili del testo invece 
 esistono dei codici, ad esempio il verde non grassetto 
 corrisponde al codice "0;32", però l'inizio e la fine dello 
 stile/colore deve essere delimitata dalle sequenze:
 
-```sh
- \[\e[codiceColorem\] 
- # per iniziare con codiceColore
-```
-```sh
- \[\e[m\] 
- # per terminare con l'ultimo codice con cui abbiamo 
- # iniziato
-```
+* `\[\e[codiceColorem\]`, per iniziare con codiceColore
+*  `\[\e[m\]`, per terminare con l'ultimo codice con cui abbiamo iniziato
+
 ad esempio, nel caso volessimo avere un prompt con il nome utente 
-e l'hostname con carattere di separazione "@" tutto di colore "
-0;32" seguiti dalla directory corrente con stile/colore "0;31" 
-allora facciamo:
+e l'hostname con carattere di separazione "@" tutto di colore "0;32" seguiti 
+dalla directory corrente con stile/colore "0;31" allora facciamo:
 
 ```sh
  export PS1='\[\e[0;32m\]\u@\h\[\e[m\]\[\e[0;31m\]\w\[\e[m\]'
@@ -4498,11 +4415,10 @@ consigliato consultare.
 [Guida ai Colori del Prompt di Shell](https://wiki.archlinux.org/index.php/Color_Bash_Prompt)
 
 Vediamo un altro esempio:
-
 ```sh
-  PS1="$HC$FYEL[ $FBLE${debian_chroot:+($debian_chroot)}\u$FYEL: 
-  $FBLE\w $FYEL]\\$ $RS" PS2="$HC$FYEL&gt; $RS"
+  PS1="$HC$FYEL[ $FBLE${debian_chroot:+($debian_chroot)}\u$FYEL:$FBLE\w $FYEL]\\$ $RS" PS2="$HC$FYEL&gt; $RS"
 ```
+
 o ancora
 
 ```sh
@@ -4799,93 +4715,31 @@ ogni comando di tmux comincia col prefix (prefisso) "Ctrl+b",
 quindi ogni comando che segue dovrà prima essere preceduto dalla 
 combinazione"Ctrl+b":
 
-```sh
- c 
- # crea una nuova window
-```
-```sh
- n 
- # va alla window successiva
-```
-```sh
- p 
- # va alla window precedente
-```
-```sh
- & 
- # killa la window corrente
-```
+* `c`, crea una nuova window
+* `n`, va alla window successiva
+* `p`, va alla window precedente
+* `&`, killa la window corrente
+* `s`, mostra lo stato di tutte le window
+* `,`, rinomina la window corrente
+* `w`, mostra la lista delle window all'interno della sessione corrente
+* `0-9`, va alla finestra identificata dall'id specificato
 
-```sh
- s
- # mostra lo stato di tutte le window
-```
-```sh
- , 
- # rinomina la window corrente
-```
-```sh
- w 
- # mostra la lista delle window all'interno della sessione 
- # corrente
-```
-```sh
- 0-9 
- # va alla finestra identificata dall'id specificato
-```
-per quanto riguarda i pane, abbiamo a disposizione:
+Per quanto riguarda i pane, abbiamo a disposizione i seguenti comandi:
 
-```sh
- " 
- # splitta in modo orizzontale la window in due pane
-```
-```sh
- % 
- # splitta in modo verticale la window in due pane
-```
-```sh
- o 
- # switcha tra un pane e l'altro
-```
-```sh
- ;
- # switcha tra il pane corrente e il precedente 
-```
+* `"`, splitta in modo orizzontale la window in due pane
+* `%`, splitta in modo verticale la window in due pane
+* `o`, switcha tra un pane e l'altro
+* `;`, switcha tra il pane corrente e il precedente 
 
+* `;`, va all'ultimo pane attivo
+* `!`, converte il pane in una finestra separata
+* `x`, chiude il pane o una window se e' presente un unico pane
+* `$`, rinomina la corrente sessione tmux
 
-```sh
- tasti direzionali 
- # ridimensiona un pane
-```
-```sh
- spacebar 
- # cambia il layout tra alcuni predefiniti
-```
-```sh
- z 
- # mette un pane in fullscreen, dobbiamo ripetere lo shortcut 
- # per rimetterlo a posto
-```
-```sh
- {,} 
- # spostiamo il pane a destra o a sinistra
-```
-```sh
- ; 
- # va all'ultimo pane attivo
-```
-```sh
- ! 
- # converte il pane in una finestra separata
-```
-```sh
- x 
- # chiude il pane o una window se e' presente un unico pane
-```
-```sh
- $ 
- # rinomina la corrente sessione tmux
-```
+* `tasti direzionali`, ridimensiona un pane
+* `spacebar`, cambia il layout tra alcuni predefiniti
+* `z`, mette un pane in fullscreen, dobbiamo ripetere lo shortcut # per rimetterlo a posto
+* `{,}`, spostiamo il pane a destra o a sinistra
 
 
 Possiamo creare una nuova sessione tmux con:
@@ -4926,22 +4780,22 @@ Inoltre sono disponibili molti comandi, possiamo accedere alla
 modalità comandi con lo shortcut "Ctrl+b+:", da qui alcuni 
 comandi utili sono:
 
-```sh
+```tmux
  join-pane -s 1 
  # joina la window 1 come pane alla window 
  # corrente
 ```
-```sh
+```tmux
  join-pane -b -s 5 -t 2 
  # joins window 5 to the left of pane 2 
  # in the current window
 ```
-```sh
+```tmux
  join-pane -s 1 -t 0 
  # joina la finestra uno come pane alla 
  # finestra corrente
 ```
-```sh
+```tmux
  swap-window -s 2 -t 1 
  # swappa la finestra 2 con la numero 1
 ```
@@ -5023,8 +4877,9 @@ Vediamo altri comandi:
  Ctrl+a, :remove 
  # rimuove la finestra
 ```
-### Terminator
 
+
+### Terminator
 
 Vediamo alcuni comandi di terminator:
 
@@ -5473,15 +5328,15 @@ Ci potrebbe capitare di premere la combinazione di tasti Ctrl+s,
 in questo caso sembrerebbe che vim sia bloccato, in realtà basta 
 premere Ctrl+q per sbloccarlo, questa feature è chiamata "
 software flow control". E' una feature legacy che esiste dagli 
-anni 80,
+anni 80, per disabilitare questa feature dobbiamo modificare il nostro 
+file di configurazione shell ad esempio `~/.bash_profile` or 
+`~/.bashrc`, con la seguente stringa:
 
-per disabilitare questa feature dobbiamo modificare il nostro 
-file di configurazione shell ad esempio ~/.bash_profile or 
-~/.bashrc, con la seguente stringa:
-
+```sh
 stty -ixon 
+```
 
-P.S.: Per navigare i file è molto comodo il plugin "CtrlP"
+P.S.: Per navigare i file è molto comodo il plugin "CtrlP".
 
 
 ### Richiamare programmi esterni su blocchi di righe
@@ -5608,8 +5463,9 @@ Oppure possiamo aprire e chiudere un fold con:
  # andiamo alla prossima occorrenza della stringa su cui è il 
  # cursore
 ```
-### File di template in Vim
 
+
+### File di template in Vim
 
 Possiamo creare una directory con tutta una serie di template per 
 vari file sorgenti appartenenti a diversi linguaggi di 
@@ -5625,10 +5481,10 @@ inserire nel nostro file di configurazione la stringa:
 ora ogni volta che creeremo un nuovo file avremo già lo 
 scheletro.
 
+
 ### Documentazione per sorgenti
 
-
-nel file relativo alla configurazione del linguaggio in uso, ad 
+Nel file relativo alla configurazione del linguaggio in uso, ad 
 esempio "~/.vim/after/ftplugin/python.vim" possiamo aggiungere:
 
 ```sh
@@ -5636,8 +5492,9 @@ esempio "~/.vim/after/ftplugin/python.vim" possiamo aggiungere:
  # questo ci permetterà di aprire un nuovo buffer 
  # temporaneo in cui comparirà la documentazione
 ```
-### Window, buffers e Tab Management
 
+
+### Window, buffers e Tab Management
 
 In generale il workflow di vim è gestito attraverso:
 
@@ -5822,8 +5679,9 @@ corrispondono proprio a sessioni di lavoro diverse.
  gT 
  # va alla tab precedente
 ```
-### Auto Indentazione di Codice
 
+
+### Auto Indentazione di Codice
 
 Per autoindentare codice, possiamo fare nella normal mode:
 
@@ -5869,18 +5727,18 @@ larghezza del tab per i file con estensione ".rb" (per il
 linguaggio ruby), possiamo fare così:
 
 ```sh
- # mkdir -p ~/.vim/after/ftplugin
+ mkdir -p ~/.vim/after/ftplugin
 ```
 ```sh
- # touch ruby.vim
+ touch ruby.vim
 ```
 e ora in "c.vim" inseriamo ad esempio:
 
+```txt
 set ts=2
-
 set sw=2
-
 set et
+```
 
 possiamo capire come chiamare il file, capendo qual'è il tipo 
 associato, ad esempio nel caso del bash, creare un file chiamato 
@@ -5893,10 +5751,10 @@ mettiamoci in un file bash ed eseguiamo il comando:
  # caso di un file bash ci risponderà "sh"
 ```
 a questo punto dal tipo di file possiamo creare il nostro file 
-~/.vim/after/ftplugin/sh.vim con le impostazioni desiderate.
+`~/.vim/after/ftplugin/sh.vim` con le impostazioni desiderate.
+
 
 ### Registri
-
 
 In vim possiamo copiare ed incollare da vari registri... possiamo 
 selezionare un registro con il doppio apice ", inoltre c'è un 
@@ -5912,24 +5770,24 @@ usare `"bdd`.
 Possiamo impostare il comando "make" con:
 
 ```sh
- # :set makeprg=bash\ myscript.sh
+ :set makeprg=bash\ myscript.sh
 ```
 oppure per evitare di usare escape possiamo usare:
 
 ```sh
- # :let &makeprg = "cd cmt && make"
+ :let &makeprg = "cd cmt && make"
 ```
 oppure possiamo cambiare il comando make a differenza del tipo di 
 file, ad esempio:
 
 ```sh
- # set makeprg=redcarpet\ %\ >/tmp/%<.html
+ set makeprg=redcarpet\ %\ >/tmp/%<.html
 ```
 where % means the file currently edited, and `%<` means the file 
 currently edited without extension
 
-### Streams and Redirects, Redirection
 
+### Streams and Redirects, Redirection
 
 I canali standard (o standard streams), in tutti i moderni 
 sistemi operativi, rappresentano i dispositivi logici di input e 
@@ -6274,6 +6132,15 @@ informazioni da questo tipo di file, esempi di utilizzo, sono:
  # elimino quindi il primo carattere
 ```
 
+Ricorda che cut puo' utilizzare solo singoli caratteri come delimitatori, quindi
+per poter ad esempio utilizzare insiemi di caratteri come delimitatori (ad
+esempio piu' spazi) possiamo combinarlo con il programma `tr`, ad esempio:
+```sh
+md5sum file.txt | tr -s ' ' | cut -d ' ' -f 2
+# in questo caso il programma tr con l'opzione -s effettua uno squeeze
+# del carattere spazio andando a rimuovere le ripetizioni.
+```
+
 
 ### Regular Expressions (o RegEx)
 
@@ -6348,101 +6215,43 @@ Per fare qualche esempio:
 
 Queste sono le anchors:
 
-```sh
- ^ 
- # indica l'inizio di una linea o di una stringa
-```
-```sh
- $ 
- # indica la fine di una stringa o di una linea
-```
+* `^`, indica l'inizio di una linea o di una stringa
+* `$`, indica la fine di una stringa o di una linea
+
 
 ### Quantifiers
 
+* `*`, 0 o piu'
+* `{3}`, esattamente 3 
+* `+`, 1 o piu'
+* `{3,}`, 3 o piu' (almeno 3)
+* `?`, 0 o 1 (opzionale)
+* `{3,5}`, 3, 4 o 5 (minimo 3, massimo 5)
 
-```sh
- * 
- # 0 or more 
-```
-```sh
- {3} 
- # Exactly 3 
-```
-```sh
- + 
- # 1 or more 
-```
-```sh
- {3,} 
- # 3 or more 
-```
-```sh
- ? 
- # 0 or 1 
-```
-```sh
- {3,5} 
- # 3, 4 or 5 (so at least 3 and at maximum 5)
-```
+
 ### Character Classes
-
 
 Character Classes sono classi di caratteri, come:
 
-```sh
- # \c Control character 
-```
-```sh
- \s White space 
- # questo comprende spazi, tab, eccetera
-```
-```sh
- # \S Not white space 
-```
-```sh
- \t 
- # tab, questo è compreso anche in "\s"
-```
-```sh
- \r 
- # carriage return
-```
-```sh
- \n 
- # line feed
-```
-```sh
- \b 
- # inizio o fine di una parola
-```
-```sh
- \< 
- # inizio di una parola
-```
-```sh
- \> 
- # fine di una parola
-```
-```sh
- # \d Digit 
-```
-```sh
- # \D Not digit 
-```
-```sh
- # \w Word 
-```
-```sh
- # \W Not word 
-```
-```sh
- # \x Hexade­cimal digit 
-```
-```sh
- # \O Octal digit
-```
-### Range
+* `\c`, Control character 
+* `\s`, White space # questo comprende spazi, tab, eccetera
+* `\S`, Not white space 
+* `\t`, tab, questo è compreso anche in "\s"
+* `\r`, carriage return 
+* `\n`, line feed
+* `\b`, inizio o fine di una parola
+* `\<`, inizio di una parola
+* `\>`, fine di una parola
+* `\d`, Digit 
+* `\D`, Not digit 
+* `\w`, Word 
+* `\W`, Not word 
+* `\x`, Hexade­cimal digit 
+* `\O`, Octal digit
 
+
+
+### Range
 
 Possiamo anche specificare range, ad esempio:
 
@@ -6728,14 +6537,14 @@ Per avere regex piu' veloci possiamo:
 * **Regexes are Code**
 * Quando abbiamo alternative, utilizzare prima quelle piu' probabili
 * Dove possibile, utilizzare **extended froamtting**, questo formato prevede 
-  che lo spazio non sia un comando, e rende le regex leggibili, debuggabli, 
+  che lo spazio non sia un comando, e rende le regex leggibili, debuggabili, 
   comprensibili e manutenibili. Ove possibile utilizzare sempre questo formato.
-  In perl ad esempio per poter utilizzare questa modallita' basta mettere in
+  In Perl ad esempio per poter utilizzare questa modallita' basta mettere in
   append alla regex la lettera 'x', quindi `/regex/x`, in altri linguaggi
   bisogna mettere all'inizio della regex la sequenza `(?x)`.
   Alcuni dialetti/linguaggi non supportano questa opzione di extended
   formatting, ad esempio Javascript, in questi linguaggi comunque si puo'
-  truccare il gioco, ad esempio costruendo le regex come concatenazioni di
+  truccare ad esempio costruendo le regex come concatenazioni di
   stringhe. Vediamo un esempio in Javascript:
 ```javascript
 var numberRegex = new RegExp(
@@ -6759,7 +6568,7 @@ var numberRegex = new RegExp(
   utilizzare il modulo XRegExp.
 * Utilizzare il meno possibile la combinazione `.*` dot-star
   in genere qui e' dove si nascondono problemi di performance,
-  in genere inoltre se proprio abbiamo la necessita' di utilizarlo, faciamolo
+  in genere inoltre se proprio abbiamo la necessita' di utilizzarlo, facciamolo
   nella versione non-greedy `.*?`
 * Preferire sempre i quantificatori non-greedy, questo per via del principio
   "Don't iterate any more than is absolutely necessary"
@@ -6807,7 +6616,7 @@ func main {
     LIST();
 }
 ```
-  Questo permette di matchare elemente in testi come questo:
+  Questo permette di matchare elementi in testi come questo:
 ```text
 <1,24,<7,<10,11>,9>,121,23,42>
 ```
@@ -8362,13 +8171,21 @@ Per vedere quali comandi vengono effettivamente eseguiti possiamo fare cosi':
 echo 'one two three' | xargs -t rm
 # l'opzione -t ci mostra i comandi che vengono eseguiti
 ```
+Un'opzione piu' sicura rispetto a -t che puo' essere utilizzata sia per
+visualizzare il comando eseguito ma anche per chiedere conferma all'utente e':
+
+```sh
+echo 'onw two three' | xargs -p rm
+```
+Consiglio sempre di utilizzare l'opzione -p a meno che non stiamo scrivendo uno
+script in cui non vogliamo chiedere conferma attraverso un input dell'utente.
 
 Vediamo un altro esempio, ipotizziamo di avere un file di stringhe e vogliamo
 convertire ognuna di queste stringhe in base64, per farlo possiamo usare xargs
 in questo modo:
 
 ```sh
-cat file.txt | xargs -n1 -I{} sh -c 'echo {} | base64'
+cat file.txt | xargs -p -n1 -I{} sh -c 'echo {} | base64'
 ```
 
 Il programma xargs e' spesso usato in combinazione col programma find, ricorda
@@ -8499,8 +8316,29 @@ carattere per carattere, ad esempio:
  # caso con -dc in pratica eliminiamo tutti i caratteri dal file, 
  # eccetto quelli nel gruppo 'a-zA-Z'
 ```
+
+Possiamo utilizzare il comando tr anche per effettuare squeeze, cioe' ad esempio
+rimuovere ripetizioni di caratteri.
+Un esempio e' voler rimuovere le doppie spaziature all'interno di un file,
+questo puo' essere fatto eseguendo:
+```sh
+tr -s ' ' < filename
+```
+
+Un altro utilizzo e' quello di rimuovere caratteri specifici da un file come ad
+esempio, nel caso volessimo rimuovere tutti i newline possiamo eseguire:
+```sh
+tr -d '\n' < filename
+```
+
+Inoltre per indicare i set di caratteri possiamo anche utilizzare notazioni del
+tipo [[:alnum:]] o [[:alpha:]] e cosi' via.
+
 N.B.: Per effettuare la sostituzione di stringhe il comando sed è 
 più flessibile.
+
+
+
 
 #### Contare le linee di un file
 
@@ -15097,7 +14935,13 @@ in alternativa possiamo eseguire:
 ```sh
  curl ipecho.net/plain
 ```
-un altro comando con curl utile da terminale per ricavare 
+
+possiamo anche utilizzare:
+```sh
+ curl ipinfo.io
+```
+
+oppure utilizzare lo stesso comando ricavare 
 informazioni su un IP è:
 
 ```sh
@@ -25988,6 +25832,7 @@ ha diversi binding per vari linguaggi di programmazione.
 * fc
 * check the content of the program in memory
 * apt-pinning
+* yes, comando per eseguire atuomaticamente aggiornamenti di sistema e similari
 * dget and backporting packages in debian
 * come aprire un file di man tipo "pagina.1" con man
 * MULTIMEDIA: Convert (Swiss Army Knife for Images) and Sox 
@@ -26164,8 +26009,6 @@ ptrace(PTRACE_ATTACH, pid, NULL, NULL);
 int data = 4;
 ptrace(PTRACE_POKEDATA, pid, 0x83040, &data);
 ```
-
-
 
 
 ## Licenza
