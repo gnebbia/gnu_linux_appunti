@@ -6031,7 +6031,26 @@ più file:
  # unified, quello utilizzato da git e altri software di 
  # versioning
 ```
-Il comando diff non puo' essere utilizzato per file binari,
+
+Un utilizzo molto utile di diff e' quando vogliamo controllare quali righe
+all'interno di un file A non sono presenti all'interno del file B, per fare
+questo possiamo eseguire:
+
+```sh
+diff --new-line-format="" --unchanged-line-format="" <(sort file1) <(sort file2)
+# praticamente i file vengono ordinati con una sort e vengono poi
+# stampate in output le righe presenti in file1 ma assenti in file2
+```
+Possiamo anche controllare il contrario e cioe' quali righe di file2 non sono
+presenti in file1, solo andando a cambiare l'ordine e cioe' mettendo file1 al
+posto di file2 nel comando.
+
+Ricorda che in realta' il comando `diff -u` e' equivalente a:
+```sh
+diff --old-line-format="-%L" --unchanged-line-format=" %L" --new-line-format="+%L" file1 file2
+```
+
+Nota che il comando diff non puo' essere utilizzato per file binari,
 per avere una funzionalita' analoga per file binari possiamo
 utilizzare `xdelta3`.
 
@@ -16037,7 +16056,7 @@ qual'è il collo di bottiglia su una rete.
 This is because some machines don't send ICMP "TTL exceeded" 
 errors, that's all to not respond to ICMP or that 
 
-<srandon111> ok but what about TCP ? and UDP ? 
+<> ok but what about TCP ? and UDP ? 
 
 <grawity> it has nothing to do with what protocol the original 
 packets use 
@@ -25889,6 +25908,14 @@ server {
  # stampa a schermo la stringa "ciao"
  # asciizzata
 ```
+
+
+The \*NIX version of the russian roulette is:
+```sh
+[ $[ $RANDOM % 6 ] == 0 ] && echo "boom" || echo "click"
+```
+
+
 
 #### Video Terminals
 
