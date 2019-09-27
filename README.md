@@ -6205,9 +6205,10 @@ basic i seguenti caratteri:
 * `?`
 
 devono essere escapati (e.g., \(something\)) per poter assumere la
-loro funzionalita' come da regex.
-Mentre nella versione extended se si escapano assumono solo un significato
-di semplice carattere. Quindi in un programma che utilizza le regex 
+loro funzionalita' come da regex nella versione standard.
+Mentre nella versione extended al contrario se vengono escapati assumono
+solo un significato di semplice carattere.
+Quindi in un programma che utilizza le regex 
 nella versione 'extended' la sequenza `\(` assume il significato
 del semplice carattere `(`.
 
@@ -12338,10 +12339,10 @@ An unbindable mount point, which by definition is also private, cannot
 be replicated elsewhere through the use of the bind flag of the mount
 system call or command.
 
-
-
-a volte potrebbe capitare che per qualche motivo non mi faccia 
-montare partizioni ntfs, perchè magari il sistema era in 
+A volte potrebbe capitare che per qualche motivo non ci faccia 
+montare partizioni ntfs o che il montaggio avviene correttamente ma
+non abbiamo i permessi di scrittura. 
+Questo avviene perchè magari il sistema era in 
 ibernazione in windows o per il fast restarting, o per shutdown 
 impropri, allora posso usare "ntfsfix" un programma incluso nei 
 pacchetti che mi abilitano il supporto per ntfs, ed eseguiamo:
@@ -16716,6 +16717,17 @@ curl -sD - http://example.com
 # mentre -D fa il dump degli header su file che in questo case e' lo stdin '-'
 ```
 
+### Calcolo di Indirizzi IP
+
+Possiamo trovare informazioni su un indirizzo di rete o un indirizzo IP con
+subnet mask con un programma chiamato `ipcalc`, nonostante questo programma non
+sia installato by default in genere, e' un tool molto utilizzato per questo tipo
+di operazioni, vediamone un esempio:
+
+```sh
+ipcalc 192.168.1.0/16
+```
+
 
 ### File di networking importanti
 
@@ -17830,6 +17842,17 @@ sono:
 * nethogs 
 * bmon
 
+In particolare nethogs e' molto utile per capire quale processo sta utilizzando
+piu' banda; oppure poter capire se c'e' un processo non autorizzato che sta mandando
+dati sulla rete.
+
+Possiamo avviare nethogs facendo:
+```sh
+sudo nethogs wlp1s0
+```
+consultare la chiarissima pagina di man per ulteriori informazioni su come
+ordinare/visualizzare il traffico.
+
 
 ### Eseguire tcpdump e tante altre utility senza permessi di root
 
@@ -18578,6 +18601,10 @@ non-zero values anywhere, there may be trouble. If you look
 closely at the example, you’ll see that two sockets have a 
 Recv-Q with 38 unread bytes in them. We’ll look into those 
 connections once we know what the other columns mean.
+In detail, Send-Q is the amount of data sent by the application,
+but not yet acknowledged by the other side of the socket.
+Recv-Q is the amount of data received from the NIC, 
+but not yet consumed by the application.
 
 
 ### Iptraf
@@ -20006,7 +20033,7 @@ In questo caso rendiamo disponibile un servizio remoto sulla nostra macchina.
 La notazione per i "forward tunnel" e': 
 `-L indirizzolocale:portalocale:indirizzoremoto:portaremota`
 
-se il primmo indirizzo locale e' localhost (127.0.0.1) allora questo puo' essere
+se il primo indirizzo locale e' localhost (127.0.0.1) allora questo puo' essere
 omesso, quindi e' possibile una notazione del tipo:
 `-L portalocale:indirizzoremoto:portaremota`
 
@@ -20130,7 +20157,7 @@ ssh -p 22 nemo@192.168.1.220 -R 127.0.0.1:5000:127.0.0.1:5555
 # il forwarding non sara' possibile
 ```
 
-Comunque eccetto casi particolare avere un remote port forwarding o reverse
+Comunque eccetto casi particolari avere un remote port forwarding o reverse
 tunnel che utilizza 127.0.0.1 non e' molto comune (eccetto casi simili a
 scantron), quello che e' piu' comune e' utilizzare un reverse tunnel su
 un'interfaccia non di loopback per rendere disponibile un servizio locale su una
@@ -20185,8 +20212,8 @@ qualsiasi tipologia di traffico.
 Vediamo un esempio:
 ```sh
 ssh -D 127.0.0.1:9050 -N -f user@mexample.com -p2222
-# in questo caso il proxy sara' disponibile sulla porta 5000
-# molte applicazioni possonno essere configurate per usare proxy come
+# in questo caso il proxy sara' disponibile sulla porta 9050
+# molte applicazioni possono essere configurate per usare proxy come
 # ad esempio i browser o altre utility di rete, possiamo navigare
 # con una maggiore sicurezza per quanto riguarda la privacy se ci fidiamo del
 # server SSH
