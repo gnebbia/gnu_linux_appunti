@@ -10,7 +10,6 @@ License".
 
 ## Primi passi in sistemi GNU/Linux
 
-
 The GNU userland has a special part called the "GNU Coreutils". 
 This is a set of utilities that provide essential file and shell 
 tools. Example components include rm, cat, ls, cp, etc. However, 
@@ -7348,6 +7347,12 @@ con una sola istruzione:
 awk '!seen[$0]++' <filename>
 ```
 
+```sh
+awk '{if(gsub(/##+/,"")){name=$0;}else{print > name".md"}}' file
+# questo spezza un grande file markdown in piu' file relativi alle
+# diverse sezioni
+```
+
 
 ## Gestione dei File su GNU/Linux
 
@@ -13107,10 +13112,10 @@ operazioni più complicate.
 
 ### RAID
 
-Il RAID (originally redundant array of inexpensive disks; ora più 
-comunemente redundant array of independent disks) è una tecnica 
-di raggruppamento di diversi dischi rigidi collegati ad un 
-computer che li rende utilizzabili, dalle applicazioni e 
+Il RAID (Redundant Array of Inexpensive Disks) anche se ora più 
+comunemente l'acronimo viene espanso come Redundant Array of Independent
+Disks) è una tecnica di raggruppamento di diversi dischi rigidi collegati
+ad un computer che li rende utilizzabili, dalle applicazioni e 
 dall'utente, come se fosse un unico volume di memorizzazione. 
 Tale aggregazione sfrutta, con modalità differenti a seconda del 
 tipo di implementazione, i principi di ridondanza dei dati e di 
@@ -13122,14 +13127,27 @@ diversi scopi, si parla dei cosiddetti livelli di RAID:
 
 * RAID Lineare: Le partizioni (o i dischi) non sono delle stesse 
  dimensioni, ma costituireanno un volume unico con una 
- dimensione data dalla somma delle dimensioni dei singoli
-* RAID 0: Le partizioni (o i dischi) sono delle stesse dimensioni 
- e costituireanno un volume unico con una dimensione data dalla 
- somma delle dimensioni dei singoli
-* RAID 1: Mirrora i dati tra dischi/partizioni di dimensioni 
- uguali (alto livello di ridondanza ma spreco di capacità)
+ dimensione data dalla somma delle dimensioni dei singoli;
+* RAID 0: (Striping) Le partizioni (o i dischi) sono delle stesse dimensioni 
+ e costituiranno un volume unico con una dimensione data dalla 
+ somma delle dimensioni dei singoli. RAID 0 setups are standard on high-end
+ gaming PCs and graphic design workstations, and provide a measurable, albeit
+ modest performance boost for hard-disk-intensive programs;
+* RAID 1: (Mirroring) Mirrora i dati tra dischi/partizioni di dimensioni 
+ uguali (alto livello di ridondanza ma spreco di capacità);
+* RADI 5: (Distributed Parity) Though you get both faster disk
+  performance and data protection from this setup, it requires a minimum of
+  three hard drives. Instead of using an entire hard drive as a backup, RAID 5
+  spreads redundancy information—called parity bits—across all of the array’s
+  drives. Where RAID 1 requires 50% of available storage for redundancy, RAID 5
+  requires only 33%.
+  When one of the drives in a RAID 5 array fails, the data content of that
+  failed drive is reconstructed using the parity bits on the surviving drives
+  and written to a new, replacement drive. The array is still usable in the
+  meantime.
 * RAID 4/5/6: I dati vengono copiati su tre o più dischi 
- sfruttando controlli come blocchi di parità
+ sfruttando controlli come blocchi di parità;
+
 
 Il filesystem ID (quello che viene usato da fdisk) da utilizzare 
 su dischi su cui vogliamo utilizzare il RAID è "0xDA" detto anche 
@@ -13153,17 +13171,16 @@ chiamati "sdb", "sdc", "sdd" ed "sde", innanzitutto lanciamo:
  # visualizziamo l'albero delle partizioni per verificare 
  # di avere effettivamente sia sdb che sdc con una sola partizione
 ```
-Per creare un RAID 1 ora eseguiamo:
 
+Per creare un RAID 1 ora eseguiamo:
 ```sh
- # mdadm --create --verbose /dev/md0 --level=mirror --raid-devices=2 
+mdadm --create --verbose /dev/md0 --level=mirror --raid-devices=2 \
   /dev/sdb1 /dev/sdc1 
- # crea un device chiamato "md0" atto a 
- # rappresentare il disco RAID
+# crea un device chiamato "md0" atto a 
+# rappresentare il disco RAID
 ```
 Possiamo verificare la corretta creazione del device di RAID 
 attraverso:
-
 ```sh
  cat /proc/mdstat 
  # visualizza il file "mdstat" che dovrebbe 
@@ -13174,28 +13191,28 @@ attraverso:
  # verifica se il modulo relativo al RAID è 
  # caricato dal kernel
 ```
+
 Dobbiamo rendere ora persistente il RAID andando a mettere mano 
 al file "/etc/mdadm.conf" o "/etc/mdadm/mdadm.conf" (che è il 
 file di configurazione del RAID) a differenza della 
 distribuzione, per fortuna, possiamo anche non andare a scrivere 
 cosa manualmente nei file ma possiamo fare uso del programma 
 mdadm, attraverso:
-
 ```sh
  mdadm --detail --scan >> /etc/mdadm.conf 
  # configura il RAID in 
  # modo persistente
 ```
-per fermare un RAID possiamo effettuare:
 
+per fermare un RAID possiamo effettuare:
 ```sh
  mdadm --stop /dev/md0
 ```
 oppure per avviarlo (o riavviarlo) possiamo eseguire:
-
 ```sh
  mdadm --assemble --scan
 ```
+
 Ora possiamo formattare md0 col filesystem che più preferiamo e 
 il gioco è fatto; possiamo effettuare:
 
@@ -13205,7 +13222,7 @@ il gioco è fatto; possiamo effettuare:
 ```
 
 
-### RAID ocn Btrfs
+### RAID con Btrfs
 
 Avere un filesystem che supporta nativamente il RAID è di grande 
 vantaggio, in quanto semplifica significativamente la creazione 
@@ -24611,6 +24628,16 @@ Per gestire l'output ho trovato i comandi utili:
 Un programma molto utile per gestire l'audio e per capire a volte
 la sorgente di alcuni problemi e' `pavucontrol`.
 
+Un altro software utile per visualizzare le interfacce audio disponibili e'
+aplay, vediamone un esempio:
+```sh
+ aplay -l 
+ # visualizza le interfacce audio disponibili, 
+ # solitamente ne abbiamo una a parte e se c'è una porta hdmi, 
+ # questa costituisce una vera e propria scheda audio a parte, 
+ # attaccata alla scheda video.
+```
+
 
 ## Filesystem tmp
 
@@ -24839,15 +24866,7 @@ with the compiling tools.
 
 Un tool utile a questo scopo è "powertop".
 
-## Audio
 
-```sh
- aplay -l 
- # visualizza le interfacce audio disponibili, 
- # solitamente ne abbiamo una a parte e se c'è una porta hdmi, 
- # questa costituisce una vera e propria scheda audio a parte, 
- # attaccata alla scheda video.
-```
 
 
 ## Bash Shell Scripting
