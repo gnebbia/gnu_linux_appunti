@@ -2214,3 +2214,97 @@ di indirizzi in una rete:
 * 192.168.1.255 "Network Broadcast" (questo a differenza degli altri è uno standard)
 
 
+## Strumenti di Traffic Control
+
+E' possibile configurare il kernel packet scheduler in GNU/Linux attraverso
+l'utility chiamata 'tc'.
+In generale possiamo giocare con 'tc' se vogliamo:
+
+* sperimentare con lo scheduler di pacchetti del kernel di GNU/Linux
+* simulare particolare situazioni di rete con packet loss o packet delays
+* limitare la banda per una particolare connessione di rete
+
+Vediamo di seguito alcuni esempi.
+
+Possiamo aggiungere un **delay costante** ad un'interfaccia di rete con:
+
+```sh
+tc qdisc add dev eth0 root netem delay 200ms
+# qdisc: modifica lo scheduler (aka queuing discipline)
+# add: aggiunge una nuova regola
+# dev eth0: selezione l'interfaccia di rete 'eth0' per l'applicazione delle regole
+# netem: utilizza il network emulator per emulare una property WAN 
+# delay: il nome della network property modificata
+# 200ms: il ritardo di aggiunto che e' in questo caso di 200 millisecondi
+```
+
+Note: this adds a delay of 200 ms to the egress scheduler, exclusively. If
+it were to add the delay to both the ingress and egress schedulers,
+the total delay would have totaled 400 ms. In general, all of these
+traffic control rules are applied to the egress scheduler only.
+
+Possiamo **mostrare le impostazioni attive** con:
+```sh
+tc qdisc show  dev eth0
+```
+
+possiamo **cancellare tutte le regole presenti su un'interfaccia di rete** con:
+```sh
+tc qdisc del dev eth0 root
+```
+
+Possiamo **aggiungere un delay di 100ms piu' un delay +-10ms distribuiti con
+distribuzione uniforme** con:
+```sh
+tc qdisc change dev eth0 root netem delay 100ms 10ms
+```
+
+Oppure possiamo **aggiungere un delay di 100ms con in aggiunta un delay 
+con una distribuzione uniforme +-10ms e correlazione 25%**
+(in quanto in genere i delay network non sono del tutto casuali) con:
+```sh
+tc qdisc change dev eth0 root netem delay 100ms 10ms 25%
+```
+
+Possiamo **aggiungere un delay di 100ms piu' un delay di +-10ms distribuiti con
+distribuzione normale** con:
+```sh
+tc qdisc add dev eth0 root netem delay 100ms 20ms distribution normal
+ ```
+Altre opzioni utilizzabili al posto di 'normal' sono 'pareto' e 'paretonormal'.
+
+Possiamo simulare una **perdita di pacchetti del 10%** con:
+```sh
+ tc qdisc add dev eth0 root netem loss 10%
+```
+
+Possiamo anche **corrompere il 5% dei pacchetti, andando ad un introdurre un
+single bit error ad un offset random**, con:
+```sh
+tc qdisc change dev eth0 root netem corrupt 5%
+```
+
+Possiamo anche **duplicare l'1% dei pacchetti**:
+```sh
+tc qdisc change dev eth0 root netem duplicate 1%
+```
+
+Vediamo invece ora come limitare la banda.
+
+Possiamo **limitare la banda in uscita 'egress'** con:
+```sh
+tc qdisc add dev eth0 root tbf rate 1mbit burst 32kbit latency 400ms
+# tbf: use the token buffer filter to manipulate traffic rates
+# rate: sustained maximum rate
+# burst: maximum allowed burst
+# latency: packets with higher latency get dropped
+```
+
+Il modo migliore per testare queste impostazioni e' attraverso il comando 
+`iperf`, possiamo infatti provare a lanciarlo prima e dopo l'applicazione delle
+regole per vedere se le modifiche sono state apportate correttamente.
+Il comando `iperf` puo' essere lanciato con:
+```sh
+iperf -c 172.31.0.142
+# dove l'indirizzo IP deve essere opportunamente settato
+```

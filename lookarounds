@@ -1,0 +1,31 @@
+## Lookahead
+
+Matcha qualcosa se e'/non e' seguito da qualcos'altro.
+Esempi:
+```grep -P
+# esempio di negative lookahead
+ciao(?!aaa) # matcha sempre ciao basta che non sia seguito subito da "aaa"
+
+# esempio di positive lookahead
+ciao(?=aaa)# matcha ciao se e' seguito subito da "aaa"
+```
+
+
+## Lookbehind
+
+Matcha qualcosa se prima c'era/non c'era qualcos'altro
+Esempi:
+```grep -Po
+(?<!aaa)ciao # matcha sempre ciao basta che non segua "aaa"
+(?<=aaa)ciao # matcha ciao se prima c'e' "aaa" 
+```
+Vediamo altri esempi, se abbiamo del testo strutturato in questo modo:
+```txt
+Solution 0: 35539.451370 25.619433  ---  35539.451370  25.619433
+Solution 1: 34320.32323 31.212312321 --- 212212.21212  21.21212
+```
+e vogliamo selezionare la part dopo "data: ", possiamo fare:
+```grep -Po
+(?<=data: ).*
+```
+

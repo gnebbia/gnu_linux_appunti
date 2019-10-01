@@ -2030,9 +2030,19 @@ Esempi di utilizzo, possono essere:
  # la parola "parttime" con la parola "fulltime" (ma solo
  # un'occorrenza per linea) e sovrascrive i cambiamenti attraverso
  # il flag "-w" nel file "promotions.txt", mentre l'operazione
- # viene fatta prednendo come riferimento il file "team". Ricorda
+ # viene fatta prendendo come riferimento il file "team". Ricorda
  # di redirigere l'output al buco nero /dev/null se non si vuole
  # vedere nulla sullo standard output
+```
+```sh
+ sed '/^## / s/_/ /g' mioFile > mioFileNuovo
+ # sostituisce tutte le occorrenze del carattere underscore '_'
+ # con spazi, ma questo avviene solo sulle righe che matchano
+ # il pattern /^## / come regex, cioe' che iniziano la riga per '## '
+ # e' interessante vedere come in sed e' del tutto possibile
+ # scrivere programmini per l'editing del testo.
+ # In questo caso diciamo prima match le righe con /^## / e poi effettua
+ # la sostituzione
 ```
 ```sh
  sed -e 's/\(.*\) \(.*\) \(.*\)/Victor \1 \2 Von \3/' myfile.txt
