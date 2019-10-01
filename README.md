@@ -24,24 +24,28 @@ will in general be true for most `*NIX` systems.
     - [Bash Scripting](sections/bash_scripting.md)
 
 - File e Filesystem
-- [File](sections/file.md)
-- [File di Testo](sections/testo.md)
-- [Filesystems](sections/filesystems.md)
-- [Hard Disk e Partizionamenti](sections/hard_disk_e_partizionamenti.md)
-- [Filesystem /tmp](sections/filesystem_tmp.md)
+    - [File](sections/file.md)
+    - [File di Testo](sections/testo.md)
+    - [Filesystems](sections/filesystems.md)
+    - [Hard Disk e Partizionamenti](sections/hard_disk_e_partizionamenti.md)
+    - [Filesystem /tmp](sections/filesystem_tmp.md)
 
 - Processi
     - [Processi](sections/processi.md)
     - [Automatizzare Processi](sections/automatizzare_processi.md)
 
-- [Xorg](sections/xorg.md)
+- Grafica e Multimedia
+    - [Xorg](sections/xorg.md)
+    - [Audio](sections/audio.md)
 
-- Sicurezza
+- Networking e Sicurezza
+    - [Networking](sections/networking.md)
     - [Strumenti per la Sicurezza](sections/security_tools.md)
     - [Secure Host](sections/secure_host.md)
 
-- [Networking](sections/networking.md)
-- [Data ora e linuga nei sistemi](sections/locale.md)
+
+- Localizzazione
+    - [Data ora e linuga nei sistemi](sections/locale.md)
 
 - Stampare e Scansionare
     - [Stampare Documenti](sections/printing.md)
@@ -56,10 +60,10 @@ will in general be true for most `*NIX` systems.
     - [DNS](sections/dns.md)
     - [Database](sections/database.md)
 
+- [Compilare programmi](sections/compile_software.md)
 - [Kernel](sections/kernel.md)
 - [Monitoring](sections/monitoring.md)
-- [Compilare programmi](sections/compile_software.md)
-- [Audio](sections/audio.md)
+
 - [Note sui Laptop](sections/laptop_notes.md)
 - [Linux per Embedded](sections/embedded.md)
 
