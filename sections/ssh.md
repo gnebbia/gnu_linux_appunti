@@ -206,9 +206,18 @@ esempio:
 ssh -J joshua@192.168.1.220:22,frank@192.168.1.221:2222,\
 john@192.168.1.222:2222,joe@192.168.1.223:22 joe@192.168.1.230
 # in questo caso ci connettiamo alla macchina .230 tramite la lista di macchine
-# elencate
+# elencate 
 ```
 
+Nota che la notazione host:porta va bene solo per le jumpbox, infatti per
+specificare la porta di destinazione finale dobbiamo comunque utilizzare
+l'opzione -p, ad esempio:
+```sh
+ssh -J joshua@192.168.1.220:22,frank@192.168.1.221:2222,\
+john@192.168.1.222:2222,joe@192.168.1.223:22 joe@192.168.1.230 -p 2220
+# in questo caso ci connettiamo alla macchina .230 sulla porta 2220 passandoci 
+# tramite la lista di macchine elencate
+```
 
 ### SSH: Reverse Tunnel (Remote Port Forwarding)
 
