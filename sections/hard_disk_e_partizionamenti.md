@@ -1734,6 +1734,7 @@ mdadm --create --verbose /dev/md0 --level=mirror --raid-devices=2 \
 # crea un device chiamato "md0" atto a
 # rappresentare il disco RAID
 ```
+
 Possiamo verificare la corretta creazione del device di RAID
 attraverso:
 ```sh
@@ -1775,6 +1776,96 @@ il gioco è fatto; possiamo effettuare:
  mkfs.ext4 /dev/md0
  # formatta tutto il sistema RAID con filesystem ext4
 ```
+
+### Testare Configurazioni diverse temporanee con RAID
+
+Puo' essere spesso utile testare configurazioni RAID, sia per effettuare
+prove prima di implementarle su hard disk veri, ma anche per studiare e
+impratichirsi con le configurazioni.
+
+A questo scopo, torna utile o utilizzare delle macchine virtuali con piu' hard
+disk, oppure creare dei block device (hard drives) virtuali come ad esempio loop
+device (opzione piu' veloce).
+
+Per creare dei dispositivi virtuali per effettuare le nostre prove possiamo
+eseguire:
+```sh
+cd /tmp
+dd if=/dev/zero of=sdx bs=1M count=100 # Un hard disk da 100M
+losetup -f sdx
+dd if=/dev/zero of=sdy bs=1M count=100 # Un hard disk da 100M
+losetup -f sdy
+dd if=/dev/zero of=sdz bs=1M count=99  # Un hard disk da 99M
+losetup -f sdz
+```
+
+Adesso possiamo impostare un RAID 1 tra loop0 e loop1 con:
+```sh
+mdadm  --create -e 1.2 -n 2 -l 1 /dev/md100 /dev/loop0 /dev/loop1
+```
+Una volta finita la creazione, possiamo eseguire:
+```sh
+grep md100 /proc/partitions
+```
+
+Possiamo cancellare questo RAID eseguendo:
+```sh
+mdadm --stop /dev/md100
+mdadm --misc --zero-superblock /dev/loop0
+mdadm --misc --zero-superblock /dev/loop1
+```
+
+Ora invece mostriamo come creare un RAID con una coppia di hard disk, con uno
+esistente e l'altro inesistente, che funge da fermaposto per provare setup con
+hard disk danneggiati:
+
+```sh
+mdadm  --create -e 1.2 -n 2 -l 1 /dev/md100 /dev/loop0 missing
+# al posto di "missing" possiamo inserire qualsiasi stringa preferiamo
+# infatti in questo caso rappresenta solo un fermaposto per un hard disk
+# unavailable
+```
+
+Possiamo verificare le dimensioni del disco con:
+```sh
+grep md100 /proc/partitions
+```
+
+Proviamo ad aggiungere un disco piu' piccolo con differenza >= 1%:
+```sh
+mdadm  --add /dev/md100 /dev/loop2
+```
+Dovremo ottenere un errore del tipo:
+"mdadm: /dev/loop2 not large enough to join array"
+
+Ed e' corretto in quanto il RAID e' gia' stato creato e non possiamo aggiungere
+hard disk con dimensioni differenti all'1% o con differenza maggiore.
+
+
+### Note sulle diverse configurazioni RAID
+
+Le configurazioni RAID piu' comuni in giro sono:
+- RAID 0
+- RAID 1
+- RAID 5
+- RAID 6
+- RAID 10
+- RAID 01
+
+Per RAID 1:
+Ricorda che mdadm permette di implementare RAID 1 anche con hard disk di
+dimensioni diverse, ovviamente saremo limitati dalle dimensioni dell'hard disk
+piu' piccolo. Inoltre, ricorda che mdadm da in output un warning quando la
+differenza tra gli hard disk e' maggiore o uguale all'1%.
+
+Ricorda pero' che non e' possibile aggiungere ad un RAID gia' esistente un disco
+con una dimensione con differenza 1% o maggiore, perche' questo comporterebbe la
+perdita di dati, cosa che mdadm non permette.
+
+Per RAID 0:
+Possiamo ottenere performance migliori ad una configurazione senza RAID se 
+RAID 0 viene impostiamo con interleaving.
+
 
 
 ## RAID con Btrfs
