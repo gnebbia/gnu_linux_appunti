@@ -38,11 +38,12 @@ will in general be true for most `*NIX` systems.
     - [Xorg](sections/xorg.md)
     - [Audio](sections/audio.md)
 
-- Networking e Sicurezza
+- Networking
     - [Networking](sections/networking.md)
+
+- Sicurezza
     - [Strumenti per la Sicurezza](sections/security_tools.md)
     - [Secure Host](sections/secure_host.md)
-
 
 - Localizzazione
     - [Data ora e linuga nei sistemi](sections/locale.md)
