@@ -415,12 +415,11 @@ software flow control". E' una feature legacy che esiste dagli
 anni 80, per disabilitare questa feature dobbiamo modificare il nostro
 file di configurazione shell ad esempio `~/.bash_profile` or
 `~/.bashrc`, con la seguente stringa:
-
 ```sh
 stty -ixon
 ```
 
-P.S.: Per navigare i file è molto comodo il plugin "CtrlP".
+P.S.: Per navigare i file è molto comodo il plugin "Ctrl+P".
 
 
 ## Richiamare programmi esterni su blocchi di righe

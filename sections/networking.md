@@ -47,29 +47,23 @@ Dal punto di vista di un programmatore un socket è un particolare
 oggetto sul quale leggere e scrivere i dati da trasmettere o
 ricevere. Ci sono due tipi fondamentali di socket:
 
-```sh
- # i socket tradizionali su protocollo IP, usati in molti sistemi
- # operativi per le comunicazioni attraverso un protocollo di
- # trasporto (quali TCP o UDP);
-```
-A sua volta esistono due tipi di socket su IP:
+* IP socket, usati in molti sistemi operativi per le comunicazioni 
+    attraverso un protocollo di trasporto (come TCP o UDP);
+    Esistono due tipi di socket IP:
+    * LISTEN, che rappresentano la possibilità di ricevere nuove
+        connessioni. Un socket di questo tipo è identificato dalla
+        terna protocollo di trasporto, indirizzo IP del computer,
+        numero di porta;
+    * ESTABLISHED, che rappresentano una particolare connessione
+        attiva. Un socket di questo tipo è identificato dalla 5-tupla
+        protocollo di trasporto, indirizzo IP sorgente, indirizzo IP
+        destinazione, numero di porta sorgente, numero di porta
+        destinazione.
 
-* LISTEN, che rappresentano la possibilità di ricevere nuove
-    connessioni. Un socket di questo tipo è identificato dalla
-    terna protocollo di trasporto, indirizzo IP del computer,
-    numero di porta;
+* Unix domain socket, detti anche socket locali o socket in
+    dominio Unix), usati nei sistemi operativi POSIX per le
+    comunicazioni tra processi residenti sullo stesso computer.
 
-* ESTABLISHED, che rappresentano una particolare connessione
-    attiva. Un socket di questo tipo è identificato dalla 5-tupla
-    protocollo di trasporto, indirizzo IP sorgente, indirizzo IP
-    destinazione, numero di porta sorgente, numero di porta
-    destinazione.
-
-```sh
- # gli Unix domain socket (detti anche socket locali o socket in
- # dominio Unix), usati nei sistemi operativi POSIX per le
- # comunicazioni tra processi residenti sullo stesso computer.
-```
 In base alla modalità di connessione, inoltre, si distinguono:
 
 * Stream socket: connection-oriented, basati su TCP;
@@ -98,8 +92,7 @@ pubblici con IPv4.
 | 16-bit block  |    192.168.0.0      | 192.168.255.255   | 256 Classi C Contigue  | 192.168.0.0/16 (255.255.0.0) |
 
 
-Ricorda che l'IPv6 non ha questa distinzione tra indirizzi
-privati e pubblici.
+Ricorda che l'IPv6 non ha questa distinzione tra indirizzi privati e pubblici.
 
 Questi indirizzi vengono in genere chiamati "non globally-routable" oppure
 si parla di spazio "non globally routable" (say ULA IPv6 or RFC1918 IPv4).

@@ -948,6 +948,17 @@ aggiuntiva che incontriamo sui sistemi UEFI è "loader" questo
  # visualizza il log relativo al
  # servizio indicato
 ```
+possiamo anche visualizzare i messaggi di journalctl in tempo reale con:
+```sh
+journalctl -f
+ # visualizza i messaggi di journalctl in tempo reale
+```
+oppure possiamo visualizzare solo quelli relativi al kernel con:
+```sh
+ journalctl -k
+ # visualizza solo i messaggi di journalctl relativi al kernel
+```
+
 ```sh
  systemctl status nomeServizio
  # fornisce informazioni sul

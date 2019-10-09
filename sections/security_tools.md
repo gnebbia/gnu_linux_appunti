@@ -885,7 +885,7 @@ cattura di pacchetti eccetera.
 
 Il programma IpTables un'interfaccia per gli amministratori di
 sistema vincolata al kernel Linux e costituisce un programma di
-gestione "firewall" per sistemi GNU/Linux. Nei sistemi Debian
+gestione "firewall" (e altro) per sistemi GNU/Linux. Nei sistemi Debian
 based, esistono delle applicazioni di front-end come ad esempio
 "ufw" non esistono script o eseguibili per lanciare iptables,
 mentre su distro Red-Hat based esistono degli script nella
@@ -1260,7 +1260,38 @@ comunicazione.
 Una guida molto ben fatta su IPtables si puo' trovare qui:
 [IPtables Tutorial](https://www.booleanworld.com/depth-guide-iptables-linux-firewall/)
 
+### Configurare una macchina Linux da Forwarder NAT
 
+Nel caso avessimo una rete interna 192.168.1.0/24 in cui vogliamo trasformare
+una delle macchine GNU/Linux in forwarder NAT (anche se la gente in genere li
+chiama router, tecnicamente sarebbe sbagliato) possiamo farlo in pochi comandi.
+
+Innanzitutto ipotizziamo che la nostra macchina linux ha una scheda di rete con
+accesso a Internet eth0 e una scheda di rete interna ethint a cui e' collegata
+alla rete 192.168.1.0/24.
+
+A questo punto dobbiamo prima abilitare sulla macchina l'IP forwarding tramite:
+```sh
+sysctl -w net.ipv4.ip_forward=1
+# possiamo rendere la modifica permanente andando decommentare la riga
+# relativa a questa configurazione in /etc/sysctl
+```
+
+poi aggiungiamo queste regole ad iptables:
+```sh
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+# con questa regola abilitiamo il NAT
+iptables -A FORWARD -i eth0 -o ethint -m state --state RELATED,ESTABLISHED -j ACCEPT
+# con questa facciamo in modo che solo pacchetti nello stato RELATED ed
+# ESTABLISHED possano passare come risposta, in pratica dall'esterno non possiamo
+# aprire connessioni con le macchine dietro al NAT
+iptables -A FORWARD -i ethint -o eth0 -j ACCEPT
+# l'ultima regola non sarebbe necessaria in realta', in quanto e' gia' il
+# comportamento di default
+```
+
+E' da notare che questa e' una configurazione abbastanza classica per un
+firewall con configurazione NAT.
 
 
 ## Hosts Deny e Hosts Allow (Deprecati)
