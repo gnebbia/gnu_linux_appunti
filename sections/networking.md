@@ -1,3 +1,4 @@
+## Interfacce di rete
 
 E' importante parlare di interfacce quando si parla di
 networking, un'interfaccia è tutto quello che ci permette di
@@ -17,7 +18,7 @@ possono essere:
 * ecc...
 
 
-## Nota sui socket
+## Socket
 
 A network socket is an endpoint of an inter-process communication
 across a computer network. Today, most communication between
@@ -78,7 +79,29 @@ un'occhiata alla pagina inglese di wikipedia, per informazioni
 dettagliate sull'argomento.
 
 
-## Nota sugli Indirizzi IP Privati
+## Calcolo di Indirizzi IP
+
+Possiamo trovare informazioni su un indirizzo di rete o un indirizzo IP con
+subnet mask con un programma chiamato `ipcalc`, nonostante questo programma non
+sia installato by default in genere, e' un tool molto utilizzato per questo tipo
+di operazioni, vediamone un esempio:
+
+```sh
+ipcalc 192.168.1.0/16
+```
+
+## Alcune informazioni utili su IPv4
+
+Esistono alcune convenzioni che vengono seguite nell'assegnazioni
+di indirizzi in una rete:
+
+* 192.168.1.1 "Default gateway"
+* 192.168.1.2 "Firewall"
+* 192.168.1.5 "DNS/Active Directory/LDAP"
+* 192.168.1.100 "SNMP or Monitoring"
+* 192.168.1.255 "Network Broadcast" (questo a differenza degli altri è uno standard)
+
+## Indirizzi IP Privati
 
 
 Una piccola tabella rappresentante gli indirizzi IP privati,
@@ -98,7 +121,7 @@ Questi indirizzi vengono in genere chiamati "non globally-routable" oppure
 si parla di spazio "non globally routable" (say ULA IPv6 or RFC1918 IPv4).
 
 
-## Ifconfig
+## ifconfig
 
 Se abbiamo installato il pacchetto net-tools in cui risiede il
 comando ifconfig possiamo effettuare un:
@@ -173,7 +196,7 @@ veloce il nostro ip esterno attraverso:
 ```
 
 
-## Ip
+## ip
 
 In pratica al posto di ifconfig e del relativo pacchetto di
 appartenenza "net-tools", che è ritenuto ormai deprecato,
@@ -293,7 +316,7 @@ piu' ifconfig ma invece sempre preferire ip o in genere il pacchetto iproute2.
 [ifconfig sucks](http://inai.de/2008/02/19)
 
 
-## Iw
+## iw
 
 La suite di comandi "iw" gestisce le interfaccie wireless.
 Per connetterci ad un AP che non utilizza un sistema di autenticazione oppure
@@ -496,12 +519,13 @@ con:
  # visualizza il mac address dell'indirizzo
  # IP menzionato
 ```
-## Modalità wireless 802.11
 
+
+## Modalità wireless 802.11
 
 Questo protocollo prevede 4 modalità operative:
 
-* Master mode (also called AP or infrastructure mode) is used to
+* **Master mode** (also called AP or infrastructure mode) is used to
   create a service that looks like a traditional access point.
   The wireless card creates a network with a specified name
   (called the SSID) and channel, and offers network services on
@@ -510,7 +534,7 @@ Questo protocollo prevede 4 modalità operative:
   clients, handling channel contention, repeating packets, etc.)
   Wireless cards in master mode can only communicate with cards
   that are associated with it in managed mode.
-* Managed mode is sometimes also referred to as client mode.
+* **Managed mode** is sometimes also referred to as client mode.
   Wireless cards in managed mode will join a network created by a
   master, and will automatically change their channel to match
   it. They then present any necessary credentials to the master,
@@ -518,12 +542,12 @@ Questo protocollo prevede 4 modalità operative:
   associated with the master. Managed mode cards do not
   communicate with each other directly, and will only communicate
   with an associated master.
-* Ad-hoc mode creates a multipoint-to-multipoint network where
+* **Ad-hoc mode** creates a multipoint-to-multipoint network where
   there is no single master node or AP. In ad-hoc mode, each
   wireless card communicates directly with its neighbors. Nodes
   must be in range of each other to communicate, and must agree
   on a network name and channel.
-* Monitor mode is used by some tools (such as Kismet, chapter
+* **Monitor mode** is used by some tools (such as Kismet, chapter
   six) to passively listen to all radio traffic on a given
   channel. When in monitor mode, wireless cards transmit no data.
   This is useful for analyzing problems on a wireless link or
@@ -819,7 +843,7 @@ pre-up sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf -D wext
 post-down sudo killall -q wpa_supplicant
 ```
 
-In questo caso andiamo a collegarci attraverso wpa_supplicant ad
+In questo caso andiamo a collegarci attraverso `wpa_supplicant` ad
 una rete wifi.
 
 N.B.: Ricordiamo di consultare per esempi la pagina di man
@@ -832,7 +856,7 @@ interfaces(5) con:
 ```
 
 
-## Configurazione di rete su distro Red-Hat based
+## Configurazione di rete su distro Red-Hat/CentOS based
 
 Nelle distro basate su Red-Hat le configurazioni delle interfacce
 sono collocate in "/etc/sysconfig/network-scripts", in questa
@@ -887,7 +911,373 @@ eseguiamo:
  # anche se per grossi cambiamenti è più sicuro eseguire un reboot
 ```
 
-## Route & IP Route
+
+## File di networking importanti
+
+Vediamo ora una serie di file molto importanti per la
+configurazione di rete.
+
+
+### Il file resolv.conf
+
+Il file resolv.conf è utilizzato per definire i server DNS,
+cercare domini e gestire active directory. Esistono tuttavia
+delle differenze tra le distro basate su Debian e quelle basate
+su Red-Hat.
+
+###  Distro Debian-Based
+
+Il file resolv.conf è localizzato in "/etc/resolv.conf", possiamo
+aggiungere l'indirizzo del server DNS aggiungendo una voce:
+
+```txt
+nameserver 8.8.8.8
+# abbiamo aggiunto il DNS server 8.8.8.8
+```
+
+Un altro esempio tipico di configurazione potrebbe essere questo:
+
+```txt
+nameserver 8.8.8.8
+nameserver 8.8.8.4
+search myowndomain.xyz
+```
+In questo caso diciamo che il nameserver principale e' 8.8.8.8 mentre
+quello secondario e' 8.8.8.4, e poi indichiamo come dominio di
+default di ricerca "myowndomain.xyz", questo significa che di default
+nel momento proviamo a comunicare con una macchina chiamata "pippo"
+automaticamente il nostro resolver provera' a chiamare la macchina
+"pippo.myowndomain.xyz". Questa opzione e' molto utile soprattutto nel
+momento in cui stiamo installando una macchina all'interno di un
+dominio; in questo caso se provassimo ad accedere col nostro browser
+ad "http://foo", automaticamente la richiesta avviene a
+"http://foo.myowndomain.xyz".
+
+le modifiche saranno applicate subito, senza necessità di
+riavviare i servizi di rete, ad ogni modo questa configurazione
+sarà temporanea, in quanto al prossimo reboot il file resolv.conf
+verrà reimpostato alla sua configurazione originale, per
+modificare in modo assoluto la configurazione, andiamo nella
+directory "/etc/resolvconf/resolv.conf.d/" e in questa directory
+abbiamo due file di configurazione:
+
+```sh
+ head
+ # in questo file inseriamo le direttive che verranno messe
+ # in testa al file resolv.conf, quindi quelle con priorità
+ # maggiore
+```
+```sh
+ base
+ # in questo file inseriamo le direttive che verranno messe
+ # sotto quelle indicate dal file head
+```
+i nostri nameserver possiamo inserirli all'interno di questi
+file, quindi aggiungeremo in uno dei due la direttiva "nameserver
+8.8.8.8", una volta fatto, per andare a cambiare il file
+resolv.conf attuale eseguiremo:
+
+```sh
+ resolvconf -u
+ #  disponibile solo su alcune distro Debian-based
+```
+altre direttive che possono essere date al file resolv.conf oltre
+ai nameserver possono essere ad esempio "domain mydomain.local"
+se la nostra macchina fa da server DNS per un particolare dominio
+o è membro di un dominio. Esistono poi diverse opzioni come "
+options timeout:1" che significa, non perdere più di un secondo
+per una richiesta DNS oppure "search yourdomain.local", significa
+che non siamo membri di un determinato dominio ma vogliamo
+includerlo nella ricerca DNS. Vediamo un esempio di file
+resolv.conf:
+
+```conf
+nameserver 8.8.8.8
+nameserver 192.168.1.1
+domain mydomain.local
+options timeout:1
+search yourdomain.local
+```
+
+
+### Il file hosts
+
+Il file "hosts" e collocato nella directory "/etc/hosts",
+permette di associare ad indirizzi ip dei nomi. Nella maggior
+parte dei casi in questo file di default vedremo:
+
+```conf
+127.0.0.1 localhost
+127.0.1.1 nomeComputer
+```
+
+quindi questo vuol dire che tutte le volte che faremo un ping a
+localhost, verrà utilizzato quell'indirizzo. Un caso pratico è,
+vogliamo riferirci nella nostra LAN alle varie macchine con nomi
+significativi, questo può essere fatto semplicemente con:
+
+```sh
+localhost 127.0.0.1
+127.0.1.1 nomeComputer
+192.168.1.105 jack
+192.168.1.114 max
+192.168.1.104 serverAndromeda
+```
+
+è possibile anche reindirizzare siti web, ad esempio:
+
+```conf
+127.0.0.1 localhost
+127.0.1.1 nomeComputer
+192.168.1.16 www.yahoo.com
+192.168.1.16 yahoo.com
+```
+
+Ora ogni qualvolta io faccio un ping a www.yahoo.com o a
+yahoo.com in realtà verrà fatto un ping all'indirizzo
+192.168.1.16 e anche nel browser se la pagina non è in cache,
+vedremo il webserver all'indirizzo "192.168.1.16". Possiamo
+utilizzare il file hosts anche come filtro, ad esempio, nel caso
+volessimo bloccare l'accesso a "www.playboy.com", basterebbe fare
+"127.0.0.1 www.playboy.com" e "127.0.0.1 playboy.com", è sempre
+meglio mettere tuti i riferimenti ad un sito web, in quanto
+solitamente è accessibile almeno con due nomi di dominio. E'
+possibile accorpare più domini sotto un solo ip, ad esempio:
+
+```conf
+127.0.0.1 localhost
+127.0.1.1 nomeComputer
+192.168.1.16 www.yahoo.com yahoo.com www.playboy.com playboy.com
+```
+
+Nel caso sopracitato stiamo reindirizzando sia richieste verso il
+sito di yahoo che richieste verso il sito di playboy verso
+l'indirizzo ip specificato.
+
+
+### Il file hostname
+
+Il file hostname contiene informazioni sul nome della nostra
+macchina, il nome con cui possiamo accedere alla nostra macchina
+dall'interno o dall'esterno; hostname può essere un file o un
+comando o entrambi a differenza della distro utilizzata. Nelle
+distro Debian based il file è collocato in "/etc/hostname" mentre
+nelle Red-Hat based possiamo visualizzare l'hostname attraverso
+la voce "HOSTNAME" all'interno del file "/etc/sysconfig/network".
+Esiste anche il comando "hostname", vediamo alcuni esempi
+applicativi:
+
+```sh
+ hostname
+ # visualizza l'hostname corrente
+```
+```sh
+ hostname nomeNuovoHostName
+ # imposta un nuovo nome hostname
+ # temporaneo alla macchina, infatti al riavvio avremo ancora il
+ # nostro hostname precedente, per effettuare modifiche permanenti
+ # dovremo andare a modificare i file sopracitati
+```
+
+Possiamo visualizzare anche informazioni aggiuntive su molte distro attrverso il
+comando `hostnamectl`, semplicement eseguiamo:
+```sh
+ hostnamectl
+ # questo ci mostrera' anche se siamo all'interno di una macchina virtuale
+```
+
+Attenzione queste modifiche potrebbero non funzionare se la nostra macchina e'
+virtuale ed e' gestita da un server esterno che si occupa di reimpostare i nomi
+ad ogni reboot.
+
+
+### Il file nsswitch.conf
+
+
+Il "Name Service Switch" (NSS) è un meccanismo nei sistemi
+operativi Unix-Like che fornisce una varietà di sorgenti per
+configurazioni comuni di database e risoluzione di nomi. Il file
+nsswitch esiste quindi in tutte le distro, localizzato sempre
+nella stessa posizione cioè "/etc/nsswitch.conf", questo file
+regola la priorità che hanno le diverse configurazioni di diversi
+elementi, ad esempio l'ordine con cui vengono gestite le risoluzioni
+dns, o l'ordine con cui vengono gestiti o acceduti gli account.
+Generalmente possiamo affermare che configura i name services del sistema
+operativo. Un' esempio esplicativo di riga potrebbe essere:
+
+```sh
+ hosts: files dns mdns4
+ # questa riga significa: per risolvere i
+ # dns prima guarda il file di configurazione di sistema ovvero "/etc/hosts",
+ # questo ha la priorità massima, nel caso dovessi
+ # avere problemi allora affidati al servizio dns (trovato "/etc.resolv.conf")
+ # e stessa cosa per "mdns4".
+```
+Questo file e' importante quando si gestiscono ambienti simili ad active
+directory come LDAP o NIS.
+
+Quindi possiamo ad esempio scegliere con quale priorita' vengono cercati gli
+account, se diamo priorita' ad LDAP, allora a quel punto sara' LDAP il
+responsabile primario degli account.
+
+Un esempio di file di configurazione (con commenti esplicativi)
+potrebbe essere:
+
+```txt
+# The entry '[NOTFOUND=return]' means that the search for an
+# entry should stop if the search in the previous entry turned
+# up nothing. Note that if the search failed due to some other reason
+# (like no NIS server responding) then the search continues with the next entry.
+
+# Legal entries are:
+# nisplus Use NIS+ (NIS version 3)
+# nis Use NIS (NIS version 2), also called YP
+# dns Use DNS (Domain Name Service)
+# files Use the local files
+# db Use the /var/db databases
+
+# [NOTFOUND=return] Ferma la ricerca se la entry non è trovata
+# nel servizio appena specificato
+
+passwd: files ldap
+shadow: files
+group: files ldap
+hosts: dns nis files
+ethers: files nis
+netmasks: files nis
+networks: files nis
+protocols: files nis
+rpc: files [NOTFOUND=return] nis
+services: files [NOTFOUND=return] nis
+automount: files
+aliases: files
+```
+
+L'ordine dei servizi elencati determina l'ordina in cui NSS
+cercherà di usare questi servizi per resolvere query che vengono
+effettuate al sistema. Un programma utile nel caso avessimo un
+sistema di risoluzione DNS lento è quello di usare un computer
+come cache DNS, questo può essere fatto con programmi tipo "nscd"
+o meglio ancora "pdnsd" o "unbound".
+
+
+### Il file /etc/services
+
+Nel file /etc/services possiamo trovare la lista delle porte più
+comuni con i vari servizi associati, possiamo ad esempio
+effettuare:
+
+```sh
+ grep -iw 21 /etc/services
+ # in questo caso ci viene mostrato a
+ # quale servizio viene solitamente (per convenzione) associato
+ # alla porta 21
+```
+altri esempi di utilizzo possono essere:
+
+```sh
+ grep ssh /etc/services
+ # in questo caso ci viene mostrato su
+ # quale porta per convenzione girerebbe il servizio ssh
+```
+
+
+## Strumenti di Traffic Control
+
+E' possibile configurare il kernel packet scheduler in GNU/Linux attraverso
+l'utility chiamata 'tc'.
+In generale possiamo giocare con 'tc' se vogliamo:
+
+* sperimentare con lo scheduler di pacchetti del kernel di GNU/Linux
+* simulare particolare situazioni di rete con packet loss o packet delays
+* limitare la banda per una particolare connessione di rete
+
+Vediamo di seguito alcuni esempi.
+
+Possiamo aggiungere un **delay costante** ad un'interfaccia di rete con:
+
+```sh
+tc qdisc add dev eth0 root netem delay 200ms
+# qdisc: modifica lo scheduler (aka queuing discipline)
+# add: aggiunge una nuova regola
+# dev eth0: selezione l'interfaccia di rete 'eth0' per l'applicazione delle regole
+# netem: utilizza il network emulator per emulare una property WAN 
+# delay: il nome della network property modificata
+# 200ms: il ritardo di aggiunto che e' in questo caso di 200 millisecondi
+```
+
+Note: this adds a delay of 200 ms to the egress scheduler, exclusively. If
+it were to add the delay to both the ingress and egress schedulers,
+the total delay would have totaled 400 ms. In general, all of these
+traffic control rules are applied to the egress scheduler only.
+
+Possiamo **mostrare le impostazioni attive** con:
+```sh
+tc qdisc show  dev eth0
+```
+
+possiamo **cancellare tutte le regole presenti su un'interfaccia di rete** con:
+```sh
+tc qdisc del dev eth0 root
+```
+
+Possiamo **aggiungere un delay di 100ms piu' un delay +-10ms distribuiti con
+distribuzione uniforme** con:
+```sh
+tc qdisc change dev eth0 root netem delay 100ms 10ms
+```
+
+Oppure possiamo **aggiungere un delay di 100ms con in aggiunta un delay 
+con una distribuzione uniforme +-10ms e correlazione 25%**
+(in quanto in genere i delay network non sono del tutto casuali) con:
+```sh
+tc qdisc change dev eth0 root netem delay 100ms 10ms 25%
+```
+
+Possiamo **aggiungere un delay di 100ms piu' un delay di +-10ms distribuiti con
+distribuzione normale** con:
+```sh
+tc qdisc add dev eth0 root netem delay 100ms 20ms distribution normal
+ ```
+Altre opzioni utilizzabili al posto di 'normal' sono 'pareto' e 'paretonormal'.
+
+Possiamo simulare una **perdita di pacchetti del 10%** con:
+```sh
+ tc qdisc add dev eth0 root netem loss 10%
+```
+
+Possiamo anche **corrompere il 5% dei pacchetti, andando ad un introdurre un
+single bit error ad un offset random**, con:
+```sh
+tc qdisc change dev eth0 root netem corrupt 5%
+```
+
+Possiamo anche **duplicare l'1% dei pacchetti**:
+```sh
+tc qdisc change dev eth0 root netem duplicate 1%
+```
+
+Vediamo invece ora come limitare la banda.
+
+Possiamo **limitare la banda in uscita 'egress'** con:
+```sh
+tc qdisc add dev eth0 root tbf rate 1mbit burst 32kbit latency 400ms
+# tbf: use the token buffer filter to manipulate traffic rates
+# rate: sustained maximum rate
+# burst: maximum allowed burst
+# latency: packets with higher latency get dropped
+```
+
+Il modo migliore per testare queste impostazioni e' attraverso il comando 
+`iperf`, possiamo infatti provare a lanciarlo prima e dopo l'applicazione delle
+regole per vedere se le modifiche sono state apportate correttamente.
+Il comando `iperf` puo' essere lanciato con:
+```sh
+iperf -c 172.31.0.142
+# dove l'indirizzo IP deve essere opportunamente settato
+```
+
+## route & ip route
 
 Il comando "route" ci mostrerà il routing attivo sul nostro
 sistema, il comando mostra di default diverse colonne, ma le più
@@ -1107,8 +1497,8 @@ segnale di SIGQUIT al processo e mostra una statistica breve al
 momento dell'invio del segnale, il processo intanto continua con
 la sua normale procedura.
 
-## Informazioni sul DNS e Traceroute
 
+## Traceroute e DNS
 
 ### Traceroute
 
@@ -1913,391 +2303,3 @@ curl -sD - http://example.com
 # mentre -D fa il dump degli header su file che in questo case e' lo stdin '-'
 ```
 
-## Calcolo di Indirizzi IP
-
-Possiamo trovare informazioni su un indirizzo di rete o un indirizzo IP con
-subnet mask con un programma chiamato `ipcalc`, nonostante questo programma non
-sia installato by default in genere, e' un tool molto utilizzato per questo tipo
-di operazioni, vediamone un esempio:
-
-```sh
-ipcalc 192.168.1.0/16
-```
-
-
-## File di networking importanti
-
-Vediamo ora una serie di file molto importanti per la
-configurazione di rete.
-
-### Il file resolv.conf
-
-
-Il file resolv.conf è utilizzato per definire i server DNS,
-cercare domini e gestire active directory. Esistono tuttavia
-delle differenze tra le distro basate su Debian e quelle basate
-su Red-Hat.
-
-  Distro Debian-Based
-
-Il file resolv.conf è localizzato in "/etc/resolv.conf", possiamo
-aggiungere l'indirizzo del server DNS aggiungendo una voce:
-
-```txt
-nameserver 8.8.8.8
-# abbiamo aggiunto il DNS server 8.8.8.8
-```
-
-Un altro esempio tipico di configurazione potrebbe essere questo:
-
-```txt
-nameserver 8.8.8.8
-nameserver 8.8.8.4
-search myowndomain.xyz
-```
-In questo caso diciamo che il nameserver principale e' 8.8.8.8 mentre
-quello secondario e' 8.8.8.4, e poi indichiamo come dominio di
-default di ricerca "myowndomain.xyz", questo significa che di default
-nel momento proviamo a comunicare con una macchina chiamata "pippo"
-automaticamente il nostro resolver provera' a chiamare la macchina
-"pippo.myowndomain.xyz". Questa opzione e' molto utile soprattutto nel
-momento in cui stiamo installando una macchina all'interno di un
-dominio; in questo caso se provassimo ad accedere col nostro browser
-ad "http://foo", automaticamente la richiesta avviene a
-"http://foo.myowndomain.xyz".
-
-le modifiche saranno applicate subito, senza necessità di
-riavviare i servizi di rete, ad ogni modo questa configurazione
-sarà temporanea, in quanto al prossimo reboot il file resolv.conf
-verrà reimpostato alla sua configurazione originale, per
-modificare in modo assoluto la configurazione, andiamo nella
-directory "/etc/resolvconf/resolv.conf.d/" e in questa directory
-abbiamo due file di configurazione:
-
-```sh
- head
- # in questo file inseriamo le direttive che verranno messe
- # in testa al file resolv.conf, quindi quelle con priorità
- # maggiore
-```
-```sh
- base
- # in questo file inseriamo le direttive che verranno messe
- # sotto quelle indicate dal file head
-```
-i nostri nameserver possiamo inserirli all'interno di questi
-file, quindi aggiungeremo in uno dei due la direttiva "nameserver
-8.8.8.8", una volta fatto, per andare a cambiare il file
-resolv.conf attuale eseguiremo:
-
-```sh
- resolvconf -u
- #  disponibile solo su alcune distro Debian-based
-```
-altre direttive che possono essere date al file resolv.conf oltre
-ai nameserver possono essere ad esempio "domain mydomain.local"
-se la nostra macchina fa da server DNS per un particolare dominio
-o è membro di un dominio. Esistono poi diverse opzioni come "
-options timeout:1" che significa, non perdere più di un secondo
-per una richiesta DNS oppure "search yourdomain.local", significa
-che non siamo membri di un determinato dominio ma vogliamo
-includerlo nella ricerca DNS. Vediamo un esempio di file
-resolv.conf:
-
-```conf
-nameserver 8.8.8.8
-nameserver 192.168.1.1
-domain mydomain.local
-options timeout:1
-search yourdomain.local
-```
-
-
-### Il file hosts
-
-Il file "hosts" e collocato nella directory "/etc/hosts",
-permette di associare ad indirizzi ip dei nomi. Nella maggior
-parte dei casi in questo file di default vedremo:
-
-```conf
-127.0.0.1 localhost
-127.0.1.1 nomeComputer
-```
-
-quindi questo vuol dire che tutte le volte che faremo un ping a
-localhost, verrà utilizzato quell'indirizzo. Un caso pratico è,
-vogliamo riferirci nella nostra LAN alle varie macchine con nomi
-significativi, questo può essere fatto semplicemente con:
-
-```sh
-localhost 127.0.0.1
-127.0.1.1 nomeComputer
-192.168.1.105 jack
-192.168.1.114 max
-192.168.1.104 serverAndromeda
-```
-
-è possibile anche reindirizzare siti web, ad esempio:
-
-```conf
-127.0.0.1 localhost
-127.0.1.1 nomeComputer
-192.168.1.16 www.yahoo.com
-192.168.1.16 yahoo.com
-```
-
-Ora ogni qualvolta io faccio un ping a www.yahoo.com o a
-yahoo.com in realtà verrà fatto un ping all'indirizzo
-192.168.1.16 e anche nel browser se la pagina non è in cache,
-vedremo il webserver all'indirizzo "192.168.1.16". Possiamo
-utilizzare il file hosts anche come filtro, ad esempio, nel caso
-volessimo bloccare l'accesso a "www.playboy.com", basterebbe fare
-"127.0.0.1 www.playboy.com" e "127.0.0.1 playboy.com", è sempre
-meglio mettere tuti i riferimenti ad un sito web, in quanto
-solitamente è accessibile almeno con due nomi di dominio. E'
-possibile accorpare più domini sotto un solo ip, ad esempio:
-
-```conf
-127.0.0.1 localhost
-127.0.1.1 nomeComputer
-192.168.1.16 www.yahoo.com yahoo.com www.playboy.com playboy.com
-```
-
-Nel caso sopracitato stiamo reindirizzando sia richieste verso il
-sito di yahoo che richieste verso il sito di playboy verso
-l'indirizzo ip specificato.
-
-
-### Il file hostname
-
-Il file hostname contiene informazioni sul nome della nostra
-macchina, il nome con cui possiamo accedere alla nostra macchina
-dall'interno o dall'esterno; hostname può essere un file o un
-comando o entrambi a differenza della distro utilizzata. Nelle
-distro Debian based il file è collocato in "/etc/hostname" mentre
-nelle Red-Hat based possiamo visualizzare l'hostname attraverso
-la voce "HOSTNAME" all'interno del file "/etc/sysconfig/network".
-Esiste anche il comando "hostname", vediamo alcuni esempi
-applicativi:
-
-```sh
- hostname
- # visualizza l'hostname corrente
-```
-```sh
- hostname nomeNuovoHostName
- # imposta un nuovo nome hostname
- # temporaneo alla macchina, infatti al riavvio avremo ancora il
- # nostro hostname precedente, per effettuare modifiche permanenti
- # dovremo andare a modificare i file sopracitati
-```
-
-Possiamo visualizzare anche informazioni aggiuntive su molte distro attrverso il
-comando `hostnamectl`, semplicement eseguiamo:
-```sh
- hostnamectl
- # questo ci mostrera' anche se siamo all'interno di una macchina virtuale
-```
-
-Attenzione queste modifiche potrebbero non funzionare se la nostra macchina e'
-virtuale ed e' gestita da un server esterno che si occupa di reimpostare i nomi
-ad ogni reboot.
-
-
-### Il file nsswitch.conf
-
-
-Il "Name Service Switch" (NSS) è un meccanismo nei sistemi
-operativi Unix-Like che fornisce una varietà di sorgenti per
-configurazioni comuni di database e risoluzione di nomi. Il file
-nsswitch esiste quindi in tutte le distro, localizzato sempre
-nella stessa posizione cioè "/etc/nsswitch.conf", questo file
-regola la priorità che hanno le diverse configurazioni di diversi
-elementi, ad esempio l'ordine con cui vengono gestite le risoluzioni
-dns, o l'ordine con cui vengono gestiti o acceduti gli account.
-Generalmente possiamo affermare che configura i name services del sistema
-operativo. Un' esempio esplicativo di riga potrebbe essere:
-
-```sh
- hosts: files dns mdns4
- # questa riga significa: per risolvere i
- # dns prima guarda il file di configurazione di sistema ovvero "/etc/hosts",
- # questo ha la priorità massima, nel caso dovessi
- # avere problemi allora affidati al servizio dns (trovato "/etc.resolv.conf")
- # e stessa cosa per "mdns4".
-```
-Questo file e' importante quando si gestiscono ambienti simili ad active
-directory come LDAP o NIS.
-
-Quindi possiamo ad esempio scegliere con quale priorita' vengono cercati gli
-account, se diamo priorita' ad LDAP, allora a quel punto sara' LDAP il
-responsabile primario degli account.
-
-Un esempio di file di configurazione (con commenti esplicativi)
-potrebbe essere:
-
-```txt
-# The entry '[NOTFOUND=return]' means that the search for an
-# entry should stop if the search in the previous entry turned
-# up nothing. Note that if the search failed due to some other reason
-# (like no NIS server responding) then the search continues with the next entry.
-
-# Legal entries are:
-# nisplus Use NIS+ (NIS version 3)
-# nis Use NIS (NIS version 2), also called YP
-# dns Use DNS (Domain Name Service)
-# files Use the local files
-# db Use the /var/db databases
-
-# [NOTFOUND=return] Ferma la ricerca se la entry non è trovata
-# nel servizio appena specificato
-
-passwd: files ldap
-shadow: files
-group: files ldap
-hosts: dns nis files
-ethers: files nis
-netmasks: files nis
-networks: files nis
-protocols: files nis
-rpc: files [NOTFOUND=return] nis
-services: files [NOTFOUND=return] nis
-automount: files
-aliases: files
-```
-
-L'ordine dei servizi elencati determina l'ordina in cui NSS
-cercherà di usare questi servizi per resolvere query che vengono
-effettuate al sistema. Un programma utile nel caso avessimo un
-sistema di risoluzione DNS lento è quello di usare un computer
-come cache DNS, questo può essere fatto con programmi tipo "nscd"
-o meglio ancora "pdnsd" o "unbound".
-
-
-### Il file /etc/services
-
-Nel file /etc/services possiamo trovare la lista delle porte più
-comuni con i vari servizi associati, possiamo ad esempio
-effettuare:
-
-```sh
- grep -iw 21 /etc/services
- # in questo caso ci viene mostrato a
- # quale servizio viene solitamente (per convenzione) associato
- # alla porta 21
-```
-altri esempi di utilizzo possono essere:
-
-```sh
- grep ssh /etc/services
- # in questo caso ci viene mostrato su
- # quale porta per convenzione girerebbe il servizio ssh
-```
-
-
-## Alcune informazioni utili su IPv4
-
-Esistono alcune convenzioni che vengono seguite nell'assegnazioni
-di indirizzi in una rete:
-
-* 192.168.1.1 "Default gateway"
-* 192.168.1.2 "Firewall"
-* 192.168.1.5 "DNS/Active Directory/LDAP"
-* 192.168.1.100 "SNMP or Monitoring"
-* 192.168.1.255 "Network Broadcast" (questo a differenza degli altri è uno standard)
-
-
-## Strumenti di Traffic Control
-
-E' possibile configurare il kernel packet scheduler in GNU/Linux attraverso
-l'utility chiamata 'tc'.
-In generale possiamo giocare con 'tc' se vogliamo:
-
-* sperimentare con lo scheduler di pacchetti del kernel di GNU/Linux
-* simulare particolare situazioni di rete con packet loss o packet delays
-* limitare la banda per una particolare connessione di rete
-
-Vediamo di seguito alcuni esempi.
-
-Possiamo aggiungere un **delay costante** ad un'interfaccia di rete con:
-
-```sh
-tc qdisc add dev eth0 root netem delay 200ms
-# qdisc: modifica lo scheduler (aka queuing discipline)
-# add: aggiunge una nuova regola
-# dev eth0: selezione l'interfaccia di rete 'eth0' per l'applicazione delle regole
-# netem: utilizza il network emulator per emulare una property WAN 
-# delay: il nome della network property modificata
-# 200ms: il ritardo di aggiunto che e' in questo caso di 200 millisecondi
-```
-
-Note: this adds a delay of 200 ms to the egress scheduler, exclusively. If
-it were to add the delay to both the ingress and egress schedulers,
-the total delay would have totaled 400 ms. In general, all of these
-traffic control rules are applied to the egress scheduler only.
-
-Possiamo **mostrare le impostazioni attive** con:
-```sh
-tc qdisc show  dev eth0
-```
-
-possiamo **cancellare tutte le regole presenti su un'interfaccia di rete** con:
-```sh
-tc qdisc del dev eth0 root
-```
-
-Possiamo **aggiungere un delay di 100ms piu' un delay +-10ms distribuiti con
-distribuzione uniforme** con:
-```sh
-tc qdisc change dev eth0 root netem delay 100ms 10ms
-```
-
-Oppure possiamo **aggiungere un delay di 100ms con in aggiunta un delay 
-con una distribuzione uniforme +-10ms e correlazione 25%**
-(in quanto in genere i delay network non sono del tutto casuali) con:
-```sh
-tc qdisc change dev eth0 root netem delay 100ms 10ms 25%
-```
-
-Possiamo **aggiungere un delay di 100ms piu' un delay di +-10ms distribuiti con
-distribuzione normale** con:
-```sh
-tc qdisc add dev eth0 root netem delay 100ms 20ms distribution normal
- ```
-Altre opzioni utilizzabili al posto di 'normal' sono 'pareto' e 'paretonormal'.
-
-Possiamo simulare una **perdita di pacchetti del 10%** con:
-```sh
- tc qdisc add dev eth0 root netem loss 10%
-```
-
-Possiamo anche **corrompere il 5% dei pacchetti, andando ad un introdurre un
-single bit error ad un offset random**, con:
-```sh
-tc qdisc change dev eth0 root netem corrupt 5%
-```
-
-Possiamo anche **duplicare l'1% dei pacchetti**:
-```sh
-tc qdisc change dev eth0 root netem duplicate 1%
-```
-
-Vediamo invece ora come limitare la banda.
-
-Possiamo **limitare la banda in uscita 'egress'** con:
-```sh
-tc qdisc add dev eth0 root tbf rate 1mbit burst 32kbit latency 400ms
-# tbf: use the token buffer filter to manipulate traffic rates
-# rate: sustained maximum rate
-# burst: maximum allowed burst
-# latency: packets with higher latency get dropped
-```
-
-Il modo migliore per testare queste impostazioni e' attraverso il comando 
-`iperf`, possiamo infatti provare a lanciarlo prima e dopo l'applicazione delle
-regole per vedere se le modifiche sono state apportate correttamente.
-Il comando `iperf` puo' essere lanciato con:
-```sh
-iperf -c 172.31.0.142
-# dove l'indirizzo IP deve essere opportunamente settato
-```
