@@ -1,6 +1,4 @@
-
-
-## Shell testuale ( DA RIGUARDARE)
+## Shell testuale (DA RIGUARDARE/CORREGGERE)
 
 Esistono alcuni comandi da shell molto utili, ad esempio:
 
@@ -24,6 +22,8 @@ Esistono alcuni comandi da shell molto utili, ad esempio:
  # mostra le opzioni di shell (vale solo per alcune shell,
  # ad esempio la Bash)
 ```
+
+
 Alcuni file importanti per la shell di ogni utente sono:
 
 ```sh
@@ -117,8 +117,8 @@ nell'ordine sottocitato i seguenti file:
 1. `/etc/bash.bashrc`
 2. `~/.bashrc`
 
-## Shell di Login o Shell di Non Login ?
 
+## Login Shell vs Non Login Shell
 
 Per controllare se siamo in una shell di login o in una shell non
 di login quando usiamo una shell Bash, possiamo usare il comando:
@@ -152,99 +152,51 @@ personalizzazione della shell:
 
 ```sh
  $PS1
- # contiene la forma in cui viene stampato il prompt della
- # shell
+ # contiene la forma in cui viene stampato il prompt della shell
 ```
 ```sh
  $PS2
  # contiene la forma in cui viene stampato il secondo
- # prompt della shell, quello comunemente associato al carattere "
- # >"
+ # prompt della shell, quello comunemente associato al carattere "# >"
 ```
 ```sh
  $SHELL
  # contiene il tipo di shell utilizzata
 ```
+
+
 Vediamo alcuni utili shortcut della Bash shell ora:
 
-```sh
- "Ctrl+r"
- # mi permette di ricercare una stringa all'interno
- # della cronologia dei comandi, possiamo quindi scrivere la
- # parola ricercata e schiacciare Ctrl+r per scorrere la
- # cronologia relativa a quella parola
-```
-```sh
- "Ctrl+l"
- # esegue una pulizia dello schermo, è analogo a
- # lanciare il comando "clear"
-```
-```sh
- "Ctrl+x+Backspace"
- # per cancellare tutto quello che c'è prima
- # del cursore
-```
-```sh
- "Ctrl+k"
- # cancella tutto quello che c'è davanti al cursore
-```
-```sh
- "Ctrl+a"
- # sposta il cursore all'inizio della linea
-```
-```sh
- "Ctrl+e"
- # sposta il cursore alla fine della linea
-```
-```sh
- "Ctrl+u"
- # cancella tutto quello che c'è prima del cursore,
- # equivalente a "Ctrl+x+Backspace"
-```
-```sh
- "Ctrl+p"
- # va indietro nella cronologia dei comandi
-```
-```sh
- "Ctrl+n"
- # va avanti nella cronologia dei comandi
-```
-```sh
- "Alt+f"
- # sposta il cursore in avanti di una parola
-```
-```sh
- "Alt+b"
- # sposta il cursore indietro di una parola
-```
-```sh
- "Ctrl+t"
- # per cambiare l'ordine di due caratteri, utilizzato
- # ad esempio nel caso di errori di battitura
-```
-```sh
- "Alt+t"
- # swappa due stringhe sulla riga di comando
-```
-```sh
- "Ctrl+w"
- # elimina la stringa precedente
-```
-```sh
- "CTRL+x+e"
- # inserisce il comando corrente in un editor di
- # testo, per fare in modo che sia più facile modificarlo, o
- # salvarlo eventualmente, l'editor che viene utilizzato è quello
- # impostato come editor di default dal sistema, solitamente nella
- # variabile $EDITOR
-```
-```sh
- "space+ComandoDaEseguire"
- # inteso uno spazio prima del comando
- # come: " cd" al posto di "cd", questa modalità di stesura del
- # comando permette di fare in modo che non sia salvato nella
- # history dei comandi
-```
+- `"Ctrl+r"`, mi permette di ricercare una stringa all'interno
+    della cronologia dei comandi, possiamo quindi scrivere la
+    parola ricercata e schiacciare Ctrl+r per scorrere la
+    cronologia relativa a quella parola
+- `"Ctrl+l"`, esegue una pulizia dello schermo, è analogo a
+    lanciare il comando "clear"
+- `"Ctrl+x+Backspace"`, per cancellare tutto quello che c'è prima del cursore
+- `"Ctrl+k"`, cancella tutto quello che c'è davanti al cursore
+- `"Ctrl+a"`, sposta il cursore all'inizio della linea
+- `"Ctrl+e"`, sposta il cursore alla fine della linea
+- `"Ctrl+u"`, cancella tutto quello che c'è prima del cursore,
+    equivalente a "Ctrl+x+Backspace"
+- `"Ctrl+p"`, va indietro nella cronologia dei comandi
+- `"Ctrl+n"`, va avanti nella cronologia dei comandi
+- `"Alt+f"`, sposta il cursore in avanti di una parola
+- `"Alt+b"`, sposta il cursore indietro di una parola
+- `"Ctrl+t"`, per cambiare l'ordine di due caratteri, utilizzato
+    ad esempio nel caso di errori di battitura
+- `"Alt+t"`, swappa due stringhe sulla riga di comando
+- `"Ctrl+w"`, elimina la stringa precedente
+- `"CTRL+x+e"`, inserisce il comando corrente in un editor di
+    testo, per fare in modo che sia più facile modificarlo, o
+    salvarlo eventualmente, l'editor che viene utilizzato è quello
+    impostato come editor di default dal sistema, solitamente nella
+    variabile $EDITOR
+- `"space+ComandoDaEseguire"`, inteso uno spazio prima del comando
+    come: " cd" al posto di "cd", questa modalità di stesura del
+    comando permette di fare in modo che non sia salvato nella
+    history dei comandi
+
 ```sh
  some command|xsel --clipboard
  # copia l'output del comando nella clipboard di sistema pronto per essere
@@ -259,8 +211,8 @@ Vediamo alcuni utili shortcut della Bash shell ora:
  # senza alias, eseguiamo "\ls", comodo soprattutto quando
  # applichiamo alias su "rm"
 ```
-## Configurazione e Personalizzazione della Shell Bash
 
+## Configurazione e Personalizzazione della Shell Bash
 
 Possiamo cambiare la dimensione della history, andando ad
 inserire nel file ".bashrc", cercando la stringa "HIST", possiamo
@@ -269,7 +221,7 @@ HISTFILESIZE", una volta applicate le modifiche possiamo o
 sloggare e riloggare oppure eseguire:
 
 ```sh
- source .bashrc
+ source ~/.bashrc
 ```
 
 ## Shortcut per Bash e altre shell
@@ -318,8 +270,7 @@ web, allora facciamo:
  export TEST='http://linuxacademy.tv'
  # inizializziamo la
  # variabile d'ambiente di nome TEST con il valore
-  'http:
- # linuxacademy.tv'
+ # 'http://linuxacademy.tv'
 ```
 ```sh
  export PATH=$PATH:/home/myExec
@@ -369,127 +320,65 @@ diversi comandi:
  printenv
  # visualizza tutte le variabili d'ambiente
 ```
+
+Un altro scenario utile e' quando vogliamo lanciare un comando senza che vengano
+prese in considerazione le variabili d'ambiente. Questo e' possibile attraverso:
+```sh
+ env - ./nomecomando arg1 arg2
+ # in questo caso le variabili d'ambiente non vengono prese in considerazione
+ # al lancio del programma
+```
+
 Vediamo ora alcune variabili d'ambiente famose:
 
-```sh
- $HOSTNAME
- # contiene il nome del nostro host
-```
-```sh
- $HOME
- # la home del nostro utente
-```
-```sh
- $PWD
- # la directory corrente
-```
-```sh
- $IFS
- # contiene il carattere utilizzato come separatore,
- # rappresenta come la shell separa i parametri e i valori in
- # genere, di default è assegnato al carattere "spazio" (space)
-```
-```sh
- $PS1
- # il prompt visualizzato dalla shell
-```
-```sh
- $PS2
- # il secondo prompt visualizzato dalla shell, quello
- # comumente indicato con ">"
-```
-```sh
- $$
- # il pid della shell attuale, in uno script è il PID dello
- # script
-```
-```sh
- $USER
- # il nome del nostro utente
-```
-```sh
- $SHELL
- # il tipo di shell utiizzata
-```
-```sh
- $CDPATH
- # è una variabile d'ambiente che può contenere
- # directory aggiuntive che vengono considerate sempre nel momento
- # in cui eseguiamo "cd", ad esempio se accediamo spesso alla
- # directory "/etc" in quanto nella directory "/etc" sono
- # contenute le directory "/etc/x" ed "/etc/y" che sono di nostro
- # interesse, allora possiamo eseguire "export CDPATH=/etc" a
- # questo punto in qualasiasi directory ci dovessimo trovare,
- # possiamo eseguire semplicemente un "cd x" per accedere alla
- # directory /etc/x ed "cd y" per accedere alla directory "/etc/y"
-```
-```sh
- $LD_LIBRARY_PATH
- # il percorso delle librerie
-```
-```sh
- $DISPLAY
- # il display attuale in cui vengono visualizzate le
- # finestre grafiche
-```
-```sh
- $EDITOR
- # il tipo di editor che viene aperto in automatico
- # quando richiesto
-```
-```sh
- $PATH
- # il percorso da dove vengono presi gli eseguibili per
- # essere lanciati come comandi
-```
-```sh
- $MAIL
- # il percorso dove vengono salvate le mail
-```
-```sh
- $LANG
- # la lingua utilizzata dall'utente
-```
-```sh
- $#
- # (utile negli script) il numero di parametri passati ad uno
- # script
-```
-```sh
- $?
- # stampa il valore di ritorno dell'ultimo script/comando
- # lanciato, è da ricordare che un valore uguale a 0 significa "
- # esecuzione corretta", un valore diverso da zero, indica un
- # errore
-```
-```sh
- $0
- # (utile negli script) nome dello script
-```
-```sh
- $@
- # (utile negli script) una variabile unica contenente la
- # lista di parametri passati allo script, usa come separatore lo "
- # spazio", questo è preferibile rispetto alla versione "$*", in
- # quanto questa dipende da IFS
-```
-```sh
- $*
- # (utile negli script) una variabile unica contenente la
- # lista di parametri passati allo script, usa come separatore il
- # carattere nella variabile "IFS"
-```
-```sh
- $1, $2, ...
- # (utile negli script), è il parametro passato, ad
- # esempio $1, è il primo parametro passato, $2 il secondo
- # parametro passato e così via
-```
-```sh
- $-
- # visualizza una stringa rappresentante i flag opzione della
- # shell attualmente attivi (quelli che impostati con "set")
-```
+- `$HOSTNAME`, contiene il nome del nostro host
+- `$HOME`, la home del nostro utente
+- `$PWD`, la directory corrente
+- `$IFS`, contiene il carattere utilizzato come separatore,
+    rappresenta come la shell separa i parametri e i valori in
+    genere, di default è assegnato al carattere "spazio" (space)
+- `$PS1`, il prompt visualizzato dalla shell
+- `$PS2`, il secondo prompt visualizzato dalla shell, quello
+    comumente indicato con ">"
+- `$$`, il pid della shell attuale, in uno script è il PID dello
+    script
+- `$USER`, il nome del nostro utente
+- `$SHELL`, il tipo di shell utiizzata
+- `$CDPATH`, è una variabile d'ambiente che può contenere
+    directory aggiuntive che vengono considerate sempre nel momento
+    in cui eseguiamo "cd", ad esempio se accediamo spesso alla
+    directory "/etc" in quanto nella directory "/etc" sono
+    contenute le directory "/etc/x" ed "/etc/y" che sono di nostro
+    interesse, allora possiamo eseguire "export CDPATH=/etc" a
+    questo punto in qualasiasi directory ci dovessimo trovare,
+    possiamo eseguire semplicemente un "cd x" per accedere alla
+    directory /etc/x ed "cd y" per accedere alla directory "/etc/y"
+- `$LD_LIBRARY_PATH`, il percorso delle librerie
+- `$DISPLAY`, il display attuale in cui vengono visualizzate le finestre grafiche
+- `$EDITOR`, il tipo di editor che viene aperto in automatico quando richiesto
+- `$PATH`, il percorso da dove vengono presi gli eseguibili per essere 
+    lanciati come comandi
+- `$MAIL`, il percorso dove vengono salvate le mail
+- `$LANG`, la lingua utilizzata dall'utente
+- `$#`, (utile negli script) il numero di parametri passati ad uno script
+- `$?`, stampa il valore di ritorno dell'ultimo script/comando
+    lanciato, è da ricordare che un valore uguale a 0 significa 
+    "esecuzione corretta", un valore diverso da zero, indica un errore
+- `$0`, (utile negli script) nome dello script
+- `$@`, (utile negli script) una variabile unica contenente la
+    lista di parametri passati allo script, usa come separatore lo "
+    spazio", questo è preferibile rispetto alla versione `$*`, in
+    quanto questa dipende da IFS
+- `$*`, (utile negli script) una variabile unica contenente la
+    lista di parametri passati allo script, usa come separatore il
+    carattere nella variabile "IFS"
+- `$1`, `$2`, ..., `$<n>`, (utile negli script), è il parametro passato, ad
+    esempio $1, è il primo parametro passato, $2 il secondo
+    parametro passato e così via
+- `$-`, visualizza una stringa rappresentante i flag opzione della
+    shell attualmente attivi (quelli che impostati con "set")
+
+
 Dato un processo con relativo PID (visto ad esempio con top o ps)
 possiamo visualizzare le variabili d'ambiente che sta utilizzando
 andando a visualizzare il file:
@@ -506,7 +395,8 @@ come ad esempio LANG, EDITOR, ecc..., mentre le "shell variable"
 non sono possono essere usate dai programmi esterni quindi
 valgono solo per la shell.
 
-  Personalizzare il prompt dei comandi
+
+## Personalizzare il prompt dei comandi
 
 Per personalizzare il prompt dei comandi, dobbiamo agire sulla
 variabile d'ambiente PS1, vediamo alcuni esempi:
@@ -577,10 +467,10 @@ stile/colore deve essere delimitata dalle sequenze:
 ad esempio, nel caso volessimo avere un prompt con il nome utente
 e l'hostname con carattere di separazione "@" tutto di colore "0;32" seguiti
 dalla directory corrente con stile/colore "0;31" allora facciamo:
-
 ```sh
  export PS1='\[\e[0;32m\]\u@\h\[\e[m\]\[\e[0;31m\]\w\[\e[m\]'
 ```
+
 Per una lista di tutti gli stili/colori disponibili, è
 consigliato consultare.
 [Guida ai Colori del Prompt di Shell](https://wiki.archlinux.org/index.php/Color_Bash_Prompt)
@@ -590,22 +480,22 @@ Vediamo un altro esempio:
   PS1="$HC$FYEL[ $FBLE${debian_chroot:+($debian_chroot)}\u$FYEL:$FBLE\w $FYEL]\\$ $RS" PS2="$HC$FYEL&gt; $RS"
 ```
 
-o ancora
-
+o ancora:
 ```sh
   PS1="\[$(tput bold)\]\[$(tput setaf 6)\]\t \[$(tput setaf
   2)\][\[$(tput setaf 3)\]\u\[$(tput setaf 1)\]@\[$(tput setaf
   3)\]\h \[$(tput setaf 6)\]\W\[$(tput setaf 2)\]]\[$(tput setaf
   4)\]\\$ \[$(tput sgr0)\]"
 ```
-online esistono diversi Bash PS1 generator per semplificare la
+
+Online esistono diversi Bash PS1 generator per semplificare la
 procedura di customizzazione.
 
 
-## Opzioni di Shell
+## Shell Options
 
-Le "opzioni di shell", sono impostazioni che possono cambiare il
-comportamento delle shell (e degli script di shell) in
+Le "opzioni di shell" (o shell options), sono impostazioni che possono cambiare
+il comportamento delle shell (e degli script di shell) in
 determinate situazioni o per determinate operazioni. Il comando "
 set" viene utilizzato allo scopo di impostare le opzioni di
 shell. La sintassi del comando è:
@@ -782,7 +672,7 @@ alias df='df -h'
 
 ## Zsh
 
-Questa è una shell molto avanzata, si consiglia l'installazione
+Questa è una shell piu' avanzata, si consiglia l'installazione
 dei powerline fonts e di un qualche plugin manager come "oh my zsh",
 alcuni comandi utili qui sono:
 
@@ -799,8 +689,8 @@ ad esempio:
  # va alla directory indicata col numero "2" quando
  # abbiamo eseguito "dirs -v"
 ```
-## Funzioni d'Ambiente
 
+## Funzioni d'Ambiente
 
 Come per le variabili possiamo anche creare "comandi" (cioè
 funzioni) che saranno accessibili solo all'utente, questo è
@@ -813,7 +703,7 @@ inserite all'interno del file .bashrc:
 # Set Proxy
 
 function nomecomandopersonaleuno() {
-	export {http,https,ftp}_proxy="http://proxy-server:port"
+    export {http,https,ftp}_proxy="http://proxy-server:port"
 }
 ```
 
@@ -825,7 +715,7 @@ function nomecomandopersonaledue() {
 }
 ```
 
-ora al prossimo login (oppure dopo aver rieseguito il file
+Ora al prossimo login (oppure dopo aver rieseguito il file
 .bashrc con un source o avviandolo) all'utente basterà digitare
 da riga di comando:
 
@@ -841,8 +731,8 @@ oppure
  # eseguirà le istruzioni contenute
  # all'interno della funzione nomecomandopersonaledue
 ```
-## Memorizzare Comandi e Riprodurli
 
+## Memorizzare Comandi e Riprodurli
 
 Possiamo usare l'utility "script" e "replayscript", sia per scopi
 didattici che per scopi di utilità, è un modo per registrare le
@@ -872,7 +762,7 @@ più famosi Terminal Multiplexer sono:
 * terminator (GUI)
 
 
-## Tmux
+### Tmux
 
 Tmux è organizzato in sessioni, ogni sessione è costituita da una
 o più windows (finestre) ed ogni finestra può essere costituita
@@ -919,28 +809,23 @@ Possiamo creare una nuova sessione tmux con:
  tmux new -s nome-sessione
  # crea una nuova sessione con nome "nome-sessione"
 ```
-
 ```sh
  tmux ls
  # elenca le sessioni tmux presenti sul sistema
 ```
-
 ```sh
  tmux a -t nome-sessione
  # si collega alla sessione chiamata "nome-sessione", "a" sta per "attach"
 ```
-
 ```sh
  tmux rename-session -t 0 database
  # rinomina la sessione 0 col nome "database"
 ```
-
 ```sh
   tmux detach
   # possiamo sconnetterci da una sessione senza terminarla con detach
   # un'alternativa e' o "ctrl+b d"
 ```
-
 ```sh
   tmux kill-session -t session-name
   # possiamo terminare una sessione tmux con l'argomento kill-session
@@ -970,10 +855,11 @@ comandi utili sono:
  swap-window -s 2 -t 1
  # swappa la finestra 2 con la numero 1
 ```
-Guardare ovviamente il man per altre opzioni
+
+Guardare ovviamente il man per altre opzioni.
 
 
-## Screen
+### Screen
 
 Possiamo avviarlo eseguendo:
 
@@ -1008,79 +894,32 @@ possiamo fare il detach di una sessione con:
 ```
 Vediamo altri comandi:
 
-```sh
- Ctrl+a, "
- # switcha finestra
-```
-```sh
- Ctrl+a,c
- # crea una nuova finestra
-```
-```sh
- Ctrl+a,A
- # rinomina la finestra corrente
-```
-```sh
- Ctrl+aa
- # switcha tra le ultime due finestre
-```
-```sh
- Ctrl+a,k
- # killa una finestra
-```
-```sh
- Ctrl+a, S
- # split window horizontally
-```
-```sh
- Ctrl+a, |
- # split window vertically
-```
-```sh
- Ctrl+a, Tab
- # switcha tra una finestra all'altra
-```
-```sh
- Ctrl+a, :resize [rows,cols]
- # ridimensiona la finestra
-```
-```sh
- Ctrl+a, :remove
- # rimuove la finestra
-```
+- `Ctrl+a,"`,   # switcha finestra
+- `Ctrl+a,c`    # crea una nuova finestra
+- `Ctrl+a,A`    # rinomina la finestra corrente
+- `Ctrl+a,a`    # switcha tra le ultime due finestre
+- `Ctrl+a,k`    # killa una finestra
+- `Ctrl+a,S`    # split window horizontally
+- `Ctrl+a,|`    # split window vertically
+- `Ctrl+a,Tab`  # switcha tra una finestra all'altra
+- `Ctrl+a,:resize [rows,cols]` # ridimensiona la finestra
+- `Ctrl+a,:remove` # rimuove la finestra
 
 
-## Terminator
+### Terminator
+
+Possiamo lanciare terminator con:
+```sh
+ terminator
+ # avvia l'applicazione terminator
+```
 
 Vediamo alcuni comandi di terminator:
 
-```sh
- terminator
- # avvia l'applicazione
-```
-```sh
- Ctrl+Shit+e
- # split verticale
-```
-```sh
- Ctrl+Shift+o
- # split orizzontale
-```
-```sh
- Ctrl+Shift+z
- # massimizza un terminale
-```
-```sh
- Ctrl+d
- # chiude un terminale
-```
-```sh
- Alt+Left/Up/Right/Down
- # switcha tra le finestre
-```
-```sh
- Ctrl+Shift+Left/Up/Right/Down
- # resize del terminale,
- # quest'operazione è possibile anche dalla GUI attraverso il
- # mouse
-```
+- `Ctrl+Shit+e`, split verticale
+- `Ctrl+Shift+o`, split orizzontale
+- `Ctrl+Shift+z`, massimizza un terminale
+- `Ctrl+d`, chiude un terminale
+- `Alt+Left/Up/Right/Down`, switcha tra le finestre
+- `Ctrl+Shift+Left/Up/Right/Down`, resize del terminale,
+    quest'operazione è possibile anche dalla GUI attraverso il mouse

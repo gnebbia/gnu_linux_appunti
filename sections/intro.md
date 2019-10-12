@@ -1153,5 +1153,3 @@ infatti alcuni programmi considereranno il parametro "-" come
 nome di un file, o verrà utilizzato comunque per altri scopi.
 N.B.: For traditional UNIX programs that behave as filters the -
 is superfluous.
-
-

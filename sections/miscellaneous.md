@@ -141,3 +141,32 @@ ptrace(PTRACE_POKEDATA, pid, 0x83040, &data);
 ```
 
 
+## Il comando `yes`
+
+
+Il comando yes stampa finche' non viene ucciso/fermato la stringa "y" a schermo,
+questo comando era utile soprattutto in passato per rendere automatici programmi
+interattivi che chiedevano input all'utente. Oggigiorno molti programmi
+includono flag/opzioni per rispondere automaticamente "y" ad esempio `apt -y`
+oppure `rm -f`.
+
+Vediamo un esempio di utilizzo di yes:
+```sh
+yes | rm *.txt 
+# ovviamente oggigiorno si puo' semplicemente effettuare 
+# rm -f *.txt
+```
+
+Possiamo passare a yes un argomento per stampare una stringa diversa, ad esempio
+con `yes NO`, il programma continuera' a stampare la stringa "NO" fino alla sua
+morte.
+
+
+Oggigiorno il comando yes puo' tornare utile per stampare velocemente file con
+contenuto utilizzato per testing. Ad esempio, generare file con un numero
+prestabilito di linee. 
+Un esempio e':
+```sh
+yes 1234567 | head -1000 > file 
+```
+Questo generera' un file di 1000 righe contenenti "1234567".

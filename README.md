@@ -26,6 +26,11 @@ will in general be true for most `*NIX` systems.
 - File e Filesystem
     - [File](sections/file.md)
     - [File di Testo](sections/testo.md)
+    - [grep](sections/grep.md)
+    - [sed](sections/sed.md)
+    - [awk](sections/awk.md)
+
+- Dispositivi di memoria rigida e filesystem
     - [Filesystems](sections/filesystems.md)
     - [Hard Disk e Partizionamenti](sections/hard_disk_e_partizionamenti.md)
     - [Filesystem /tmp](sections/filesystem_tmp.md)
