@@ -829,10 +829,22 @@ OpenPGP è uno standard Internet per l'interoperabilità dei
 messaggi protetti tramite crittografia asimmetrica. I due più
 comuni programmi che utilizzano OpenPGP sono:
 
- * Pretty Good Privacy (PGP), erede diretto della versione
-   iniziale di Phil Zimmermann e ora prodotto commerciale della
-   PGP Corporation
- * GNU Privacy Guard (GPG), sua alternativa GPL
+- Pretty Good Privacy (PGP), erede diretto della versione
+  iniziale di Phil Zimmermann e ora prodotto commerciale della
+  PGP Corporation
+- GNU Privacy Guard (GPG), alternativa con licenza GPL
+
+PGP e' uno strumento fondamentale per permettere agli utenti di operare
+con la criptografia assimetrica ed in genere viene utilizzato per:
+- Mandare email in modo sicuro
+- Utilizzo di firme digitali, per permettere a terze parti di verificare
+  l'autenticita' di un documento
+- Criptare file
+
+Possiamo condividere la nostra chiave pubblica attraverso diverso opzioni,
+due directory pubbliche famose sono:
+- PGP Global Directory
+- MIT Key Server. 
 
 
 ## Principio di funzionamento

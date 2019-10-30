@@ -1,5 +1,6 @@
 # TODO List
 
+* Write about tcpwrapper as a tool for network access control
 * More on nginx configurations, to enable tls with certbot and http2
 * More on RAID and LVM
 * consider to move the part on bash scripting in the bash tutorial

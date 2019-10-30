@@ -1244,6 +1244,25 @@ md5sum file.txt | tr -s ' ' | cut -d ' ' -f 2
 ```
 
 
+## Rev
+
+Questo comando resituisce l'input passato come argomento 
+al contrario, e' utile in diversi scenario, ad esempio quando vogliamo eliminare
+l'ultima colonna di un file che ha un numero di colonne variabili oppure quando
+ci e' piu' facile esprimere l'operazione da effettuare se il file/testo fosse al
+contrario.
+
+```sh
+rev nomefile.txt
+# restituisce il file nomefile.txt con le righe al contrario
+```
+
+```sh
+rev nomefile.txt | cut -d' ' -f 2- | rev
+# elimina l'ultima colonna 
+# un doppio `rev` restituisce il testo originale
+```
+
 ## Regular Expressions (o RegEx)
 
 In theoretical computer science and formal language theory, a
