@@ -1057,7 +1057,16 @@ verra' mostrato in seguito.
  iptables -L
  # elenca le regole presenti sul firewall sulla tabella "filter", in
  # output, in input e in forwarding
+ # Nota che questo e' sconsigliato per diversi motivi, in quanto non 
+ # fornisce una visione completa delle regole per ogni tabella e non mostra
+ # informazioni su interfacce di rete, e' preferibile eseguire iptables-save -c
 ```
+
+Una migliore alternativa per visualizzare tutte le regole e':
+```sh
+iptables-save -c
+```
+
 Possiamo mostrare le regole anche con i numeri identificativi con:
 
 ```sh

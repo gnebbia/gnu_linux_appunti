@@ -1066,6 +1066,13 @@ un utile comando da dare a less, per fare in modo di avere una
 visualizzazione real time del file (uguale alla modalità -f del
 comando "tail") è premere "-F" quando stiamo visualizzando il file.
 
+Inoltre puo' capitare di avere file di output colorati attraverse escape code
+nei sistemi operativi `*NIX`, per visualizzare correttamente i colori e'
+possibile eseguire:
+```sh
+ less -R nomeFileColorato
+```
+
 
 ## Il comando `reset`
 

@@ -120,6 +120,17 @@ Ricorda che l'IPv6 non ha questa distinzione tra indirizzi privati e pubblici.
 Questi indirizzi vengono in genere chiamati "non globally-routable" oppure
 si parla di spazio "non globally routable" (say ULA IPv6 or RFC1918 IPv4).
 
+Nota che in genere le schede di rete droppano pacchetti non indirizzati a loro.
+Cio' vuol dire che accetteranno tutti i pacchetti diretti al loro indirizzo IP,
+agli indirizzi di broadcast (indicati con `ip a`) e agli indirizzi di multicast,
+(indicati con `netstat -ng`).
+
+Ricorda che possiamo aggiungere un'interfaccia di rete a diversi gruppi di
+multicast, ad esempio su alcune macchine GNU/Linux, potremmo vedere di default
+tutto il traffico multicast per mDNS, ma ad esempio non visualizzare il traffico
+in multicast SSDP per l'assenza del relativo indirizzo di multicast.
+Vedere sotto come aggiungere un indirizzo di multicast ad una interfaccia di
+rete.
 
 ## ifconfig
 
@@ -289,6 +300,28 @@ iproute2", vediamo alcuni comandi d'esempio:
 ```sh
  # ip monitor all
 ```
+
+Per visualizzare i gruppi multicast assegnati a ciascuna scheda di rete
+possiamo eseguire:
+```sh
+ip maddr show
+```
+
+Per aggiungere una interfaccia di rete ad un gruppo multicast,
+in questo caso al gruppo multicast relativo al protocollo SSDP,
+possiamo eseguire:
+```sh
+ip addr add 239.255.255.250 dev eth1 autojoin
+# dove eth1 e' l'interfaccia di rete considerata
+# mentre 239.255.255.250 e' l'indirizzo di multicast del protocollo
+# SSDP
+```
+
+Nota che alcune distro user-friendly come ubuntu alcuni indirizzi di multicast
+non compaiono nell membership, ma comunque le macchine ricevono traffico (devo
+ancora scoprire che trick c'e' sotto, questo e' da verificare in realta'
+perche' questo comportamento era presente su una mint VM di windows, quindi
+probabilmente il traffico era forzato dalla macchina Windows).
 
 
 ## ip vs ifconfig
