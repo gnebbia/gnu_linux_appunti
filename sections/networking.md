@@ -316,6 +316,12 @@ ip addr add 239.255.255.250 dev eth1 autojoin
 # mentre 239.255.255.250 e' l'indirizzo di multicast del protocollo
 # SSDP
 ```
+```sh
+sudo ip addr add ff02::c dev eth1 autojoin
+sudo ip addr add ff05::c dev eth1 autojoin
+# ricorda di aggiungere anche gli indirizzi IPv6 legati all'SSDP per abilitarlo
+# completamente
+```
 
 Nota che alcune distro user-friendly come ubuntu alcuni indirizzi di multicast
 non compaiono nell membership, ma comunque le macchine ricevono traffico (devo
