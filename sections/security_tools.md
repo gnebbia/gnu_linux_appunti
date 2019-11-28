@@ -1302,6 +1302,38 @@ iptables -A FORWARD -i ethint -o eth0 -j ACCEPT
 E' da notare che questa e' una configurazione abbastanza classica per un
 firewall con configurazione NAT.
 
+## Troubleshooting, salvataggio e caricamento di configurazioni
+
+```TO REORGANIZE
+iptables -L' omits any matching on in/out network interface unless you add -v, it only
+outputs rules from a single table (filter by default), and frankly it's just
+harder to read than iptables-save
+
+lines starting with a colon like ":INPUT ACCEPT [279423:513264546]" define
+chains
+
+"ACCEPT" is the chain policy, this defines what action is performed on packets
+that reach the end of the chain without matching on a terminating rule
+
+the two numbers are how many packets and how many bytes have had that chain
+policy applied to them
+
+
+don't use iptables -F, it is evil, use iptables-restore with something like
+this...
+
+*filter
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+COMMIT
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+COMMIT
+```
 
 ## Hosts Deny e Hosts Allow (Deprecati)
 
