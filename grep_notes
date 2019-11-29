@@ -1,0 +1,44 @@
+alnum [a-zA-Z0-9]
+alpha [a-zA-Z]
+digit [0-9]
+blank [ \t]
+grep '[[:digit:]]{3,6}' # between 3 and 6 digits                                
+punct [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
+[:graph:] [:alnum:] + [:punct:]
+[:print:] ‘[:alnum:]’, ‘[:punct:]’, and space
+[:xdigit:] [0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f]
+[:lower:] [a-z]
+[:upper:] [A-Z]
+\bword\b  word delimiters
+For example, ‘\brat\b’ matches the separate word ‘rat’, ‘\Brat\B’│matches ‘crate’ but not ‘furry rat’
+
+
+# grep 
+. character
+[abc].e matches either a b c and a character and e
+grep '[[:digit:]]\+' # one or more digits 
+grep '[[:digit:]]\{3,6\}' # between 3 and 6 digits
+grep 'ciao\|hello' # ciao or hello
+grep '\(ciao\)\{3\}' # match ciaociaociao
+grep 'c\?a ' # c is optional
+$ ending
+^ starting
+
+
+
+egrep 
+basically in egrep we don't escape ? () {} | 
+
+. character
+[abc].e matches either a b c and a character and e
+grep '[[:digit:]]+' # one or more digits 
+grep '[[:digit:]]{3,6}' # between 3 and 6 digits
+grep 'ciao|hello' # ciao or hello
+grep '(ciao|hello) Luca' # ciao or hello and then Luca
+grep '(ciao){3}' # match ciaociaociao
+grep 'c?a ' # c is optional
+$ ending
+^ starting
+
+
+sed uses basic regex or extended with -E
