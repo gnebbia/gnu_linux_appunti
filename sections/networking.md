@@ -218,9 +218,42 @@ iproute2", vediamo alcuni comandi d'esempio:
  ip addr show
  # mostra gli indirizzi ip, simile ad ifconfig -a
 ```
+Vediamo alcune informazioni contenute nell'output di questo comando:
+```txt
+- `eth0` is the interface name. It can be any string.
+- `mtu 1500` maximum transmission unit = 1500 bytes, this is the
+    largest size that a frame sent over this interface can be. This number
+    is usually limited by the Ethernet protocol's cap of 1500. If you send
+    a larger packet and it arrives at an ethernet interface, then the frame
+    will get fragmented and its payload transmitted in 2 or more packets. Not
+    really any benefit to that, so it's best to follow standards.
+- `qdisc pfifo_fast` queuing discipline = three pipes of first in
+    first out, this determines how an interface chooses which packet to
+    transmit next, when it's being overloaded.
+- `group default` Interface groups give a single interface to clients
+    by combining the capabilities of the aggregated interfaces on them.
+- `qlen 1000` transmission queue length = 1000 packets. The 1000th packet
+    will be queued, the 1001st will be dropped.
+- `link/ether` means the link layer protocol is ethernet:
+      - `brd` means broadcast. This is the address that the device will
+            set as destination when it sends a broadcast. An interface sees all
+            traffic on the wire it's sitting on, but is polite enough to only read
+            data addressed to it. The way you address an interface is by using it's
+            specific address, or the broadcast address.
+- `inet` means the network layer protocol is internet (ipv4)
+- `lft` stands for lifetime. If you get this address through dhcp, then
+    you'll have a valid lifetime for your lease on the IP address. And just
+    to make handoffs a little bit easier, a (probably) shorter preferred
+    lifetime.
+```
+
 ```sh
  ip neigh
  # mostra la tabella arp, simile ad un "arp -na"
+```
+```sh
+ ip neigh flush dev eth0
+ # rimuove le entry dalla tabella ARP relativa ad eth0
 ```
 ```sh
  ip addr add 192.168.1.103/24 dev wlan0
@@ -541,7 +574,7 @@ informazioni, ad esempio con "iwgetid -r" per ottenere il nome
 dell'access point a cui sono connesso.
 
 
-## Arp
+## arp
 
 Possiamo visualizzare la tabella di associazione indirizzo IP,
 mac address locale interrogando il sistema con:
@@ -558,6 +591,28 @@ con:
  # visualizza il mac address dell'indirizzo
  # IP menzionato
 ```
+
+## Informazioni aggiuntive su schede di rete
+
+Un modo per vedere informazioni aggiuntive sulla configurazione delle
+schede di rete e delle relative interfacce e' attraverso
+`ethtool`. Vediamo qualche esempio:
+
+```sh
+ethtool eth0
+# mostra diverse informazioni/caratteristiche della scheda di rete
+# e relative configurazioni
+```
+
+Esempi di informazioni utili sono ad esempio:
+```sh
+Speed: 1000Mb/s
+Duplex: Full
+Advertised auto-negotiation: Yes
+```
+
+Nota ad esempio che se la configurazione 'auto-negotiation' non fosse abilitata,
+potremmo riscontrare lentezza nella rete.
 
 
 ## Modalità wireless 802.11
