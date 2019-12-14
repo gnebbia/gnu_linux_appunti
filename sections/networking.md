@@ -614,6 +614,14 @@ Advertised auto-negotiation: Yes
 Nota ad esempio che se la configurazione 'auto-negotiation' non fosse abilitata,
 potremmo riscontrare lentezza nella rete.
 
+Un'altra applicazione utile di ethtool e' quello relativa all'identificazione
+di una scheda di rete, questo infatti e' possibile tramite il comando:
+```sh
+ethtool -p eth0
+# fa lampeggiare il led relativo all'interfaccia fisica di rete
+# relativa ad eth0
+```
+
 
 ## Modalità wireless 802.11
 
