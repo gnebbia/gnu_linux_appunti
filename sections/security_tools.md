@@ -1,4 +1,3 @@
-
 ## Sicurezza locale della macchina
 
 

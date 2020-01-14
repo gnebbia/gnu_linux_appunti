@@ -322,6 +322,16 @@ Vediamo alcune informazioni contenute nell'output di questo comando:
  # elimino il default
  # gateway associato all'indirizzo menzionato
 ```
+Ricorda che ogniqualvolta vogliamo che la nostra macchina sia in grado di
+forwardare pacchetti ad altre macchine, quindi fare forwarding di pacchetti
+(e non scartarli) se la macchina non e' la destinazione e' necessario
+abilitarlo con:
+```sh
+sysctl -w net.ipv4.ip_forward=1
+# possiamo rendere la modifica permanente andando decommentare la riga
+# relativa a questa configurazione in /etc/sysctl
+```
+
 ```sh
  ip -s link
  # mostra le statistiche di rete
@@ -1412,8 +1422,23 @@ importanti sono:
 
 
 Per gli altri campi, basterà leggere il manuale del comando "route".
-Per vedere la tabella di routing, eseguiamo:
 
+NOTA: Ricorda che ogniqualvolta vogliamo che la nostra macchina sia in grado di
+forwardare pacchetti ad altre macchine, quindi fare forwarding di pacchetti
+(e non scartarli) se la macchina non e' la destinazione e' necessario
+abilitarlo con:
+```sh
+sysctl -w net.ipv4.ip_forward=1
+# possiamo rendere la modifica permanente andando decommentare la riga
+# relativa a questa configurazione in /etc/sysctl
+```
+Questa configurazione e' utile in diversi scenari ad esempio se stiamo
+configurando una macchina che fa da router (soprattutto se un router intermedio),
+se dobbiamo effettuare un attacco Man-In-The-Middle oppure anche se stiamo
+configurando una macchina come NAT.
+
+Vediamo ora qualche esempio di comando relativo al routing.
+Per vedere la tabella di routing, eseguiamo:
 ```sh
  route -n
  # mostra la tabella di routing, ma ho bisogno dei
