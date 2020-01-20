@@ -2,17 +2,17 @@
 http://refiddle.com/
 
 
-alnum [a-zA-Z0-9]
-alpha [a-zA-Z]
-digit [0-9]
-blank [ \t]
-grep '[[:digit:]]{3,6}' # between 3 and 6 digits                                
-punct [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
-[:graph:] [:alnum:] + [:punct:]
-[:print:] ‘[:alnum:]’, ‘[:punct:]’, and space
-[:xdigit:] [0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f]
-[:lower:] [a-z]
-[:upper:] [A-Z]
+[[:alnum:]] [a-zA-Z0-9]
+[[:alpha:]] [a-zA-Z]
+[[:digit:]] [0-9]
+[[:blank:]] [ \t]
+grep '[[:digit:]]{3,6}' # match between 3 and 6 digits consecutive digits
+[[:punct:]] [!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]
+[[:graph:]] [[:alnum:]] + [[:punct:]]
+[[:print:]] '[[:alnum:]]', '[[:punct:]]', and space
+[[:xdigit:]] [0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f]
+[[:lower:]] [a-z]
+[[:upper:]] [A-Z]
 \bword\b  word delimiters
 For example, ‘\brat\b’ matches the separate word ‘rat’, ‘\Brat\B’│matches ‘crate’ but not ‘furry rat’
 
@@ -30,8 +30,8 @@ $ ending
 
 
 
-egrep 
-basically in egrep we don't escape ? () {} | 
+## egrep 
+basically in egrep we don't escape ? () {} | +
 
 . character
 [abc].e matches either a b c and a character and e
@@ -45,4 +45,4 @@ $ ending
 ^ starting
 
 
-sed uses basic regex or extended with -E
+sed can use basic regex or extended with -E

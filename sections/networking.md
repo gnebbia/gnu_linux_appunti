@@ -298,7 +298,8 @@ Vediamo alcune informazioni contenute nell'output di questo comando:
  # mostra a quale indirizzo si appoggia per
  # arrivare all'indirizzo ip menzionato, utile per
  # troubleshooting, o per capire con quale interfaccia mi sto
- # connettendo ad internet od ad una determinata rete
+ # connettendo ad internet o in generale ad un determinato
+ # indirizzo IP o rete
 ```
 ```sh
  ip route add 10.10.20.0/24 via 192.168.50.100 dev eth0

@@ -1,0 +1,16 @@
+<mknod> srandon111, let's say a command can only write its output to a specified file (and not to stdout), and let's say you'd like some extra processing to be done to the output of that command first
+<mknod> you could do, command -o >(awk ... > file)
+<srandon111> mknod, ahhh ok ok now i understood!! thanks mknod very kind!! 
+<srandon111> i needed indeed an example to understand...
+* dedowsdi has quit (Ping timeout: 265 seconds)
+<mknod> needless to say you won't see it often
+* Adbray has quit (Quit: Ah! By Brain!)
+<srandon111> so basically instead of doing stuff ile... command -o output.log && awk ... output.log > /tmp/final && mv /tmp/final output.log
+* blottoface has quit (Ping timeout: 240 seconds)
+<srandon111> i can just use the command you gave me...
+<mknod> yes
+<srandon111> mknod, why we don't see it often actually? because most programs also allow to print on stdout?
+
+<otherdude>: cmd1 >(cmd2) is useful when cmd1 will only write to a file. it's syntactic sugar for something like: mkfifo tmpfifo;cmd1 tmpfifo&cmd2 <tmpfifo
+ it's especially useful when you have two outputs you want to pipe separately, since | only allows you to pipe a single output
+you can use it to pass a stream to multiple commands also. foo | tee >(filter) >(filter) ... | filter
