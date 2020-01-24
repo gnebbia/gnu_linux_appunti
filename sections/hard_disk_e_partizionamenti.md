@@ -1,5 +1,3 @@
-
-
 ## Premessa sui dispositivi di memoria
 
 Ogni dispositivo di memoria, può essere suddiviso in più
@@ -1135,7 +1133,7 @@ possiamo procedere in 3 modalità analoghe:
 Un buon programma per recuperare file da partizioni corrotte o
 file che sono stati cancellati su partizioni ntfs è "testdisk".
 Una volta avviato con i diritti di root (i.e. sudo) basterà
-fargli fare un "analyze" sull'Hard Disk desiderato per recuperare
+eseguire "analyze" sull'Hard Disk desiderato per recuperare
 iniziale il processo di analisi e ricostruzione della partizione,
 una volta ricostruita comparirà una voce in basso "P" (n.b. : in
 questo programma le azioni disponibili sono sempre o in basso o
