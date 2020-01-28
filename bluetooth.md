@@ -3,6 +3,7 @@
 We can use graphical tools to make our life easy
 by using one of the following tools:
 - blueman (with all its tools) and in particular blueman-manager
+- blueberry
 - gnome-bluetooth
 
 

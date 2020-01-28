@@ -132,6 +132,9 @@ La pianificazione di un'operazione è suddivisa su 7 campi:
 6. indica l'utente con cui eseguire il comando
 7. indica il comando da eseguire
 
+Per aiutarci nella configurazione o nell'apprendimento di cron
+possiamo utilizzare siti come [crontab.guru](https://crontab.guru/)
+
 Vediamo alcuni esempi (ricorda che il nomeUtente è incluso solo
 nel file "/etc/crontab" quindi nella configurazione globale,
 mentre per le configurazioni locali basta mettere solo il comando
