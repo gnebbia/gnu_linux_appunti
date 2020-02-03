@@ -895,6 +895,19 @@ standard output
  # colonna 3 sul file chiamato "test.txt"
 ```
 
+Possiamo anche specificare il separatore ad esempio, se settato su
+un tab per un file tsv ad esempio, possiamo riordinare il file
+in funzione della seconda colonna numerica in ordine decrescente
+facendo:
+```sh
+sort -t$'\t' -nr -k2
+```
+Oppure possiamo ad esempio ordinare i file in cui il delimiter per le
+colonne e' il '|' con:
+```sh
+sort -t$'|' -nr -k2
+```
+
 La maggior parte delle volte vogliamo avere solo le linee uniche
 per fare questo possiamo utilizzare:
 
@@ -939,9 +952,9 @@ Vediamo un esempio:
 ### Paste
 
 Paste è un programma che unisce le righe di due file, ma è molto
-utilizzato per visualizzare le differenze tra due file, in quanto
-sullo standard output i due file vengono affiancati; un esempio
-applicativo è:
+utilizzato per unire colonne da file diversi oppure per visualizzare
+le differenze tra due file, in quanto sullo standard output i due file
+vengono affiancati; un esempio applicativo è:
 
 ```sh
  paste test1 test2
@@ -953,6 +966,43 @@ applicativo è:
  paste -d: users.txt passwords.txt
  # in questo caso genereremo
  # un file con le righe accoppiate e separate dal simbolo ":"
+```
+
+Possiamo anche visualizzare un file con tutti i valori su una colonna
+sulle righe (quindi conversione colonna -> riga) eseguendo:
+```sh
+ paste -s users.txt
+ # -s serve per convertire colonna in riga nello stesso file
+```
+
+Possiamo anche decidere il delimiter utilizzando:
+```sh
+ paste -sd',' users.txt
+ # in questo caso -d',' imposta come delimiter per ogni campo
+ # della riga il carattere virgola ','
+```
+
+Possiamo anche mettere piu' elementi delle colonne nella stessa
+riga, ad esempio:
+```sh
+paste - - - - < input.txt
+# in questo caso stiamo riorganizzando la struttura del file input.txt
+# con 4 colonne dove ogni elemento e' preso consecutivamente dal
+# file in input
+```
+
+Possiamo anche riorganizzare la struttura del file separando le
+colonne con un punto e virgola ';' e mettendo tre colonne per ogni
+riga:
+```sh
+ paste -d';' - - - < input
+```
+Nota che lo stesso identico risultato puo' essere ottenuto eseguendo:
+```sh
+paste -sd ';;\n'
+# dove il numero di caratteri delimitatori determina la struttura del file
+# quindi in questo caso avremmo un elemento ; un elemento ; un elemento
+# e poi nuova riga
 ```
 
 ### Tr

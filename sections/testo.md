@@ -1229,9 +1229,17 @@ informazioni da questo tipo di file, esempi di utilizzo, sono:
  # stampa i caratteri dal primo al terzo
 ```
 ```sh
+ cut -c1,3 test.txt
+ # stampa solo i caratteri primo e terzo
+```
+```sh
  cut -c2- text.txt
  # stampa solo i caratteri dal secondo in poi,
  # elimino quindi il primo carattere
+```
+```sh
+ cut -c-4 text.txt
+ # stampa solo i caratteri dal primo al quarto inclusi
 ```
 
 Ricorda che cut puo' utilizzare solo singoli caratteri come delimitatori, quindi
