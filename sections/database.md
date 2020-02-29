@@ -170,6 +170,11 @@ dobbiamo racchiudere il nome tra apici retroversi \`\`.
  GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost';
  -- fornire permessi all'utente altrimenti non può fare nulla
 ```
+Nel caso questo dovesse dare errore 1133, possiamo aggiungere:
+```sql
+ GRANT ALL PRIVILEGES ON * . * TO 'newuser'@'localhost' IDENTIFIED BY 'password';
+ -- fornire permessi all'utente altrimenti non può fare nulla
+```
 ```sql
  FLUSH PRIVILEGES;
  -- aggiorna i privilegi
