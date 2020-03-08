@@ -1,3 +1,4 @@
+# Intro
 
 The GNU userland has a special part called the "GNU Coreutils".
 This is a set of utilities that provide essential file and shell
@@ -777,7 +778,7 @@ Il comando `who` Mostra chi è loggato, possiamo usarlo come:
  who -r
  # mostra il runlevel attuale della macchina
 ```
-## I comandi  `man`, `info`, `apropos`, `help` e `--help`
+## I comandi  `man`, `info`, `apropos`, `compgen`, `help` e `--help`
 
 Questi sono due comandi utili per avere informazioni sui
 programmi.
@@ -993,6 +994,20 @@ di applicazione.
 N.B: se evidenziamo una parola e poi premiamo "Shift+k" possiamo
 andare alla pagina di man relativa alla parola selezionata.
 
+Possiamo utilizzare il comando `compgen` per visualizzare
+tutti i comandi a nostra disposizione (anche per categoria).
+Vediamo alcuni esempi di utilizzo:
+```sh
+compgen -c # will list all the commands you could run
+compgen -c dns # will list all the commands which have dns in their name
+compgen -a # will list all the aliases you could run
+compgen -b # will list all the built-ins you could run
+compgen -k # will list all the keywords you could run
+compgen -A function # will list all the functions you could run
+compgen -A function -abck # will list all the above in one go
+```
+
+
 Per i comandi builtin della shell, non esiste una pagina di man,
 per questi possiamo eseguire il comando "help" in bash, ad
 esempio:
@@ -1160,3 +1175,4 @@ infatti alcuni programmi considereranno il parametro "-" come
 nome di un file, o verrà utilizzato comunque per altri scopi.
 N.B.: For traditional UNIX programs that behave as filters the -
 is superfluous.
+

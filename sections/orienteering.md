@@ -1,3 +1,4 @@
+# Orientarsi in un sistema GNU/Linux
 
 In questa sezione analizzeremo e capiremo quali sono le directory principali in
 un sistema GNU/Linux.
