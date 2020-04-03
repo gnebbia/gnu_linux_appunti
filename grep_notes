@@ -81,3 +81,53 @@ wda
 cawda wwd wda 2222 
 ```
 
+Another example is if we would like to display all lines that contain a
+sequence of four digits that is itself not part of any longer sequence
+of digits, one way is:
+```sh
+grep -P '(?<!\d)\d{4}(?!\d)' file
+```
+
+## Repetitions
+
+This would look for 2 or more occurences of the same character:
+```sh
+grep -E '(.)\1+' file
+```
+To print each match on a new line:
+```sh
+grep -Eo '(.)\1+' file
+```
+
+To find matches with exactly 3 matches:
+```sh
+grep -E '(.)\1{2}' file
+```
+
+Or 3 or more:
+```sh
+grep -E '(.)\1{2,}' file
+```
+Note tha these work with BSD and GNU grep, but for other versions
+of grep they may not work, and there are workarounds for that.
+Look here [1]
+
+- [1]: https://unix.stackexchange.com/questions/70933/regular-expression-for-finding-double-characters-in-bash
+
+We can look for repetitions of both patterns or specific elements, for example:
+
+This means to match a specific digit e.g., '3' which is repeated 3 times:
+```sh
+# with the perl flag on
+grep -P '(\d)\1{2}' file.txt
+# with the extended regex flag on
+grep -E '([[:digit:]])\1{2}' file.txt
+```
+
+This means to match whatever sequence of 2 digits e.g., '84':
+```sh
+# with the perl flag on
+grep -P '\d{2}' file.txt
+# with the extended regex flag on
+grep -E '[[:digit:]]{2}' file.txt
+```
