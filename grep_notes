@@ -46,3 +46,38 @@ $ ending
 
 
 sed can use basic regex or extended with -E
+
+
+Examples of advanced matching:
+grep -oP 'group="16".*>\K.+(?=</fct>)'
+
+Note how the `\K` resets the expression starting to match from the
+`\K` combination until the end.  The `\K` is very useful when we want
+to extract substrings, or in general match after a specific regex.
+Then the `?=` means to match only if the string after `.+` is continued
+by the combination of characters `</fct>` note that these will not be
+resulting in the matching string.  Here we can see how a combination of
+`\K` (or a lookbehind) and a lookahead like `(?=)` is helpful to only
+match something which is after a certain regex and before another regex.
+NOTE that using a lookbehind like (?<=) is somewhat equivalent to using
+`\K` with the only difference being that `\K` accepts regex while
+the lookbehind cannot accept regex which generate varying size strings.
+
+The above example  will match all the contents of a file done like this:
+```txt
+<ciao> cawda wwd wda </ciao>
+<ciao> cawda wwd wda </ciao>
+<ciao> cawda wwd wda </ciao>
+<lal> cawda wwd wda </lal>
+<lal group="16"> cawda wwd wda </lal>
+<lal group="16" subgroup="lall"> cawda wwd wda </lal>
+<lal group="16" thirf="dwdwa" > cawda wwd wda </lal>
+<lal group="16" thirf="dwdwa" >wda </fct>
+<lal group="16">cawda wwd wda 2222 </fct>
+```
+Resulting in:
+```txt
+wda
+cawda wwd wda 2222 
+```
+

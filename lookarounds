@@ -17,7 +17,7 @@ Matcha qualcosa se prima c'era/non c'era qualcos'altro
 Esempi:
 ```grep -Po
 (?<!aaa)ciao # matcha sempre ciao basta che non segua "aaa"
-(?<=aaa)ciao # matcha ciao se prima c'e' "aaa" 
+(?<=aaa)ciao # matcha ciao se prima c'e' "aaa" questo e' simile al `\K`
 ```
 Vediamo altri esempi, se abbiamo del testo strutturato in questo modo:
 ```txt
