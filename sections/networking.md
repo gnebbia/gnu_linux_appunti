@@ -2101,8 +2101,9 @@ questo è telnet, per connetterci ad un host eseguiamo:
  # si connette all'host richiesto con la
  # porta specificata
 ```
-## Wget
 
+
+## Wget
 
 Wget è un programma molto utile per scaricare qualsiasi cosa dal
 web, ad esempio:
