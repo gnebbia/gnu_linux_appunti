@@ -20,12 +20,13 @@ righe dell'input contenenti l'occorrenza "windows". Di tutte le
 operazioni a disposizione di sed, vengono focalizzate, in primo
 luogo, le tre più comunemente usate. Esse sono:
 
-* `p`, print (visualizza allo stdout),
-* `d`, delete (cancella)
-* `s`, substitute (sostituisce)
-* `=`, print number line (stampa il numero di riga)
-* `y`, translate (opera in modo simile a `tr` effettua sostituzione di caratteri)
-* `N`, go to next line (va alla riga successiva, molto utile negli script)
+- `p`, print (visualizza allo stdout),
+- `d`, delete (cancella),
+- `i`, insert
+- `s`, substitute (sostituisce)
+- `=`, print number line (stampa il numero di riga)
+- `y`, translate (opera in modo simile a `tr` effettua sostituzione di caratteri)
+- `N`, go to next line (va alla riga successiva, molto utile negli script)
 
 Esempi di utilizzo, possono essere:
 
@@ -233,14 +234,14 @@ Esistono anche negazioni dei comandi p, d, attraverso la notazione
 Ad esempio:
 
 ```sh
- sed -n '1,10 p' file
  # prints from line 1 to 10
- sed -n '11,$ !p' file
+ sed -n '1,10 p' file
  # does not print from line 11 to end of file
- sed '1,10 !d'  file
+ sed -n '11,$ !p' file
  # does not delete from line 1 to line 10
- sed '11,$ d' file
+ sed '1,10 !d'  file
  # deletes from line 11 to end of file
+ sed '11,$ d' file
 ```
 
 Un altro comando e' `q` che sta per quit, e puo' essere utilizzato
