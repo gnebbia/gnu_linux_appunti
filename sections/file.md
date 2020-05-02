@@ -288,6 +288,25 @@ o con semplici varianti per selezionare solo file o directory con:
  # in questo modo cerchiamo dalla directory corrente
  # ma solo le directory
 ```
+Possiamo anche cercare tramite regex su GNU find facendo:
+```sh
+find . -type f -regextype posix-extended -regex '.*\.md{3}'
+# This is a match on the whole path, not a search.
+# For example, to match a file named './fubar3',
+# you can use  the regular expression '.*bar.' or '.*b.*3', but not 'b.*r3'.
+```
+
+Possiamo anche escludere determinati path utilizzando
+l'"OR" logico e l'opzione "prune" in questo modo:
+```sh
+find / \( -path /dev -prune -o \
+          -path /proc -prune -o \
+          -path /sys -prune \
+          \) \
+         -o -printf '%p ' -exec cksum {} \;
+# Find all files and compute checksum but exclude the paths /dev /proc /sys 
+```
+
 
 ## Locate
 
