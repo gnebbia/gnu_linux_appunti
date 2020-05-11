@@ -1,3 +1,4 @@
+# Processi
 
 In soldoni un processo è un programma, i processi possono
 esistere in diversi stati, e possono comunicare tra loro
@@ -235,8 +236,8 @@ applicativi possono essere:
  # cambia la priorità di tutti i processi
  # attivi dall'utente root ad un valore di -20
 ```
-## Background e Foreground
 
+## Background e Foreground
 
 I programmi attivi che stiamo utilizzando interattivamente
 davanti al terminale si dicono in "foreground", mentre quelli
@@ -508,7 +509,7 @@ alcuni esempi applicativi:
  lsof -i 6
  # mostra tutte le connessioni IPv6 attive
 ```
-
+ 
 ```sh
  lsof -t /var/log/dummy_svc.log
  # mostra solo i PID dei processi che tengono aperto il file menzionato
