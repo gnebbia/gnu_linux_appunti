@@ -1112,18 +1112,15 @@ Per isolare completamente un computer dalla rete, eseguiamo:
 
 ```sh
  iptables -P INPUT DROP
- # disabilita su tutte le porte richieste
- # di input
+ # disabilita su tutte le porte richieste di connessione in entrata
 ```
 ```sh
  iptables -P OUTPUT DROP
- # disabilita il traffico di output su
- # tutte le porte
+ # disabilita il traffico di output su tutte le porte
 ```
 ```sh
  iptables -P FORWARDING DROP
- # disabilita l'inoltro dei
- # pacchetti su tutte le porte
+ # disabilita l'inoltro dei pacchetti su tutte le porte
 ```
 
 Possiamo eliminare le regole con:
