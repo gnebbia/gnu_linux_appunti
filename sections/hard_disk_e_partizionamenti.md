@@ -48,13 +48,13 @@ I disk con tabella di partizionamento GPT sono comunque oggigiorno piu'
 frequenti, questo perche':
 
 * MBR ha dei limiti da design, ad esempio la massima capacita' supportata per un
-  e' di 2 TiB, ma oggigiorno dischi di queste dimensioni o maggiori sono
-  abbastanza comuni
+  supporto di memoria e' di 2 TiB, ma oggigiorno dischi di queste dimensioni 
+  o maggiori sono abbastanza comuni
 * Microsoft si e' conformato a UEFI, e con UEFI non e' possibile eseguire boot
   di dischi con partizionamento MBR
 
-## Schemi di Partizionamento Minimali
 
+## Schemi di Partizionamento Minimali
 
 Per quanto riguarda schemi di partizionamento minimali possiamo
 distinguere alcune configurazioni possibili e comunemente
@@ -84,7 +84,8 @@ sector
 
 In questo caso dovremo creare:
 
-* 1 partizione da 1MB marcata come BIOS Boot o `bios_grub` (a differenza del programma con cui creiamo le partizioni)
+* 1 partizione da 1MB marcata come BIOS Boot o `bios_grub`
+  (a differenza del programma con cui creiamo le partizioni)
 * 1 partizione di root /
 
 non è necessaria una partizione separata di /boot.
@@ -95,7 +96,7 @@ have an ancient computer that wouldn't work with a 64-bit distro
 anyway, a separate /boot also means you can reinstall without
 having to recompile a kernel.
 
-N.B.:we need a 1MB partition because the whole grub stage1 is too
+N.B.: we need a 1MB partition because the whole grub stage1 is too
 big to fit in the 446 bytes of the mbr boot sector, it needs to
 "spill over" somewhere. on GPT, you must reserve this spill over
 space explicitly, while on bios+mbr it's not mandatory because it
