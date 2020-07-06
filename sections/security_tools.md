@@ -105,11 +105,11 @@ processo con:
 ```
 L'ultimo comando ritornera' 5 righe:
 
-* CapInh = Inherited capabilities
-* CapPrm – Permitted capabilities
-* CapEff = Effective capabilities
-* CapBnd = Bounding set
-* CapAmb = Ambient capabilities set
+- CapInh = Inherited capabilities
+- CapPrm – Permitted capabilities
+- CapEff = Effective capabilities
+- CapBnd = Bounding set
+- CapAmb = Ambient capabilities set
 
 Un esempio di output potrebbe essere:
 ```text
@@ -157,15 +157,15 @@ possiamo anche rimuovere tutte le capabilities contenute su un programma con:
 
 Capability sets
 
-* Effective: the capabilities used by the kernel to perform permission checks
+- Effective: the capabilities used by the kernel to perform permission checks
     for the thread, in the practice the process can choose to use or not the capability
-* Permitted: the capabilities that the thread may assume (i.e., a limiting
+- Permitted: the capabilities that the thread may assume (i.e., a limiting
     superset for the effective and inheritable sets). If a thread drops a
     capability from its permitted set, it can never re-acquire that capability
     (unless it exec()s a set-user-ID-root program).
     If a certain capability is permitted but not effective, it is temporarily
     disabled
-* Inheritable:  the capabilities preserved across an execve(2). A child created
+- Inheritable:  the capabilities preserved across an execve(2). A child created
     via fork(2) inherits copies of its parent’s capability sets. See below for a
     discussion of the treatment of capabilities during exec(). Using capset(2),
     a thread may manipulate its own capability sets, or, if it has the
@@ -176,7 +176,7 @@ So, what's the meaning of the strange `=eip` suffix? This requires a brief
 digression into the nature of capabilities. Each process has three sets of
 capabilities -- inheritable, permitted and effective:
 
-* Effective capabilities are those which define what a process can actually
+- Effective capabilities are those which define what a process can actually
 do. For example, it can’t deal with raw sockets unless `CAP_NET_RAW` is in the
 effective set.
 Effective file capability is actually just a single bit
@@ -189,7 +189,7 @@ for any capability then it must be set for all
 capabilities. You can think of this as the “legacy” bit
 because it’s used to allow capabilities to be used for
 applications which don’t support them.
-* Permitted capabilities are those which a process is allowed to have
+- Permitted capabilities are those which a process is allowed to have
 should it ask for them with the appropriate call. These don’t allow a
 process to actually do anything unless it’s been specially written to
 ask for the capability specified. This allows processes to be written to
@@ -199,7 +199,7 @@ Permitted file capabilities are those which are always available
 to the executable, even if the parent process which invoked it
 did not have them. These used to be called "forced"
 capabilities.
-* Inheritable capabilities are those which can be inherited into the
+- Inheritable capabilities are those which can be inherited into the
 permitted set of a spawned child process. During a fork() or clone()
 operation the child process is always given a duplicate of the
 capabilities of the parent process, since at this point it’s still
@@ -367,7 +367,7 @@ Vediamo ora invece alcuni esempi applicativi:
  # macchina
 ```
 
-* in automatico dopo la scansione viene creato un file chiamato
+- in automatico dopo la scansione viene creato un file chiamato
     "lsat.out", è da notare che il check di un modulo chiamato "
     md5" potrebbe richiedere molto molto tempo, possiamo quindi
     terminarla con "Ctrl+C", la scansione di questo modulo è
@@ -548,9 +548,9 @@ solo 1.5% della totalità delle possibilità):
  # salva 3 file di testo
 ```
 
-* il primo, è in formato human-readable
-* il secondo, è in formato facilmente utilizzabile con grep
-* il terzo, è in formato xml
+- il primo, è in formato human-readable
+- il secondo, è in formato facilmente utilizzabile con grep
+- il terzo, è in formato xml
 
 ```sh
  nmap -vv -oA scanresults 192.168.1.250
@@ -823,9 +823,9 @@ una situazione di ARP cache poisoning.
 
 Altri tool per monitorare il traffico di rete in stile top o htop,
 sono:
-* iftop
-* nethogs
-* bmon
+- iftop
+- nethogs
+- bmon
 
 In particolare nethogs e' molto utile per capire quale processo sta utilizzando
 piu' banda; oppure poter capire se c'e' un processo non autorizzato che sta mandando
@@ -924,10 +924,10 @@ Nota che alcuni programmi come fail2ban si appoggiano a loro volta su IPtables.
 
 Il meccanismo di packet filtering implementato da iptables e' organizzato in 3
 strutture:
-* Tables, una struttura che ci permette di processare pacchetti in modi
+- Tables, una struttura che ci permette di processare pacchetti in modi
   specifici
-* Chains, ci permettono di ispezionare traffico in punti diversi della loro vita
-* Targets (o policies), un target decide il destino di un pacchetto, quindi il "cosa fare"
+- Chains, ci permettono di ispezionare traffico in punti diversi della loro vita
+- Targets (o policies), un target decide il destino di un pacchetto, quindi il "cosa fare"
 
 Quando un pacchetto arriva o lascia la macchina (dipendentemente dalla chain),
 iptables prova a matchare le condizioni del pacchetto con le regole all'interno
@@ -942,11 +942,11 @@ firewall su GNU/Linux.
 Netfilter di per se' non contiene utility user-space per gestire il firewall di
 sistema, ma esistono molte opzioni tra cui scegliere come frontend, le piu'
 comuni:
-* iptables (il piu' vecchio), piu' diffuso, ma contiene molte utility user space
+- iptables (il piu' vecchio), piu' diffuso, ma contiene molte utility user space
   per fare cose diverse, ad esempio regole per IPv6 vengono gestite con un
   programma diverso eccetera
-* xtables (non vecchio ma neanche tanto nuovo),
-* nftables (il piu' recente), piu' flessibile, contiene un linguaggio abbastanza
+- xtables (non vecchio ma neanche tanto nuovo),
+- nftables (il piu' recente), piu' flessibile, contiene un linguaggio abbastanza
   complesso ed avanzato per la definizione di regole
 
 Additional material on iptables can be found here:
@@ -959,14 +959,14 @@ pacchetti, in genere gli utenti non creano nuove tabelle, in quanto queste sono
 specificate lato kernel.
 Sui sistemi GNU/Linux moderni esistono 4 tabelle in genere:
 
-* filter table: questa tabella e' quella di default e la piu' utilizzata in
+- filter table: questa tabella e' quella di default e la piu' utilizzata in
   genere, permette di effettuare decisioni sui pacchetti e gestire il traffico
   in genere dei pacchetti
-* mangle table: questa tabella permette di modificare gli header dei pacchetti,
-* nat table: questa tabella permette di effettuare routing dei pacchetti ad host
+- mangle table: questa tabella permette di modificare gli header dei pacchetti,
+- nat table: questa tabella permette di effettuare routing dei pacchetti ad host
   diversi su reti NAT cambiando gli innidirizzi source e destination, in genere
   viene utilizzata per fornire servizi esterni a processi che non potrebbero
-* raw table: questa tabella implementa uno stateful firewall, quindi permette
+- raw table: questa tabella implementa uno stateful firewall, quindi permette
   l'ispezione di pacchetti in funzione del loro stato. Ad esempio potremmo avere
   politiche specifiche solo per pacchetti di apertura della connessione oppure per
   pacchetti di un tipo particolare.
@@ -985,20 +985,20 @@ Nota che di default, se nessuna tabella viene specificata (attraverso l'opzione
 Ogni table e' composta di alcune chain di default. Queste chain ci permettono di
 filtrare i pacchetti in vari punti. La lista di chain che iptables fornisce e':
 
-* PREROUTING chain: le regole in questa chain si applicano appena i pacchetti
+- PREROUTING chain: le regole in questa chain si applicano appena i pacchetti
     arrivano all'interfaccia di rete, questa chain e' presente nelle tabelle: nat,
     mangle, raw.
-* The INPUT chain: le regole in questa chain si applicano appena prima che il
+- The INPUT chain: le regole in questa chain si applicano appena prima che il
     pacchetto venga fornito ad un processo locale, questa chain e' presente nelle
     tabelle: mangle, filter.
-* OUTPUT chain: le regole in questa chain si applicano quando il pacchetto e' in
+- OUTPUT chain: le regole in questa chain si applicano quando il pacchetto e' in
     uscita da un processo e sta per arrivare all'interfaccia di rete per essere
     mandato verso l'esterno. Questa chain e' presente nelle tabelle: raw, mangle,
     nat e filter.
-* FORWARD chain: le regole in questa chain si applicano se il pacchetto viene
+- FORWARD chain: le regole in questa chain si applicano se il pacchetto viene
     solo forwardato dall'host corrente ma non e' destinato all'host. Questa chain
     e' presente nelle tabelle: mangle, filter.
-* POSTROUTING chain: le regole in questa chain si applicano prima che il pacchetto
+- POSTROUTING chain: le regole in questa chain si applicano prima che il pacchetto
     venga mandato dall'interfaccia di rete verso l'esterno. Questa chain e'
     presente nelle tabelle: nat, mangle.
 
@@ -1026,9 +1026,9 @@ Quindi i target decidono "l'azione", alcuni target vengono chiamati
 immediatamente quindi senza controllare altre regole.
 I terminating target piu' comunemente utilizzati sono:
 
-* ACCEPT: accetta il pacchetto
-* DROP: droppa il pacchetto, sembrera' che il sistema non esiste nemmeno
-* REJECT: fa un "reject" del pacchetto, chiudendo quindi la connessione con un
+- ACCEPT: accetta il pacchetto
+- DROP: droppa il pacchetto, sembrera' che il sistema non esiste nemmeno
+- REJECT: fa un "reject" del pacchetto, chiudendo quindi la connessione con un
   "connection reset" in caso di protocollo TCP o con un "destination host unreachable" nel caso
   di protocollo UDP o ICMP
 
@@ -1124,8 +1124,8 @@ Per isolare completamente un computer dalla rete, eseguiamo:
 ```
 
 Possiamo eliminare le regole con:
-* Specificando l'intera regola
-* Specificando l'id della regola
+- Specificando l'intera regola
+- Specificando l'id della regola
 Ad esempio:
 ```sh
  iptables -D INPUT -s 221.194.47.0/24 -j REJECT
@@ -1330,6 +1330,28 @@ COMMIT
 :POSTROUTING ACCEPT [0:0]
 COMMIT
 ```
+
+### Configurare una macchina Linux da Router di connessione per due reti
+
+Supponiamo ora di avere due reti LAN A e LAN B, e una macchina connessa
+ad entrambe le reti che vogliamo utilizzare come forwarder per poter
+mettere in comunicazione tutte le macchine della LAN A con le macchine della
+LAN B.
+
+Allora sulla macchina forwarder possiamo eseguire:
+```sh
+# Abilitiamo la macchina per il forward di pacchetti IPv4
+sysctl -w net.ipv4.ip_forward=1
+
+# Abilitiamo il forwaard sulle due interfacce di rete che connettono
+# le due reti LAN con iptables
+iptables -A FORWARD -i eth1 -o eth2 -j ACCEPT
+iptables -A FORWARD -i eth2 -o eth1 -j ACCEPT
+```
+
+Mentre sulle macchine LAN A e LAN B dovremo configurare come gateway
+la macchina forwarder per la rete interessata (o per tutto a differenza
+delle esigenze).
 
 ## Hosts Deny e Hosts Allow (Deprecati)
 
