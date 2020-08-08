@@ -11,8 +11,9 @@ by using one of the following tools:
 Configuration via CLI
 Start the bluetooth.service systemd unit.
 
-Now we can use the bluetoothctl command line utility to pair and connect. For troubleshooting and more detailed explanations of bluetoothctl see the Bluetooth article. Run
-
+Now we can use the bluetoothctl command line utility to pair and
+connect. For troubleshooting and more detailed explanations of
+bluetoothctl see the Bluetooth article. Run:
 ```sh
 bluetoothctl
 ```
