@@ -2432,3 +2432,11 @@ curl -sD - http://example.com
 # mentre -D fa il dump degli header su file che in questo case e' lo stdin '-'
 ```
 
+## Miscellanea
+
+Su GNU/Linux possiamo anche decidere da quale porta cominciano
+le porte non privilegiate (di default e' 1024).
+```sh
+sysctl net.ipv4.ip_unprivileged_port_start=0
+```
+
