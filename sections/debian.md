@@ -1,3 +1,4 @@
+# Debian
 
 Debian ha tre maggiori distribuzioni:
 
@@ -304,7 +305,7 @@ signatures couldn't be verified because the public key is not
 available: NO_PUBKEY ED444FF07D8D0BF6
 ```
 
-In questo cass d'uso ho utilizzato un debootstrap per creare un
+In questo caso d'uso ho utilizzato un debootstrap per creare un
 ambiente debian in una distro debian, e nel sottoambiente ho
 voluto impostare i repository di kali una distribuzione linux
 derivata da debian (cambiano solo i repo) incentrata sui
