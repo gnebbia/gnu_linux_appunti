@@ -1,0 +1,31 @@
+Copyright diritto di avere una licenza per categorizzare un insieme
+di diritti e doveri.
+
+All'inizio le licenze free software non configuravano come licenze
+legalmente ma come contratti perche' non c'era uno scambio di denaro.
+
+Poi sono riuscite ad ottenere gli stessi diritti/doveri delle altre
+licenze.
+
+Open Source guidato dalla OSI e free software guidato dalla FSF
+si differenziano principalmente perche' il primo ha una connotazione
+pratica, il secondo una connotazione filosofica, sociale e politica.
+
+In generale sono abbastanza compatibili dal punto di vista pratico
+ma ci sono eccezioni.
+
+Un software per essere open source deve soddisfare i 10 requisiti
+dei software open source.
+
+Un software per essere free deve soddisfare i 4 pilastri del free
+software.
+
+In genere tutto il software free e' anche open source ma non e'
+vero il viceversa.
+Ad esempio un concetto pratico che differenzia il free software
+dall'open source e' il copyleft.
+
+Se un progetto e' open source ma con una licenza non copyleft
+allora e' solo open source ma non free software.
+
+Esempi di questo sono i progetti rilasciati sotto licenza BSD.
