@@ -2437,6 +2437,27 @@ curl -sD - http://example.com
 Su GNU/Linux possiamo anche decidere da quale porta cominciano
 le porte non privilegiate (di default e' 1024).
 ```sh
-sysctl net.ipv4.ip_unprivileged_port_start=0
+sysctl -w net.ipv4.ip_unprivileged_port_start=0
+```
+
+
+
+## IPv6
+
+To enable ipv6:
+```sh
+sysctl -w net.ipv6.conf.all.disable_ipv6 = 0 
+sysctl -w net.ipv6.conf.default.disable_ipv6 = 0 
+sysctl -w net.ipv6.conf.lo.disable_ipv6 = 0
+```
+
+Example config for IPv6 in IPv4 tunnel configuration:
+```sh
+modprobe ipv6
+ip tunnel add he-ipv6 mode sit remote <RemoteIPv4Here> local <LocalIPv4Here> ttl 255
+ip link set he-ipv6 up
+ip addr add 2001:470:6c:216::2/64 dev he-ipv6
+ip route add ::/0 dev he-ipv6
+ip -f inet6 addr
 ```
 
