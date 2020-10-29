@@ -149,7 +149,7 @@ equivalente a localhost:portalocale:indirizzoremoto:portaremota.
 
 Un'altra applicazione classica dei forward tunnel e' quella di accedere a
 pannelli di controllo che per questioni di sicurezza dovrebbero essere
-accessibili solo dai server che le hostane (o al massimo da un numero ristretto
+accessibili solo dai server che li hostano (o al massimo da un numero ristretto
 di macchine specifiche), ad esempio un pannello di
 amministrazione/management/login.
 In genere possiamo infatti limitare l'accesso a specifici path all'interno di
