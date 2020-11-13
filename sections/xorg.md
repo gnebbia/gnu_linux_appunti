@@ -1,3 +1,4 @@
+# Xorg 
 
 Many Linux and Unixoid users (Unix and Unix-like systems) have
 heard of window managers, window decorators, desktop
@@ -262,6 +263,18 @@ In genere per fare troubleshooting sugli errori generati da X,
 possiamo ispezionare i seguenti file: `~/.xsession-errors`,
 `/var/log/Xorg.*/var/log/messages`.
 
+Quali sono errori che potrebbero dipendere da X ?
+Beh nel caso notassimo rallentamenti grafici non giustificati,
+oppure finestre che si bloccano e bisogna riavvarle per
+farle funzionare.
+Ricorarsi di iconsultare i file di log sopracitati, ad esempio:
+
+    cat /var/log/Xorg.0.log
+
+Visualizzando i log possiamo capire se ci sono messaggi di errore
+che possono essere associati a questi blocchi o rallentamenti.
+A volte la soluzione e' quella di aggiornare o effettuare il
+downgrade del kernel.
 
 ## Copy & Paste (ossia copia e incolla)
 
