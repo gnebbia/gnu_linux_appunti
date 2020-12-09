@@ -1,3 +1,4 @@
+# Linux Kernel
 
 Quando si parla della gestione del kernel, dobbiamo tenere a
 mente il comando "uname", vediamo alcuni flag del comando uname
