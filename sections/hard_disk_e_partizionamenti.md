@@ -1353,6 +1353,34 @@ Altri comandi utili sono:
  # file "/etc/fstab"
 ```
 
+### Riepilogo Procedura Creazione di Swap da file
+
+```sh
+fallocate -l 1G /swap
+chmod 600 /swap
+mkswap /swap
+swapon /swap or sudo dd if=/dev/zero of=/swap_file bs=1024 count=1048576
+echo "/<swap_file> swap swap defaults 0 0" >> /etc/fstab 
+swapon --show
+sysctl vm.swappiness=20
+echo "vm.swappiness=20" >> /etc/sysctl.conf
+```
+
+Note that the Linux kernel provides a tweakable setting that controls
+how often the swap file is used, called swappiness.
+
+A swappiness setting of zero means that the disk will be avoided unless
+absolutely necessary (you run out of memory), while a swappiness setting
+of 100 means that programs will be swapped to disk almost instantly.
+
+Ubuntu system comes with a default of 60, meaning that the swap file will
+be used fairly often if the memory usage is around half of my RAM. You
+can check your own system's swappiness value by running:
+
+```sh
+cat /proc/sys/vm/swappiness
+```
+
 
 ### Quanto Swap fare?
 
