@@ -2461,3 +2461,21 @@ ip route add ::/0 dev he-ipv6
 ip -f inet6 addr
 ```
 
+
+## Check se una scheda di rete e' in modalita' promiscua
+
+Eseguire:
+```sh
+netstat -i
+```
+
+Controllare che per la scheda di rete interessata ci sia nella colonna dei "Flag"
+la lettera "P", se questa e' presente allora la nostra scheda di rete e' in modalita'
+promiscua, altrimenti non lo e'.
+
+Per impostare la modalita' promiscua per una scheda di rete eseguire:
+```sh
+ifconfig eth0 promisc
+# oppure
+ip link set eth0 promisc on
+```

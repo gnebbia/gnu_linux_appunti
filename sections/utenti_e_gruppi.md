@@ -378,4 +378,30 @@ si utilizza quindi questo comando, ad esempio:
  # rifare il login per vedere applicate le nuove modifiche
 ```
 
+## getent
 
+Possiamo usare getent per interrogare la libreria NSS e ottenere informazioni utili.
+
+Possiamo ad esempio elencare gli utenti appartenenti ad un determinato gruppo
+facendo:
+
+```sh
+getent group audio
+# mostra tutti gli utenti appartenenti al gruppo "audio"
+```
+
+Possiamo usare getent anche per visualizzare a quale protocollo corrisponde
+una porta eseguendo:
+```sh
+getent services 389
+# questo mostra quale servizio/protocollo utilizza la porta 389 di default
+# utile per capire qual'e' la corrispondenza porta/servizio se lo dimentichiamo
+```
+
+Possiamo anche usarlo per effettuare reverse DNS lookup, quindi ottenere
+da un nome dominio un IP, utile per quando non possiamo usare ping o altri
+servizi. Un esempio e':
+
+```sh
+getent hosts ciao.it
+```
