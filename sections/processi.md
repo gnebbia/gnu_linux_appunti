@@ -380,6 +380,35 @@ kill %1
 # questo terminera' il processo in background identificato come `1` da jobs
 ```
 
+## Controllo del consumo di memoria di un processo
+
+Possiamo controllare il consumo di memoria RAM di un processo in diversi modi,
+utilizzando top/htop oppure tramite il PID utilizzando `pmap`, un altro
+tool comune per sistemi POSIX.
+
+Possiamo quindi ad esempio controllare il consumo di memoria del process
+`i3` eseguendo:
+
+```sh
+ps -aux | grep -i "i3"
+pmap <PID>
+# oppure
+pmap $(pidof i3)
+```
+E poi andando a visualizzare la voce "total" in fondo all'output.
+
+Possiamo anche visualizzare direttamente solo il totale eseguendo:
+```sh
+sudo pmap 917 | tail -n 1
+# oppure
+sudo pmap 917 | tail -n 1 | awk '/[0-9]K/{print $2}'
+```
+
+Possiamo controllare la percentuale di memoria utilizzata anche con:
+```sh
+ps -o pid,user,%mem,command ax | sort -b -k3 -r
+```
+
 
 ## Nohup
 
