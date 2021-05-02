@@ -1,6 +1,4 @@
-
-
-## SSH
+# SSH
 
 L'accesso remoto ha molteplici vantaggi e utilità, in passato a
 questo scopo veniva molto utilizzato Telnet, ma siccome il
@@ -609,6 +607,37 @@ lato client ci basterà eseguire:
 ora potremo avviare qualsiasi applicazione grafica, quindi ad
 esempio "firefox" o qualsiasi altra cosa, e vedremo una finestra
 separata aprirsi, lato client ssh.
+
+Nota, a volte questo potrebbe essere estremamente lento, specialmente
+con alcuni tipi di applicazione. E' infatti consigliabile
+abilitare la compressione con -C e se il server remoto X11 e' fidato (ad esempio e'
+di nostra proprieta') possiamo anche abilitare il trust con -Y.
+Quindi una connessione piu' efficiente si otterrebbe con:
+```sh
+ ssh -Y -C -X nomeUtente@192.168.1.114
+```
+Se questo non dovesse ancora essere abbastanza possiamo anche cambiare
+l'algoritmo criptografico utilizzando `-c <nomealgoritmo>`, alcuni
+sono piu' veloci di altri a discapito della sicurezza.
+```sh
+ ssh -Y -C -X nomeUtente@192.168.1.114
+```
+
+Ad esempio siccome molte CPU hanno accelerazioni specifiche per AES,
+potremmo trarne vantaggio utilizzando un AES; oppure potremmo
+provare con blowfish:
+```sh
+ssh -Y -C -c blowfish -X nomeUtente@192.168.1.114
+ssh -Y -C -c aes128-cbc -X nomeUtente@192.168.1.114
+```
+La lista di cifrari disponibili e' visualizzabile con:
+```sh
+ssh -Q cipher
+```
+
+Possiamo anche effettuare dei benchmark per capire le performance con
+diversi settings utilizzando x11perf.
+
 
 
 ### Check dei Log di SSH

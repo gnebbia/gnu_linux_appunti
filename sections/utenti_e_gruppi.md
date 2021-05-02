@@ -151,10 +151,12 @@ Esistono un paio di file nella directory /etc di interesse:
     cancellare le voci relastive all'utente nei fil "/etc/passwd"
     e "/etc/shadow"
 
-N.B.:Alcune distro hanno anche i comandi "deluser" e "adduser"
+N.B.:Alcune distro/OS hanno anche i comandi "deluser" e "adduser"
 che non sono altro che degli script creati per rendere più
 user-friendly e interattive le operazioni di cancellazione e
 creazione degli utenti.
+In genere quindi usera<op> e' il comando non interattivo
+mentre <op>user e' la versione interattiva.
 
 ## Il comando `chfn`
 

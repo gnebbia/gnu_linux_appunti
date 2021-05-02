@@ -891,6 +891,10 @@ man attraverso:
  # cioè passwd(1)
 ```
 ```sh
+man 4 intro
+# mostra una pagina introduttiva per la sezione 4
+```
+```sh
  man -f passwd
  # mostra tutte le possibili pagine consultabili
  # sotto il nome "passwd"
