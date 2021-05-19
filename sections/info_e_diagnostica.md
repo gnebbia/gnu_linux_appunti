@@ -4,16 +4,32 @@
 
 A simplified view of the boot process looks like this:
 
-1. The machine’s BIOS or boot firmware loads and runs a boot loader.
+1. The machine's BIOS or UEFI (or other firmware) is executed and runs an application,
+   in the case of BIOS this application is a boot loader, while in the case of UEFI
+   it must be an EFI application (either a kernel with efistub or grub shipped as EFI application);
 2. The boot loader finds the kernel image on disk, loads it into memory,
-   and starts it.
-3. The kernel initializes the devices and its drivers.
+   and starts it. In this step in some cases the bootloader needs to load
+   an "initial RAM disk" (initramfs.img) containing basic drivers (video,
+   keyboard, disks) that will allow GRUB to load the filesystem and
+   permit the user to interact with a basic interface. Note that does
+   not always happen and depends on the configuration of the system.
+3. The kernel has been launched at this point and initializes the devices and its drivers.
 4. The kernel mounts the root filesystem.
-5. The kernel starts a program called init with a process ID of
-  1. This point is the user space start.
+5. The kernel starts a program called init system (this is generally
+   also the daemon manager) with a process ID of
+   "1". This is where the user space start.
 6. init sets the rest of the system processes in motion.
 7. At some point, init starts a process allowing you to log in,
-  usually at the end or near the end of the boot.
+   usually at the end or near the end of the boot. This is the display
+   manager, also known as login manager.
+8. In the case of graphical systems, a desktop environment or a window manager
+   can be started (this is not necessary) anyway whenever we talk about
+   graphics we need a display server.
+   The most famous and still standard display server is  Xorg, although
+   Wayland is becoming always more and more popular.
+
+
+
 
 Inoltre allo startup, il kernel Linux effettua le
 inizializzazioni in quest'ordine:
@@ -25,11 +41,10 @@ inizializzazioni in quest'ordine:
 6. Root filesystem mount
 7. User space start
 
-Solitamente i messaggi di boot sono contenuti in
-/var/log/kern.log ma dipende molto da come è configurato il
-sistema, possiamo ad esempio visualizzarli con "dmesg" o
-attraverso il nostro gestore di demoni, in quanto a volte il
-sistema cancella quei messaggi.
+Solitamente i messaggi di boot sono contenuti in /var/log/kern.log ma
+dipende molto da come è configurato il sistema, possiamo ad esempio
+visualizzarli con "dmesg" o attraverso il nostro gestore di demoni,
+in quanto a volte il sistema cancella quei messaggi.
 
 ### Differenze tra firmware BIOS e UEFI
 
@@ -54,17 +69,91 @@ System initialization
       on that disk and tries to find a EFI application in the fallback boot path
       \EFI\BOOT\BOOTX64.EFI (BOOTIA32.EFI on systems with a IA32 (32-bit) UEFI).
       This is how UEFI bootable removable media work.
-    * Firmware launches the EFI application.
+    * Firmware launches an EFI application.
         * This could be a boot loader or the linux kernel itself using EFISTUB.
         * It could be some other EFI application such as a UEFI shell or a boot manager like systemd-boot or rEFInd.
 
-If Secure Boot is enabled, the boot process will verify authenticity of the EFI binary by signature.
+So UEFI in some way is more flexible with respect to BIOS, since BIOS is limited
+to just run a single application which is contained in the first bytes of the disk.
+On the contrary UEFI can run any application (EFI application) contained in the EFI
+partition.
+
+If Secure Boot is enabled, the boot process will verify the authenticity
+of the EFI binaries by using signatures.
+
+### Gestire e Ripulire la partizione EFI e i suoi eseguibili
+
+In GNU/Linux possiamo visualizzare la lista di eseguibili EFI e alcune
+impostazioni di UEFI eseguendo:
+```sh
+efibootmgr -v
+```
+
+Possiamo cancellare applicazioni EFI eseguendo invece:
+
+```sh
+efibootmgr -b <app-id> 0B
+efibootmgr -b 000A 0B
+```
+
+Dobbiamo anche cancellare le directory nella partizione EFI montata
+per eliminare completamente eventuali residui della cancellazione:
+```sh
+cd /boot/efi/EFI
+rm -rf OS1 Arch Windows
+```
+
+
+## Rimuovere vecchie immagini kernel
+E' consigliabile eseguire quest'operazione quando possibile utilizzando
+il package manager della propria distribuzione.
+I kernel iniziano sempre con "vmlinuz" e sono contenuti nella directory
+di boot.
+
+
+## Moduli caricati dopo dinamicamente
+I moduli caricati dinamicamente sono contenuti in "/lib/modules/".
+Nota che nelle ultime versioni le distribuzioni tendono ad includere
+qualsiasi driver o funzionalita' caricandole dinamicamente.
+
+Questi moduli kernel, che hanno normalmente estensione ".ko", nelle ultime
+distribuzioni per risparmiare spazio vengono compressi nella forma ".xz"
+e le estensioni sono ".ko.xz".
+
+
+## Capire informazioni di base sul sistema
+
+Identificare il sistema di init:
+```sh
+/sbin/init --version
+```
+
+
+Identificare il display manager (o login manager) con systemd:
+```sh
+ls -l /etc/systemd/system/display-manager.service
+```
+
+Identificare il display server (xorg vs wayland):
+```sh
+echo $XDG_SESSION_TYPE
+```
+
+Identificare i driver video in uso:
+```sh
+lshw -c video
+```
+
+Identificare il desktop environment o window manager:
+```sh
+echo $DESKTOP_SESSION
+```
 
 
 ## Log
 
 
-## Come visualizzare i Log
+### Come visualizzare i Log
 
 La directory /var contiene file che variano nel tempo, la
 directory "/var/log" contiene i log di sistema.
@@ -127,6 +216,13 @@ comuni può essere
 per copiare ed eliminare cartelle si usa cp e rm col flag -r, se
 uso anche il flag -f non gli importa dei parametri non esistenti,
 cancella tutto quello che può.
+
+
+Per visualizzare log relativi ad un demone nel caso di systemd possiamo
+eseguire:
+```sh
+journalctl -u sshd
+```
 
 
 ## Rsyslog e Syslog

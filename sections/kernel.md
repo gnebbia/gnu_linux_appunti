@@ -142,7 +142,7 @@ Ad un kernel solitamente vengono associati alcuni file:
     allora il file System.map non matcha il kernel
 
 ```sh
- # un file chiamato "initrd.img" (questo compare solo quando in
+ # un file chiamato "initrd.img" (questo compare solo in
  # alcune configurazioni, in cui viene utilizzato un initial RAM
  # disk)
 ```
@@ -173,19 +173,19 @@ mentre i file relativi al secondo kernel saranno:
 ## Initial RAM disk
 
 
-L'initial RAM disk è il sistema che si occupa di caricare un
-filesystem temporaneo durante il processo di boot del kernel atto
-a caricare il vero filesystem e fare in modo che i driver possano
-interfacciarsi col vero filesystem. Il kernel linux non può
-accedere immediatamente dopo il boot al filesystem, gli mancano i
-driver necessari per farlo, che devono essere caricati come
-moduli, ma per caricarli come moduli abbiamo bisogno di accedere
-al filesystem, abbiamo un cane che si mangia la coda, quindi è
-stato pensato di utilizzare questo filesystem temporaneo che si
-occupa di risolvere questo problema. Un'altra soluzione sarebbe
-stata quella di includere i moduli all'interno del kernel linux,
-ma includere molti moduli ingrandisce significativamente
-l'immagine del kernel. Esistono due tipi di Initial RAM disks:
+L'initial RAM disk è il sistema che si occupa di caricare un filesystem
+temporaneo contenente driver e utility di base usate durante il processo
+di boot del kernel atto a caricare il vero filesystem e fare in modo che
+driver di base possano interfacciarsi col vero filesystem. Il kernel
+linux non può accedere immediatamente dopo il boot al filesystem,
+gli mancano i driver necessari per farlo, che devono essere caricati
+come moduli, ma per caricarli come moduli abbiamo bisogno di accedere
+al filesystem, abbiamo un cane che si mangia la coda, quindi è stato
+pensato di utilizzare questo filesystem temporaneo che si occupa di
+risolvere questo problema. Un'altra soluzione sarebbe stata quella di
+includere i moduli all'interno del kernel linux, ma includere molti
+moduli ingrandisce significativamente l'immagine del kernel. Esistono
+due tipi di Initial RAM disks:
 
 ```sh
  initrd
