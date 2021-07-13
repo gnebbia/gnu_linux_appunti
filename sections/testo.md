@@ -1,3 +1,4 @@
+# File di Testo
 
 I file di testo e la loro gestione ricopre un ruolo importante
 nei sistemi GNU/Linux, in quanto qualsiasi cosa è alla fine vista
